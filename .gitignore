@@ -1,5 +1,7 @@
 /app/Config/database.php
 /app/Config/core.php
+/app/Config/email.php
+/app/Config/bootstrap.php
 /bin/settings.py
 
 .svn
