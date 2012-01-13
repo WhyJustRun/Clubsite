@@ -1,0 +1,896 @@
+/**
+*
+* Generic CSS for CakePHP
+*
+* CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+* Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+*
+* Licensed under The MIT License
+* Redistributions of files must retain the above copyright notice.
+*
+* @copyright Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+* @link http://cakephp.org CakePHP(tm) Project
+* @package cake
+* @subpackage cake.app.webroot.css
+* @since CakePHP(tm)
+* @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+*/
+
+.ketchup-custom {
+  line-height: 1.5em;
+  padding: 0;
+  margin: 0;
+  margin-top: 5px;
+  display: none;
+}
+
+.ketchup-custom li {
+  font-size: 12px;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0 #9F4631;
+  border: 0;
+  color: white;
+  background: #F46644;
+  padding: 1px 10px;
+  margin: 0;
+  
+}
+
+/** Supplement screen.css with type=number 
+TODO This should be submitted to blueprint.css as a bugfix
+**/
+input[type=number] {margin:0.5em 0;}
+input[type=number] {background-color:#fff;border:1px solid #bbb;color:#000;}
+
+table tr td {
+	background: #F3F6F6;
+}
+
+/** Zebra table row colouring **/
+tbody tr:nth-child(even) td, tbody tr.even td {
+	background: #e5ecf9;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/** General Style Info **/
+body {
+	background-color: #213449;
+	font-family: "Helvetica","Arial",sans-serif;
+	font-size: 80%;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	background: -webkit-gradient(linear, left top, right top, from(#385A81), color-stop(0.15, #000000), color-stop(0.85, #000000), to(#385A81));
+	background: -moz-linear-gradient(left, #385A81, #000000 15%, #000000 85%, #385A81);
+}
+
+#content {
+    background-color: #FFF;
+    padding-bottom: 15px;
+}
+
+/** Event page **/
+
+.event-header {
+	padding: 0;
+	margin: 0;
+}
+
+.course-info h3 {
+	text-align: left;
+	padding-left: 0px;
+}
+
+.course-info div {
+	overflow: hidden;
+}
+
+.column-box {
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	background-color: #F6F6F6;
+	overflow:hidden;
+	margin: 10px;
+	padding: 10px;
+}
+
+.column-box h2 {
+	padding-top: 0px;
+}
+
+#location-map {
+	height: 500px;
+}
+
+.course-editing input {
+    font-size: 100%;
+}
+
+.content-block textarea {
+    font-size: 100%;
+}
+
+.editable:hover {
+    background-color: #FFFFF0;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+/**
+Results editing
+**/
+
+.results-editing input {
+	font-size: small;
+	
+}
+
+.results-editing {
+	padding: 0;
+	width: 5%;
+	padding-left: 5px;
+}
+
+/** This needs to be re-worked **/
+.narrow-form {
+	width: 600px;
+}
+
+#location-map-index {
+	height: 700px;
+}
+
+.narrow-form td {
+	vertical-align: middle;
+	font-size: 15px;
+}
+
+.narrow-form td a, #edit-courses td a {
+	font-size: small;
+}
+
+.narrow-form .unsubmit, #edit-courses .unsubmit, #edit-organizers .unsubmit {
+	font-size: small;
+}
+
+.narrow-form td input, #edit-courses td input, #edit-organizers td input {
+	padding: 2px;
+}
+
+.narrow-form .results-editing input, #edit-courses .results-editing input, #edit-organizers .results-editing input {
+	padding: 0;
+}
+
+/** Navigation bar styling **/
+nav {
+    /** For IE8 **/
+    background-color: white;
+    background-color: #213449;
+}
+/** CSS3 display :box allows for even spacing of navigation bar elements **/
+nav ul {
+    list-style-type:none;
+    display: box;
+    box-orient: horizontal;
+    -ms-box-orient: horizontal;
+	display: -moz-box;
+    display: -webkit-box;
+    display: -ms-box;
+}
+
+nav ul li {
+	list-style-type:none;
+	display: inline;
+    text-align: center;
+    box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-box-flex: 1;
+    -ms-box-flex: 1;
+}
+
+nav ul li a {
+	padding-left: 9px;
+    padding-right: 9px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 14px;
+    display: inline-block;
+    text-decoration: none;
+    color: #EDEDED;
+}
+
+nav ul li a:hover {
+	color: #ffffff;
+	background-color: #436F9D;
+}
+
+nav ul li a:active {
+    color: #ffffff;
+	background-color: #5289C3;
+}
+
+nav ul li a.selected {
+    background-color: #ffffff;
+    color: #213449;
+}
+
+/** Footer **/
+
+#credits {
+	text-align: right;
+}
+
+footer a, footer a:hover {
+	color: #fff;
+}
+.admin_icon {
+    float: right;
+}
+
+/** General styling **/
+
+a {
+	color: #213449;
+	text-decoration: underline;
+	font-weight: bold;
+}
+a:hover {
+	color: #18293D;
+	text-decoration: none;
+}
+
+a:active {
+	color: #000000;
+	text-decoration: none;
+}
+
+a img {
+	border: none;
+}
+
+h1, h2, h3, h4 {
+	color: #000000;
+	font-weight: normal;
+	text-align: left;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+h1 {
+	font-weight: bold;
+	text-align: center;
+}
+h2 {
+    padding: 10px;
+    padding-bottom: 0px;
+    margin-bottom: 10px;
+	font-size: 180%;
+    text-align: center;
+	
+	width: 100%;
+}
+h3 {
+	padding: 10px;
+    padding-bottom: 0px;
+    margin-bottom: 10px;
+	font-size: 150%;
+    text-align: center;
+	width: 100%;
+}
+ul, li {
+	margin: 0 12px;
+}
+
+/** Styles **/
+.text {
+	font-size: 10;
+	font-weight: normal;
+	text-align: left;
+}
+.title {
+	color: #325174;
+	border: 0;
+	font-family: "Gill Sans","Lucida Grande", "Helvetica", "Arial", sans-serif;
+	border-bottom: 2px solid #555;
+	text-align: left;
+	padding: 4px;
+	font-size: 16px;
+	font-weight: bold;
+	width: 100%;
+	margin-bottom: 20px;
+}
+.sidebar_title {
+	font-weight: bold;
+	color: #325174;
+}
+.sidebar_title a {
+	font-weight: bold;
+	color: #325174;
+}
+
+/** Layout **/
+
+.container {
+	background-color: #ffffff;
+	padding-top: 0px;
+}
+.contact-columns{
+	background: url('/img/gvoc/contact1.jpg') left bottom no-repeat,
+               url('/img/gvoc/contact2.jpg') right bottom no-repeat;
+   height:400px;
+   text-align: center;
+}
+
+.three-column {
+	/** Needed so three-column surrounds the enclosed divs **/
+	overflow:hidden;
+}
+
+.padded {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.three-column .column .facebook {
+	padding-left: 18px;
+}
+
+.news-item {
+	margin: 20px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.news-item header {
+    font-size: 105%;
+}
+
+.news-item header a {
+    font-size: 110%;
+}
+
+.event-box {
+	margin: 40px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+/** Outer event-box is needed to safely override the a style and still allow for block clicking. **/
+.event-box a {
+	color: #000000;
+	text-decoration: none;
+	
+}
+
+.event-box-inner, .news-item {
+	background-color: #F3F6F6;
+	border-radius: 15px;
+	
+	padding: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	display: block;
+	color: #000000;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+.event-box .location {
+	font-size: 20px;
+	text-decoration: none;
+}
+
+.event-box .city {
+	color: #000000;
+	text-decoration: none;
+}
+
+.event-box .date {
+	font-weight: bold;
+}
+
+#home_left {
+	padding-right: 4px;
+	width: 500px;
+	float: left;
+	text-align: left;
+}
+#home_right {
+	padding-left: 4px;
+	width: 227px;
+	float: right;
+	text-align: left;
+	border-left: 2px solid #325174;
+}
+
+footer {
+	padding-bottom: 5px;
+	background-color: #213449;
+	color: #fff;
+
+}
+
+footer div {
+	padding: 5px;
+	padding-left: 12px;
+}
+
+/** containers **/
+div.form,
+div.index,a
+div.view {
+	float: right;
+	width: 76%;
+	border-left: 1px solid #666;
+	padding: 10px 2%;
+}
+div.actions {
+	float: left;
+	width: 16%;
+	padding: 10px 1.5%;
+}
+div.actions h3 {
+	padding-top: 0;
+	color: #777;
+}
+
+/** Tables **/
+table {
+	border-right: 0;
+	clear: both;
+	color: #333;
+	width: 100%;
+}
+
+thead th {
+	font-weight: bold;
+	text-decoration: underline;
+	color: #ffffff;
+	background-color: #213449;
+}
+
+/*
+th a {
+	display: block;
+	padding: 2px 4px;
+	text-decoration: none;
+}
+*/
+table tr td {
+	padding: 2px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+td {
+	background: #fff;
+}
+td.actions {
+	text-align: center;
+	white-space: nowrap;
+}
+table td.actions a {
+	margin: 0px 6px;
+	padding: 2px 5px;
+}
+.cake-sql-log table {
+	background: #f4f4f4;
+}
+.cake-sql-log caption {
+	color: #fff;
+}
+
+/** Paging **/
+div.paging {
+	background: #fff;
+	color: #ccc;
+	margin-top: 1em;
+	clear: both;
+}
+div.paging span.disabled {
+	color: #ddd;
+	display: inline;
+}
+div.paging span.current {
+	color: #c73e14;
+}
+div.paging span a {
+}
+
+/** Scaffold View **/
+dl {
+	line-height: 2em;
+	margin: 0em 0em;
+	width: 60%;
+}
+dl .altrow {
+	background: #f4f4f4;
+}
+dt {
+	font-weight: bold;
+	padding-left: 4px;
+	vertical-align: top;
+}
+
+
+/** Notices and Errors **/
+div.success {
+	width: 761px;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	color: #fff;
+	font-size: 140%;
+	font-weight: bold;
+	background: green;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+div.message {
+	width: 761px;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	color: #fff;
+	font-size: 140%;
+	font-weight: bold;
+	/*background: #FFCC00;*/
+	background: #e32;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+div.error-message {
+	color: #e32;
+	float: right;
+	font-weight: bold;
+	background: #fff;
+}
+p.error {
+	background-color: #e32;
+	color: #fff;
+	font-family: "Courier", monospace;
+	font-size: 120%;
+	line-height: 140%;
+	padding: 0.8em;
+	margin: 1em 0;
+}
+p.error em {
+	color: #000;
+	font-weight: normal;
+	line-height: 140%;
+}
+.notice {
+	background: #ffcc00;
+	color: #000;
+	display: block;
+	font-family: "Courier", monospace;
+	font-size: 120%;
+	line-height: 140%;
+	padding: 0.8em;
+	margin: 1em 0;
+}
+.success {
+	background: green;
+	color: #fff;
+}
+
+/** Actions **/
+div.actions ul {
+	margin: 0;
+	padding: 0;
+}
+div.actions li {
+	margin: 0 0 0.5em 0;
+	list-style-type: none;
+	white-space: nowrap;
+	padding: 0;
+}
+div.actions ul li a {
+	font-weight: normal;
+	display: block;
+	clear: both;
+}
+div.actions ul li a:hover {
+	text-decoration: underline;
+}
+
+a.button, input[type=submit],
+div.actions ul li a,
+td.actions a, button {
+	font-weight: normal;
+	padding: 4px 8px;
+	background: #e6e49f;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f1f1d4), to(#e6e49f));
+	background-image: -moz-linear-gradient(top, #f1f1d4, #e6e49f);
+	color: #333;
+	border: 1px solid #aaac62;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	text-decoration: none;
+	text-shadow: #fff 0px 1px 0px;
+	min-width: 0;
+}
+a.button: hover, input[type=submit]:hover,
+div.actions ul li a:hover,
+td.actions a:hover, button:hover {
+	background: #f0f09a;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f7f7e1), to(#eeeca9));
+}
+
+/** Related **/
+div.related {
+	clear: both;
+	display: block;
+}
+
+/** Debugging **/
+pre {
+	color: #000;
+	background: #f0f0f0;
+	padding: 1em;
+}
+pre.cake-debug {
+	background: #ffcc00;
+	font-size: 120%;
+	line-height: 140%;
+	margin-top: 1em;
+	overflow: auto;
+	position: relative;
+}
+div.cake-stack-trace {
+	background: #fff;
+	color: #333;
+	margin: 0px;
+	padding: 6px;
+	font-size: 120%;
+	line-height: 140%;
+	overflow: auto;
+	position: relative;
+}
+div.cake-code-dump pre {
+	position: relative;
+	overflow: auto;
+}
+div.cake-stack-trace pre, div.cake-code-dump pre {
+	color: #000;
+	background-color: #F0F0F0;
+	margin: 0px;
+	padding: 1em;
+	overflow: auto;
+}
+div.cake-code-dump pre, div.cake-code-dump pre code {
+	clear: both;
+	font-size: 12px;
+	line-height: 15px;
+	margin: 4px 2px;
+	padding: 4px;
+	overflow: auto;
+}
+div.cake-code-dump span.code-highlight {
+	background-color: #ff0;
+	padding: 4px;
+}
+div.code-coverage-results div.code-line {
+	padding-left: 5px;
+	display: block;
+	margin-left: 10px;
+}
+div.code-coverage-results div.uncovered span.content {
+	background: #ecc;
+}
+div.code-coverage-results div.covered span.content {
+	background: #cec;
+}
+div.code-coverage-results div.ignored span.content {
+	color: #aaa;
+}
+div.code-coverage-results span.line-num {
+	color: #666;
+	display: block;
+	float: left;
+	width: 20px;
+	text-align: right;
+	margin-right: 5px;
+}
+div.code-coverage-results span.line-num strong {
+	color: #666;
+}
+div.code-coverage-results div.start {
+	border: 1px solid #aaa;
+	border-width: 1px 1px 0px 1px;
+	margin-top: 30px;
+	padding-top: 5px;
+}
+div.code-coverage-results div.end {
+	border: 1px solid #aaa;
+	border-width: 0px 1px 1px 1px;
+	margin-bottom: 30px;
+	padding-bottom: 5px;
+}
+div.code-coverage-results div.realstart {
+	margin-top: 0px;
+}
+div.code-coverage-results p.note {
+	color: #bbb;
+	padding: 5px;
+	margin: 5px 0 10px;
+	font-size: 10px;
+}
+div.code-coverage-results span.result-bad {
+	color: #a00;
+}
+div.code-coverage-results span.result-ok {
+	color: #fa0;
+}
+div.code-coverage-results span.result-good {
+	color: #0a0;
+}
+
+
+
+/** Forms **/
+form {
+    clear: both;
+    margin-right: 0px;
+    padding: 0;
+    width: 100%;
+}
+fieldset {
+    border: 1px solid #ccc;
+    margin-bottom: 1em;
+    padding: 16px 20px;
+}
+fieldset legend {
+    background:#fff;
+    color: #e32;
+    font-size: 160%;
+    font-weight: bold;
+}
+fieldset fieldset {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    padding: 16px 10px;
+}
+fieldset fieldset legend {
+    font-size: 120%;
+    font-weight: normal;
+}
+fieldset fieldset div {
+    clear: left;
+    margin: 0 20px;
+}
+form div {
+    vertical-align: text-top;
+}
+.input {
+    color: #444;
+    padding: .5em;
+}
+
+form .input table {
+	font-size: 120%;
+}
+
+form .required {
+    font-weight: bold;
+}
+form .required label:after {
+    color: #e32;
+    content: '*';
+    display:inline;
+}
+form div.submit {
+
+}
+label {
+    display: block;
+    font-size: 125%;
+}
+a.button, input, textarea, button {
+    clear: both;
+    font-size: 120%;
+    font-family: "lucida grande", "verdana", sans-serif;
+    padding: 1%;
+    width:98%;
+}
+select {
+    clear: both;
+    font-size: 120%;
+    vertical-align: text-bottom;
+}
+select[multiple=multiple] {
+    width: 100%;
+}
+option {
+    font-size: 120%;
+    padding: 0 3px;
+}
+input[type=checkbox] {
+    clear: left;
+    width: auto;
+}
+div.checkbox label {
+    display: inline;
+}
+input[type=radio] {
+    float:left;
+    width:auto;
+    margin: 0 3px 7px 0;
+}
+div.radio label {
+    margin: 0 0 6px 20px;
+}
+a.button, input[type=submit], button {
+    display: inline;
+    font-size: 110%;
+    width: auto;
+}
+
+form .input input, select {
+	margin: 0;
+}
+
+form .input input[type=checkbox] {
+    margin: 0px 6px 7px 2px;
+}
+
+a.button, button {
+	border-radius: 8px;
+	display: inline-block;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 2px;
+	padding-bottom: 1px;
+	margin: 3px;
+	font-size: 14px;
+	text-decoration: none;
+}
+
+/** Green button **/
+a.button, .submit input[type=submit], button {
+	background: #3E7927;
+	background: -webkit-gradient(linear, left top, left bottom, from(#57AD36), to(#3E7927));
+	background: -moz-linear-gradient(top, #57AD36, #3E7927);
+	border-color: #999;
+	color: #fff;
+	text-shadow: #3E7927 0px 1px 0px;
+}
+a.button:hover, .submit input[type=submit]:hover, button:hover {
+	cursor: pointer;
+	background: #4ca83d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#85e573), to(#4ca83d));
+	background: -moz-linear-gradient(top, #85e573, #4ca83d);
+}
+
+a.button:active, .submit input[type=submit]:active, button:active {
+	cursor: pointer;
+	background: #2B571A;
+	background: -webkit-gradient(linear, left top, left bottom, from(#2B571A), to(#1C3910));
+	background: -moz-linear-gradient(top, #2B571A, #1C3910);
+}
+
+/** Red button for undoing/cancelling/resetting etc **/
+a.red,.unsubmit input[type=submit] {
+	background: #D21E1A;
+	background: -webkit-gradient(linear, left top, left bottom, from(#FF221F), to(#D21E1A));
+	background: -moz-linear-gradient(top, #FF221F, #D21E1A);
+	border-color: #999;
+	color: #fff;
+	text-shadow: #3E7927 0px 1px 0px;
+}
+a.red:hover, .unsubmit input[type=submit]:hover {
+	cursor: pointer;
+	background: #FF4245;
+	background: -webkit-gradient(linear, left top, left bottom, from(#FF6D6B), to(#FF4245));
+	background: -moz-linear-gradient(top, #FF6D6B, #FF4245);
+}
+
+a.red:active, .unsubmit input[type=submit]:active {
+	cursor: pointer;
+	background: #6D0101;
+	background: -webkit-gradient(linear, left top, left bottom, from(#A40000), to(#6D0101));
+	background: -moz-linear-gradient(top, #A40000, #6D0101);
+}
+

@@ -1,0 +1,34 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteRule    ^$    webroot/    [L]
+    RewriteRule    (.*) webroot/$1    [L]
+ </IfModule>
+
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+
+<IfModule mod_expires.c>
+    ExpiresActive on
+    
+    ExpiresByType image/jpg "access plus 60 days"
+    ExpiresByType image/png "access plus 60 days"
+    ExpiresByType image/gif "access plus 60 days"
+    ExpiresByType image/jpeg "access plus 60 days"    
+    ExpiresByType image/x-icon "access plus 1 month"
+    
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType audio/x-wav "access plus 1 month"
+    ExpiresByType audio/mpeg "access plus 1 month"
+    ExpiresByType video/mpeg "access plus 1 month"
+    ExpiresByType video/mp4 "access plus 1 month"
+    ExpiresByType video/quicktime "access plus 1 month"
+    ExpiresByType video/x-ms-wmv "access plus 1 month"
+    ExpiresByType application/x-shockwave-flash "access 1 month"
+</IfModule>

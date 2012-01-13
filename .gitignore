@@ -1,0 +1,9 @@
+/app/Config/database.php
+/app/Config/core.php
+/bin/settings.py
+/app/tmp/*
+
+.svn
+.DS_Store
+*.pyc
+*.swp

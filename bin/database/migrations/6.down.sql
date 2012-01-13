@@ -1,0 +1,1 @@
+DELETE FROM groups WHERE id IN (1,2);

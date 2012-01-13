@@ -1,0 +1,1 @@
+<?= $this->Markdown->render($contentBlock['ContentBlock']['content']); ?>
