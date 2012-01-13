@@ -49,8 +49,8 @@
  *
  */
 // recaptcha configuration for the whyjustrun.ca domain
-Configure::write('Recaptcha.publicKey', '6Ld-Y8kSAAAAAADc-u0gUiTiakuuvtS9kF4UIc8j');
-Configure::write('Recaptcha.privateKey', '6Ld-Y8kSAAAAANQqfUx8mrlKTmsHHu9_HieBrxtg');
+Configure::write('Recaptcha.publicKey', 'RECAPTCHA KEY HERE');
+Configure::write('Recaptcha.privateKey', 'RECAPTCHA KEY HERE');
 
 // load any plugins
 CakePlugin::load('Recaptcha');
