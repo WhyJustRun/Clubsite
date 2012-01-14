@@ -8,7 +8,7 @@
 <div class="column-box">
 	<h2>Event Information</h2>
 	<?php if(!empty($event["Organizer"])) { ?>
-	<p>Organizer(s): <?= $this->element('Organizers/list', array('organizers' => $event["Organizer"])); ?></p>
+	<p><?= count($event["Organizer"]) > 1 ? 'Organizers' : 'Organizer' ?>: <?= $this->element('Organizers/list', array('organizers' => $event["Organizer"])); ?></p>
 	<?php }
 	if(!empty($event["Event"]["description"])) { 
 		// TODO-RWP Should sanitize imported data instead
