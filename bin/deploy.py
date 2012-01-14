@@ -136,7 +136,7 @@ def disable_maintenance_mode(club):
     execute('ln -s %s %s' % (club.tmp_path(), club.path()))
 
 def checkout_app(path):
-    process = subprocess.Popen(['svn', 'checkout', '-q', settings.SVN_REPOSITORY, path], cwd=path)
+    process = subprocess.Popen(['git', 'clone', settings.GIT_REPOSITORY, path], cwd=path)
     process.wait()
 
 # Get path to a club instance folder
@@ -160,6 +160,9 @@ def assure_dir(path):
 # Assemble instance specific files
 def assemble_files(club):
     print('assemble files')
+    
+    # Move in the default configuration
+    execute('cd %s && ./use_default_config.sh' % (os.path.join(club.tmp_path(), 'bin/')))
     
     # chmod 777 tmp directories
     execute('chmod -R 777 %s' % (os.path.join(club.tmp_path(), 'app/tmp/')))
