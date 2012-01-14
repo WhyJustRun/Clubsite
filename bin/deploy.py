@@ -136,7 +136,7 @@ def disable_maintenance_mode(club):
     execute('ln -s %s %s' % (club.tmp_path(), club.path()))
 
 def checkout_app(path):
-    process = subprocess.Popen(['git', 'clone', settings.GIT_REPOSITORY, path], cwd=path)
+    process = subprocess.Popen(['git', 'clone', '--quiet', settings.GIT_REPOSITORY, path], cwd=path)
     process.wait()
 
 # Get path to a club instance folder
@@ -169,9 +169,6 @@ def assemble_files(club):
     
     # chmod 777 css/js cache directories
     execute('chmod -R 777 %s' % (os.path.join(club.tmp_path(), 'app/webroot/cache/')))
-    
-    # chmod 777 img/maps so that maps can be uploaded
-    execute('chmod -R 777 %s' % (os.path.join(club.tmp_path(), 'app/webroot/img/maps/')))
     
     write_database_config(club)
     write_app_config(club)
