@@ -1,37 +1,39 @@
-# WhyJustRun orienteering website
+# WhyJustRun Orienteering Software
 
-## Database changes needed
-   maps:scale should be an int(6), instead of tinytext.
-   add memberships:year and memberships:postal_code
-   make map_standards and roles shared?
-   make events, courses, results shared?
+## About
 
-## Todo
+A hosted, managed web application for orienteering clubs.
 
-* Thomas: Use SMTP relay for mail
-* Prevent multiple registrations (verify that is setup)
-* Test session sharing
-* Schedule of events on sidebar
-* Major events on sidebar
-* Event page
-* CSS Styling!
-* Contact us page
-* Maps page
-* News page (maybe should just be the home page)
-* Separate DB for clubs and users shared between instances
-* Merge user accounts :S
-* WhyJustRun email through CakePHP is getting filtered into Gmail Spam, not arriving consistently
-* Formatting on user login page is broken in chrome
-* Wider style
+By using WhyJustRun, you get useful functionality with minimal effort:
 
-## Step by Step Database Migrations
+- User accounts
+- Event registration
+- Intuitive UI for event posting
+- Import of participants into event timing software
+- Result/Course Map posting
+- Map versioning
+- Facebook integration for news
+- Calendar 
+- Custom resource pages
+- Membership management
+- IOF Standard XML APIs
 
-1. Make changes to the test database
-2. Change directory to your test instance
-3. Run `cake/console/cake migration generate`
-4. Look at migrations in app/config/migrations to find the new migration number
-5. Enter a migration name of the form: migration number_description
-6. When `Do you want compare the schema.php file to the database?` say yes
-7. Run 	`cake/console/cake schema generate`
-8. Choose overwrite schema file
-9. Now your changes will automatically propagate through other instances!
+Coming Soon:
+- Upload results automatically from orienteering timing software
+- iOS app for timing smaller events
+- Live results
+- Display of nearby events organized by other clubs
+
+## Current Users
+
+[Greater Vancouver Orienteering Club](http://gvoc.whyjustrun.ca/)
+
+[Kootenay Orienteering Club](http://kootenayorienteering.com/)
+
+## Contact
+
+Russell - contact@russellporter.com
+
+Thomas - tnipen@gmail.com
+
+### Message us if you want access to our development issue tracker
