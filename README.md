@@ -19,6 +19,7 @@ By using WhyJustRun, you get useful functionality with minimal effort:
 - IOF Standard XML APIs
 
 Coming Soon:
+
 - Upload results automatically from orienteering timing software
 - iOS app for timing smaller events
 - Live results
