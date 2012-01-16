@@ -33,12 +33,6 @@ if($edit) {
 	
 	<?php if($event["Event"]["completed"] === true) { ?>
 	<div class="results column span-8 last">
-		<div class="column-box">
-			<header>
-				<h2>Results</h2>
-			</header>
-			<h3>Not posted yet</h3>
-		</div>
         <?php echo $this->element('Courses/course_maps', array('courses' => $event["Course"])); ?>
 	</div>
 	<?php } elseif(count($event["Course"]) === 0) { ?>
