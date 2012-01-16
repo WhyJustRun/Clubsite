@@ -158,6 +158,16 @@ class EventsController extends AppController {
 			foreach($event["Course"] as &$course) {
 				// Suppressing warnings after getting issues with http://rporter.whyjustrun.ca/Events/view/650
 				$course["Result"] = @Set::sort($course["Result"], "{n}.time", 'asc');
+				$finalizedResults = array();
+				$addToEnd = array();
+				foreach($course["Result"] as $result) {
+				    if(!empty($result['time'])) {
+				        array_push($finalizedResults, $result);
+				    } else {
+				        array_push($addToEnd, $result);
+				    }
+				}
+				$course['Result'] = array_merge($finalizedResults, $addToEnd);
 			}
 		}
 
