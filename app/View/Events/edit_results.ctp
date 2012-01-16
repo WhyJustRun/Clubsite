@@ -87,7 +87,7 @@ $(document).ready(function(){
 					var result = results[j];
 					var user = new wjr.User(result.User.id, result.User.name);
 					alert
-					importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time, result.non_competitive, result.points, result.needs_ride, result.offering_ride));
+					importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time, result.status === 'not_competing' ? true : false, result.points, result.needs_ride, result.offering_ride));
 				}
 
 				viewModel.courses.push(new wjr.Course(course.id, course.name, course.distance, course.climb, course.event_id, course.description, importedResults));

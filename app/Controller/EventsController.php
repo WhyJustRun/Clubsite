@@ -158,7 +158,6 @@ class EventsController extends AppController {
 			foreach($event["Course"] as &$course) {
 				// Suppressing warnings after getting issues with http://rporter.whyjustrun.ca/Events/view/650
 				$course["Result"] = @Set::sort($course["Result"], "{n}.time", 'asc');
-				$course["Result"] = @Set::sort($course["Result"], "{n}.non_competitive", 'asc');
 			}
 		}
 
@@ -199,10 +198,10 @@ class EventsController extends AppController {
 					$processedResult["course_id"] = $course->id;
 					$processedResult["time"] = $this->_timeFromParts($result->hours, $result->minutes, $result->seconds);
 					
-					if(empty($result->non_competitive)) {
-						$processedResult["non_competitive"] = false;
+					if($result->non_competitive === true) {
+						$processedResult['status'] = 'not_competing';
 					} else {
-						$processedResult["non_competitive"] = $result->non_competitive;
+                        $processedResult['status'] = 'ok';
 					}
 					
 					if(empty($result->needs_ride)) {

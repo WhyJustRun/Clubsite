@@ -37,17 +37,6 @@ class Result extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		// TODO-RWP need a HH:MM:SS validation for time field.. CakePHPs time validation only checks for HH:MM
-		'non_competitive' => array(
-			'boolean' => array(
-				'rule' => array('boolean'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 		'points' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
@@ -78,8 +67,15 @@ class Result extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		# IOF Standard participant statuses
+		'status' => array(
+			'status' => array(
+				'rule' => array('inList', array('inactive', 'did_not_start', 'active', 'finished', 'ok', 'mis_punch', 'did_not_finish', 'disqualified', 'not_competing', 'sport_withdrawal', 'over_time', 'moved', 'moved_up', 'cancelled')),
+				'required' => true,
+				'allowEmpty' => false,
+			),
+		),
 	);
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(
 		'User' => array(
@@ -115,7 +111,7 @@ class Result extends AppModel {
 			if($result["Result"]["time"] != "00:00:00" && $result["Result"]["time"] != NULL) {
 				$currTime   = strtotime($result["Result"]["time"]) - strtotime("00:00:00");
 				$currPoints = $meanPoints * $meanTime / $currTime;
-				if($isValidCourse && $result["Result"]["non_competitive"] == 0) {
+				if($isValidCourse && $result["Result"]["status"] != 'not_competing') {
 					$result["Result"]["points"] = $currPoints;
 				}
 				else{
@@ -143,7 +139,7 @@ class Result extends AppModel {
 		$counter = 0;
 		foreach ($data as $value=>$key) {
 			$user_id = $key["Result"]["user_id"];
-			if($key["Result"]["time"] != NULL && $key["Result"]["time"] != "00:00:00" && $key["Result"]["non_competitive"] == 0 && $this->isValidRunner($course_id, $user_id) == 1) {
+			if($key["Result"]["time"] != NULL && $key["Result"]["time"] != "00:00:00" && $key["Result"]["status"] != 'not_competing' && $this->isValidRunner($course_id, $user_id) == 1) {
 				$hour = substr($key["Result"]["time"],0,2);
 				$min  = substr($key["Result"]["time"],3,2);
 				$sec  = substr($key["Result"]["time"], 6,2);
@@ -161,7 +157,7 @@ class Result extends AppModel {
 		$lowerDate  = strtotime($courseDate) - 2 * 86400 * 365;
 		$lowerDate  = date('Y-m-d h:i:s', $lowerDate);
 
-		$conditions = array("user_id = " => $user_id, "non_competitive = "=>0, "time > "=>0, "Event.date < " =>$courseDate, "Event.date > " => $lowerDate);
+		$conditions = array("user_id = " => $user_id, "status NOT " => 'not_competing', "time > "=>0, "Event.date < " => $courseDate, "Event.date > " => $lowerDate);
 
 		$data = $this->find("all", array("conditions" => $conditions));
 		if(count($data) < 5)
@@ -205,7 +201,7 @@ class Result extends AppModel {
 		$lowerDate  = strtotime($courseDate) - 2 * 86400 * 365;
 		$lowerDate  = date('Y-m-d h:i:s', $lowerDate);
 
-		$conditions = array("user_id = " => $user_id, "non_competitive = "=>0, "time > "=>0, "Event.date < " =>$courseDate, "Event.date > " => $lowerDate);
+		$conditions = array("user_id = " => $user_id, "status NOT " => 'not_competing', "time > "=>0, "Event.date < " =>$courseDate, "Event.date > " => $lowerDate);
 		$data = $this->find("all", array("conditions" => $conditions));
 		$meanPoints = 0;
 		$counter = 0;
@@ -227,7 +223,7 @@ class Result extends AppModel {
 		$counter = 0;
 		foreach ($entries as $entry) {
 			$user_id = $entry["Result"]["user_id"];
-			if($entry["Result"]["time"] != "00:00:00" && $entry["Result"]["non_competitive"] == 0 && $this->isValidRunner($course_id, $user_id))
+			if($entry["Result"]["time"] != "00:00:00" && $entry["Result"]["status"] != 'not_competing' && $this->isValidRunner($course_id, $user_id))
 			{
 				$counter += 1;
 			}
@@ -241,7 +237,7 @@ class Result extends AppModel {
 		$counter = 0;
 		foreach ($entries as $entry) {
 			$currPoints = $this->meanPointsByUser($course_id, $entry["Result"]["user_id"]);
-			if($currPoints != NULL && $entry["Result"]["time"] != "00:00:00" && $entry["Result"]["non_competitive"] == 0) {
+			if($currPoints != NULL && $entry["Result"]["time"] != "00:00:00" && $entry["Result"]["status"] != 'not_competing') {
 				$meanPoints += $currPoints;
 				$counter += 1;
 			}

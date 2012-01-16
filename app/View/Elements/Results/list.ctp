@@ -2,6 +2,7 @@
 // List of results for a course
 
 // Variables passed in: type ('registrations' or 'results'), results array
+$statusTable = array('inactive' => 'Inactive', 'did_not_start' => 'DNS', 'active' => 'In Progress', 'finished' => 'Finished', 'ok' => '', 'mis_punch' => 'MP', 'did_not_finish' => 'DNF', 'disqualified' => 'DSQ', 'not_competing' => 'NC', 'sport_withdrawal' => 'Sport Withdrawal', 'over_time' => 'Over Time', 'moved' => 'Moved', 'moved_up' => 'Moved Up', 'cancelled' => 'Cancelled');
 ?>
 
 <?php
@@ -18,7 +19,8 @@ if(!empty($results)) { ?>
 		} else if($type == 'results') {
 			echo "<th>Rank</th><th>Participant</th>
 			<th>Time</th>
-			<th>Points</th>";
+			<th>Points</th>
+			<th>Status</th>";
 		} else {
 			echo "Error: Invalid result type: $type specified.<br/>";
 		}
@@ -82,25 +84,8 @@ foreach($results as $result) {
             echo "</td>";
         }
 	} else if($type == 'results') {
-		if($result["non_competitive"]) {
-			$ncResults++;
-		}
-		if($ncResults === 1) { 
-			$rank = "";?>
-			</tbody>
-			
-			<thead>
-				<tr>
-				<th></th>
-				<th>Non-Competitive/DNF Participants</th>
-				<th>Time</th>
-				<th></th>
-				</tr>
-			</thead>
-			<tbody>
-		<?php }
 		echo "<tr>";
-		echo "<td>$rank</td><td>".$this->Html->link($result["User"]["name"], '/users/view/'.$result["User"]["id"])."</td><td>$result[time]</td><td>$result[points]</td>";
+		echo "<td>$rank</td><td>".$this->Html->link($result["User"]["name"], '/users/view/'.$result["User"]["id"])."</td><td>$result[time]</td><td>$result[points]</td><td>".$statusTable[$result['status']]."</td>";
 		if($rank !== "") {
 			$rank++;
 		}
