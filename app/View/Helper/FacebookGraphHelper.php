@@ -71,7 +71,7 @@ class FacebookGraphHelper extends AppHelper {
                 $news['picture-link'] = $news['link'];
             }
         
-            $html .= '<div class=\'news-item\'><img src="'.$news['picture'].'" style="float:left; padding-right: 8px; padding-top: 5px;" /><header><strong><a href="https://www.facebook.com/'.$news['from']['id'].'">'.$news['from']['name'].'</a></strong><br/><i>'.$this->TimePlus->niceShort($news['created_time']).'</i></header><a target="_blank" href="'.$news['picture-link'].'"></a><br/>';
+            $html .= '<div class=\'news-item\'><img src="'.$news['picture'].'" /><header><strong><a href="https://www.facebook.com/'.$news['from']['id'].'">'.$news['from']['name'].'</a></strong><br/><i>'.$this->TimePlus->niceShort($news['created_time']).'</i></header><a target="_blank" href="'.$news['picture-link'].'"></a><br/>';
             if(!empty($news['message'])) {
                 $html .= $news['message'].'<br/>';   
             }

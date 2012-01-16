@@ -351,6 +351,21 @@ ul, li {
     font-size: 110%;
 }
 
+.news-item img {
+    padding-right: 8px;
+    padding-top: 5px;
+    float: left;
+}
+
+/** Clear the div **/
+.news-item:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
 .event-box {
 	margin: 40px;
 	margin-bottom: 5px;
