@@ -99,9 +99,8 @@ class Event extends AppModel {
 	);
 
 	function findAllBetween($startTimestamp, $endTimestamp) {
-		$startTime = date("c", $startTimestamp);
-		$endTime = date("c", $endTimestamp);
-		
+		$startTime = date("Y-m-d H:i:s", $startTimestamp);
+		$endTime = date("Y-m-d H:i:s", $endTimestamp);
 		$conditions = array("Event.date >=" => $startTime, "Event.date <=" => $endTime);
 		
 		return $this->find("all",array("conditions" => $conditions));
@@ -109,7 +108,7 @@ class Event extends AppModel {
 
    // Finds all events prior to event with id
    function findBeforeEvent($id) {
-		$startTime = date("c", 0);
+		$startTime = date("Y-m-d H:i:s", 0);
 		$endTime = $this->field('date');
 		
 		$conditions = array("Event.date >=" => $startTime, "Event.date <=" => $endTime);
