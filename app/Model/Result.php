@@ -67,12 +67,11 @@ class Result extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		# IOF Standard participant statuses
+		// IOF Standard participant statuses
 		'status' => array(
 			'status' => array(
 				'rule' => array('inList', array('inactive', 'did_not_start', 'active', 'finished', 'ok', 'mis_punch', 'did_not_finish', 'disqualified', 'not_competing', 'sport_withdrawal', 'over_time', 'moved', 'moved_up', 'cancelled')),
-				'required' => true,
-				'allowEmpty' => false,
+				'required' => false, // Defaults to 'ok'
 			),
 		),
 	);

@@ -51,7 +51,7 @@ class CoursesController extends AppController {
 			}
 		}
 		
-		// TODO-RWP Don't allow registration for events already happened
+		// TODO-RWP Don't allow registration for events that already happened
 		$registration["Result"]["user_id"] = $user["id"];
 		$registration["Result"]["course_id"] = $course["Course"]["id"];
 		$this->Course->Result->save($registration);
