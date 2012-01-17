@@ -110,7 +110,7 @@ class Result extends AppModel {
 			if($result["Result"]["time"] != "00:00:00" && $result["Result"]["time"] != NULL) {
 				$currTime   = strtotime($result["Result"]["time"]) - strtotime("00:00:00");
 				$currPoints = $meanPoints * $meanTime / $currTime;
-				if($isValidCourse && $result["Result"]["status"] != 'not_competing') {
+				if($isValidCourse && $result["Result"]["status"] == 'ok') {
 					$result["Result"]["points"] = $currPoints;
 				}
 				else{
@@ -138,7 +138,7 @@ class Result extends AppModel {
 		$counter = 0;
 		foreach ($data as $value=>$key) {
 			$user_id = $key["Result"]["user_id"];
-			if($key["Result"]["time"] != NULL && $key["Result"]["time"] != "00:00:00" && $key["Result"]["status"] != 'not_competing' && $this->isValidRunner($course_id, $user_id) == 1) {
+			if($key["Result"]["time"] != NULL && $key["Result"]["time"] != "00:00:00" && $key["Result"]["status"] == 'ok' && $this->isValidRunner($course_id, $user_id) == 1) {
 				$hour = substr($key["Result"]["time"],0,2);
 				$min  = substr($key["Result"]["time"],3,2);
 				$sec  = substr($key["Result"]["time"], 6,2);
@@ -156,7 +156,7 @@ class Result extends AppModel {
 		$lowerDate  = strtotime($courseDate) - 2 * 86400 * 365;
 		$lowerDate  = date('Y-m-d h:i:s', $lowerDate);
 
-		$conditions = array("user_id = " => $user_id, "status NOT " => 'not_competing', "time > "=>0, "Event.date < " => $courseDate, "Event.date > " => $lowerDate);
+		$conditions = array("user_id = " => $user_id, "status" => 'ok', "time > "=>0, "Event.date < " => $courseDate, "Event.date > " => $lowerDate);
 
 		$data = $this->find("all", array("conditions" => $conditions));
 		if(count($data) < 5)
@@ -200,7 +200,7 @@ class Result extends AppModel {
 		$lowerDate  = strtotime($courseDate) - 2 * 86400 * 365;
 		$lowerDate  = date('Y-m-d h:i:s', $lowerDate);
 
-		$conditions = array("user_id = " => $user_id, "status NOT " => 'not_competing', "time > "=>0, "Event.date < " =>$courseDate, "Event.date > " => $lowerDate);
+		$conditions = array("user_id = " => $user_id, "status = " => 'ok', "time > "=>0, "Event.date < " =>$courseDate, "Event.date > " => $lowerDate);
 		$data = $this->find("all", array("conditions" => $conditions));
 		$meanPoints = 0;
 		$counter = 0;
@@ -222,7 +222,7 @@ class Result extends AppModel {
 		$counter = 0;
 		foreach ($entries as $entry) {
 			$user_id = $entry["Result"]["user_id"];
-			if($entry["Result"]["time"] != "00:00:00" && $entry["Result"]["status"] != 'not_competing' && $this->isValidRunner($course_id, $user_id))
+			if($entry["Result"]["time"] != "00:00:00" && $entry["Result"]["status"] == 'ok' && $this->isValidRunner($course_id, $user_id))
 			{
 				$counter += 1;
 			}
@@ -236,7 +236,7 @@ class Result extends AppModel {
 		$counter = 0;
 		foreach ($entries as $entry) {
 			$currPoints = $this->meanPointsByUser($course_id, $entry["Result"]["user_id"]);
-			if($currPoints != NULL && $entry["Result"]["time"] != "00:00:00" && $entry["Result"]["status"] != 'not_competing') {
+			if($currPoints != NULL && $entry["Result"]["time"] != "00:00:00" && $entry["Result"]["status"] == 'ok') {
 				$meanPoints += $currPoints;
 				$counter += 1;
 			}

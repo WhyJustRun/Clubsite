@@ -20,7 +20,7 @@
             $date = date("M j, Y", strtotime($date));
             $points = $result["Result"]["points"];
             $url = "/Events/view/$event_id";
-            if(!$result["Result"]["non_competitive"] && $time != NULL) {
+            if($result["Result"]["status"] == 'ok' && $time != NULL) {
                echo "<tr>";
                echo "<td>$date</td>";
                echo "<td><a href=\"$url\">$event</a></td>";
