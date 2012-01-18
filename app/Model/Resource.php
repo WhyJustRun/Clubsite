@@ -57,12 +57,6 @@ class Resource extends AppModel {
 	       throw new Exception("No file was uploaded.");
 	   }
 	   
-	   // Check for a duplicate resource and remove if necessary
-	   $preexistingResource = $this->find('first', array('conditions' => array('Resource.key' => $key, 'Club.id' => $clubId)));
-	   if($preexistingResource != null) {
-	       $this->delete($preexistingResource['Resource']['id']);
-	   }
-	   
 	   $resource = array();
 	   $resource['club_id'] = $clubId;
 	   $resourceConfig = Configure::read("Resource.Club.$key");
@@ -81,7 +75,13 @@ class Resource extends AppModel {
     	   
     	   $this->buildThumbnails($resource, $sizes);
 	   }
-	   
+
+        // Check for a duplicate resource and remove if necessary
+	   $preexistingResource = $this->find('first', array('conditions' => array('Resource.key' => $key, 'Club.id' => $clubId)));
+	   if($preexistingResource != null) {
+	       $this->delete($preexistingResource['Resource']['id']);
+	   }
+
 	   if($this->save($resource)) {
 	       return true;
 	   } else return false;
