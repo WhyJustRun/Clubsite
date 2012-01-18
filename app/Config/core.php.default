@@ -406,6 +406,10 @@ Configure::write('Resource.Club.logo.allowedExtensions', array('jpg', 'jpeg', 'g
 Configure::write('Resource.Club.logo.name', 'Logo');
 Configure::write('Resource.Club.logo.description', 'Logo graphic');
 
+Configure::write('Resource.Club.style.allowedExtensions', array('css'));
+Configure::write('Resource.Club.style.name', 'CSS Style');
+Configure::write('Resource.Club.style.description', 'You can override the default WhyJustRun CSS with your own style. Warning: this may break with updates to WhyJustRun.');
+
 // Specify content block defaults (so clubs upgrade cleanly)
 Configure::write('ContentBlock.default.general_information.1', '## Welcome!');
 Configure::write('ContentBlock.default.general_maps_information.1', '## Maps');

@@ -10,6 +10,7 @@ App::uses('AppModel', 'Model');
 class Resource extends AppModel {
 	public $displayField = 'caption';
 	public $clubSpecific = false; // in general, not club specific, though *some* resources belong to a club directly (header image, logo, etc)
+	public $thumbnailableFiles = array('jpg', 'jpeg', 'gif', 'png', 'pdf');
 
 	public $belongsTo = array('Club', 'Course', 'Map');
 	
@@ -70,13 +71,16 @@ class Resource extends AppModel {
 	   $resource['caption'] = $caption;
 	   $path = $this->pathForFile($resource['key'], $fileUpload, $resourceConfig['allowedExtensions']);
 	   $resource['url'] = $this->storeFile($fileUpload, $path);
-	   $sizes = $this->sizes();
 	   
-	   foreach($sizes as $size) {
-	       $resource["thumbnail_${size}_url"] = Configure::read('Club.dataUrl').$this->pathForFile($key, $fileUpload, $resourceConfig['allowedExtensions'], $size);
+	   if(in_array($this->extensionOf($path), $this->thumbnailableFiles)) {
+	       $sizes = $this->sizes();
+	   
+    	   foreach($sizes as $size) {
+    	       $resource["thumbnail_${size}_url"] = Configure::read('Club.dataUrl').$this->pathForFile($key, $fileUpload, $resourceConfig['allowedExtensions'], $size);
+    	   }
+    	   
+    	   $this->buildThumbnails($resource, $sizes);
 	   }
-	   
-	   $this->buildThumbnails($resource, $sizes);
 	   
 	   if($this->save($resource)) {
 	       return true;

@@ -22,6 +22,10 @@
     
     echo $this->element('Series/css', array(), array('cache' => array('config' => 'view_short')));
     
+    if(!empty($clubResources['style'])) {
+        echo $this->Html->css($clubResources['style']);
+    }
+    
     echo "<!--[if lt IE 9]>";
     // Fix CSS selectors using html5 elements
     echo $this->Html->script('html5.ie');
