@@ -13,11 +13,6 @@ class UsersController extends AppController
 		$this->Auth->allow('register', 'forgot', 'login', 'verify', 'authorized', 'index');
 		parent::beforeFilter();
 	}
-
-	function beforeSave($options = array()) {
-		$this->data['User']['password'] = $this->User->hashPassword($this->data['User']['password']);
-        return true;
-	}
 	
 	function index() {
 		// Autocomplete
@@ -257,22 +252,14 @@ class UsersController extends AppController
                     // If so, commandeer this account
                     $this->User->id = $existingUser["User"]["id"];
                 }
-                // I could not get the beforeSave function to hash the passwords
-                // I had to duplicate request->data so that I could has the password for User->save, but 
-                // keep them unhashed for Auth-login()
-                // Not sure if this is right
+
                 $data = $this->request->data;
                 $data['User']['password'] = $this->User->hashPassword($data['User']['password']);
+                $data['User']['api_key'] = $this->User->generateApiKey();
                 if($this->User->save($data)) {
                     $this->Auth->login();
-                   // Subscribe to e-mailing list
-                   if(0) {
-                       if($this->request->data['User']['subscribe']) {
-                          $this->_subscribe();
-                       }
-                   }
-                   $this->Session->setFlash('Welcome!', 'flash_success');
-                   return $this->redirect($this->Auth->redirect());
+                    $this->Session->setFlash('Welcome!', 'flash_success');
+                    return $this->redirect($this->Auth->redirect());
                 }
             } else {
                 // display the raw API error

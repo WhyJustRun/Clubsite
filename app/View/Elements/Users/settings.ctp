@@ -38,3 +38,8 @@
    }
 ?>
 </div>
+<div class="column-box">
+<h2>API</h2>
+<p>As a WhyJustRun user, you have access to our API to post your event results, etc.</p>
+API Key: <b><?= $this->Session->read('Auth.User.api_key') ?></b> (keep it secret!)
+</div>
