@@ -17,7 +17,7 @@ if($edit) {
     <div class="column-box results-list">
         <h3>Statistics</h3>
         <table>
-            <? if($map["Map"]["scale"] != ""){?>
+            <? if($map["Map"]["scale"] != ""){ ?>
             <tr><td>Scale</td><td>1:<?= number_format($map["Map"]["scale"]) ?></td></tr>
             <? } ?>
             <tr><td>Map standard</td><td><?= $map["MapStandard"]["name"]?></td></tr>
@@ -33,10 +33,8 @@ if($edit) {
     </div>
     <div class="column-box results-list">
         <h3>Map image</h3>
-        <? // TODO: Use proper filename
-        // TODO-RWP Move this into a helper
-        $imageFileName = Configure::read('Map.dir') . $map["Map"]["id"].'.gif';
-        if(file_exists($imageFileName)) { ?>
+        <?php
+        if($this->Media->exists('Map', $map["Map"]["id"])) { ?>
             <?= $this->Media->linkedImage("Map", $map["Map"]["id"], '400x600') ?>
         <? } 
         else {?>
