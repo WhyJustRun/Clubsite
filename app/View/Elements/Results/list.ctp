@@ -2,7 +2,8 @@
 // List of results for a course
 
 // Variables passed in: type ('registrations' or 'results'), results array
-$statusTable = array('inactive' => 'Inactive', 'did_not_start' => 'DNS', 'active' => 'In Progress', 'finished' => 'Finished', 'ok' => '', 'mis_punch' => 'MP', 'did_not_finish' => 'DNF', 'disqualified' => 'DSQ', 'not_competing' => 'NC', 'sport_withdrawal' => 'Sport Withdrawal', 'over_time' => 'Over Time', 'moved' => 'Moved', 'moved_up' => 'Moved Up', 'cancelled' => 'Cancelled');
+$statusTable = Configure::read('Result.statuses');
+$statusTable['ok'] = '';
 ?>
 
 <?php

@@ -207,18 +207,8 @@ class EventsController extends AppController {
 					$processedResult["user_id"] = $result->user->id;
 					$processedResult["course_id"] = $course->id;
 					$processedResult["time"] = $this->_timeFromParts($result->hours, $result->minutes, $result->seconds);
-					
-					if($result->non_competitive === true) {
-						$processedResult['status'] = 'not_competing';
-					} else {
-                        $processedResult['status'] = 'ok';
-					}
-					
-					if(empty($result->needs_ride)) {
-						$processedResult["needs_ride"] = false;
-					} else {
-						$processedResult["needs_ride"] = $result->needs_ride;
-					}
+					$processedResult['status'] = empty($result->status) == true ? 'ok' : $result->status;
+					$processedResult["needs_ride"] = empty($result->needs_ride) == true ? false : $result->needs_ride;
 					
 					if(empty($result->offering_ride)) {
 						$processedResult["offering_ride"] = false;

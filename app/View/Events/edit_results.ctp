@@ -2,6 +2,30 @@
 $(document).ready(function(){
 	var wjr = {};
 
+    wjr._statuses = null;
+    wjr.statuses = function() {
+        if(wjr._statuses == null) {
+            map = {
+            <? foreach(Configure::read('Result.statuses') as $k => $v) {
+            echo "'$k': '$v',\n";
+            } ?>
+            };
+            wjr._statuses = {}
+            _.each(map, function(k, v) {
+                wjr._statuses[k] = new wjr.ResultStatus(v, k);
+            });
+        }
+	   
+	   return wjr._statuses;
+	}
+
+	wjr.ResultStatus = function(id, name) {
+	   this.id = id;
+	   if(name == null) {
+	       this.name = wjr.statuses()[id];
+	   } else this.name = name;
+	}
+
 	wjr.Course = function(id, name, distance, climb, event_id, description, results) {
 		this.id = id;
 		this.name = name;
@@ -12,14 +36,15 @@ $(document).ready(function(){
 		this.results = ko.observableArray(results);
 	}
 
-	wjr.Result = function(id, user, course_id, time, non_competitive, points, needs_ride, offering_ride) {
+	wjr.Result = function(id, user, course_id, time, status, points, needs_ride, offering_ride) {
 		this.id = id;
 		this.user = user;
 		this.course_id = course_id;
 		this.hours = ko.observable(time ? time.substr(0, 2) : '00');
 		this.minutes = ko.observable(time ? time.substr(3, 2) : '00');
 		this.seconds = ko.observable(time ? time.substr(6, 2) : '00');
-		this.non_competitive = ko.observable(non_competitive);
+        this.statuses = _.values(wjr.statuses()).sort(function (a, b) { return a.name.localeCompare(b.name); });
+		this.status = ko.observable(status || 'ok');
 		this.points = points;
 		this.needs_ride = needs_ride;
 		this.offering_ride = offering_ride;
@@ -50,7 +75,7 @@ $(document).ready(function(){
 		this.date = date;
 	}
 
-	var viewModel = { 
+	var viewModel = {
 		courses : ko.observableArray(),
 		event : ko.observable(),
 		userName: ko.observable(),
@@ -87,7 +112,7 @@ $(document).ready(function(){
 					var result = results[j];
 					var user = new wjr.User(result.User.id, result.User.name);
 					alert
-					importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time, result.status === 'not_competing' ? true : false, result.points, result.needs_ride, result.offering_ride));
+					importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time, result.status, result.points, result.needs_ride, result.offering_ride));
 				}
 
 				viewModel.courses.push(new wjr.Course(course.id, course.name, course.distance, course.climb, course.event_id, course.description, importedResults));
@@ -117,7 +142,7 @@ $(document).ready(function(){
 		<td class="results-editing"><input type="text" maxlength="2" size="2" data-bind="value: hours" /></td>
 		<td class="results-editing"><input type="text" maxlength="2" size="2" data-bind="value: minutes" /></td>
 		<td class="results-editing"><input type="text" maxlength="2" size="2" data-bind="value: seconds" /></td>
-		<td class="results-editing"><input type="checkbox" data-bind="checked: non_competitive" /></td>
+		<td class="results-editing"><select data-bind="options: statuses, optionsText: 'name', optionsValue: 'id', value: status, optionsCaption: 'Choose...'"></select></td>
 		<td><div class="unsubmit" style="text-align: right; padding-right: 10px"><input type="submit" data-bind="click: remove" value="Remove" /></div></td>
 	</tr>
 </script>
@@ -133,7 +158,7 @@ $(document).ready(function(){
 					<th>HH</th>
 					<th>MM</th>
 					<th>SS</th>
-					<th>NC</th>
+					<th>Status</th>
 					<th></th>
 				</tr>
 			</thead>
