@@ -182,7 +182,6 @@ class UsersController extends AppController
 		
 		if (!empty($this->request->data['User']['email'])) {
 			$users = $this->User->find('all', array('conditions' => array('User.email' => $this->request->data['User']['email'])));
-			print_r($users); die();
 			$names = array();
 			
 			if (count($users) === 0) {
