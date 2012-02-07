@@ -10,7 +10,7 @@ class UsersController extends AppController
 
 	function beforeFilter()
 	{
-		$this->Auth->allow('register', 'forgot', 'login', 'verify', 'authorized', 'index');
+		$this->Auth->allow('register', 'forgot', 'login', 'verify', 'authorized', 'index', 'view');
 		parent::beforeFilter();
 	}
 	
@@ -181,10 +181,11 @@ class UsersController extends AppController
 		}
 		
 		if (!empty($this->request->data['User']['email'])) {
-			$users = $this->User->findAllByEmail($this->request->data['User']['email']);
-			$usersList = "";
+			$users = $this->User->find('all', array('conditions' => array('User.email' => $this->request->data['User']['email'])));
+			print_r($users); die();
+			$names = array();
 			
-			if (!count($users)) {
+			if (count($users) === 0) {
 				$this->Session->setFlash('No matching account with the email "' . $this->request->data['User']['email'] . '" was found.');
 				$this->redirect('/users/login');
 			}
@@ -201,10 +202,10 @@ class UsersController extends AppController
 				$email->to($this->request->data['User']['email']);
 				$email->send();
 
-				$usersList .= $user["User"]["name"] . ", ";
+				$names[] = $user["User"]["name"];
 			}
 			if(count($users) > 1) {
-				$this->Session->setFlash('Emails have been sent to your email account (' . $user['User']['email'] . ') for each user associated with this email ('.substr($usersList, 0, -2).'). Follow the instructions in the email to reset your password.');
+				$this->Session->setFlash('Emails have been sent to your email account (' . $user['User']['email'] . ') for each user associated with this email ('.implode(", ", $names).'). Follow the instructions in the email to reset your password.');
 			} else {
 				$this->Session->setFlash('An email has been sent to your email account (' . $user['User']['email'] . '), please follow the instructions in the email.');
 			}
@@ -243,7 +244,7 @@ class UsersController extends AppController
         $this->set('clubs', $this->User->Club->find('list'));
         
 		if(!empty($this->request->data)) {
-            if ($this->Recaptcha->verify()) {
+            if($this->Recaptcha->verify()) {
     			$this->User->create();
                 
                 // Check if temporary account already exists
@@ -266,6 +267,36 @@ class UsersController extends AppController
                 $this->Session->setFlash($this->Recaptcha->error);
             }
 		}
+	}
+	
+	/**
+	* Send a message to a user via email.
+	*/
+	function message() {
+	   if(!empty($this->request->data)) {
+	       if($this->Recaptcha->verify()) {
+	           $user = $this->User->findById($this->request->data['User']['id']);
+	           $replyTo = $this->Session->read('Auth.User.email');
+	           if(!empty($user) && !empty($user['User']['email']) && !empty($replyTo)) {
+	               $email = new CakeEmail();
+    				$email->emailFormat('text');
+    				$email->template('message', 'default');
+    				$email->viewVars(array('message' => $this->request->data['User']['message'], 'from' => $this->User->findById($this->Session->read('Auth.User.id')), 'to' => $user));
+    				$email->subject("Message from ".$this->Session->read('Auth.User.name'));
+    				$email->from("noreply@whyjustrun.ca", Configure::read('Club.name'));
+    				$email->replyTo($replyTo, $this->Session->read('Auth.User.name'));
+    				$email->to($user['User']['email']);
+    				$email->send();
+    				$this->Session->setFlash('Message sent!', 'flash_success');
+	           } else {
+                    $this->Session->setFlash('Message sending failed.');
+	           }
+	       } else {
+                $this->Session->setFlash('Captcha validation failed.');
+	       }
+	   }
+	   
+	   $this->redirect('/users/view/'.$this->request->data['User']['id']);
 	}
 	
 	/**

@@ -22,6 +22,7 @@
     
     echo $this->element('Series/css', array(), array('cache' => array('config' => 'view_short')));
     
+    // Custom club CSS uploaded through the admin interface
     if(!empty($clubResources['style'])) {
         echo $this->Html->css($clubResources['style']);
     }
