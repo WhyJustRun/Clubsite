@@ -10,8 +10,7 @@ class GeocodeHelper extends AppHelper {
     	
     	if($result === false) {
 			if(!empty($lat)) {
-				// Using Mapquest API based on OpenStreetMap data
-				$requestUrl = "http://open.mapquestapi.com/nominatim/v1/reverse?format=json&lat=" . $lat . "&lon=" . $lng;
+				$requestUrl = "http://nominatim.openstreetmap.org/reverse?format=json&lat=" . $lat . "&lon=" . $lng;
 				$requestResults = json_decode(file_get_contents($requestUrl));
 				if(!empty($requestResults->{'address'}->{'suburb'})) { 
 					$result["neighbourhood"] = $requestResults->{'address'}->{'suburb'};
