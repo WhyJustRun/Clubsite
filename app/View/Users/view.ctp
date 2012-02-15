@@ -56,7 +56,7 @@ if($this->Session->check('Auth.User.id') && $this->Session->read('Auth.User.id')
 }
 
 if($show_settings) {
-    $this->element('Users/settings');
+    echo $this->element('Users/settings');
 } ?>
 </div>
 <?php if(!empty($results)) { ?>
