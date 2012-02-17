@@ -44,15 +44,22 @@ $show_results = true;
 // Send a message
 $email = $this->Session->read('Auth.User.email');
 if($this->Session->check('Auth.User.id') && $this->Session->read('Auth.User.id') != $user['User']['id'] && !empty($user['User']['email']) && !empty($email)) {
+    // Logged in
     echo '<div class="column-box">
     <h2>Send message</h2>
     <p>Your email address will be revealed to the receiver so they can reply.</p>';
-    echo $this->Form->create('User', array('action' => 'message'));
+    echo $this->Form->create('User');
 	echo $this->Form->hidden('id', array('value' => $user['User']['id']));
 	echo $this->Form->textarea('message', array('data-validate' => 'validate(required)'));
 	echo $this->Recaptcha->display();
 	echo $this->Form->end('Send');
 	echo '</div>';
+} else if(!empty($user['User']['email']) && $this->Session->read('Auth.User.id') != $user['User']['id']) {
+    // Not logged in
+    echo '<div class="column-box">
+    <h2>Send message</h2>
+    <p style="text-align: center">'.$this->Html->link('Log in', '/users/login', array('class' => 'button')).'</p>
+    </div>';
 }
 
 if($show_settings) {

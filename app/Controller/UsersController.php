@@ -120,6 +120,10 @@ class UsersController extends AppController
    }
 
    function view($id) {
+        if($this->request->data('User.message') != null) {
+            $this->message();
+        }
+   
         $this->set('show_settings', false);
         $this->set('show_info', false);
         $this->set('show_membership', false);
@@ -222,7 +226,6 @@ class UsersController extends AppController
         $id = $this->Auth->user('id');
         $this->User->id = $id;
         $emailAddress = $this->User->field('email');
-        //$string = "echo $emailAddress > /tmp/mailman.adding; /usr/bin/python /usr/sbin/add_members -r /tmp/mailman.adding gvoc; rm /tmp/mailman.adding 2> /tmp/subscribe.error";
         $string = "echo $emailAddress > /tmp/mailman.adding; /usr/bin/python /usr/sbin/add_members -r /tmp/mailman.adding gvoc 2> /tmp/wjr.subscribe.error";
         $q = shell_exec($string);
    }
@@ -286,6 +289,7 @@ class UsersController extends AppController
     				$email->replyTo($replyTo, $this->Session->read('Auth.User.name'));
     				$email->to($user['User']['email']);
     				$email->send();
+    				$this->data = null;
     				$this->Session->setFlash('Message sent!', 'flash_success');
 	           } else {
                     $this->Session->setFlash('Message sending failed.');
@@ -294,8 +298,6 @@ class UsersController extends AppController
                 $this->Session->setFlash('Captcha validation failed.');
 	       }
 	   }
-	   
-	   $this->redirect('/users/view/'.$this->request->data['User']['id']);
 	}
 	
 	/**
