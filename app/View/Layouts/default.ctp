@@ -91,7 +91,10 @@
 					<span class="right padded">
 					<?= $this->element('privileged_link', array('name' => 'Membership', 'url' => '/memberships/', 'privilege' => 'Privilege.Membership.edit', 'suffix' => ' |')) ?>
 					<?= $this->element('privileged_link', array('name' => 'Event Planner', 'url' => '/events/planner', 'privilege' => 'Privilege.Event.planning', 'suffix' => ' |')) ?>
-					<?= $this->element('privileged_link', array('name' => 'Admin', 'url' => '/pages/admin', 'privilege' => 'Privilege.Admin.page', 'suffix' => ' |')) ?> <?= $this->Html->link('Developer API', '/pages/api') ?>
+					<?= $this->element('privileged_link', array('name' => 'Admin', 'url' => '/pages/admin', 'privilege' => 'Privilege.Admin.page', 'suffix' => ' |')) ?> 
+					
+					<?= $this->Html->link('API', 'https://github.com/russellporter/WhyJustRun2/wiki/API') ?> | 
+					<?= $this->Html->link('Get this website for your club', 'https://github.com/russellporter/WhyJustRun2/wiki/Get-WhyJustRun!') ?>
 					</span>
 			</div>
 			
