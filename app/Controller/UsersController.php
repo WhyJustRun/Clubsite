@@ -258,7 +258,6 @@ class UsersController extends AppController
 
                 $data = $this->request->data;
                 $data['User']['password'] = $this->User->hashPassword($data['User']['password']);
-                $data['User']['api_key'] = $this->User->generateApiKey();
                 if($this->User->save($data)) {
                     $this->Auth->login();
                     $this->Session->setFlash('Welcome!', 'flash_success');
