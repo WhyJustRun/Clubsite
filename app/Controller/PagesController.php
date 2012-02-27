@@ -43,7 +43,7 @@ class PagesController extends AppController {
  *
  * @var array
  */
-	public $helpers = array('Html', 'Session', 'Geocode', 'Markdown', 'FacebookGraph');
+	public $helpers = array('Html', 'Session', 'Geocode', 'Markdown', 'FacebookGraph', 'Form');
 
     function beforeFilter() {
 		parent::beforeFilter();
@@ -78,6 +78,8 @@ class PagesController extends AppController {
 			$page = $path[0];
             if($page === 'edit') {
                 return $this->edit();
+            } else if($page === 'add') {
+                return $this->add();
             }
 		}
 		if (!empty($path[1])) {
@@ -86,6 +88,7 @@ class PagesController extends AppController {
 		if (!empty($path[$count - 1])) {
 			$title_for_layout = Inflector::humanize($path[$count - 1]);
 		}
+		
 		if($page === 'resources') {
 			$this->set('pages', $this->Page->findAllBySection('resources', array('id', 'name')));
 		}
@@ -100,9 +103,24 @@ class PagesController extends AppController {
 			$this->set('title_for_layout', $dynamicPage['Page']['name']);
 		}
 	}
+	
+	public function add() {
+        $this->checkAuthorization(Configure::read('Privilege.Page.edit'));
+        if($this->request->isPost()) {
+            // Section is hardcoded for now
+            $this->request->data['Page']['section'] = 'Resources';
+            if($this->Page->save($this->data)) {
+                $this->Session->setFlash('The page has been added.', "flash_success");
+            } else {
+				$this->Session->setFlash('The page could not be added.');
+            }
+        }
+
+        $this->redirect('/pages/resources');
+	}
 
 	public function edit() {
-        $this->isAuthorized(Configure::read('Privilege.Page.edit'));
+        $this->checkAuthorization(Configure::read('Privilege.Page.edit'));
         $this->Page->id = $this->parseEntityId($this->request->data['id']);
         if(!empty($this->request->data['value'])) {
             $this->Page->saveField('content', $this->request->data['value']);

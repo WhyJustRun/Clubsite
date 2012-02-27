@@ -47,7 +47,7 @@ class ContentBlocksController extends AppController {
     * POST Ajax call by Jeditable - returns the rendered markdown
     */
     public function edit() {
-        $this->isAuthorized(Configure::read('Privilege.ContentBlock.edit'));
+        $this->checkAuthorization(Configure::read('Privilege.ContentBlock.edit'));
         $this->ContentBlock->id = str_replace('content-block-', '', $this->request->data['id']);
         $this->ContentBlock->saveField('content', $this->request->data['value']);
         $this->set('contentBlock', $this->ContentBlock->findById($this->ContentBlock->id));

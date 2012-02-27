@@ -10,7 +10,7 @@ $(function() {
 	var poppingState = false;
 	
     $('#calendar').fullCalendar({
-    	events: '/Events/index.json',
+    	events: '/events/index.json',
     	year: <?= $year ?>,
     	month: <?php echo(intval($month) - 1); // January = 0 ?>,
     	date: <?= $day ?>,
