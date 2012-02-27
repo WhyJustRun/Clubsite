@@ -4,6 +4,7 @@
 /app/Config/bootstrap.php
 /bin/settings.py
 
+nohup.out
 .svn
 .DS_Store
 *.pyc
