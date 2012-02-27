@@ -47,3 +47,7 @@ $(function() {
 <div id="calendar">
 	
 </div>
+<?
+$icalUrl = "http://whyjustrun.ca/club/".Configure::read('Club.id')."/events.ics";
+?>
+<div class="padded">iCal feed: <a href="<?= $icalUrl ?>"><?= $icalUrl ?></a> - you can use this to get club events in your Google Calendar, Calendar app, Outlook, etc.</div>
