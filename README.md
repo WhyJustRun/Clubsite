@@ -13,16 +13,16 @@ By using WhyJustRun, you get useful functionality with minimal effort:
 - Result/Course Map posting
 - Map versioning
 - Facebook integration for news
-- Calendar 
+- Calendar (iCal support)
 - Custom resource pages
 - Membership management
 - IOF Standard XML APIs
+- Live results
 
 Coming Soon:
 
 - Upload results automatically from orienteering timing software
 - iOS app for timing smaller events
-- Live results
 - Display of nearby events organized by other clubs
 
 ## Current Users
