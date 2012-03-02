@@ -22,8 +22,9 @@ class Privilege extends AppModel {
 		)
 	);
 	
+	// For privileges, we just want to make sure that privileges in groups in the current club are the only ones found
 	function beforeFind(&$queryData) {
-        if($this->clubSpecific && empty($queryData['conditions'][$this->name.".club_id"])) {
+        if(empty($queryData['conditions']["Group.club_id"])) {
             $queryData['conditions']["Group.club_id"] = Configure::read("Club.id");
         }
         return $queryData;
