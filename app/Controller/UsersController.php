@@ -21,14 +21,6 @@ class UsersController extends AppController
 			$this->set("users", $this->User->findByName($_GET["term"]));
 		}
 	}
-	function showAll($upper=50) {
-      $this->User->unbindModel( array('hasMany' => array('Result', 'Membership', 'Organizer'), 'hasOne' => array('Privilege')));
-      $lower = max($upper-50, 0);
-      $this->set('users', $this->User->find('all', array('conditions'=>array('User.id <= ' => $upper, 'User.id >= ' => $lower))));
-      if($lower > 0) 
-         $this->set('prev', $upper - 50);
-      $this->set('next', $upper + 50);
-	}
 
 	function login() 
 	{	

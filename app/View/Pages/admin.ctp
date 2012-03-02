@@ -7,7 +7,7 @@
    <div class="column-box">
       <h3>Users</h3>
       <a href="/privileges/" class="button">Grant privileges</a><br/>
-      <a href="/users/showAll" class="button">Show Users</a><br>
+      <a href="" class="button red">Show Users</a><br>
       <a href="" class="button red">E-mail list</a>
    </div>
    <div class="column-box">
