@@ -1,24 +1,20 @@
 <h2>Privileges</h2>
 <div class="column-box span-8">
 <h3>Types of privileges</h3>
-<?
-   foreach ($groupsList as $group){
-?>
+<?php foreach($groupList as $group) { ?>
    <p>
-      <b><?=$group["Group"]["name"]?></b>: <?=$group["Group"]["description"]?>
+      <b><?= $group["Group"]["name"] ?></b>: <?= $group["Group"]["description"] ?>
    </p>
-<?
-   }
-?>
+<?php } ?>
 </div>
 <div class="column-box span-14">
 <h3>Add privilege</h3>
 <table>
    <?=$this->Form->create('Privilege', array('action' => 'add'))?>
    <tr>
-      <td> <?=$this->Form->input('user_id', array('label'=>false))?> </td>
-      <td> <?=$this->Form->input('group_id', array('label'=>false))?> </td>
-      <td> <?=$this->Form->end('Add')?> </td>
+      <td> <?= $this->Form->input('user_id', array('label'=>false)) ?> </td>
+      <td> <?= $this->Form->input('group_id', array('label'=>false)) ?> </td>
+      <td> <?= $this->Form->end('Add') ?> </td>
    </tr>
 </table>
 
@@ -33,12 +29,12 @@
       </tr>
    </thead>
    <tbody>
-   <?
+   <?php
    foreach ($privileges as $privilege) {
       ?>
       <tr>
-         <td><?=$privilege["User"]["name"]. " (" . $privilege["User"]["id"].")"?></td>
-         <? echo $this->Form->create('Privilege', array('action' => 'edit'));?>
+         <td><?= $privilege["User"]["name"]. " (" . $privilege["User"]["id"].")" ?></td>
+         <?= $this->Form->create('Privilege', array('action' => 'edit'));?>
          <td>
          <?
             echo $this->Form->hidden('user_id', array('value'=> $privilege["User"]["id"]));
@@ -47,7 +43,7 @@
          ?>
          </td>
          <td>
-            <?=$this->Form->end('Alter')?>
+            <?= $this->Form->end('Alter') ?>
          </td>
          <td>
             <?

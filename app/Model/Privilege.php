@@ -1,6 +1,7 @@
 <?php
 class Privilege extends AppModel {
 	var $name = 'Privilege';
+	var $actsAs = array('Containable');
 	protected $clubSpecific = false;
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -20,4 +21,11 @@ class Privilege extends AppModel {
 			'order' => ''
 		)
 	);
+	
+	function beforeFind(&$queryData) {
+        if($this->clubSpecific && empty($queryData['conditions'][$this->name.".club_id"])) {
+            $queryData['conditions']["Group.club_id"] = Configure::read("Club.id");
+        }
+        return $queryData;
+    }
 }
