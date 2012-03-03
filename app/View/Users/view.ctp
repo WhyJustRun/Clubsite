@@ -1,5 +1,5 @@
 <?php
-$this->Html->script('highstock-1.0.2', array('inline' => false));
+$this->Html->script('highstock', array('inline' => false));
 $name = $user["User"]["name"];
 $show_results = true;
 ?>
@@ -78,6 +78,16 @@ if($show_settings) {
 <?php }
 $highstocks = "
 $(function() {
+    function zeroFill( number, width )
+    {
+      width -= number.toString().length;
+      if ( width > 0 )
+      {
+        return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+      }
+      return number;
+    }
+
     // Create the chart  
     window.chart = new Highcharts.StockChart({
         chart: {
@@ -109,6 +119,13 @@ $(function() {
          selected: 5,
          inputEnabled: false
        },
+       tooltip: {
+            yDecimals: 4,
+            formatter: function() {
+                var d = new Date(parseInt(this.x));
+                return zeroFill(d.getFullYear(), 2) + \"-\" + zeroFill(d.getMonth() + 1, 2) + \"-\" + zeroFill(d.getDate(), 2) + \"<br/><b>\" + this.points[0].key + \"</b>\";
+            }
+        },
         series: [{
             name: 'Competition points',
             type: 'spline',
