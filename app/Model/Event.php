@@ -42,60 +42,16 @@ class Event extends AppModel {
 		'url' => 'CONCAT("/events/view/", Event.id)'
 	);
 
-	
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
 	var $belongsTo = array(
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'group_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Map' => array(
-			'className' => 'Map',
-			'foreignKey' => 'map_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Series' => array(
-			'className' => 'Series',
-			'foreignKey' => 'series_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
+		'Group',
+		'Map',
+		'Series',
+		'EventClassification'
 	);
 
 	var $hasMany = array(
-		'Course' => array(
-			'className' => 'Course',
-			'foreignKey' => 'event_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'Organizer' => array(
-			'className' => 'Organizer',
-			'foreignKey' => 'event_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
+		'Course',
+		'Organizer'
 	);
 
 	function findAllBetween($startTimestamp, $endTimestamp) {

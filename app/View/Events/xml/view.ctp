@@ -2,7 +2,6 @@
 $courses = $event["Course"];
 $organizers = $event["Organizer"];
 
-$eventClassification = "Local";
 $eventName  = $event["Event"]["name"];
 $eventDate  = substr($event["Event"]["date"], 0, 10);
 $eventClock = substr($event["Event"]["date"], 11, 13);
@@ -35,7 +34,6 @@ $el = $wrapper->appendChild($xml->createElement("EventList"));
 $e = $el->appendChild($xml->createElement("Event"));
 $e->appendChild($xml->createElement('EventId', $event["Event"]["id"]));
 $e->appendChild($xml->createElement('Name', htmlentities($event["Event"]["name"])));
-$e->appendChild($xml->createElement('EventClassificationId', $eventClassification));
 $startDate = $xml->createElement('StartDate');
 $endDate = $xml->createElement('FinishDate');
 $e->appendChild($startDate);

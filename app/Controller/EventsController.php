@@ -13,15 +13,13 @@ class EventsController extends AppController {
     );
 	var $helpers = array("Time", "Geocode", "Form", "TimePlus", 'Leaflet', 'Markdown', 'Session', 'Media');
 	
-	function beforeFilter()
-	{
+	function beforeFilter() {
         parent::beforeFilter();
 		$this->Auth->allow('index', 'upcoming', 'past', 'major', 'view', 'rendering', 'planner', 'embed');
 	}
 	
 	// TODO-RWP Move ajax request $starTimestamp, $endTimestamp to separate call
-	function index($startTimestampOrDate = null, $endTimestamp = null) 
-	{
+	function index($startTimestampOrDate = null, $endTimestamp = null) {
 		$this->set('title_for_layout', 'Calendar');
 		// If is a date
 		if(strpos($startTimestampOrDate, "-")) {
@@ -46,6 +44,7 @@ class EventsController extends AppController {
       $this->loadModel("Series");
       $this->set('series', $this->Series->findAllByIsCurrent(1));
 	}
+	
     // Displays a rendering of the results (manually uploaded)
     function rendering($id) {
         $this->Media->display($id);
@@ -124,6 +123,8 @@ class EventsController extends AppController {
         $this->set('maps', $this->Event->Map->find('list', array('order'=>'Map.name')));
 		$this->set('series', $this->Event->Series->find('list'));
 		$this->set('groups', $this->Event->Group->find('list'));
+		$this->set('eventClassifications', $this->Event->EventClassification->find('list'));
+
 	}
 
 	function view($id = null) {
