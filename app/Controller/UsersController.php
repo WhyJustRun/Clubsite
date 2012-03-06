@@ -188,7 +188,7 @@ class UsersController extends AppController
 			$tokenGenerator = ClassRegistry::init('Token');
 			foreach($users as $user) {
 				$token = $tokenGenerator->generate(array('User' => $user['User']));
-				$email = new CakeEmail();
+				$email = new CakeEmail('default');
 				$email->emailFormat('text');
 				$email->template('forgot', 'default');
 				$email->viewVars(array('token' => $token, 'user' => $user));
@@ -271,7 +271,7 @@ class UsersController extends AppController
 	           $user = $this->User->findById($this->request->data['User']['id']);
 	           $replyTo = $this->Session->read('Auth.User.email');
 	           if(!empty($user) && !empty($user['User']['email']) && !empty($replyTo)) {
-	               $email = new CakeEmail();
+                    $email = new CakeEmail('default');
     				$email->emailFormat('text');
     				$email->template('message', 'default');
     				$email->viewVars(array('message' => $this->request->data['User']['message'], 'from' => $this->User->findById($this->Session->read('Auth.User.id')), 'to' => $user));

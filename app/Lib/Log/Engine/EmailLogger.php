@@ -8,7 +8,7 @@ class EmailLogger implements CakeLogInterface {
     }
 
     function write($type, $error) {
-        $email = new CakeEmail();
+        $email = new CakeEmail('default');
         $email->emailFormat('text');
         $email->from(array('noreply@whyjustrun.ca' => 'WhyJustRun'));
         $email->to(Configure::read('Log.Emails'));
