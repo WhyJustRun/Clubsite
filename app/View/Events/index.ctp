@@ -10,7 +10,7 @@ $(function() {
 	var poppingState = false;
 	
     $('#calendar').fullCalendar({
-    	events: '/events/index.json',
+    	events: '<?= Configure::read('Rails.domain'); ?>/club/<?= Configure::read('Club.id') ?>/events.json',
     	year: <?= $year ?>,
     	month: <?php echo(intval($month) - 1); // January = 0 ?>,
     	date: <?= $day ?>,

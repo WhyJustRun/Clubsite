@@ -31,18 +31,14 @@ class EventsController extends AppController {
             $this->set("events", array());
 			if(!empty($startTimestamp) && !empty($endTimestamp)) {
 				$this->set("events", $this->Event->findAllBetween($startTimestamp,$endTimestamp));
-			} elseif(!empty($_GET["start"]) && !empty($_GET["end"])) {
-				$this->set("events", $this->Event->findAllBetween($_GET["start"],$_GET["end"]));
-			} else {
-				// do nothing
 			}
 			
 			$this->set('year', date('Y'));
 			$this->set('month', date('m'));
 			$this->set('day', date('d'));
 		}
-      $this->loadModel("Series");
-      $this->set('series', $this->Series->findAllByIsCurrent(1));
+		
+        $this->set('series', $this->Event->Series->findAllByIsCurrent(1));
 	}
 	
     // Displays a rendering of the results (manually uploaded)

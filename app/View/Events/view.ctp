@@ -1,13 +1,11 @@
 <div class="right">
-<?=$this->Html->link('XML', '/events/view/'.$event["Event"]["id"].'.xml', array('class' => 'button'))?>
+<?= $this->Html->link('XML', '/events/view/'.$event["Event"]["id"].'.xml', array('class' => 'button')) ?>
 <?php
 if($edit) {
 	echo $this->Html->link('Edit', '/events/edit/'.$event["Event"]["id"], array('class' => 'button'));
 	echo "<br/>";
 	echo $this->Html->link('Post Results','/events/editResults/'.$event["Event"]["id"], array('class' => 'button'));
 	echo "<br/>";
-	//echo $this->Html->link('Upload Results','/events/uploadResults/'.$event["Event"]["id"], array('class' => 'button'));
-	//echo "<br/>";
 	echo $this->Html->link('Upload Maps','/events/uploadMaps/'.$event["Event"]["id"], array('class' => 'button'));
     echo "<br/>";
 	echo $this->Html->link('Printable entries','/events/printableEntries/'.$event["Event"]["id"], array('class' => 'button'));
