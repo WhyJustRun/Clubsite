@@ -382,6 +382,7 @@ Configure::write("Result.statuses", array(
     'cancelled' => 'Cancelled'
 ));
 
+Configure::write('Rails.domain', 'http://www.whyjustrun.ca');
 Configure::write("Club.id", 1);
 Configure::write("Club.name", "Greater Vancouver Orienteering Club");
 Configure::write("Club.acronym", "GVOC");
