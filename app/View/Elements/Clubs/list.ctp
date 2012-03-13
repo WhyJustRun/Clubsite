@@ -1,5 +1,5 @@
-<?php $clubs = $this->requestAction('clubs/index/'); ?>
-<?php 
+<?php $clubs = $this->requestAction('clubs/index/'); 
+
 // Determine distance to all other clubs
 $lat0 = deg2rad(configure::read('Club.lat'));
 $lng0 = deg2rad(configure::read('Club.lng'));
@@ -20,7 +20,7 @@ $clubs = @Set::sort($clubs, "{n}.Club.distance", 'asc');
 $separator = null;
 $counter = 0;
 foreach($clubs as $club) {
-    if($club['Club']['visible'] && $counter < Configure::read('Club.numNearbyClubs')) {
+    if($club['Club']['visible'] && $counter < Configure::read('Club.nearby.max')) {
         $clubURL = $club["Club"]["url"];
         echo $separator.$this->Html->link($club["Club"]["location"], $clubURL)." ";
         $separator = "| ";
