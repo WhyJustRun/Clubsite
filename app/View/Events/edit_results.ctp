@@ -136,9 +136,9 @@ $(document).ready(function(){
 });
 </script>
 
-<script type="text/x-jquery-tmpl" id="resultTemplate">
+<script type="text/html" id="resultTemplate">
 	<tr style="height: 18px; font-size: x-small; padding: 0">
-		<td>${user.name}</td>
+		<td data-bind="text: user.name"></td>
 		<td class="results-editing"><input type="text" maxlength="2" size="2" data-bind="value: hours" /></td>
 		<td class="results-editing"><input type="text" maxlength="2" size="2" data-bind="value: minutes" /></td>
 		<td class="results-editing"><input type="text" maxlength="2" size="2" data-bind="value: seconds" /></td>
@@ -147,9 +147,9 @@ $(document).ready(function(){
 	</tr>
 </script>
 
-<script type="text/x-jquery-tmpl" id="courseTemplate">
+<script type="text/html" id="courseTemplate">
 	<div class="input">
-		<h2>${name}</h2>
+		<h2 data-bind="text: name"></h2>
 		
 		<table>
 			<thead> 

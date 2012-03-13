@@ -95,9 +95,9 @@
 	}
 </script>
 <div id='edit-organizers'>
-	<script type="text/x-jquery-tmpl" id="organizerTemplate">
+	<script type="text/html" id="organizerTemplate">
 		<tr>
-			<td>${name || 'Anonymous'}</td>
+			<td data-bind="text: name || 'Anonymous'"></td>
 			<td>
 				<select data-bind="options: availableRoles, value: role, optionsText: 'name'">
 				</select>
@@ -117,7 +117,7 @@
 </div>
 
 <div id='edit-courses'>
-	<script type="text/x-jquery-tmpl" id="courseTemplate">
+	<script type="text/html" id="courseTemplate">
 		<tr>
 			<td><input type="text" size="15" data-bind="value: name, uniqueName: true" required /></td>
 			<td><input type="number" size="7" data-bind="value: distance" /></td>

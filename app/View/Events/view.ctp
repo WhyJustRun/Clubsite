@@ -102,10 +102,30 @@ if($edit) {
 		</header>
         <?php echo $this->element('Events/files', array('id' => $event["Event"]["id"])); ?>
 		<div class="results-list">
-		<?php foreach($event["Course"] as $course) { ?>
-			<h3><?= $course["name"] ?></h3>
-			<?php echo $this->element('Results/list', array('type' => 'results', 'results' => $course["Result"])); ?>
-		<?php } ?>
+		<script type="text/javascript" src="https://raw.github.com/russellporter/Result-List-Viewer/master/result_viewer.js"></script>          		
+				<div id="list" class="result-list" data-result-list-url="http://whyjustrun.ca/iof/3.0/events/<?= $event['Event']['id'] ?>/result_list.xml">
+                    <div data-bind="foreach: courses">
+                        <h3 data-bind="text: name"></h3>
+                		<table>
+                    		<thead>
+                        		<tr>
+                        		<th>Position</th>
+                        		<th>Participant</th>
+                        		<th>Time</th>
+                        		<th>Points</th>
+                        		</tr>
+                    		</thead>
+                    		<tbody data-bind="foreach: results">
+                        		<tr>
+                        			<td data-bind="text: position || friendlyStatus"></td>
+                        			<td><a data-bind="attr: { href: person.profileUrl }"><span data-bind="text: person.givenName + ' ' + person.familyName"></span></a></td>
+                        			<td data-bind="text: time != null ? hours + ':' + minutes + ':' + seconds : ''"></td>
+                        			<td data-bind="text: scores['WhyJustRun']"></td>
+                        		</tr>
+                    		</tbody>
+                		</table>
+                    </div>
+                </div>
         <?php echo $this->element('Courses/course_maps', array('courses' => $event["Course"])); ?>
 		</div>
 	</div>

@@ -31,7 +31,7 @@
     // Fix CSS selectors using html5 elements
     echo $this->Html->script('html5.ie');
     echo "<![endif]-->";
-    echo $this->Html->script("/cjs/jquery-1.6.2.min.js,jquery.fancybox-1.3.4.pack.js,placeholder.js,jquery-ui-1.8.16.custom.min.js,jquery-ui-timepicker-addon.js,underscore-min.js,jquery.tmpl.js,knockout.js,jquery.ketchup.all.min.js,jquery.jeditable.mini.js,jquery.timeago.js,wjr.js");
+    echo $this->Html->script("/cjs/jquery-1.6.2.min.js,jquery.fancybox-1.3.4.pack.js,placeholder.js,jquery-ui-1.8.16.custom.min.js,jquery-ui-timepicker-addon.js,underscore-min.js,knockout.js,jquery.ketchup.all.min.js,jquery.jeditable.mini.js,jquery.timeago.js,wjr.js");
     
     // Easy editable content blocks
     if($this->Session->read('Club.'.Configure::read('Club.id').'.Privilege.ContentBlock.edit')) {
