@@ -123,6 +123,10 @@ def enable_maintenance_mode(club):
 def update_http_server_conf(club):
     http_config = "\
 <VirtualHost *>\n\
+ServerName www." + club.domain + "\n\
+DocumentRoot " + club.web_path() + "\n\
+</VirtualHost>\n\
+<VirtualHost *>\n\
 ServerName " + club.domain + "\n\
 DocumentRoot " + club.web_path() + "\n\
 </VirtualHost>\n" % ()
