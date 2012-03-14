@@ -316,12 +316,6 @@ ul, li {
 	background-color: #ffffff;
 	padding-top: 0px;
 }
-.contact-columns{
-	background: url('/img/gvoc/contact1.jpg') left bottom no-repeat,
-               url('/img/gvoc/contact2.jpg') right bottom no-repeat;
-   height:400px;
-   text-align: center;
-}
 
 .three-column {
 	/** Needed so three-column surrounds the enclosed divs **/
