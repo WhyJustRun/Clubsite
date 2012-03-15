@@ -200,7 +200,7 @@ class Result extends AppModel {
 		$lowerDate  = strtotime($courseDate) - 2 * 86400 * 365;
 		$lowerDate  = date('Y-m-d h:i:s', $lowerDate);
 
-		$conditions = array("user_id = " => $user_id, "status = " => 'ok', "time > ">0, "Event.date < " =>$courseDate, "Event.date > " => $lowerDate);
+		$conditions = array("user_id = " => $user_id, "status = " => 'ok', "time > " => 0, "Event.date < " =>$courseDate, "Event.date > " => $lowerDate);
 		$data = $this->find("all", array("conditions" => $conditions));
 		$meanPoints = 0;
 		$counter = 0;
