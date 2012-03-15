@@ -23,7 +23,7 @@
    <div class="column span-16 last">
 <?php
 	echo $this->Form->create('User', array('action' => 'register'));
-	echo $this->Form->input('name', array('data-validate' => 'validate(required)'));
+    echo $this->Form->input('name', array('label' => 'Name (first and lastname)', 'data-validate' => 'validate(required)'));
 	echo $this->Form->input('username', array('data-validate' => 'validate(required, username)'));
 	echo $this->Form->input('email', array('label' => 'E-mail', 'data-validate' => 'validate(required, email)'));
 	//echo $this->Form->input('subscribe', array('type'=>'checkbox', 'label'=>'', 'before'=>$this->Form->label('subscribe', "Subscribe to ". Configure::read('Club.acronym')."'s e-mailing list?<br>")));
