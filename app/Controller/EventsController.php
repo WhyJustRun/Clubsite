@@ -150,24 +150,7 @@ class EventsController extends AppController {
 			$event["Event"]["completed"] = false;
 		}
 		
-		// Sort results by time, non-competitive if the results are posted
-		if($event["Event"]["results_posted"] === "1") {
-			foreach($event["Course"] as &$course) {
-				// Suppressing warnings after getting issues with http://rporter.whyjustrun.ca/Events/view/650
-				$course["Result"] = @Set::sort($course["Result"], "{n}.time", 'asc');
-				$finalizedResults = array();
-				$addToEnd = array();
-				foreach($course["Result"] as $result) {
-				    if(!empty($result['time'])) {
-				        array_push($finalizedResults, $result);
-				    } else {
-				        array_push($addToEnd, $result);
-				    }
-				}
-				$course['Result'] = array_merge($finalizedResults, $addToEnd);
-			}
-		}
-
+        $course["Result"] = @Set::sort($course["Result"], "{n}.User.name", 'asc');
 		foreach($event["Course"] as &$course) {
 			$registered = false;
 

@@ -1,7 +1,7 @@
 <div class="padded">
     <h1>Upload Course Maps</h1>
 <p>Upload one map for each course. The upload process may take some time,
-as thumbnails also have to be generated. Uploading will overwrite any existing maps for the particular course.</p>
+as thumbnails also have to be generated. Uploading will overwrite any existing maps for the particular course. Allowed map formats: jpg/jpeg, gif, png, pdf.</p>
     <? if (count($courses) > 0) {?>
     <table>
         <thead>
