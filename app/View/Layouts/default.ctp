@@ -20,6 +20,12 @@
     echo $this->Html->css('leaflet.ie');
     echo "<![endif]-->";
     
+    echo "<!--[if lte IE 7]>";
+    echo $this->Html->script('ie7/warning');
+    echo '<script>window.onload=function(){e("js/ie7/")}</script>';
+    echo "<![endif]-->";
+
+    
     echo $this->element('Series/css', array(), array('cache' => array('config' => 'view_short')));
     
     // Custom club CSS uploaded through the admin interface
