@@ -102,7 +102,7 @@ if($edit) {
 		</header>
         <?php echo $this->element('Events/files', array('id' => $event["Event"]["id"])); ?>
 		<div class="results-list">
-		<script type="text/javascript" src="https://raw.github.com/russellporter/Result-List-Viewer/master/result_viewer.js"></script>          		
+		<?= $this->Html->script('result_viewer'); ?>          		
 				<div id="list" class="result-list" data-result-list-url="http://whyjustrun.ca/iof/3.0/events/<?= $event['Event']['id'] ?>/result_list.xml">
                     <div data-bind="foreach: courses">
             			<h3 data-bind="text: name"></h3>
