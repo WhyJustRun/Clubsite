@@ -39,7 +39,7 @@ class AppModel extends Model {
     /**
     * Select data only for this club
     */
-    function beforeFind(&$queryData) {
+    function beforeFind($queryData) {
         if($this->clubSpecific && empty($queryData['conditions'][$this->name.".club_id"])) {
             $queryData['conditions'][$this->name.".club_id"] = Configure::read("Club.id");
         }
