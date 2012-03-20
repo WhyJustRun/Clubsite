@@ -103,7 +103,7 @@ if($edit) {
         <?php echo $this->element('Events/files', array('id' => $event["Event"]["id"])); ?>
 		<div class="results-list">
 		<?= $this->Html->script('result_viewer'); ?>          		
-				<div id="list" class="result-list" data-result-list-url="http://whyjustrun.ca/iof/3.0/events/<?= $event['Event']['id'] ?>/result_list.xml">
+				<div id="list" class="result-list" data-result-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/events/<?= $event['Event']['id'] ?>/result_list.xml">
                     <div data-bind="foreach: courses">
             			<h3 data-bind="text: name"></h3>
             			<div data-bind="if: results().length == 0">
