@@ -126,19 +126,6 @@ class User extends AppModel {
 	function hashPassword($password) {
 		return hash('sha512', Configure::read("Security.salt").$password);
 	}
-	
-   // Takes all results of user with ID 'fromId' and assigns them to 
-   // the user with id 'toId'
-   function merge_accounts($fromId, $toId) {
-	  // Do not overwrite a record if already exists for' toId'. I.e. if 
-	  // 'toId' ran event X, then do not copy and results for event X.
-	  
-	  // Merge results
-
-	  // Merge membership
-
-	  //
-   }
 
    function is_duplicate($data) {
 	  $q = $this->findAllByName($data['User']['name']);
@@ -146,7 +133,6 @@ class User extends AppModel {
 		 return true;
 	  else 
 		 return false;
-	  //$q = $this->find("all", array("conditions" => array("username == " => $data['User']['username'])));
    }
 	
 	/**

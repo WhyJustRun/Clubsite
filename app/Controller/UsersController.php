@@ -177,9 +177,8 @@ class UsersController extends AppController
 		}
 		
 		if (!empty($this->request->data['User']['email'])) {
-			$users = $this->User->find('all', array('conditions' => array('User.email' => $this->request->data['User']['email'])));
+			$users = $this->User->find('all', array('recursive' => -1, 'conditions' => array('email' => $this->request->data['User']['email'])));
 			$names = array();
-			
 			if (count($users) === 0) {
 				$this->Session->setFlash('No matching account with the email "' . $this->request->data['User']['email'] . '" was found.');
 				$this->redirect('/users/login');
