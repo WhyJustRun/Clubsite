@@ -18,7 +18,7 @@
 <?     }
     }
     echo $this->Form->input('repository_path', array('label'=>'Repository path: e.g. /maps/vancouver/ubc/ubc.ocd'));
-    echo $this->Form->input('scale');
+    echo $this->Form->input('scale', array('label'=>'Scale (e.g. 10000 means 1:10,000)'));
     echo $this->Form->hidden('lat', array('default' => Configure::read('Club.lat')));
     echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng'))); ?>
     </div>
