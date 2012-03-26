@@ -397,6 +397,7 @@ Configure::write('Privilege.Event.edit', 80);
 Configure::write('Privilege.Event.delete', 80);
 // Minimum access level for editing/adding a map
 Configure::write('Privilege.Map.edit', 80);
+Configure::write('Privilege.Map.delete', 80);
 // Minimum access level for editing a map
 Configure::write('Privilege.Map.view_ocad', 0);
 Configure::write('Privilege.MapStandard.edit', 100);

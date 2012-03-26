@@ -10,7 +10,7 @@ if($edit) {
     echo "<br/>";
 	echo $this->Html->link('Printable entries','/events/printableEntries/'.$event["Event"]["id"], array('class' => 'button'));
     echo "<br/>";
-    echo $this->Html->link('Delete event','/events/delete/'.$event["Event"]["id"], array('class' => 'button', 'onclick' => 'return confirm("Delete this event (including any defined organizers, courses and results)?");'));
+    echo $this->Html->link('Delete event','/events/delete/'.$event["Event"]["id"], array('class' => 'button red', 'onclick' => 'return confirm("Delete this event (including any defined organizers, courses and results)?");'));
 	// Get everything to line up nicely
 	echo "<br/><br/>";
 } else {

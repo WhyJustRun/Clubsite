@@ -95,12 +95,11 @@ class EventsController extends AppController {
             $cascade = true;
             $this->Event->delete($id, $cascade);
             $this->Session->setFlash('The event was deleted.', 'flash_success');
-            $this->redirect("/events/");
         }
         else {
             $this->Session->setFlash('No event id provided.');
-            $this->redirect("/events/$id");
         }
+        $this->redirect("/events/");
     }
 	
 	function planner() {

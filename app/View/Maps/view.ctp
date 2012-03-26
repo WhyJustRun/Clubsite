@@ -4,7 +4,9 @@
 <div class="right">
 <?php 
 if($edit) {
-    echo $this->Html->link('Edit', '/Maps/edit/'.$map["Map"]["id"], array('class' => 'button'));
+    echo $this->Html->link('Edit', '/maps/edit/'.$map["Map"]["id"], array('class' => 'button'));
+    echo "<br/>";
+    echo $this->Html->link('Delete','/maps/delete/'.$map["Map"]["id"], array('class' => 'button red', 'onclick' => 'return confirm("Delete this map?");'));
 }
 ?>
 </p>
