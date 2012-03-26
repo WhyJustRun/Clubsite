@@ -92,6 +92,7 @@ class MapsController extends AppController {
         $this->checkAuthorization(Configure::read('Privilege.Map.delete'));
         if(!empty($id)) {
             $this->Map->delete($id);
+            $this->Media->delete($id, "Map");
             $this->Session->setFlash('The map was deleted.', 'flash_success');
         }
         else {
