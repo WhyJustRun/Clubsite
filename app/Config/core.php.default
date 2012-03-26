@@ -394,6 +394,7 @@ Configure::write("Facebook", array('app' => array('id' => 'YOUR_FACEBOOK_APP_ID_
 
 // Minimum access level for adding/editing an event without being an organizer
 Configure::write('Privilege.Event.edit', 80);
+Configure::write('Privilege.Event.delete', 80);
 // Minimum access level for editing/adding a map
 Configure::write('Privilege.Map.edit', 80);
 // Minimum access level for editing a map

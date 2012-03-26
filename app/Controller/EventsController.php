@@ -88,6 +88,20 @@ class EventsController extends AppController {
 		$this->_editData();
 
 	}
+
+    function delete($id) {
+        $this->checkAuthorization(Configure::read('Privilege.Event.delete'));
+        if(!empty($id)) {
+            $cascade = true;
+            $this->Event->delete($id, $cascade);
+            $this->Session->setFlash('The event was deleted.', 'flash_success');
+            $this->redirect("/events/");
+        }
+        else {
+            $this->Session->setFlash('No event id provided.');
+            $this->redirect("/events/$id");
+        }
+    }
 	
 	function planner() {
 	   $this->set('title_for_layout', 'Event Planner');

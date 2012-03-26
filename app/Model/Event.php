@@ -50,8 +50,8 @@ class Event extends AppModel {
 	);
 
 	var $hasMany = array(
-		'Course',
-		'Organizer'
+        'Course' => array('className'=>'Course','dependent'=>true),
+		'Organizer'=> array('className'=>'Organizer','dependent'=>true)
 	);
 
 	function findAllBetween($startTimestamp, $endTimestamp) {
