@@ -43,6 +43,7 @@ if($edit) {
             No map image available.
         <?}?>
     </div>
+    <?php echo $this->element('Maps/events_on_map', array('events' => $events)); ?>
 <? /*
       <div class="column-box results-list">
          <h3>Revision history</h3>
