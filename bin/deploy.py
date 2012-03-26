@@ -181,6 +181,10 @@ def assemble_files(club):
 
 def assemble_data_dirs(club):
     assure_dir(club.tmp_data_path())
+    for data_type in settings.DATA_TYPES:
+        data_type_path = os.path.join(club.tmp_data_path(), data_type)
+        assure_dir(data_type_path)
+    execute('chmod -R 777 %s' % club.tmp_data_path())
     execute('ln -s %s %s' % (club.tmp_data_path(), club.data_path()))
 
 def execute(command):
