@@ -14,6 +14,7 @@ $(function() {
     	year: <?= $year ?>,
     	month: <?php echo(intval($month) - 1); // January = 0 ?>,
     	date: <?= $day ?>,
+        timeFormat: 'h:mmtt',
     	// From google code discussion
     	viewDisplay : function(view) {			
 			//I had to do a little bit of juggling to get it to only run items when necessary
