@@ -111,7 +111,14 @@ class UsersController extends AppController
    		return $this->User->isAuthorized(AuthComponent::user('id'), $authorizationLevel);
    }
 
-   function view($id) {
+   function view($id = null) {
+        $user = $this->User->find('first', array('conditions' => array('User.id' => $id), 'recursive' => -1));
+        if(!$user) {
+            $this->Session->setFlash("The requested profile couldn't be found.");
+            $this->redirect('/');
+            return;
+        }
+   
         if($this->request->data('User.message') != null) {
             $this->message();
         }
@@ -127,7 +134,6 @@ class UsersController extends AppController
             $this->set('is_subscribed', $this->_isSubscribed($id));
         }
         
-        $user = $this->User->find('first', array('conditions' => array('User.id' => $id), 'recursive' => -1));
         $this->set('title_for_layout', $user["User"]["name"]);
         $this->set('user', $user);
         $results = $this->User->Result->find('all', array( 'conditions' => array('Result.user_id' => $id), 'contain' => array('Course' => array('Event')), 'order'=>array('Result.points DESC')));

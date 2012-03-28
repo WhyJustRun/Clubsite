@@ -154,6 +154,7 @@ class EventsController extends AppController {
 		if(!$event) {
             $this->Session->setFlash("The event requested couldn't be found.");
             $this->redirect('/');
+            return;
 		}
 		
 		$startTime = new DateTime($event["Event"]["utc_date"]);

@@ -21,22 +21,22 @@ class MapsController extends AppController {
 	}
 	
 	function index() {
-        $this->loadModel('User');
         $this->set('maps', $this->Map->find('all'));
-        $this->set('edit', $this->User->isAuthorized(AuthComponent::user('id'), Configure::read('Privilege.Map.edit')));
+        $this->set('edit', $this->isAuthorized(Configure::read('Privilege.Map.edit')));
     }
 
-	function view($id) {
-        $this->loadModel("MapStandard");
-        $this->loadModel("Event");
-        $this->loadModel("Group");
-        $this->set('map', $this->Map->findById($id));
-		$this->set('map_standard', $this->MapStandard->findById(1));
-		$this->set('events', $this->Event->findAllByMapId($id));
-
-        $this->loadModel('User');
-		$this->set('view_ocad', $this->User->isAuthorized(AuthComponent::user('id'), Configure::read('Privilege.Map.view_ocad')));
-		$this->set('edit', $this->User->isAuthorized(AuthComponent::user('id'), Configure::read('Privilege.Map.edit')));
+	function view($id = null) {
+        $map = $this->Map->findById($id);
+        if(!$map) {
+            $this->Session->setFlash("The requested map couldn't be found.");
+            $this->redirect('/');
+            return;
+        }
+        $this->set('map', $map);
+		$this->set('map_standard', $this->Map->MapStandard->findById(1));
+		$this->set('events', $this->Map->Event->findAllByMapId($id));
+		$this->set('view_ocad', $this->isAuthorized(Configure::read('Privilege.Map.view_ocad')));
+		$this->set('edit', $this->isAuthorized(Configure::read('Privilege.Map.edit')));
 	}
 
     function update($id, $lat, $lng) {
@@ -47,9 +47,7 @@ class MapsController extends AppController {
    
     function download ($id) {
         // Check permission
-        $this->loadModel('User');
-		$view_ocad = $this->User->isAuthorized(AuthComponent::user('id'), Configure::read('Privilege.Map.view_ocad'));
-		if(!$view_ocad) {
+		if(!$this->isAuthorized(Configure::read('Privilege.Map.view_ocad'))) {
 			$this->Session->setFlash('You are not authorized to download this map.');
 			$this->redirect('/Maps/view/'.$id);
 		}
@@ -102,11 +100,8 @@ class MapsController extends AppController {
     }
    
    function edit($id = null) {
-		$user = $this->Auth->user();
-
       // Check permission
-      $this->loadModel('User');
-		$edit = $this->User->isAuthorized(AuthComponent::user('id'), Configure::read('Privilege.Map.edit'));
+		$edit = $this->isAuthorized(Configure::read('Privilege.Map.edit'));
 		if(!$edit) {
          if($id == null) {
    			$this->Session->setFlash('You are not authorized to add a map.');
