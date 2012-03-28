@@ -22,7 +22,7 @@
     
     echo "<!--[if lte IE 7]>";
     echo $this->Html->script('ie7/warning');
-    echo '<script>window.onload=function(){e("js/ie7/")}</script>';
+    echo '<script>window.onload=function(){e("/js/ie7/")}</script>';
     echo "<![endif]-->";
 
     
