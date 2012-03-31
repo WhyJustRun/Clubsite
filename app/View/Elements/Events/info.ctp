@@ -1,14 +1,14 @@
 <?php if(!$event["Event"]["completed"] && !empty($event["Series"]["information"])) { ?>
-<div class="column-box">
-	<h2><?= $event["Series"]["name"] ?> Series Info</h2>
-    <?= $this->Markdown->render($event["Series"]["information"])?>
-</div>
+	<div class="column-box">
+		<h2><?= $event["Series"]["name"] ?> Series Info</h2>
+		<?= $this->Markdown->render($event["Series"]["information"]) ?>
+	</div>
 <?php } ?>
 
 <div class="column-box">
 	<h2>Event Information</h2>
 	<?php if(!empty($event["Organizer"])) { ?>
-	<p><?= count($event["Organizer"]) > 1 ? 'Organizers' : 'Organizer' ?>: <?= $this->element('Organizers/list', array('organizers' => $event["Organizer"])); ?></p>
+		<p><?= count($event["Organizer"]) > 1 ? 'Organizers' : 'Organizer' ?>: <?= $this->element('Organizers/list', array('organizers' => $event["Organizer"])); ?></p>
 	<?php }
 	if(!empty($event["Event"]["description"])) { 
 		// TODO-RWP Should sanitize imported data instead
@@ -19,10 +19,8 @@
 </div>
 
 <?php if(!empty($event["Event"]["lat"])) { ?>
-<div class="column-box">
-	<h2>Location</h2>
-	<?php 
-	echo $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px');
-	?>
-</div>
+	<div class="column-box">
+		<h2>Location</h2>
+		<?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px'); ?>
+	</div>
 <?php } ?>

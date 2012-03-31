@@ -4,17 +4,17 @@ class EventsController extends AppController {
 	var $name = 'Events';
 	
 	var $components = array(
-	   'RequestHandler',
-	   'Media' => array(
-	       'type' => 'Event',
-	       'allowedExts' => array('xml'),
-	       'thumbnailSizes' => array('')
-	   )
-    );
+	'RequestHandler',
+	'Media' => array(
+	'type' => 'Event',
+	'allowedExts' => array('xml'),
+	'thumbnailSizes' => array('')
+	)
+	);
 	var $helpers = array("Time", "Geocode", "Form", "TimePlus", 'Leaflet', 'Markdown', 'Session', 'Media');
 	
 	function beforeFilter() {
-        parent::beforeFilter();
+		parent::beforeFilter();
 		$this->Auth->allow('index', 'upcoming', 'past', 'major', 'view', 'rendering', 'planner', 'embed');
 	}
 	
@@ -28,7 +28,7 @@ class EventsController extends AppController {
 			$this->set('month', $dateParts[1]);
 			$this->set('day', $dateParts[0]);
 		} else {
-            $this->set("events", array());
+			$this->set("events", array());
 			if(!empty($startTimestamp) && !empty($endTimestamp)) {
 				$this->set("events", $this->Event->findAllBetween($startTimestamp,$endTimestamp));
 			}
@@ -38,29 +38,29 @@ class EventsController extends AppController {
 			$this->set('day', date('d'));
 		}
 		
-        $this->set('series', $this->Event->Series->findAllByIsCurrent(1));
+		$this->set('series', $this->Event->Series->findAllByIsCurrent(1));
 	}
 	
-    // Displays a rendering of the results (manually uploaded)
-    function rendering($id) {
-        $this->Media->display($id);
-    }
+	// Displays a rendering of the results (manually uploaded)
+	function rendering($id) {
+		$this->Media->display($id);
+	}
 	
 	function edit($id = null) {
-        if($id == null) {
-            // Add event
-            $this->checkAuthorization(Configure::read('Privilege.Event.edit'));
-    		$this->set('title_for_layout', 'Add Event');
-            $this->_setLists();
-            $this->set('type', 'Add');
-        } else {
-            // Edit event
-    		$this->set('title_for_layout', 'Edit Event');
-            $this->set('type', 'Edit');
-            $this->_checkEditAuthorization($id);
-            $this->_setLists();
-            $this->Event->id = $id;
-        }
+		if($id == null) {
+			// Add event
+			$this->checkAuthorization(Configure::read('Privilege.Event.edit'));
+			$this->set('title_for_layout', 'Add Event');
+			$this->_setLists();
+			$this->set('type', 'Add');
+		} else {
+			// Edit event
+			$this->set('title_for_layout', 'Edit Event');
+			$this->set('type', 'Edit');
+			$this->_checkEditAuthorization($id);
+			$this->_setLists();
+			$this->Event->id = $id;
+		}
 
 	
 		if ($this->request->is('post')) {
@@ -80,56 +80,56 @@ class EventsController extends AppController {
 				$this->Session->setFlash('The event has been updated.', 'flash_success');
 				$this->redirect('/events/view/'.$this->Event->id);
 			}
-            else {
+			else {
 				$this->Session->setFlash('The event could not be updated.');
-            }
+			}
 		}
 
 		$this->_editData();
 
 	}
 
-    function delete($id) {
-        $this->checkAuthorization(Configure::read('Privilege.Event.delete'));
-        if(!empty($id)) {
-            $cascade = true;
-            $this->Event->delete($id, $cascade);
-            $this->Session->setFlash('The event was deleted.', 'flash_success');
-        }
-        else {
-            $this->Session->setFlash('No event id provided.');
-        }
-        $this->redirect("/events/");
-    }
+	function delete($id) {
+		$this->checkAuthorization(Configure::read('Privilege.Event.delete'));
+		if(!empty($id)) {
+			$cascade = true;
+			$this->Event->delete($id, $cascade);
+			$this->Session->setFlash('The event was deleted.', 'flash_success');
+		}
+		else {
+			$this->Session->setFlash('No event id provided.');
+		}
+		$this->redirect("/events/");
+	}
 	
 	function planner() {
-	   $this->set('title_for_layout', 'Event Planner');
-	   $this->set('maps', $this->Event->Map->findRarelyUsed());
-	   $this->set('users', $this->Event->Organizer->findVolunteers());
+		$this->set('title_for_layout', 'Event Planner');
+		$this->set('maps', $this->Event->Map->findRarelyUsed());
+		$this->set('users', $this->Event->Organizer->findVolunteers());
 	}
 
-    function printableEntries($id) {
+	function printableEntries($id) {
 		$contain = array(
-			'Series', 
-			'Course' => array(
-				'Result' => array('User.name', 'User.id', 'User.username', 'User.si_number', 'User.is_member')
-			)
+		'Series', 
+		'Course' => array(
+		'Result' => array('User.name', 'User.id', 'User.username', 'User.si_number', 'User.is_member')
+		)
 		);
 		$event = $this->Event->find('first', array('conditions' => array('Event.id' => $id), 'contain' => $contain));
-        $event["Result"] = @Set::sort($event["Result"], "{n}.User.name", 'asc');
-        $this->set('event', $event);
-        $this->layout = 'printable';
+		$event["Result"] = @Set::sort($event["Result"], "{n}.User.name", 'asc');
+		$this->set('event', $event);
+		$this->layout = 'printable';
 
-    }
-    function uploadMaps($id=null) {
-        $this->_checkEditAuthorization($id);
-        $this->set('title_for_layout', 'Upload Course Maps');
-        $this->set('courses', $this->Event->Course->findAllByEventId($id));
-        $this->set('id', $id);
-    }
+	}
+	function uploadMaps($id=null) {
+		$this->_checkEditAuthorization($id);
+		$this->set('title_for_layout', 'Upload Course Maps');
+		$this->set('courses', $this->Event->Course->findAllByEventId($id));
+		$this->set('id', $id);
+	}
 	
 	function _setLists() {
-        $this->set('maps', $this->Event->Map->find('list', array('order'=>'Map.name')));
+		$this->set('maps', $this->Event->Map->find('list', array('order'=>'Map.name')));
 		$this->set('series', $this->Event->Series->find('list'));
 		$this->set('groups', $this->Event->Group->find('list'));
 		$this->set('eventClassifications', $this->Event->EventClassification->find('list'));
@@ -138,23 +138,23 @@ class EventsController extends AppController {
 
 	function view($id = null) {
 		$contain = array(
-			'Series', 
-			'Organizer' => array(
-				'User' => array(
-					'fields' => array('id', 'name', 'username')
-				), 'Role'
-			), 
-			'Course' => array(
-				'Result' => array('User.name', 'User.id', 'User.username', 'User.si_number')
-			)
+		'Series', 
+		'Organizer' => array(
+		'User' => array(
+		'fields' => array('id', 'name', 'username')
+		), 'Role'
+		), 
+		'Course' => array(
+		'Result' => array('User.name', 'User.id', 'User.username', 'User.si_number')
+		)
 		);
 		$event = $this->Event->find('first', array('conditions' => array('Event.id' => $id), 'contain' => $contain));
 		$user = AuthComponent::user();
 		
 		if(!$event) {
-            $this->Session->setFlash("The event requested couldn't be found.");
-            $this->redirect('/');
-            return;
+			$this->Session->setFlash("The event requested couldn't be found.");
+			$this->redirect('/');
+			return;
 		}
 		
 		$startTime = new DateTime($event["Event"]["utc_date"]);
@@ -164,7 +164,7 @@ class EventsController extends AppController {
 			$event["Event"]["completed"] = false;
 		}
 		
-        $course["Result"] = @Set::sort($course["Result"], "{n}.User.name", 'asc');
+		$course["Result"] = @Set::sort($course["Result"], "{n}.User.name", 'asc');
 		foreach($event["Course"] as &$course) {
 			$registered = false;
 
@@ -184,9 +184,9 @@ class EventsController extends AppController {
 		$this->set('event', $event);
 		$this->set('edit', $this->Event->Organizer->isAuthorized($id, AuthComponent::user('id')));
 	}
-    function results($id) {
-        return $this->view($id);
-    }
+	function results($id) {
+		return $this->view($id);
+	}
 
 	function editResults($id) {
 		$this->set('title_for_layout', 'Edit Results');
@@ -215,31 +215,31 @@ class EventsController extends AppController {
 					}
 					array_push($updatedResults, $processedResult);					
 				}
-                if(empty($updatedResults) || $this->Event->Course->Result->saveAll($updatedResults)) {
-                    $this->Event->Course->Result->calculatePoints($course->id);
-                    if($this->Event->saveField('results_posted', $this->request->data["Event"]["results_posted"])) {
-                    }
-                }
+				if(empty($updatedResults) || $this->Event->Course->Result->saveAll($updatedResults)) {
+					$this->Event->Course->Result->calculatePoints($course->id);
+					if($this->Event->saveField('results_posted', $this->request->data["Event"]["results_posted"])) {
+					}
+				}
 			}
-            $this->redirect("/events/view/${id}");
+			$this->redirect("/events/view/${id}");
 		}
 		$this->set('eventId', $id);
 	}
 
 	function upcoming($limit)
 	{
-        $time = new DateTime();
+		$time = new DateTime();
 		return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id'), 'conditions' => array('Event.date >=' => $time->format("Y-m-d H:i:s")), 'order' => 'Event.date ASC'));
 	}
 	function major($limit)
 	{
-        $time = new DateTime();
-        return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id'), 'conditions' => array('Event.date >=' => $time->format("Y-m-d H:i:s"), 'Event.series_id =' => 1), 'order' => 'Event.date ASC'));
+		$time = new DateTime();
+		return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id'), 'conditions' => array('Event.date >=' => $time->format("Y-m-d H:i:s"), 'Event.series_id =' => 1), 'order' => 'Event.date ASC'));
 	}
 	
 	function past($limit)
 	{
-        $time = new DateTime();
+		$time = new DateTime();
 		return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id'), 'conditions' => array('Event.date <=' => $time->format("Y-m-d H:i:s")), 'order' => 'Event.date DESC'));
 	}
 	
