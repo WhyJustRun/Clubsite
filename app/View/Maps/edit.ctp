@@ -21,11 +21,11 @@
        if($this->Media->exists('Map', $map["Map"]["id"], '60x60')) { ?>
             <div class="input"><label>Current banner image</label></div>
             <?= $this->Media->image("Map", $map["Map"]["id"], '60x60') ?>
+        <?     }?>
             <?=$this->Html->link('Generate new', '/maps/generateBanner/'.$map["Map"]["id"], array('class' => 'button'))?>
-<?     }
 
     
-    }
+        <?}
     echo $this->Form->hidden('lat', array('default' => Configure::read('Club.lat')));
     echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng'))); ?>
     </div>
