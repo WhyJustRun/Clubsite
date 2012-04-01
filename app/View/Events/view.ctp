@@ -4,7 +4,7 @@
 if($edit) {
 	echo $this->Html->link('Edit', '/events/edit/'.$event["Event"]["id"], array('class' => 'button'));
 	echo "<br/>";
-	echo $this->Html->link('Post Results','/events/editResults/'.$event["Event"]["id"], array('class' => 'button'));
+	echo $this->Html->link('Edit Results','/events/editResults/'.$event["Event"]["id"], array('class' => 'button'));
 	echo "<br/>";
 //	echo $this->Html->link('Upload Results','/events/uploadResults/'.$event["Event"]["id"], array('class' => 'button'));
 //	echo "<br/>";
@@ -107,7 +107,6 @@ if($edit) {
 		<header>
 			<h2>Results</h2>
 		</header>
-        <?= $this->Html->link('Edit','/events/editResults/'.$event["Event"]["id"], array('class' => 'button'))?>
         <?php echo $this->element('Events/files', array('id' => $event["Event"]["id"])); ?>
 		<div class="results-list">
 		<?= $this->Html->script('result_viewer'); ?>          		
