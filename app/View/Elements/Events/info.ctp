@@ -1,8 +1,8 @@
 <?php if(!$event["Event"]["completed"] && !empty($event["Series"]["information"])) { ?>
-<div class="column-box">
-	<h2><?= $event["Series"]["name"] ?> Series Info</h2>
-    <?= $this->Markdown->render($event["Series"]["information"])?>
-</div>
+	<div class="column-box">
+		<h2><?= $event["Series"]["name"] ?> Series Info</h2>
+		<?= $this->Markdown->render($event["Series"]["information"]) ?>
+	</div>
 <?php } ?>
 
 <div class="column-box">
@@ -25,10 +25,8 @@
 </div>
 
 <?php if(!empty($event["Event"]["lat"])) { ?>
-<div class="column-box">
-	<h2>Location</h2>
-	<?php 
-	echo $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px');
-	?>
-</div>
+	<div class="column-box">
+		<h2>Location</h2>
+		<?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px'); ?>
+	</div>
 <?php } ?>

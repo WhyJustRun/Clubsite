@@ -4,17 +4,17 @@ class CoursesController extends AppController {
 	var $name = 'Courses';
 
 	var $components = array(
-	   'RequestHandler',
-	   'Media' => array(
-	       'type' => 'Course',
-	       'allowedExts' => array('jpg', 'jpeg', 'gif', 'png', 'pdf'),
-	       'thumbnailSizes' => array('100x150')
-	   )
-    );
+	'RequestHandler',
+	'Media' => array(
+	'type' => 'Course',
+	'allowedExts' => array('jpg', 'jpeg', 'gif', 'png', 'pdf'),
+	'thumbnailSizes' => array('100x150')
+	)
+	);
 	
 	function beforeFilter()
 	{
-    	parent::beforeFilter();
+		parent::beforeFilter();
 		$this->Auth->allow('view', 'map');
 	}
 	
@@ -61,28 +61,28 @@ class CoursesController extends AppController {
 	}
 	
 	function uploadMap($id) {
-	   $course = $this->Course->findById($id);
-	   if(!$this->Course->Event->Organizer->isAuthorized($course['Event']['id'], AuthComponent::user('id'))) {
-	       $this->Session->setFlash("You aren't authorized to upload a map");
-	       $this->redirect('/events/view/'.$course['Event']['id']);
-	   }
+		$course = $this->Course->findById($id);
+		if(!$this->Course->Event->Organizer->isAuthorized($course['Event']['id'], AuthComponent::user('id'))) {
+			$this->Session->setFlash("You aren't authorized to upload a map");
+			$this->redirect('/events/view/'.$course['Event']['id']);
+		}
 	   
-	   if($this->request->is('post')) {
-           if($this->request->data['Course']['image']['name'] != "") {
-    	       $this->Media->create($this->request->data['Course']['image'], $id);
-           }
-           else {
-               $this->Session->setFlash('No file selected!');
-               $this->redirect('/events/uploadMaps/'.$course['Event']['id']);
-           }
-	   }
+		if($this->request->is('post')) {
+			if($this->request->data['Course']['image']['name'] != "") {
+				$this->Media->create($this->request->data['Course']['image'], $id);
+			}
+			else {
+				$this->Session->setFlash('No file selected!');
+				$this->redirect('/events/uploadMaps/'.$course['Event']['id']);
+			}
+		}
 	   
-	   $this->Session->setFlash('Course map uploaded!', 'flash_success');
-	   $this->redirect('/events/uploadMaps/'.$course['Event']['id']);
+		$this->Session->setFlash('Course map uploaded!', 'flash_success');
+		$this->redirect('/events/uploadMaps/'.$course['Event']['id']);
 	}
 	
 	function map($id, $thumbnail = false) {
-	   $this->Media->display($id, $thumbnail);
+		$this->Media->display($id, $thumbnail);
 	}
 	
 	function unregister($id) {
