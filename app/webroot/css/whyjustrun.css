@@ -361,7 +361,7 @@ ul, li {
 }
 
 .event-box {
-	margin: 40px;
+    margin: 10px;
 	margin-bottom: 5px;
 	margin-top: 5px;
 }
@@ -371,6 +371,9 @@ ul, li {
 	color: #000000;
 	text-decoration: none;
 	
+}
+.event-box-icon {
+    float: right;
 }
 
 .event-box-inner, .news-item {
@@ -384,6 +387,8 @@ ul, li {
 	color: #000000;
 	text-decoration: none;
 	font-weight: normal;
+    clear: both;
+    overflow: hidden;
 }
 
 .event-box .location {
@@ -398,6 +403,8 @@ ul, li {
 
 .event-box .date {
 	font-weight: bold;
+}
+.event-box-left {
 }
 
 #home_left {
