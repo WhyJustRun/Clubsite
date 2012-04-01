@@ -53,6 +53,13 @@ class Event extends AppModel {
         'Course' => array('className'=>'Course','dependent'=>true),
 		'Organizer'=> array('className'=>'Organizer','dependent'=>true)
 	);
+    function beforeSave(){
+        parent::beforeSave();
+        if($this->data['Event']['custom_url']=='') {
+            $this->data['Event']['custom_url'] = NULL;
+        }
+        return true;
+    }
 
 	function findAllBetween($startTimestamp, $endTimestamp) {
 		$startTime = date("Y-m-d H:i:s", $startTimestamp);

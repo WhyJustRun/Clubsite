@@ -138,7 +138,8 @@ class EventsController extends AppController {
 
 	function view($id = null) {
 		$contain = array(
-			'Series', 
+            'Series', 
+			'Map', 
 			'Organizer' => array(
 				'User' => array(
 					'fields' => array('id', 'name', 'username')
@@ -228,18 +229,18 @@ class EventsController extends AppController {
 	function upcoming($limit)
 	{
         $time = new DateTime();
-		return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id'), 'conditions' => array('Event.date >=' => $time->format("Y-m-d H:i:s")), 'order' => 'Event.date ASC'));
+		return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id', 'Series.name'), 'conditions' => array('Event.date >=' => $time->format("Y-m-d H:i:s")), 'order' => 'Event.date ASC'));
 	}
 	function major($limit)
 	{
         $time = new DateTime();
-        return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id'), 'conditions' => array('Event.date >=' => $time->format("Y-m-d H:i:s"), 'Event.series_id =' => 1), 'order' => 'Event.date ASC'));
+        return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id', 'Series.name'), 'conditions' => array('Event.date >=' => $time->format('Y') . "-01-01 00:00:00", 'Event.event_classification_id <= ' => 4), 'order' => 'Event.date ASC'));
 	}
 	
 	function past($limit)
 	{
         $time = new DateTime();
-		return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id'), 'conditions' => array('Event.date <=' => $time->format("Y-m-d H:i:s")), 'order' => 'Event.date DESC'));
+		return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id', 'Series.name'), 'conditions' => array('Event.date <=' => $time->format("Y-m-d H:i:s")), 'order' => 'Event.date DESC'));
 	}
 	
 	function _isBeforeNow($dateTime) {

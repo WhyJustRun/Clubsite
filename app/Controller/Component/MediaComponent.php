@@ -120,6 +120,26 @@ class MediaComponent extends Component {
     private function createThumbnail($source, $destination, $size) {
         shell_exec("convert '$source' -resize $size\> '$destination'");
     }
+
+    public function createCroppedThumbnail($id, $type, $size) {
+        $this->loadType($type);
+        $folder = $this->folder($type);
+        $source = $this->findFile($id, $folder);
+
+        $image = new Imagick($source);
+        $d = $image->getImageGeometry();
+        $origSizeX = $d['width'];
+        $origSizeY = $d['height']; 
+        //echo "ORIGINAL SIZE $origSizeX $origSizeY";
+
+        $destination = $folder . $id . "_$size." . $this->thumbnailExtension;
+        $offsetX = rand(0,$origSizeX);
+        $offsetY = rand(0,$origSizeY);
+        //echo "OFFSETS $offsetX, $offsetY";
+        $str = "convert -crop ${size}+${offsetX}+${offsetY} -resize " . $size .' +repage ' . $source . ' ' . $destination;
+        //echo "STRING $str";
+        shell_exec("convert -crop ${size}+${offsetX}+${offsetY} -resize $size +repage $source $destination");
+    }
     
     private function findFile($id, $folder) {
         $matches = glob($folder . $id . ".*");

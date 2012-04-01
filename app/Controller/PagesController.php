@@ -43,7 +43,7 @@ class PagesController extends AppController {
  *
  * @var array
  */
-	public $helpers = array('Html', 'Session', 'Geocode', 'Markdown', 'FacebookGraph', 'Form');
+	public $helpers = array('Html', 'Session', 'Geocode', 'Markdown', 'FacebookGraph', 'Form', 'Media');
 
     function beforeFilter() {
 		parent::beforeFilter();

@@ -8,8 +8,14 @@
 <div class="column-box">
 	<h2>Event Information</h2>
 	<?php if(!empty($event["Organizer"])) { ?>
-	<p><?= count($event["Organizer"]) > 1 ? 'Organizers' : 'Organizer' ?>: <?= $this->element('Organizers/list', array('organizers' => $event["Organizer"])); ?></p>
+    <p><?= count($event["Organizer"]) > 1 ? '<b>Organizers</b>' : '<b>Organizer</b>' ?>: <?= $this->element('Organizers/list', array('organizers' => $event["Organizer"])); ?></p>
 	<?php }
+
+    if(!empty($event["Map"])) { 
+        $map_id = $event["Map"]["id"];?>
+        <p><b>Map</b>: <?= $this->Html->link($event["Map"]["name"],"/maps/view/$map_id")?></p>
+	<?php }
+
 	if(!empty($event["Event"]["description"])) { 
 		// TODO-RWP Should sanitize imported data instead
 		echo $this->Markdown->render($event["Event"]["description"]);

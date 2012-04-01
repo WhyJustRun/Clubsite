@@ -12,7 +12,7 @@ $maxLat = -90;
 $minLng = 180;
 $maxLng = -180;
 
-$contentsMinWidth = 150;
+$contentsMinWidth = 230;
 $delta = 0.01; // boundary padding in degrees
 
 $options = array();
@@ -24,13 +24,13 @@ foreach($maps as $map) {
 	$minLng = min($minLng, $map["Map"]["lng"]);
 	$maxLng = max($maxLng, $map["Map"]["lng"]);
 
-	if($this->Media->exists('Map', $map["Map"]["id"])) {
-	   $image = "<br>".$this->Media->image("Map", $map["Map"]["id"], '50x50');
+	if($this->Media->exists('Map', $map["Map"]["id"], '60x60')) {
+	   $image = "<br>".$this->Media->image("Map", $map["Map"]["id"], '60x60');
 	} else {
 	   $image = null;
 	}
 	
-	$content = $map["Map"]["name"] . ' (<a href="/maps/view/' . $map["Map"]["id"] . '">More info</a>)' . $image;
+    $content = '<h3>' . $map["Map"]["name"] . '</h3>' . ' (<a href="/maps/view/' . $map["Map"]["id"] . '">More info</a>)' . $image;
 
 	if($map["Map"]["map_standard_id"] == 1) {
 		$iconUrl = "/img/leaflet/greenmarker.png";
@@ -65,6 +65,7 @@ echo $this->Leaflet->map($options);
     <img src="/img/leaflet/redmarker.png"> Sprint maps (ISSOM)
     <img src="/img/leaflet/greenmarker.png"> Other maps (ISOM)
     <br/><br/>
+    <?=$this->Html->link('Full list of maps', '/maps/report', array('class' => 'button'))?>
     <?php 
     if($edit) {
         echo $this->Html->link('Add', '/Maps/edit', array('class' => 'button'));

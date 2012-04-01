@@ -17,7 +17,7 @@ class MapsController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-		$this->Auth->allow('index', 'view', 'rendering');
+		$this->Auth->allow('index', 'view', 'rendering', 'report');
 	}
 	
 	function index() {
@@ -87,6 +87,12 @@ class MapsController extends AppController {
     function rendering($id, $thumbnail = false) {
         $this->Media->display($id, $thumbnail);
     }
+
+    function generateBanner($id) {
+        $this->Media->createCroppedThumbnail($id, 'Map', '60x60');
+        $this->redirect("/maps/edit/$id");
+        return;
+    }
    
     function delete($id) {
         $this->checkAuthorization(Configure::read('Privilege.Map.delete'));
@@ -99,6 +105,11 @@ class MapsController extends AppController {
             $this->Session->setFlash('No map id provided.');
         }
         $this->redirect("/maps/");
+    }
+    function report() {
+        $maps = $this->Map->find('all');
+        $maps = @Set::sort($maps, "{n}.Map.name", 'asc');
+        $this->set('maps', $maps);
     }
    
    function edit($id = null) {

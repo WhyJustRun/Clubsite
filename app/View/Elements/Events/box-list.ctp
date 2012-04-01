@@ -11,6 +11,6 @@ foreach($events as $event) {
 		$city = $geocodeData["city"];
 	}
 	
-	echo $this->element('Events/box', array('location' => $event["Event"]["name"], 'date' => $date->format('D F jS g:ia'), 'city' => $city, 'link' => $event["Event"]["url"], 'style' => $event["Series"]["id"])); 
+    echo $this->element('Events/box', array('name' => $event["Series"]["name"], 'location' => $event["Event"]["name"], 'date' => $date->format('D F jS g:ia'), 'city' => $city, 'link' => $event["Event"]["url"], 'style' => $event["Series"]["id"], 'mapId' => $event["Event"]["map_id"])); 
 }
 ?>
