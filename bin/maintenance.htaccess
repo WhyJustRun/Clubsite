@@ -1,8 +1,0 @@
-<IfModule mod_rewrite.c>
-    # will redirect to maintenance page only if it exists - deploy script creates the page on start and removes the page when it finishes
-    RewriteEngine On
-    RewriteBase /
-    RewriteCond %{DOCUMENT_ROOT}/maintenance.html -f
-    RewriteCond %{REQUEST_FILENAME} !/maintenance.html
-    RewriteRule ^.*$    /maintenance.html [L] 
-</IfModule>
