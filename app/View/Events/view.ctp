@@ -6,6 +6,8 @@ if($edit) {
 	echo "<br/>";
 	echo $this->Html->link('Post Results','/events/editResults/'.$event["Event"]["id"], array('class' => 'button'));
 	echo "<br/>";
+//	echo $this->Html->link('Upload Results','/events/uploadResults/'.$event["Event"]["id"], array('class' => 'button'));
+//	echo "<br/>";
 	echo $this->Html->link('Upload Maps','/events/uploadMaps/'.$event["Event"]["id"], array('class' => 'button'));
     echo "<br/>";
 	echo $this->Html->link('Printable entries','/events/printableEntries/'.$event["Event"]["id"], array('class' => 'button'));
@@ -22,6 +24,9 @@ if($edit) {
 	<h1 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Event"]["name"]; ?></h1>
 	<h2 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Series"]["name"] ?></h2>
 	<h3 class="event-header"><?php $date = new DateTime($event["Event"]["date"]); echo $date->format("F jS Y g:ia"); ?></h3>
+    <? if($event["Event"]["custom_url"] != "") {?>
+    <h3 class="event-header">External website: <?= $this->Html->link($event["Event"]["custom_url"])?></h3>
+    <?}?>
 </header>
 
 <?php if($event["Event"]["results_posted"] === '0' ) { 
@@ -102,6 +107,7 @@ if($edit) {
 		<header>
 			<h2>Results</h2>
 		</header>
+        <?= $this->Html->link('Edit','/events/editResults/'.$event["Event"]["id"], array('class' => 'button'))?>
         <?php echo $this->element('Events/files', array('id' => $event["Event"]["id"])); ?>
 		<div class="results-list">
 		<?= $this->Html->script('result_viewer'); ?>          		

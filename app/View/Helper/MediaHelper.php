@@ -37,8 +37,13 @@ class MediaHelper extends Helper {
         return $endpoint . $id;
     }
     
-    public function exists($type, $id) {
-        $matches = glob(Configure::read("$type.dir").$id.".*");
+    public function exists($type, $id, $thumbnail = false) {
+        if(!$thumbnail) {
+            $matches = glob(Configure::read("$type.dir").$id.".*");
+        }
+        else {
+            $matches = glob(Configure::read("$type.dir")."${id}_${thumbnail}.*");
+        }
         if(count($matches) == 1) {
             return true;
         } else if(count($matches) == 0) {

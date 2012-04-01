@@ -14,6 +14,7 @@ echo $this->Form->hidden('courses', array('value' => $this->data["Event"]["cours
 	   // TODO: This should be a javascript datetime picker (though there are few options)
 	   echo $this->Form->input('date', array('type' => 'text'));
        echo $this->Form->input('event_classification_id', array('empty' => 'Choose classification'));
+       echo $this->Form->input('custom_url', array('label' => 'Event URL (if external website)'));
 	?>
 	<?
 	   echo $this->Form->input('description', array('style' => 'height: 300px'));
