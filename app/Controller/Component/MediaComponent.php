@@ -11,22 +11,22 @@ class MediaComponent extends Component {
         $this->thumbnailSizes = !empty($options['thumbnailSizes']) ? $options['thumbnailSizes'] : null;
         $this->thumbnailExtension = !empty($options['thumbnailExt']) ? $options['thumbnailExt'] : $this->thumbnailExtension;
     }
-    
+
     function initialize($controller) {
         $this->controller = $controller;
     }
 
     /**
-    * $file is a PHP file upload associativeArray
-    */
+     * $file is a PHP file upload associativeArray
+     */
     public function create($file, $id, $type = null) {
         if(empty($file['name']) || empty($file['tmp_name'])) {
             throw new Exception('No file to create was provided.');
         }
-    
+
         $this->loadType($type);
         $this->delete($id, $type);
-        
+
         $folder = $this->folder($type);
         $ext = $this->extensionOf($file['name']);
         $filename = $folder . $id . '.' . $ext;
@@ -36,13 +36,13 @@ class MediaComponent extends Component {
             $exts = implode(',', $this->allowedExts);
             throw new Exception('The uploaded file format is not allowed. Please use one of ' . $exts);
         }
-        
+
         foreach($this->thumbnailSizes as $thumbnailSize) {
             $thumbnailPath = $folder . $id . '_' . $thumbnailSize . '.' . $this->thumbnailExtension;
             $this->createThumbnail($filename, $thumbnailPath, $thumbnailSize);
         }
     }
-    
+
     public function delete($id, $type = null) {
         $this->loadType($type);
         $folder = $this->folder($type);        
@@ -50,10 +50,10 @@ class MediaComponent extends Component {
         if($file) {
             $this->deleteFile($file);
         }
-        
+
         $this->deleteFiles($this->findThumbnails($id, $folder));
     }
-    
+
     // $thumbnail can be false or the desired size (100x100) for example
     public function get($id, $thumbnail = false, $type = null) {
         $this->loadType($type);
@@ -65,13 +65,13 @@ class MediaComponent extends Component {
             return $this->findThumbnail($id, $folder, $thumbnail);
         }
     }
-    
+
     public function exists($id, $thumbnail = false, $type = null) {
         $file = $this->get($id, $thumbnail, $type);
         return $file ? true : false;
     }
-    
-    
+
+
     // deprecated
     public function attachResources(&$entities, $resources) {
         foreach($entities as &$entity) {
@@ -79,7 +79,7 @@ class MediaComponent extends Component {
         }
         return $entities;
     }
-    
+
     // deprecated
     public function attachResource(&$entity, $resources) {
         if($entity[$this->defaultType]['id']) {
@@ -96,7 +96,7 @@ class MediaComponent extends Component {
         }
         return $entity;
     }
-    
+
     public function display($id, $thumbnail = false, $type = null) {
         $this->loadType($type);
         $file = $this->get($id, $thumbnail, $type);
@@ -116,7 +116,7 @@ class MediaComponent extends Component {
         );
         $this->controller->set($params);
     }
-    
+
     private function createThumbnail($source, $destination, $size) {
         shell_exec("convert '$source' -resize $size\> '$destination'");
     }
@@ -140,7 +140,7 @@ class MediaComponent extends Component {
         //echo "STRING $str";
         shell_exec("convert -crop ${size}+${offsetX}+${offsetY} -resize $size +repage $source $destination");
     }
-    
+
     private function findFile($id, $folder) {
         $matches = glob($folder . $id . ".*");
         if(count($matches) > 1) {
@@ -148,14 +148,14 @@ class MediaComponent extends Component {
         } else if(count($matches) == 0) {
             return false;
         }
-        
+
         return $matches[0];
     }
 
     private function findThumbnails($id, $folder) {
         return glob($folder . $id . "_*." . $this->thumbnailExtension);
     }
-    
+
     private function findThumbnail($id, $folder, $thumbnail) {
         $matches = glob($folder . $id . "_$thumbnail." . $this->thumbnailExtension);
         if(count($matches) > 1) {
@@ -163,10 +163,10 @@ class MediaComponent extends Component {
         } else if(count($matches) == 0) {
             return false;
         }
-        
+
         return $matches[0];
     }
-    
+
     private function folder($type) {
         $folder = Configure::read("$type.dir");
         if(!$folder) {
@@ -174,22 +174,22 @@ class MediaComponent extends Component {
         }
         return $folder;
     }
-    
+
     private function deleteFiles($files) {
         foreach($files as $file) {
             $this->deleteFile($file);
         }
     }
-    
+
     private function deleteFile($file) {
         shell_exec("rm -f '$file'");
     }
-    
+
     private function extensionOf($file) {
         $path = pathinfo($file);
         return strtolower($path['extension']);
     }
-    
+
     private function loadType(&$type) {
         $type = $type ? $type : $this->defaultType;
         if(!$type) {

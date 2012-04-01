@@ -1,86 +1,86 @@
 <?php
 class MapsController extends AppController {
 
-	var $name = 'Maps';
+    var $name = 'Maps';
 
-	var $components = array(
-	'RequestHandler',
-	'Media' => array(
-	'type' => 'Map',
-	'allowedExts' => array('jpg', 'jpeg', 'gif', 'png'),
-	'thumbnailSizes' => array('400x600', '50x50'),
-	'thumbnailExt' => 'gif'
-	)
-	);
-    
-	var $helpers = array("Time", "Geocode", "Form", "Leaflet", 'Media');
+    var $components = array(
+        'RequestHandler',
+        'Media' => array(
+            'type' => 'Map',
+            'allowedExts' => array('jpg', 'jpeg', 'gif', 'png'),
+            'thumbnailSizes' => array('400x600', '50x50'),
+            'thumbnailExt' => 'gif'
+        )
+    );
+
+    var $helpers = array("Time", "Geocode", "Form", "Leaflet", 'Media');
 
     function beforeFilter() {
         parent::beforeFilter();
-		$this->Auth->allow('index', 'view', 'rendering', 'report');
-	}
-	
-	function index() {
-		$this->set('maps', $this->Map->find('all'));
-		$this->set('edit', $this->isAuthorized(Configure::read('Privilege.Map.edit')));
-	}
+        $this->Auth->allow('index', 'view', 'rendering', 'report');
+    }
 
-	function view($id = null) {
-		$map = $this->Map->findById($id);
-		if(!$map) {
-			$this->Session->setFlash("The requested map couldn't be found.");
-			$this->redirect('/');
-			return;
-		}
-		$this->set('map', $map);
-		$this->set('map_standard', $this->Map->MapStandard->findById(1));
-		$this->set('events', $this->Map->Event->findAllByMapId($id));
-		$this->set('view_ocad', $this->isAuthorized(Configure::read('Privilege.Map.view_ocad')));
-		$this->set('edit', $this->isAuthorized(Configure::read('Privilege.Map.edit')));
-	}
+    function index() {
+        $this->set('maps', $this->Map->find('all'));
+        $this->set('edit', $this->isAuthorized(Configure::read('Privilege.Map.edit')));
+    }
 
-	function update($id, $lat, $lng) {
-		$this->Map->set('lat', $lat);
-		$this->Map->set('lng', $lng);
-		$this->Map->save();
-	}
-   
-	function download ($id) {
-		// Check permission
-		if(!$this->isAuthorized(Configure::read('Privilege.Map.view_ocad'))) {
-			$this->Session->setFlash('You are not authorized to download this map.');
-			$this->redirect('/Maps/view/'.$id);
-		}
+    function view($id = null) {
+        $map = $this->Map->findById($id);
+        if(!$map) {
+            $this->Session->setFlash("The requested map couldn't be found.");
+            $this->redirect('/');
+            return;
+        }
+        $this->set('map', $map);
+        $this->set('map_standard', $this->Map->MapStandard->findById(1));
+        $this->set('events', $this->Map->Event->findAllByMapId($id));
+        $this->set('view_ocad', $this->isAuthorized(Configure::read('Privilege.Map.view_ocad')));
+        $this->set('edit', $this->isAuthorized(Configure::read('Privilege.Map.edit')));
+    }
 
-		$map = $this->Map->findById($id);
-		$this->viewClass = 'Media';
-        
-		// Get file from repository and store it in /tmp
-		$file = tempnam("/tmp", "wjr_");
-		$command = "svn list file:///var/svn/gvoc" . $map["Map"]["repository_path"] . " --depth empty";
-		$sys = system($command);
-		if(!$sys){
-			$this->Session->setFlash('File does not exist. Please contact webmaster.');
-			$this->redirect('/Maps/view/'. $id);
-			return;
-		} else {
-			$command = "svn cat file:///var/svn/gvoc" . $map["Map"]["repository_path"] . " > $file";
-			$sys = system($command);
-            
-			$params = array(
-			'id' => $file,
-			'name' => basename($map["Map"]["repository_path"]),
-			'download' => true,
-			'extension' => 'ocd',
-			'mimeType' => array(
-			'ocad' => 'application/octet-stream'
-			),
-			'path' => '/'
-			);
-			$this->set($params);
-		}
-	}
-   
+    function update($id, $lat, $lng) {
+        $this->Map->set('lat', $lat);
+        $this->Map->set('lng', $lng);
+        $this->Map->save();
+    }
+
+    function download ($id) {
+        // Check permission
+        if(!$this->isAuthorized(Configure::read('Privilege.Map.view_ocad'))) {
+            $this->Session->setFlash('You are not authorized to download this map.');
+            $this->redirect('/Maps/view/'.$id);
+        }
+
+        $map = $this->Map->findById($id);
+        $this->viewClass = 'Media';
+
+        // Get file from repository and store it in /tmp
+        $file = tempnam("/tmp", "wjr_");
+        $command = "svn list file:///var/svn/gvoc" . $map["Map"]["repository_path"] . " --depth empty";
+        $sys = system($command);
+        if(!$sys){
+            $this->Session->setFlash('File does not exist. Please contact webmaster.');
+            $this->redirect('/Maps/view/'. $id);
+            return;
+        } else {
+            $command = "svn cat file:///var/svn/gvoc" . $map["Map"]["repository_path"] . " > $file";
+            $sys = system($command);
+
+            $params = array(
+                'id' => $file,
+                'name' => basename($map["Map"]["repository_path"]),
+                'download' => true,
+                'extension' => 'ocd',
+                'mimeType' => array(
+                    'ocad' => 'application/octet-stream'
+                ),
+                'path' => '/'
+            );
+            $this->set($params);
+        }
+    }
+
     // Displays a rendering of the OCAD file (manually uploaded)
     function rendering($id, $thumbnail = false) {
         $this->Media->display($id, $thumbnail);
@@ -91,7 +91,7 @@ class MapsController extends AppController {
         $this->redirect("/maps/edit/$id");
         return;
     }
-   
+
     function delete($id) {
         $this->checkAuthorization(Configure::read('Privilege.Map.delete'));
         if(!empty($id)) {
@@ -109,41 +109,41 @@ class MapsController extends AppController {
         $maps = @Set::sort($maps, "{n}.Map.name", 'asc');
         $this->set('maps', $maps);
     }
-   
-	function edit($id = null) {
-		// Check permission
-		$edit = $this->isAuthorized(Configure::read('Privilege.Map.edit'));
-		if(!$edit) {
-			if($id == null) {
-				$this->Session->setFlash('You are not authorized to add a map.');
-				$this->redirect('/Maps/');
-			}
-			else {
-				$this->Session->setFlash('You are not authorized to edit this map.');
-				$this->redirect('/Maps/view/'.$id);
-			}
-		}
 
-		if($id != null)
-		$this->set('map', $this->Map->findById($id));
-		$this->set('mapStandards', $this->Map->MapStandard->find('list'));
+    function edit($id = null) {
+        // Check permission
+        $edit = $this->isAuthorized(Configure::read('Privilege.Map.edit'));
+        if(!$edit) {
+            if($id == null) {
+                $this->Session->setFlash('You are not authorized to add a map.');
+                $this->redirect('/Maps/');
+            }
+            else {
+                $this->Session->setFlash('You are not authorized to edit this map.');
+                $this->redirect('/Maps/view/'.$id);
+            }
+        }
 
-		$this->Map->id = $id;
-		if (empty($this->data)) {
-			$this->data = $this->Map->read();
-		}
-		// Process
-		else {
-			if ($this->Map->save($this->data)) {
-				$this->Session->setFlash('The map has been updated.', "flash_success");
+        if($id != null)
+            $this->set('map', $this->Map->findById($id));
+        $this->set('mapStandards', $this->Map->MapStandard->find('list'));
 
-				if($this->request->data["Map"]["image"]["tmp_name"] != "") {
-					$this->Media->create($this->request->data['Map']['image'], $this->Map->id);
-				}
+        $this->Map->id = $id;
+        if (empty($this->data)) {
+            $this->data = $this->Map->read();
+        }
+        // Process
+        else {
+            if ($this->Map->save($this->data)) {
+                $this->Session->setFlash('The map has been updated.', "flash_success");
 
-				$this->redirect('/Maps/view/'.$this->Map->id);
-			}
-		}
-	}
+                if($this->request->data["Map"]["image"]["tmp_name"] != "") {
+                    $this->Media->create($this->request->data['Map']['image'], $this->Map->id);
+                }
+
+                $this->redirect('/Maps/view/'.$this->Map->id);
+            }
+        }
+    }
 }
 ?>

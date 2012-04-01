@@ -1,10 +1,10 @@
 <?php
 class OrganizersController extends AppController {
 
-	var $name = 'Organizers';
+    var $name = 'Organizers';
 
-	function index() {
-		
-	}
+    function index() {
+
+    }
 }
 ?>
