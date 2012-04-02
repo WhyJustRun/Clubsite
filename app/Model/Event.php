@@ -55,8 +55,10 @@ class Event extends AppModel {
 	);
     function beforeSave(){
         parent::beforeSave();
-        if($this->data['Event']['custom_url']=='') {
-            $this->data['Event']['custom_url'] = NULL;
+        if(array_key_exists('custom_url', $this->data['Event'])) {
+            if($this->data['Event']['custom_url']=='') {
+                $this->data['Event']['custom_url'] = NULL;
+            }
         }
         return true;
     }
