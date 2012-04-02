@@ -12,7 +12,8 @@ echo $this->Form->hidden('courses', array('value' => $this->data["Event"]["cours
 	<?
 	   echo $this->Form->input('name');
 	   // TODO: This should be a javascript datetime picker (though there are few options)
-	   echo $this->Form->input('date', array('type' => 'text'));
+echo $this->Form->input('date', array('type' => 'text', 'label' => 'Start date'));
+echo $this->Form->input('finish_date', array('type' => 'text', 'label' => 'Finish date (optional)'));
        echo $this->Form->input('event_classification_id', array('empty' => 'Choose classification'));
        echo $this->Form->input('custom_url', array('label' => 'Event URL (if external website)'));
 	?>
@@ -24,6 +25,12 @@ echo $this->Form->hidden('courses', array('value' => $this->data["Event"]["cours
 	<script type="text/javascript">
 	$(function() {
 		$('#EventDate').datetimepicker({
+			dateFormat: 'yy-mm-dd',
+			timeFormat: 'hh:mm:ss',
+		});
+	});
+	$(function() {
+		$('#EventFinishDate').datetimepicker({
 			dateFormat: 'yy-mm-dd',
 			timeFormat: 'hh:mm:ss',
 		});
