@@ -116,7 +116,11 @@ class EventsController extends AppController {
             )
         );
         $event = $this->Event->find('first', array('conditions' => array('Event.id' => $id), 'contain' => $contain));
-        $event["Result"] = @Set::sort($event["Result"], "{n}.User.name", 'asc');
+        // Sort according to name
+        $event["Course"] = @Set::sort($event["Course"], "{n}.Result.{s}.User.name", 'asc');
+        foreach ($event["Course"] as &$course) {
+            $course["Result"] = @Set::sort($course["Result"], "{n}.User.name", 'asc');
+        }
         $this->set('event', $event);
         $this->layout = 'printable';
 
