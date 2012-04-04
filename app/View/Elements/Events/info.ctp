@@ -12,8 +12,10 @@
 	<?php }
 
     if(!empty($event["Map"])) { 
-        $map_id = $event["Map"]["id"];?>
-        <p><b>Map</b>: <?= $this->Html->link($event["Map"]["name"],"/maps/view/$map_id")?></p>
+        $map_id = $event["Map"]["id"];
+        if($map_id != NULL) {?>
+            <p><b>Map</b>: <?= $this->Html->link($event["Map"]["name"],"/maps/view/$map_id")?></p>
+        <?}?>
 	<?php }
 
 	if(!empty($event["Event"]["description"])) { 
