@@ -394,11 +394,7 @@ Configure::write("Facebook", array('app' => array('id' => 'YOUR_FACEBOOK_APP_ID_
 
 // Minimum access level for adding/editing an event without being an organizer
 Configure::write('Privilege.Event.edit', 80);
-Configure::write('Privilege.Event.delete', 80);
-// Minimum access level for editing/adding a map
 Configure::write('Privilege.Map.edit', 80);
-Configure::write('Privilege.Map.delete', 80);
-// Minimum access level for editing a map
 Configure::write('Privilege.Map.view_ocad', 0);
 Configure::write('Privilege.MapStandard.edit', 100);
 Configure::write('Privilege.MapStandard.delete', 100);
@@ -420,7 +416,7 @@ Configure::write('Privilege.Resource.delete', 100);
 // File Resource configuration
 Configure::write('Resource.Club.headerImage.allowedExtensions', array('jpg', 'jpeg', 'gif', 'png'));
 Configure::write('Resource.Club.headerImage.name', 'Header Image');
-Configure::write('Resource.Club.headerImage.description', 'Image that will show at the top of every page. Should be 950px wide.');
+Configure::write('Resource.Club.headerImage.description', 'Image that will show at the top of every page. Should be at least 1300px wide.');
 
 Configure::write('Resource.Club.logo.allowedExtensions', array('jpg', 'jpeg', 'gif', 'png'));
 Configure::write('Resource.Club.logo.name', 'Logo');
@@ -432,13 +428,14 @@ Configure::write('Resource.Club.style.description', 'You can override the defaul
 
 // Specify content block defaults (so clubs upgrade cleanly)
 Configure::write('ContentBlock.default.general_information.1', '## Welcome!');
-Configure::write('ContentBlock.default.general_maps_information.1', '## Maps');
+Configure::write('ContentBlock.default.general_maps_information.1', 'No map information has been entered yet.');
 Configure::write('ContentBlock.default.general_maps_information.2', null);
 Configure::write('ContentBlock.default.general_maps_information.3', null);
-Configure::write('ContentBlock.default.contact.1', '## Contact Us');
+Configure::write('ContentBlock.default.contact.1', 'No contact information has been entered yet.');
 
 Configure::write('Event.planner.dateThreshold', new DateTime('-5 months'));
 Configure::write('Event.planner.attendanceThreshold', 5);
+Configure::write('Club.nearby.max', 3);
 
 Configure::write('Leaflet', array(
 	'div' => array(
