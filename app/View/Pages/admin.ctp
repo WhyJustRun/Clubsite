@@ -6,6 +6,7 @@
     <div class="span4">
         <h2>Users</h2>
         <a href="/privileges/" class="btn">Grant privileges</a><br/><br/>
+        <a href="/users/showDuplicates/" class="btn">Show duplicates</a><br/></br>
         <a href="#" class="btn disabled">Show Users</a><br><br/>
         <a href="#" class="btn disabled">E-mail list</a>
     </div>

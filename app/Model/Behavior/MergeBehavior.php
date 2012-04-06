@@ -73,14 +73,30 @@ class MergeBehavior extends ModelBehavior  {
         foreach ($fields as $key => $value) {
             switch ($value) {
             case 'source':
-                $new_values[$key] = $source[$Model->alias][$key];
+               $new_values[$key] = $source[$Model->alias][$key];
                 break;	
             case 'target_source':
-                $new_values[$key] = $target[$Model->alias][$key]."\n ".$source[$Model->alias][$key];
-                break;	
+                if($target[$Model->alias][$key] != NULL) {
+                    $new_values[$key] = $target[$Model->alias][$key];
+                }
+                else if($source[$Model->alias][$key] != NULL) {
+                    $new_values[$key] = $source[$Model->alias][$key];
+                }
+                else {
+                    $new_values[$key] = NULL;
+                }
+                break;
             case 'source_target':
-                $new_values[$key] = $source[$Model->alias][$key]."\n ".$target[$Model->alias][$key];
-                break;				
+                if($source[$Model->alias][$key] != NULL) {
+                    $new_values[$key] = $source[$Model->alias][$key];
+                }
+                else if($target[$Model->alias][$key] != NULL) {
+                    $new_values[$key] = $target[$Model->alias][$key];
+                }
+                else {
+                    $new_values[$key] = NULL;
+                }
+                break;
             case 'input': 
                 $new_values[$key] = $data[$Model->alias][$key];
                 break;

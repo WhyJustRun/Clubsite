@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1>Maps list</h1>
+    <h1>List of maps</h1>
 </div>
 
 <table class="table table-striped table-bordered table-condensed">

@@ -3,7 +3,7 @@ class User extends AppModel {
 	var $name = 'User';
 	var $displayField = 'name';
 	protected $clubSpecific = false;
-	var $actsAs = array('Containable');
+	var $actsAs = array('Containable', 'Merge');
 
     // is_member is a virtual field, however its definition must be made at runtime, since we have the dynamical
     // variable $year. Therefore modify the constructor.
@@ -156,6 +156,99 @@ class User extends AppModel {
     function findTemporaryByName($name) {
         $conditions = array('User.name LIKE' => '%'.$name.'%' , 'User.username' => '');
         return $this->find('first', array('recursive' => -1, 'conditions' => $conditions));
+    }
+
+
+    function getMostRecentEvent($user_id) {
+        $data = $this->query("SELECT MAX(events.date) AS date FROM events,courses,results WHERE events.id = courses.event_id AND courses.id = results.course_id AND results.user_id = $user_id LIMIT 1");
+        if(!empty($data) && !empty($data[0]) && !empty($data[0][0])) {
+            $date = $data[0][0]["date"];
+        }
+        else {
+            $date = NULL;
+        }
+        return $date;
+    }
+
+    function getCombined() {
+        $data = $this->find('list', array('conditions' => array('OR' => array('User.name LIKE' => '% & %', 'User.name LIKE' => '% and %'))));
+        return $data;
+    }
+
+    // Returns array of potential duplicates
+    function getDuplicates() {
+        $data = $this->query('SELECT U1.id, U2.id, U1.name, U2.name FROM users as U1, users as U2 WHERE U1.name LIKE U2.name AND U1.id < U2.id ORDER BY U1.name');
+        $cases = array();
+        foreach ($data as &$case) {
+            $user1 = $this->findById($case["U1"]["id"]);
+            $user2 = $this->findById($case["U2"]["id"]);
+            $date1 = $this->getMostRecentEvent($user1["User"]["id"]);
+            $date2 = $this->getMostRecentEvent($user2["User"]["id"]);
+            $user1["most_recent"] = $date1;
+            $user2["most_recent"] = $date2;
+            // Determine which is primary and which is duplicate
+
+            /* Check for password */
+            if($user1["User"]["password"] != NULL && $user2["User"]["password"] == NULL) {
+                // User2 is a fake account
+                $primaryIndex = 1;
+            }
+            if($user1["User"]["password"] == NULL && $user2["User"]["password"] != NULL) {
+                // User1 is a fake account
+                $primaryIndex = 2;
+            }
+
+            /* Recent login */
+            else if($user1["User"]["last_login"] != NULL && $user2["User"]["last_login"] != NULL) {
+                if($user1["User"]["last_login"] > $user2["User"]["last_login"]) {
+                    // User1 logged in most recently
+                    $primaryIndex = 1; 
+                }
+                else {
+                    // User2 logged in most recently
+                    $primaryIndex = 2;
+                }
+            }
+            else if($user1["User"]["last_login"] != NULL) {
+                // User2 never logged in
+                $primaryIndex = 1;
+            }
+            else if($user2["User"]["last_login"] != NULL) {
+                // User1 never logged in
+                $primaryIndex = 2;
+            }
+            /* Recent events */
+            else if($date1 != NULL && $date2 != NULL) {
+                if($date1 > $date2)
+                    $primaryIndex = 1;
+                else
+                    $primaryIndex = 2;
+            }
+            else if($date1 != NULL) {
+                $primaryIndex = 1;
+            }
+            else if($date2 != NULL) {
+                $primaryIndex = 2;
+            }
+
+            else {
+                // Run out of options... pick the first one
+                $primaryIndex = 2;
+            }
+            
+            if($primaryIndex == 1) {
+                $primary = &$user1;
+                $duplicate = &$user2;
+            }
+            else {
+                $primary = &$user2;
+                $duplicate = &$user1;
+            }
+            $newcase["primary"] = $primary;
+            $newcase["duplicate"] = $duplicate;
+            array_push($cases, $newcase);
+        }
+        return $cases;
     }
 }
 ?>
