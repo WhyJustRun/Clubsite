@@ -151,10 +151,10 @@ nav ul li {
 }
 
 nav ul li a {
-	padding-left: 9px;
-    padding-right: 9px;
-    margin-left: 5px;
-    margin-right: 5px;
+	padding-left: 7px;
+    padding-right: 7px;
+    margin-left: 3px;
+    margin-right: 3px;
     font-size: 14px;
     display: inline-block;
     text-decoration: none;
