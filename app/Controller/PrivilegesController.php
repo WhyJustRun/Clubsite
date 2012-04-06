@@ -12,10 +12,13 @@ class PrivilegesController extends AppController {
 
     function index() {
         $this->checkAuthorization(Configure::read('Privilege.Privilege.edit'));
-        $this->set('groups', $this->Privilege->Group->find('list'));
+        $this->loadModel('User');
+        $level = $this->User->getLevel(AuthComponent::user('id'));
+        $levelCondition = array('Group.access_level <= ' => $level);
+        $this->set('groups', $this->Privilege->Group->find('list', array('conditions'=>$levelCondition)));
         $this->set('users', $this->Privilege->User->find('list'));
-        $this->set('privileges', $this->Privilege->find('all'));
-        $this->set('groupList', $this->Privilege->Group->find('all', array('recursive' => -1)));
+        $this->set('privileges', $this->Privilege->find('all', array('conditions'=>$levelCondition)));
+        $this->set('groupList', $this->Privilege->Group->find('all', array('conditions'=>$levelCondition, 'recursive' => -1)));
     }
 
     function edit() {

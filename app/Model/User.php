@@ -144,6 +144,16 @@ class User extends AppModel {
 			return true;
 		} else return false;
 	}
+
+    function getLevel($userId) {
+        $level = $this->Privilege->find('first', array('fields' => array('MAX(Group.access_level) as level'), 'conditions' => array('Privilege.user_id' => $userId, 'Group.club_id' => Configure::read('Club.id'))));
+        if(!empty($level) && !empty($level[0])) {
+            return $level[0]['level'];
+        }
+        else {
+            return 0;
+        }
+    }
 	
 	function findByName($name) {
 		return $this->find('all', array('recursive' => -1, 'conditions' => array('User.name LIKE' => '%'.$name.'%')));
