@@ -1,11 +1,9 @@
 <?php if(!$event["Event"]["completed"] && !empty($event["Series"]["information"])) { ?>
-	<div class="column-box">
 		<h2><?= $event["Series"]["name"] ?> Series Info</h2>
 		<?= $this->Markdown->render($event["Series"]["information"]) ?>
-	</div>
+		<hr class="divider" />
 <?php } ?>
-
-<div class="column-box">
+    
 	<h2>Event Information</h2>
 	<?php if(!empty($event["Organizer"])) { ?>
     <p><?= count($event["Organizer"]) > 1 ? '<b>Organizers</b>' : '<b>Organizer</b>' ?>: <?= $this->element('Organizers/list', array('organizers' => $event["Organizer"])); ?></p>
@@ -24,11 +22,8 @@
 	} else {
 		echo "Check back soon for more information.";
 	} ?>
-</div>
-
+    <hr class="divider" />
 <?php if(!empty($event["Event"]["lat"])) { ?>
-	<div class="column-box">
 		<h2>Location</h2>
 		<?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px'); ?>
-	</div>
 <?php } ?>

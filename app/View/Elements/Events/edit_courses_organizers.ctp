@@ -79,61 +79,75 @@ var finishLoadingOrganizers = function() {
 		var originalCourse = originalCourses[i];
 		viewModel.addCourse(originalCourse["id"], originalCourse["name"], originalCourse["distance"], originalCourse["climb"], originalCourse["description"]);
 	}
-		
+    $(function() {
+        orienteerAppPersonPicker('#organizers', { maintainInput: false }, function(person) {
+            if(person != null) {
+                $('#organizers').val(null);
+                viewModel.addOrganizer(person.id, person.name);
+            }
+    	});
+    });
 	ko.applyBindings(viewModel);
-
-	$("#organizers").autocomplete({
-		source: "/users/index.json",
-		minLength: 2,
-		select: function(event, ui) {
-			viewModel.addOrganizer(ui.item.id, ui.item.value, 1);
-		},
-		close: function(event, ui) {
-			$(this).val(null);
-		}
-	});
 }
 </script>
 <div id='edit-organizers'>
-<script type="text/html" id="organizerTemplate">
-<tr>
-<td data-bind="text: name || 'Anonymous'"></td>
-<td>
-<select data-bind="options: availableRoles, value: role, optionsText: 'name'">
-</select>
-</td>
-<td><div class="unsubmit"><input type="submit" data-bind="click: remove" value="Remove" /></div></td>
-</tr>
-</script>
-<form>
-<?php echo $this->Form->input('organizers', array('label' => 'Event Organizers', 'placeholder' => 'Add an organizer')); ?>
-<div class="input">
-<table data-bind="visible: organizers().length > 0">
-<thead><tr><th>Name</th><th>Role</th><th></th></tr></thead>
-<tbody data-bind="template: {name:'organizerTemplate', foreach: organizers}"></tbody>
-</table>
-</div>
-</form>
+    <script type="text/html" id="organizerTemplate">
+    <tr>
+        <td data-bind="text: name || 'Anonymous'"></td>
+        <td>
+            <select class="thin-control" data-bind="options: availableRoles, value: role, optionsText: 'name'">
+            </select>
+        </td>
+        <td>
+            <button type="submit" class="btn btn-mini btn-danger pull-right" data-bind="click: remove"><i class="icon-trash icon-white"></i></button>
+        </td>
+    </tr>
+    </script>
+    <fieldset class="control-group">
+        <label for="organizers" class="control-label">Event Organizers</label>
+        <div class="controls">
+            <input placeholder="Add an organizer" type="text" id="organizers" />
+            <br/><br/>
+            
+            <table class="table table-striped table-condensed" data-bind="visible: organizers().length > 0">
+                <thead><tr><th>Name</th><th>Role</th><th></th></tr></thead>
+                <tbody data-bind="template: {name:'organizerTemplate', foreach: organizers}"></tbody>
+            </table>
+        </div>
+    </fieldset>
 </div>
 
 <div id='edit-courses'>
-<script type="text/html" id="courseTemplate">
-<tr>
-<td><input type="text" size="15" data-bind="value: name, uniqueName: true" required /></td>
-<td><input type="number" size="7" data-bind="value: distance" /></td>
-<td><input type="number" size="5" data-bind="value: climb" /></td>
-<td><input type="text" size="50" data-bind="value: description" /></td>
-<td><div class="unsubmit"><input type="submit" data-bind="click: remove" value="Remove" /></div></td>
-</tr>
-</script>
-<form>
-<div class="input course-editing">
-<label>Courses</label>
-<table data-bind="visible: courses().length > 0">
-<thead><tr><th>Name</th><th>Dist. (m)</th><th>Climb (m)</th><th>Description</th><th></th></tr></thead>
-<tbody data-bind="template: {name:'courseTemplate', foreach: courses}"></tbody>
-</table>
-<div class="submit"><input type="submit" data-bind="click: addNewCourse" value="Add Course" /></div>
-</div>
-</form>
+    <script type="text/html" id="courseTemplate">
+    <tr>
+        <td class="span2"><input type="text" class="span2 thin-control" data-bind="value: name, uniqueName: true" required /></td>
+        <td class="span1"><input class="span1 thin-control" type="number" data-bind="value: distance" /></td>
+        <td class="span1"><input class="span1 thin-control" type="number" data-bind="value: climb" /></td>
+        <td><input type="text" class="thin-control spanning-control" data-bind="value: description" /></td>
+        <td>
+            <button type="submit" class="btn btn-mini btn-danger pull-right" data-bind="click: remove"><i class="icon-trash icon-white"></i></button>
+        </td>
+    </tr>
+    </script>
+    <fieldset class="control-group">
+        <label class="control-label">Courses</label>
+        <div class="controls">
+            <button type="submit" class="btn btn-success" data-bind="click: addNewCourse">
+                <i class="icon-plus icon-white"></i> Course
+            </button>
+            <br/><br/>
+            <table class="table table-striped table-condensed" data-bind="visible: courses().length > 0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Dist. (m)</th>
+                        <th>Climb (m)</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="template: {name:'courseTemplate', foreach: courses}"></tbody>
+            </table>
+        </div>
+    </fieldset>
 </div>

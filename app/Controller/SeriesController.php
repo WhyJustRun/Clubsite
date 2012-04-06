@@ -25,7 +25,6 @@ class SeriesController extends AppController {
     }
 
     function view($id) {
-        //header('Content-Type: text/html');
         $this->set('series', $this->Series->findById($id)); 
         $this->set('events', $this->Series->Event->findAllBySeriesId($id)); 
         $this->set('organizers', $this->Series->findOrganizers($id)); 
@@ -42,7 +41,7 @@ class SeriesController extends AppController {
         // FIXME-RWP Allow admins to edit
         if($allow === 0) {
             $this->Session->setFlash('You are not authorized to edit this page.');
-            $this->redirect('/Series/view/'.$id);
+            $this->redirect('/series/view/'.$id);
         }
 
         $this->Series->id = $id;
@@ -50,9 +49,8 @@ class SeriesController extends AppController {
             $this->data = $this->Series->read();
         } else {
             if ($this->Series->save($this->data)) {
-                $this->Session->setFlash('The serie has been updated.', "flash_success");
-                //$this->redirect('/Series/view/'.$this->Series->id);
-                $this->redirect('/Series/');
+                $this->Session->setFlash('The series has been updated.', "flash_success");
+                $this->redirect('/series/index');
             }
         }
     }

@@ -3,78 +3,61 @@ $this->Html->script('highstock', array('inline' => false));
 $name = $user["User"]["name"];
 $show_results = true;
 ?>
-<header>
+<header class="page-header">
 	<h1><?= $user["User"]["name"] ?></h1>
 </header>
-
-<div class="column span-12">
-    <?php if(!empty($results)) {?>
-    <div class="column-box" >
-        <?php echo $this->element('Users/results', array('user' => $user, 'results' => $results)); ?>
-    </div>
-    <? } ?>
-    <?php if($show_info) { ?>
-        <div class="column-box">
+<div class="row">
+    <div class="span6">
+        <?php if(!empty($results)) {?>
+            <?php echo $this->element('Users/results', array('user' => $user, 'results' => $results)); ?>
+        <? } ?>
+        <?php if($show_info) { ?>
             <h2>Information</h2>
             <? if($user["User"]["si_number"] != NULL) echo "Sport Ident: " . $user["User"]["si_number"]. "<br>"; ?>
             <? if($user["User"]["year_of_birth"] != NULL) echo "Year of birth: " . $user["User"]["year_of_birth"]."<br>"; ?>
             <? if($user["User"]["email"] != NULL) echo "Email: " . $user["User"]["email"]."<br>"; ?>
-        </div>
-        <div class="column-box">
             <h2>Groups</h2>
             <?php
                 foreach($groups as $group) {
                     echo $group["Groups"]["id"] . "<br>";
                 }
             ?>
-        </div>
-    <?php }
-    if(!empty($memberships)) {?>
-        <div class="column-box">
+        <?php }
+        if(!empty($memberships)) {?>
             <h2>Membership</h2>
-        </div>
-         <?
-        foreach($memberships as $membership) {
-            echo $membership["Membership"]["id"] . "<br>";
-        }
+            <?
+            foreach($memberships as $membership) {
+                echo $membership["Membership"]["id"] . "<br>";
+            }
+        } ?>
+    </div>
+    <div class="span6">
+    <?php
+    // Send a message
+    $email = $this->Session->read('Auth.User.email');
+    if($this->Session->check('Auth.User.id') && $this->Session->read('Auth.User.id') != $user['User']['id'] && !empty($user['User']['email']) && !empty($email)) {
+        // Logged in
+        echo '<h2>Send message</h2>
+        <p>Your email address will be revealed to the receiver so they can reply.</p>';
+        echo $this->Form->create('User');
+    	echo $this->Form->hidden('id', array('value' => $user['User']['id']));
+    	echo $this->Form->textarea('message', array('class' => 'input-xlarge', 'rows' => 5, 'data-validate' => 'validate(required)'));
+    	echo $this->Recaptcha->display();
+    	echo $this->Form->end('Send');
+    } else if(!empty($user['User']['email']) && $this->Session->read('Auth.User.id') != $user['User']['id']) {
+        // Not logged in
+        echo '<h2>Send message</h2>
+        <p>'.$this->Html->link('Sign in', '/users/login', array('class' => 'btn btn-primary')).'</p>';
+    }
+    
+    if($show_settings) {
+        echo $this->element('Users/settings');
     } ?>
-</div>
-<div class="column span-12 last">
-<?php
-// Send a message
-$email = $this->Session->read('Auth.User.email');
-if($this->Session->check('Auth.User.id') && $this->Session->read('Auth.User.id') != $user['User']['id'] && !empty($user['User']['email']) && !empty($email)) {
-    // Logged in
-    echo '<div class="column-box">
-    <h2>Send message</h2>
-    <p>Your email address will be revealed to the receiver so they can reply.</p>';
-    echo $this->Form->create('User');
-	echo $this->Form->hidden('id', array('value' => $user['User']['id']));
-	echo $this->Form->textarea('message', array('data-validate' => 'validate(required)'));
-	echo $this->Recaptcha->display();
-	echo $this->Form->end('Send');
-	echo '</div>';
-} else if(!empty($user['User']['email']) && $this->Session->read('Auth.User.id') != $user['User']['id']) {
-    // Not logged in
-    echo '<div class="column-box">
-    <h2>Send message</h2>
-    <p style="text-align: center">'.$this->Html->link('Log in', '/users/login', array('class' => 'button')).'</p>
-    </div>';
-}
-
-if($show_settings) {
-    echo $this->element('Users/settings');
-} ?>
-</div>
-<?php if(!empty($results)) { ?>
-<div class="column span-24">
-    <div class="column-box">
-        <h2>Ranking Points over time</h2>
-        <div id='results-chart'>
-         
-        </div>
     </div>
 </div>
+<?php if(!empty($results)) { ?>
+    <h2>Ranking Points over time</h2>
+    <div id='results-chart'></div>
 <?php }
 $highstocks = "
 $(function() {

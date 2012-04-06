@@ -35,14 +35,13 @@ class CoursesController extends AppController {
         }
     }
 
-    function register($id) {
+    function register($id, $carpool = null) {
         $user = $this->Auth->user();
         $course = $this->Course->findById($id);
 
         if(empty($course["Course"]["id"])) {
             $this->redirect("/");
         }
-
 
         // Make sure the user isn't registered already
         foreach($course["Result"] as $courseUser) {
@@ -54,6 +53,11 @@ class CoursesController extends AppController {
         // TODO-RWP Don't allow registration for events that already happened
         $registration["Result"]["user_id"] = $user["id"];
         $registration["Result"]["course_id"] = $course["Course"]["id"];
+        if($carpool === "needsRide") {
+            $registration["Result"]["needs_ride"] = 1;
+        } else if($carpool === "offeringRide") {
+            $registration["Result"]["offering_ride"] = 1;
+        }
         $this->Course->Result->save($registration);
 
         $this->Session->setFlash("You are now registered!", "flash_success");

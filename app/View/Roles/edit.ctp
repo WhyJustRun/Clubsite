@@ -1,4 +1,7 @@
-<h1>Role</h1>
+<header class="page-header">
+    <h1>Role</h1>
+</header>
+
 <?php 
 echo $this->Form->create('Role', array('action' => 'edit'));
 echo $this->Form->input('name');

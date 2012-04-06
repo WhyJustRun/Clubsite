@@ -1,83 +1,96 @@
-<div class="right">
-<?= $this->Html->link('XML', '/events/view/'.$event["Event"]["id"].'.xml', array('class' => 'button')) ?>
-<?php
-if($edit) {
-	echo $this->Html->link('Edit', '/events/edit/'.$event["Event"]["id"], array('class' => 'button'));
-	echo "<br/>";
-	echo $this->Html->link('Edit Results','/events/editResults/'.$event["Event"]["id"], array('class' => 'button'));
-	echo "<br/>";
-//	echo $this->Html->link('Upload Results','/events/uploadResults/'.$event["Event"]["id"], array('class' => 'button'));
-//	echo "<br/>";
-	echo $this->Html->link('Upload Maps','/events/uploadMaps/'.$event["Event"]["id"], array('class' => 'button'));
-    echo "<br/>";
-	echo $this->Html->link('Printable entries','/events/printableEntries/'.$event["Event"]["id"], array('class' => 'button'));
-    echo "<br/>";
-    echo $this->Html->link('Delete event','/events/delete/'.$event["Event"]["id"], array('class' => 'button red', 'onclick' => 'return confirm("Delete this event (including any defined organizers, courses and results)?");'));
-	// Get everything to line up nicely
-	echo "<br/><br/>";
-} else {
-    echo "<br/><br/><br/><br/>";
-}
-?>
-</div>
-<header>
-	<h1 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Event"]["name"]; ?></h1>
-	<h2 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Series"]["name"] ?></h2>
-	<h3 class="event-header"><?php $date = new DateTime($event["Event"]["date"]); echo $date->format("F jS Y g:ia"); ?></h3>
-    <? if($event["Event"]["custom_url"] != "") {?>
-    <h3 class="event-header">External website: <?= $this->Html->link($event["Event"]["custom_url"])?></h3>
+<header class="page-header">
+    <div class="pull-right btn-toolbar">
+        <div class="btn-group">
+            <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="icon-download-alt icon-white"></i> Export
+            <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <?php if($edit) { ?>
+                  <li><a href="/events/printableEntries/<?= $event['Event']['id'] ?>">Printable List</a></li>
+                <?php } ?>
+                <li><a href="/events/view/<?= $event['Event']['id'] ?>.xml">IOF XML</a></li>
+            </ul>
+        </div>
+        <?php if($edit) { ?>
+            <div class="btn-group">
+              <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="icon-cog icon-white"></i> Edit
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                  <li><a href="/events/edit/<?= $event['Event']['id'] ?>">Event</a></li>
+                  <li><a href="/events/edit/<?= $event['Event']['id'] ?>">Courses</a></li>
+                  <li><a href="/events/editResults/<?= $event['Event']['id'] ?>">Registrations/Results</a></li>
+                  <li><a href="/events/uploadMaps/<?= $event['Event']['id'] ?>">Course Maps</a></li>
+              </ul>
+            </div>
+    
+            <div class="btn-group">
+                <a class="btn btn-danger" href="/events/delete/<?= $event['Event']['id'] ?>" onclick='return confirm("Delete this event (including any defined organizers, courses and results)?");'><i class="icon-trash icon-white"></i></a>
+            </div>
+        <?php } ?>
+    </div>
+
+	<h1 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Event"]["name"]; ?> <small class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Series"]["name"] ?></small></h1>
+	
+	<h2 class="event-header"><?php $date = new DateTime($event["Event"]["date"]); echo $date->format("F jS Y g:ia"); ?></h2>
+    <? if(!empty($event["Event"]["custom_url"])) {?>
+    <h2 class="event-header">External website: <?= $this->Html->link($event["Event"]["custom_url"])?></h2>
     <?}?>
 </header>
 
+<div class="row">
 <?php if($event["Event"]["results_posted"] === '0' ) { 
 // Show event information
 ?>
-	<div class="column span-16">
+	<div class="span8">
 		<?php echo $this->element('Events/info', array('event' => $event)); ?>
 	</div>
 	
 	<?php if($event["Event"]["completed"] === true) { ?>
-	<div class="results column span-8 last">
+	<div class="results span4">
         <?php echo $this->element('Courses/course_maps', array('courses' => $event["Course"])); ?>
 	</div>
 	<?php } elseif(count($event["Course"]) === 0) { ?>
-		<div class="results column span-8 last">
+		<div class="results span4">
 			<header>
 				<h2>Course Registration</h2>
 			</header>
 			<p>No courses have been posted yet.</p>
 		</div>
  	<?php } else { ?>
-	<div class="results column span-8 last">
+	<div class="results span4">
 		<header>
 			<h2>Course Registration</h2>
 		</header>
 		<div class="courses">
 			<?php foreach($event["Course"] as $course) { ?>
-			<div class="course column-box">
+			<div class="course">
 				<div class="course-info">
-					<div>
-					<div class="span-4">
-						<h3><?= $course["name"] ?></h3>
-					</div>
-					<div class="right">
+					<div class="pull-right">
 						<?php if($course["registered"] === false) { ?>
-						<?php echo $this->Form->create('Course', array('url' => '/Courses/register/'.$course["id"])); ?>
-						<?php echo $this->Form->end("Register"); 
-						 } else { ?>
-						<form method="post" action="/Courses/unregister/<?= $course["id"] ?>" accept-charset="utf-8">
-							<div style="display:none;">
-								<input type="hidden" name="_method" value="POST" />
-							</div>
-							<div class="unsubmit">
-								<input type="submit" value="Unregister" />
-							</div>
-						</form>
+                            <div class="btn-group">
+                                <a class="btn btn-success" href="/courses/register/<?= $course['id'] ?>"><i class="icon-plus icon-white"></i> Register</a>
+                                <a class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/courses/register/<?= $course['id'] ?>/needsRide"><i class="icon-user"></i> Register (Need ride)</a></li>
+                                    <li><a href="/courses/register/<?= $course['id'] ?>/offeringRide"><i class="icon-road"></i> Register (Offer ride)</a></li>
+                                </ul>
+                            </div>
+						<? } else { ?>
+    						<div class="btn-group">
+                                <a class="btn btn-danger" href="/courses/unregister/<?= $course['id'] ?>">
+                                    <i class="icon-minus icon-white"></i> Unregister
+                                </a>
+                            </div>
 						<?php } ?>
 					</div>
-					<br style="clear"/>
-					</div>
-					<div>
+					
+					<h3><?= $course["name"] ?></h3>
+					<span>
 					<?= $course["description"] ?>
 					<p>
 					<?php
@@ -89,7 +102,7 @@ if($edit) {
 					}
 					?>
 					</p>
-					</div>
+					</span>
 				</div>
 				<div class="results-list">
 					<?php echo $this->element('Results/list', array('results' => $course["Result"])); ?>
@@ -98,11 +111,12 @@ if($edit) {
 			<?php } ?>
 		</div>
 	</div>
+	</div>
 	<?php } ?>
 <?php } else {
 // Show results page
 ?>
-<div class="column span-12">
+<div class="column span6">
 	<div class="results padded">
 		<header>
 			<h2>Results</h2>
@@ -117,10 +131,10 @@ if($edit) {
             				<p><b>No results</b></p>
             			</div>
             			<div data-bind="if: results().length > 0">
-            				<table>
+            				<table class="table table-striped table-bordered table-condensed">
             					<thead>
             						<tr>
-            							<th>Position</th>
+            							<th>#</th>
             							<th>Participant</th>
             							<th>Time</th>
             							<th>Points</th>
@@ -142,7 +156,8 @@ if($edit) {
 		</div>
 	</div>
 </div>
-<div class="column span-12 last">
+<div class="column span6">
 	<?php echo $this->element('Events/info', array('event' => $event)); ?>
 </div>
 <?php } ?>
+</div>

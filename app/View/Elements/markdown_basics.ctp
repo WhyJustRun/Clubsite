@@ -1,5 +1,5 @@
-<div class="input label">
-	<p>We use <strong><a target="_blank" href="http://daringfireball.net/projects/markdown/basics">Markdown</a></strong> syntax for formatting event descriptions.<br/>
+<div>
+	<p>We use <strong><a target="_blank" href="http://daringfireball.net/projects/markdown/basics">Markdown</a></strong> syntax for formatting text.<br/>
 	<ul>
 		<li>Surrounding text with *stars* yields <em>stars</em></li>
 		<li>Surrounding text with **two stars** yields <strong>two stars</strong></li>
