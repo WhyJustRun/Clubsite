@@ -7,14 +7,14 @@ class MediaHelper extends Helper {
         'Result' => '/events/rendering/',
     );
     
-    public function image($type, $id, $thumbnail = false) {
-        return $this->Html->image($this->url($type, $id, $thumbnail));
+    public function image($type, $id, $thumbnail = false, $options = array()) {
+        return $this->Html->image($this->url($type, $id, $thumbnail), $options);
     }
     
-    public function linkedImage($type, $id, $thumbnail = false, $options = array()) {
+    public function linkedImage($type, $id, $thumbnail = false, $options = array(), $imageOptions = array()) {
         $options['escape'] = false;
         return $this->Html->link(
-            $this->image($type, $id, $thumbnail),
+            $this->image($type, $id, $thumbnail, $imageOptions),
             $this->url($type, $id),
             $options
         );

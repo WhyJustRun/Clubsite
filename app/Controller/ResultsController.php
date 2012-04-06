@@ -8,16 +8,6 @@ class ResultsController extends AppController {
         $this->Auth->allow('index', 'ranking');
     }
 
-    function editRide() {
-        if(!empty($this->request->data)) {
-            $data = $this->request->data;
-            if($this->Result->save($data)) {
-
-            }
-        }
-        $this->redirect($this->referer());
-    }
-
     function index() 
     {
         $results = $this->paginate();

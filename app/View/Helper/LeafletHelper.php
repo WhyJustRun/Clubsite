@@ -64,7 +64,7 @@ class LeafletHelper extends AppHelper {
 		$divHeight = $options['div']['height'];
 		$divClass = $options['div']['class'];
 		
-		$map = "<div id='${divId}' class='${divClass}' style='height: ${divHeight}'></div>";
+		$map = "<div id='${divId}' class='${divClass}' style='height: ${divHeight}; width: ${divWidth}'></div>";
 		$map .= $this->script($options);
 		return $map;
 	}
@@ -102,8 +102,7 @@ class LeafletHelper extends AppHelper {
 		return $script;
 	}
 	
-	function simpleMarker($lat, $lng, $zoom, $height) {
-		$options = array();
+	function simpleMarker($lat, $lng, $zoom, $height, $options = array()) {
 		$options['div'] = array();
 		$options['div']['height'] = $height;
 		$options['map'] = array();
@@ -119,8 +118,7 @@ class LeafletHelper extends AppHelper {
 		return $this->map($options);
 	}
 
-	function draggableMarker($latField, $lngField, $zoom) {
-		$options = array();
+	function draggableMarker($latField, $lngField, $zoom, $options = array()) {
 		$options['map'] = array();
 		$options['map']['center']['lat'] = "$('#${latField}').val()";
 		$options['map']['center']['lng'] = "$('#${lngField}').val()";

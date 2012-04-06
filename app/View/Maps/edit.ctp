@@ -1,44 +1,44 @@
-<h1><? if(isset($map)) echo "Edit"; else echo "Add";?> Map</h1>
-<?=$this->Form->create('Map', array('action' => 'edit', 'enctype' => 'multipart/form-data'))?>
-<div class='span-12'>
-    <div class='column-box'>
-    <?
-    echo $this->Form->input('name');
-    echo $this->Form->input('map_standard_id', array('empty' => 'Choose the map standard of this map'));
-    echo $this->Form->input('created', array('dateFormat'=>'DMY', 'timeFormat'=>'NONE', 'minYear'=>1950));
-    echo $this->Form->input('modified', array('dateFormat'=>'DMY', 'timeFormat'=>'NONE', 'minYear'=>1950));
-    echo $this->Form->input('repository_path', array('label'=>'Repository path: e.g. /maps/vancouver/ubc/ubc.ocd'));
-    echo $this->Form->input('scale', array('label'=>'Scale (e.g. 10000 means 1:10,000)'));
-    // Map image
-    echo "<div class=\"input\"><label>Add image</label></div>";
-    echo $this->Form->file('image');
-    if(!empty($map)) {
-        // Move into helper
-       if($this->Media->exists('Map', $map["Map"]["id"])) { ?>
-            <div class="input"><label>Current image</label></div>
-            <?= $this->Media->image("Map", $map["Map"]["id"], '400x600') ?>
-<?     }
-       if($this->Media->exists('Map', $map["Map"]["id"], '60x60')) { ?>
-            <div class="input"><label>Current banner image</label></div>
-            <?= $this->Media->image("Map", $map["Map"]["id"], '60x60') ?>
-        <?     }?>
-            <?=$this->Html->link('Generate new', '/maps/generateBanner/'.$map["Map"]["id"], array('class' => 'button'))?>
-
-    
-        <?}
-    echo $this->Form->hidden('lat', array('default' => Configure::read('Club.lat')));
-    echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng'))); ?>
-    </div>
+<div class="page-header">
+    <h1><?= isset($map) ? "Edit" : "Add" ?> Map</h1>
 </div>
-<div class='span-12 last'>
-    <div class='column-box'>
-        <div class="input">
-            <label class="required">Drag the marker to the central location of the map</label>
-            <?= $this->Leaflet->draggableMarker('MapLat', 'MapLng', 10)?>
-        </div>
-    </div>
-</div>
+<?= $this->Form->create('Map', array('class' => 'form-horizontal', 'action' => 'edit', 'enctype' => 'multipart/form-data')) ?>
+<?
+echo $this->Form->input('name');
+echo $this->Form->input('map_standard_id', array('empty' => 'Choose the standard'));
+echo $this->Form->input('repository_path', array('label'=>'Repository Path', 'placeholder' => '/maps/vancouver/ubc/ubc.ocd'));
+echo $this->Form->input('scale', array('label' => 'Scale', 'placeholder' => '10000'));
 
-<?php
-echo $this->Form->end('Save');?>
+if(!empty($map)) { ?>
+        <fieldset class="control-group">
+            <label class="control-label">Image</label>
+            <div class="controls">
+                <?= $this->Form->file('image', array('label' => 'Add image')) ?>
+                <?php
+                if($this->Media->exists('Map', $map["Map"]["id"])) {
+                    echo "<br/>".$this->Media->image("Map", $map["Map"]["id"], '400x600');
+                 } ?>
+            </div>
+        </fieldset>
+    <?php
+    if($this->Media->exists('Map', $map["Map"]["id"], '60x60')) { ?>
+        <fieldset class="control-group">
+            <label class="control-label">Banner image</label>
+            <div class="controls">
+                <?= $this->Html->link('Generate', '/maps/generateBanner/'.$map["Map"]["id"], array('class' => 'btn btn-primary')) ?><br/><br/>
+                <?= $this->Media->image("Map", $map["Map"]["id"], '60x60') ?>
+            </div>
+        </fieldset>
+        
+    <? }
+}
+echo $this->Form->hidden('lat', array('default' => Configure::read('Club.lat')));
+echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng'))); ?>
+<fieldset class="control-group">
+    <label class="control-label">Location</label>
+    <div class="controls">
+        <?= $this->Leaflet->draggableMarker('MapLat', 'MapLng', 10); ?>
+        <p class="help-block">Drag the marker to the location of the map</p>
+    </div>
+</fieldset>
+<?= $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'form-actions'))) ?>
 

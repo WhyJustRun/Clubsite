@@ -1,6 +1,6 @@
 <div class="results-list">
 	<h2>Results</h2>
-   <table>
+   <table class="table table-striped table-bordered table-condensed">
       <thead>
          <tr>
             <th>Date</th>

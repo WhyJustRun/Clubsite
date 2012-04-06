@@ -123,84 +123,88 @@ $(document).ready(function(){
 	loadObjects();
 	ko.applyBindings(viewModel);
 
-	$("#competitorResults").autocomplete({
-		source: "/Users/index.json",
-		minLength: 2,
-		select: function(event, ui) {
-			viewModel.addCompetitorToCourse(ui.item.id, ui.item.value);
-		},
-		close: function(event, ui) {
-			$(this).val(null);
-		}
+    orienteerAppPersonPicker('#competitorResults', { maintainInput: false }, function(person) {
+        if(person != null) {
+            viewModel.addCompetitorToCourse(person.id, person.name);
+        }
 	});
 });
 </script>
 
 <script type="text/html" id="resultTemplate">
-	<tr style="height: 18px; font-size: x-small; padding: 0">
-		<td data-bind="text: user.name"></td>
-		<td class="results-editing"><input type="text" maxlength="2" size="2" data-bind="value: hours" /></td>
-		<td class="results-editing"><input type="text" maxlength="2" size="2" data-bind="value: minutes" /></td>
-		<td class="results-editing"><input type="text" maxlength="2" size="2" data-bind="value: seconds" /></td>
-		<td class="results-editing"><select data-bind="options: statuses, optionsText: 'name', optionsValue: 'id', value: status, optionsCaption: 'Choose...'"></select></td>
-		<td><div class="unsubmit" style="text-align: right; padding-right: 10px"><input type="submit" data-bind="click: remove" value="Remove" /></div></td>
+	<tr>
+		<td class="span4" data-bind="text: user.name"></td>
+		<td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: hours" /></td>
+		<td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: minutes" /></td>
+		<td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: seconds" /></td>
+		<td class="results-editing"><select class="input-medium thin-control" data-bind="options: statuses, optionsText: 'name', optionsValue: 'id', value: status, optionsCaption: 'Choose...'"></select></td>
+		<td><button type="submit" class="btn btn-mini btn-danger" data-bind="click: remove"><i class="icon-trash icon-white"></i></button></td>
 	</tr>
 </script>
 
 <script type="text/html" id="courseTemplate">
-	<div class="input">
-		<h2 data-bind="text: name"></h2>
-		
-		<table>
-			<thead> 
-				<tr>
-					<th>Name</th>
-					<th>HH</th>
-					<th>MM</th>
-					<th>SS</th>
-					<th>Status</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody data-bind="template: {name:'resultTemplate', foreach: results}">
-			</tbody>
-		</table>
-	</div>
+	<h2 data-bind="text: name"></h2>
+	<table class="table table-striped table-condensed table-bordered">
+		<thead> 
+			<tr>
+				<th>Name</th>
+				<th>HH</th>
+				<th>MM</th>
+				<th>SS</th>
+				<th>Status</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody data-bind="template: {name:'resultTemplate', foreach: results}">
+		</tbody>
+	</table>
 </script>
 
-<h1 data-bind="text: event() ? event().name : ''"></h1>
-<div class="column narrow-form">
-    <div class='padded'>
+<header class="page-header">
+    <h1>Edit Results/Registrations <small data-bind="text: event() ? event().name : ''"></small></h1>
+</header>
+<div class="row">
+    <div class="span8">
         <div data-bind="template: {name:'courseTemplate', foreach: courses}">
     	</div>
     	<?php
     	echo $this->Form->create('Event', array('url' => "/events/editResults/${eventId}"));
     	echo $this->Form->hidden('event', array('data-bind' => 'value: ko.toJSON(event)'));
-    	echo $this->Form->hidden('courses', array('data-bind' => 'value: ko.toJSON(courses)'));
-    	echo $this->Form->input('results_posted', array('label' => 'Show Results?', 'checked' => 'checked', 'type' => 'checkbox'));
-    	echo $this->Form->end('Save');
+    	echo $this->Form->hidden('courses', array('data-bind' => 'value: ko.toJSON(courses)')); ?>
+    	<fieldset class="control-group">
+    	   <div class="controls">
+    	       <input type="hidden" name="data[Event][results_posted]" id="EventResultsPosted_" value="0">
+    	       
+    	       <label for="EventResultsPosted" class="checkbox inline">
+    	       <input type="checkbox" name="data[Event][results_posted]" checked="checked" value="1" id="EventResultsPosted">
+    	       Show Results?
+    	       </label>
+    	   </div>
+        </fieldset>
+    	<?php
+    	echo $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'form-actions')));
     	?>
     </div>
-	
-</div>
-
-<div class="column last" style="width: 300px; padding: 20px">
-	<div>
-		<h2>Add Competitor</h2>
-		<p>Use this to add a participant that didn't register online before the event. If they don't come up in the list, use the Create User dialog below, then use this form to add the competitor.</p>
-		<select data-bind="options: courses, optionsText: 'name', value: selectedCourse, optionsCaption: 'Choose Course..'"></select>
-		<?php echo $this->Form->input('competitorResults', array('label' => '', 'placeholder' => 'Competitor Name')); ?>
-	</div>
-	<div>
-		<h2>Create User</h2>
-		<p>You can create a user if they participated in the event, but are <b>not registered on the website yet</b>. Then use the add competitor interface for the course you are adding the user to.</p>
-		<form>
-			<div class="input submit">
-				<input type="text" placeholder="Name" data-bind="value: userName" />
-			</div>
-			<div class="input submit">
-				<input type="submit" data-bind="click: addUser" value="Create User" />
-			</div>
-		</form>
-	</div>
+    
+    <div class="span4">
+    	<div>
+    		<h2>Add Competitor</h2>
+    		<p>Use this to add a participant that didn't register online before the event. If they don't come up in the list, use the Create User dialog below, then use this form to add the competitor.</p>
+    		<select data-bind="options: courses, optionsText: 'name', value: selectedCourse, optionsCaption: 'Choose Course..'"></select>
+    		<?php echo $this->Form->input('competitorResults', array('label' => '', 'placeholder' => 'Competitor Name')); ?>
+    	</div>
+    	<hr/>
+    	<div>
+    		<h2>Create User</h2>
+    		<p>You can create a user if they participated in the event, but are <b>not registered on the website yet</b>. Then use the add competitor interface for the course you are adding the user to.</p>
+    		<form>
+    			<div class="input submit">
+    				<input type="text" placeholder="Name" data-bind="value: userName" />
+    			</div>
+    			<div class="input submit">
+    				<input type="submit" data-bind="click: addUser" value="Create User" />
+    			</div>
+    		</form>
+    	</div>
+    </div>
 </div>
