@@ -157,6 +157,39 @@ class UsersController extends AppController
         $this->set('jsonResults', json_encode($jsonResults));  
     }
 
+    function merge($targetId, $sourceId) {
+        $this->checkAuthorization(Configure::read('Privilege.User.edit'));
+        $field_options = array('year_of_birth'=>'target_source',
+            'club_id'=>'target_source',
+            'si_number'=>'target_source',
+            'email'=>'target_source',
+            'referred_from'=>'target_source');
+        $this->User->merge($targetId, $sourceId, $field_options);
+        $this->redirect('/users/showDuplicates');
+        return;
+    }
+
+    function showDuplicates() {
+        $this->checkAuthorization(Configure::read('Privilege.User.edit'));
+        if($this->request->is('post')) {
+            $targetId = $this->data["User"][0]["user_id"];
+            $sourceId = $this->data["User"][1]["user_id"];
+            if($targetId != $sourceId) {
+                $this->merge($targetId, $sourceId);
+                $this->Session->setFlash("Users merged", 'flash_success');
+            }
+            else {
+                $this->Session->setFlash('Users not merged');
+            }
+            $this->redirect('/users/showDuplicates');
+            return;
+        }
+        $users = $this->User->find('list', array('order' => 'name asc'));
+        $this->set('users', $users);
+        $dupUsers = $this->User->getDuplicates();
+        $this->set('dupUsers', $dupUsers);
+    }
+
     /**
      * Add a simple user
      **/

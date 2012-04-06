@@ -92,6 +92,9 @@ class PagesController extends AppController {
         if($page === 'resources') {
             $this->set('pages', $this->Page->findAllBySection('resources', array('id', 'name')));
         }
+        else if($page === 'admin') {
+            $this->set('allowShowDuplicates', $this->isAuthorized(Configure::read('Privilege.User.edit')));
+        }
 
         $dynamicPage = $this->Page->findById($page);
 
