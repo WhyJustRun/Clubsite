@@ -136,9 +136,6 @@ nav {
 /** CSS3 display :box allows for even spacing of navigation bar elements **/
 nav ul {
     list-style-type:none;
-    margin: 0 12px;
-    padding-left: 1.5em;
-    height: 18px;
 }
 
 nav ul li {
@@ -154,19 +151,15 @@ nav ul li {
 }
 
 nav ul li a {
-	padding-left: 6px;
-    padding-right: 6px;
-    margin-left: 4px;
-    margin-right: 4px;
+	padding-left: 9px;
+    padding-right: 9px;
+    margin-left: 5px;
+    margin-right: 5px;
     font-size: 14px;
     display: inline-block;
     text-decoration: none;
     color: #EDEDED;
     font-weight: bold;
-    
-    /** For IE8 **/
-    background-color: white;
-    background-color: #213449;
 }
 
 nav ul li a:hover {
