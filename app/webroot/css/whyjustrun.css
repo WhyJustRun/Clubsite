@@ -36,6 +36,14 @@
   
 }
 
+/** Placeholder polyfill **/
+input, textarea { 
+    color: #000;
+}
+.placeholder {
+    color: #aaa;
+}
+
 /** Thinner select input, useful for tables**/
 input.thin-control, select.thin-control, form.thin-form select, form.thin-form input {
     height: 18px;

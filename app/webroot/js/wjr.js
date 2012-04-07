@@ -29,6 +29,7 @@ $(function() {
     $('time.timeago').timeago();
     
     $('.date-picker').datepicker();
+    $('input, textarea').placeholder();
 });
 
 
