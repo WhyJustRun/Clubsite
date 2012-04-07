@@ -236,7 +236,7 @@ footer a, footer a:hover {
 	overflow:hidden;
 }
 
-.three-column > article > header > h2, .three-column > article > div > h2, .three-column > article > h3 {
+.three-column h2, .three-column h3 {
     text-align: center;
 }
 
