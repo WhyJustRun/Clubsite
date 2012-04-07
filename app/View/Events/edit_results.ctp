@@ -54,7 +54,7 @@ $(document).ready(function(){
 				if(!confirm("Are you sure you want to delete this competitor?")) {
 					return;
 				}
-				$.ajax('/Results/delete/' + this.id);
+				$.ajax('/results/delete/' + this.id);
 			}
 
 			var courses = viewModel.courses();
@@ -99,7 +99,7 @@ $(document).ready(function(){
 	}
 
 	var loadObjects = function() {
-		$.getJSON('/Events/view/' + <?= $eventId ?> + '.json', function(data) {
+		$.getJSON('/events/view/' + <?= $eventId ?> + '.json', function(data) {
 			viewModel.event(new wjr.Event(data.Event.id, data.Event.name, data.Event.date));
 			var courses = data["Course"];
 			for(var i = 0; i < courses.length; i++) {
