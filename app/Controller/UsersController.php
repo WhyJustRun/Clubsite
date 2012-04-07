@@ -19,6 +19,8 @@ class UsersController extends AppController
         if(!empty($_GET["term"])) {
             $conditions = array('User.name' => $_GET["term"]);
             $this->set("users", $this->User->findByName($_GET["term"]));
+        } else {
+            $this->set("users", array());
         }
     }
 

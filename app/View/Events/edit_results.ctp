@@ -18,6 +18,10 @@ $(document).ready(function(){
 	   
 	   return wjr._statuses;
 	}
+	
+	wjr.sorted_statuses = function() {
+	   return _.values(wjr.statuses()).sort(function (a, b) { return a.name.localeCompare(b.name); });
+	}
 
 	wjr.ResultStatus = function(id, name) {
 	   this.id = id;
@@ -43,7 +47,9 @@ $(document).ready(function(){
 		this.hours = ko.observable(time ? time.substr(0, 2) : '00');
 		this.minutes = ko.observable(time ? time.substr(3, 2) : '00');
 		this.seconds = ko.observable(time ? time.substr(6, 2) : '00');
-        this.statuses = _.values(wjr.statuses()).sort(function (a, b) { return a.name.localeCompare(b.name); });
+        this.statuses = function() {
+            return wjr.sorted_statuses();
+        }
 		this.status = ko.observable(status || 'ok');
 		this.points = points;
 		this.needs_ride = needs_ride;
@@ -99,7 +105,7 @@ $(document).ready(function(){
 	}
 
 	var loadObjects = function() {
-		$.getJSON('/events/view/' + <?= $eventId ?> + '.json', function(data) {
+		$.getJSON('/events/view/<?= $eventId ?>.json', function(data) {
 			viewModel.event(new wjr.Event(data.Event.id, data.Event.name, data.Event.date));
 			var courses = data["Course"];
 			for(var i = 0; i < courses.length; i++) {
@@ -137,7 +143,7 @@ $(document).ready(function(){
 		<td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: hours" /></td>
 		<td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: minutes" /></td>
 		<td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: seconds" /></td>
-		<td class="results-editing"><select class="input-medium thin-control" data-bind="options: statuses, optionsText: 'name', optionsValue: 'id', value: status, optionsCaption: 'Choose...'"></select></td>
+		<td class="results-editing"><select class="input-medium thin-control" data-bind="options: statuses(), optionsText: 'name', optionsValue: 'id', value: status, optionsCaption: 'Choose...'"></select></td>
 		<td><button type="submit" class="btn btn-mini btn-danger" data-bind="click: remove"><i class="icon-trash icon-white"></i></button></td>
 	</tr>
 </script>
