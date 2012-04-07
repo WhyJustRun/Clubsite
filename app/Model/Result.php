@@ -185,14 +185,28 @@ class Result extends AppModel {
 		else
 			return $meanTime / $counter;
 	}
-	function meanPoints($date) {
-		$users = $this->User->find('all', array("conditions"=>"id < 50"));
-		foreach ($users as $user) {
-			$point = $this->meanPointsByUser($user["User"]["id"]);
-			if($point != NULL)
-				$points[$user["User"]["name"]] = $point;
-		}
-		arsort($points);
+	function meanPoints($start_date, $end_date) {
+        $this->User->bindModel(array('hasOne'=>array('Club')));
+        $points = $this->find('all', array(
+            'fields'=>array(
+                'User.id','User.name',
+                'User.club_id',
+                'Event.name',
+                'AVG(Result.points) as points',
+                'COUNT(Result.points) as count'),
+            'conditions' => array(
+                'Result.points >' => 0,
+                'Result.time >' => 0,
+                'Event.date >= ' => $start_date,
+                'Event.date <= ' => $end_date),
+            'group' => 'User.id',
+            'limit' => '20',
+            'order' => 'points desc'));
+        foreach($points as &$point) {
+            $club = $this->User->findById($point["User"]["id"]);
+            $point["Club"] = $club["Club"];
+        }
+ 
 		return $points;
 	}
 	function meanPointsByUser($course_id, $user_id) {
