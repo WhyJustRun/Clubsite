@@ -49,7 +49,7 @@ class MapsController extends AppController {
         // Check permission
         if(!$this->isAuthorized(Configure::read('Privilege.Map.view_ocad'))) {
             $this->Session->setFlash('You are not authorized to download this map.');
-            $this->redirect('/Maps/view/'.$id);
+            $this->redirect('/maps/view/'.$id);
         }
 
         $map = $this->Map->findById($id);
@@ -61,7 +61,7 @@ class MapsController extends AppController {
         $sys = system($command);
         if(!$sys){
             $this->Session->setFlash('File does not exist. Please contact webmaster.');
-            $this->redirect('/Maps/view/'. $id);
+            $this->redirect('/maps/view/'. $id);
             return;
         } else {
             $command = "svn cat file:///var/svn/gvoc" . $map["Map"]["repository_path"] . " > $file";
@@ -116,11 +116,11 @@ class MapsController extends AppController {
         if(!$edit) {
             if($id == null) {
                 $this->Session->setFlash('You are not authorized to add a map.');
-                $this->redirect('/Maps/');
+                $this->redirect('/maps/');
             }
             else {
                 $this->Session->setFlash('You are not authorized to edit this map.');
-                $this->redirect('/Maps/view/'.$id);
+                $this->redirect('/maps/view/'.$id);
             }
         }
 
@@ -141,7 +141,7 @@ class MapsController extends AppController {
                     $this->Media->create($this->request->data['Map']['image'], $this->Map->id);
                 }
 
-                $this->redirect('/Maps/view/'.$this->Map->id);
+                $this->redirect('/maps/view/'.$this->Map->id);
             }
         }
     }

@@ -31,11 +31,11 @@
 <?//<h2>E-mailing list</h2>?>
 <?
    if(!$is_subscribed) {
-      echo $this->Form->create('User', array('url' => '/Users/subscribe/'.$this->Session->read('Auth.User.id')));
+      echo $this->Form->create('User', array('url' => '/users/subscribe/'.$this->Session->read('Auth.User.id')));
       echo $this->Form->end("Subscribe"); 
    }
    else {
-      echo $this->Form->create('User', array('url' => '/Users/unsubscribe/'.$this->Session->read('Auth.User.id')));
+      echo $this->Form->create('User', array('url' => '/users/unsubscribe/'.$this->Session->read('Auth.User.id')));
       echo $this->Form->end("Unsubscribe"); 
    }
 ?>
