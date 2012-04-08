@@ -175,14 +175,14 @@ $(document).ready(function(){
     	</div>
     	<?php
     	echo $this->Form->create('Event', array('url' => "/events/editResults/${eventId}"));
-    	echo $this->Form->hidden('event', array('data-bind' => 'value: ko.toJSON(event)'));
-    	echo $this->Form->hidden('courses', array('data-bind' => 'value: ko.toJSON(courses)')); ?>
+    	echo $this->Form->hidden('courses', array('data-bind' => 'value: ko.toJSON(courses)'));
+    	$this->Form->unlockField('Event.courses');
+    	?>
     	<fieldset class="control-group">
     	   <div class="controls">
-    	       <input type="hidden" name="data[Event][results_posted]" id="EventResultsPosted_" value="0">
     	       
     	       <label for="EventResultsPosted" class="checkbox inline">
-    	       <input type="checkbox" name="data[Event][results_posted]" checked="checked" value="1" id="EventResultsPosted">
+    	       <?= $this->Form->checkbox('results_posted', array('checked' => 'checked')) ?>
     	       Show Results?
     	       </label>
     	   </div>

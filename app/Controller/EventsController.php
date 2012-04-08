@@ -201,9 +201,19 @@ class EventsController extends AppController {
         $this->_checkEditAuthorization($id);
         $this->Event->id = $id;
         if ($this->request->is('post')) {
+            $allowedCoursesResult = $this->Event->Course->find('all', array('recursive' => -1, 'conditions' => array('Course.event_id' => $id)));
+            $allowedCourses = array();
+            foreach($allowedCoursesResult as $allowedCourseResult) {
+                array_push($allowedCourses, $allowedCourseResult['Course']['id']);
+            }
             $courses = json_decode($this->request->data["Event"]["courses"]);
             $updatedResults = array();
             foreach($courses as $course) {
+                // Security check: make sure the course being edited is actually part of the event being edited
+                if(!in_array($course->id, $allowedCourses)) {
+                    $this->redirect("/");
+                }
+                
                 foreach($course->results as $result) {
                     $processedResult = array();
                     $processedResult["user_id"] = $result->user->id;
@@ -225,8 +235,7 @@ class EventsController extends AppController {
                 }
                 if(empty($updatedResults) || $this->Event->Course->Result->saveAll($updatedResults)) {
                     $this->Event->Course->Result->calculatePoints($course->id);
-                    if($this->Event->saveField('results_posted', $this->request->data["Event"]["results_posted"])) {
-                    }
+                    $this->Event->saveField('results_posted', $this->request->data["Event"]["results_posted"]);
                 }
             }
             $this->redirect("/events/view/${id}");

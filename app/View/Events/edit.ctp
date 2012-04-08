@@ -1,6 +1,6 @@
-<div class="page-header">
+<header class="page-header">
     <h1><?= $type ?> Event</h1>
-</div>
+</header>
 <?php 
 if(!empty($this->data['Event']['date'])) {
     $parts = explode(' ', $this->data['Event']['date']);
@@ -23,7 +23,9 @@ echo $this->Form->create('Event', array('class' => 'form-horizontal', 'data-vali
 // Hidden JSON encoded organizer data from the edit organizers UI
 echo $this->Form->input('id', array('type' => 'hidden'));
 echo $this->Form->hidden('organizers', array('value' => $this->data["Event"]["organizers"], 'data-bind' => 'value: ko.toJSON(organizers)'));
+$this->Form->unlockField('Event.organizers');
 echo $this->Form->hidden('courses', array('value' => $this->data["Event"]["courses"], 'data-bind' => 'value: ko.toJSON(courses)'));
+$this->Form->unlockField('Event.courses');
 echo $this->Form->input('name', array('data-validate' => 'validate(required)', 'required' => 'required')); ?>
 <div class="control-group">
     <label class="control-label">Start Time</label>
@@ -61,7 +63,9 @@ echo $this->Form->input('series_id', array('empty' => 'Choose the event series')
 echo $this->Form->input('map_id', array('empty' => 'Choose the event map'));
 
 echo $this->Form->hidden('lat', array('default' => Configure::read('Club.lat')));
+$this->Form->unlockField('Event.lat');
 echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng')));
+$this->Form->unlockField('Event.lng');
 ?>
 
 <?= $this->element('Events/edit_courses_organizers') ?>
@@ -74,3 +78,9 @@ echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng')))
 </fieldset>
 
 <?= $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'form-actions'))) ?>
+<script type="text/javascript">
+// Fix for CakePHP form security - exclude the knockout inputs
+$("#EventEditForm").submit(function() {
+    $(this).find('[name ^= "ko_unique"]').attr("name", null);
+});
+</script>
