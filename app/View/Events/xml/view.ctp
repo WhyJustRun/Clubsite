@@ -8,8 +8,8 @@ $eventClock = substr($event["Event"]["date"], 11, 13);
 
 // Set up declaration
 $implementation = new DOMImplementation();
-$dtd = $implementation->createDocumentType('Event','','IOFdata_myO.dtd');
-$xml = $implementation->createDocument('', '', $dtd);
+$xml = $implementation->createDocument();
+$xml->encoding = 'UTF-8';
 
 $wrapper = $xml->createElement("Wrapper");
 $xml->appendChild($wrapper);
@@ -33,7 +33,7 @@ $c->appendChild($xml->createElement("CountryId", "CAN"));
 $el = $wrapper->appendChild($xml->createElement("EventList"));
 $e = $el->appendChild($xml->createElement("Event"));
 $e->appendChild($xml->createElement('EventId', $event["Event"]["id"]));
-$e->appendChild($xml->createElement('Name', htmlentities($event["Event"]["name"])));
+$e->appendChild($xml->createElement('Name', $event["Event"]["name"]));
 $startDate = $xml->createElement('StartDate');
 $endDate = $xml->createElement('FinishDate');
 $e->appendChild($startDate);
@@ -48,7 +48,7 @@ foreach($organizers as $organizer) {
    $o = $xml->createElement("EventOfficial");
    $p = $xml->createElement("Person");
    $o->appendChild($p);
-   $p->appendChild($xml->createElement('PersonName', htmlentities($organizer["User"]["name"])));
+   $p->appendChild($xml->createElement('PersonName', $organizer["User"]["name"]));
    $p->appendChild($xml->createElement('PersonId', $organizer["User"]["id"]));
    $e->appendChild($o);
 }
@@ -122,7 +122,7 @@ foreach ( $courses as $course) {
       $ps = $c->appendChild($xml->createElement("PersonStart"));
       $p = $ps->appendChild($xml->createElement("Person"));
       $pn = $p->appendChild($xml->createElement("PersonName"));
-      $pn->appendChild($xml->createElement("Family", htmlentities($runner["User"]["name"])));
+      $pn->appendChild($xml->createElement("Family", $runner["User"]["name"]));
 
       $s = $ps->appendChild($xml->createElement("Start"));
       $s->appendChild($xml->createElement("CCardId",$runner["User"]["si_number"]));
