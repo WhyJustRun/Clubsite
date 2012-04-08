@@ -14,8 +14,9 @@
     </div>
     <div class="span7">
         <h3>Add privilege</h3>
-        <?=$this->Form->create('Privilege', array('class' => 'form-inline', 'action' => 'add'))?>
+        <?= $this->Form->create('Privilege', array('class' => 'form-inline', 'action' => 'add')) ?>
         <?= $this->Form->hidden('user_id') ?>
+        <?php $this->Form->unlockField('Privilege.user_id'); ?>
         <input placeholder="Name" type="text" id="UserName" />
         <script type="text/javascript">
         $(function() {
