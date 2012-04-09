@@ -248,18 +248,6 @@ footer a, footer a:hover {
     text-align: center;
 }
 
-/* Deprecated */
-.padded {
-/*
-	padding-left: 20px;
-	padding-right: 20px;
-*/
-}
-
-.three-column .column .facebook {
-	
-}
-
 .news-item {
 	margin-bottom: 5px;
 	margin-top: 5px;
@@ -333,7 +321,8 @@ footer a, footer a:hover {
     font-size: 100%;
 	font-weight: bold;
 }
-.event-box-left {
+.event-box-classification {
+    vertical-align: 3px;
 }
 
 #home_left {
