@@ -3,7 +3,10 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
     // AppController's components are NOT merged with defaults,
     // so session component is lost if it's not included here!
-    var $components = array('Auth', 'Session', 'Security');
+    var $components = array('Auth', 'Session', 'Security' => array(
+        'csrfExpires' => '+12 hours',
+        'csrfUseOnce' => false
+    ));
     var $helpers = array('Session', 'Html', 'Menu', 'ContentBlock');
 
 
