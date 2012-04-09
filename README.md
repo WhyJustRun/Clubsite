@@ -1,12 +1,13 @@
-# WhyJustRun Orienteering Software
+# OrienteerApp Clubsite
 
 ## About
 
 A hosted, managed web application for orienteering clubs.
 
-By using WhyJustRun, you get useful functionality with minimal effort:
+By using OrienteerApp, you get useful functionality with minimal effort:
 
 - User accounts
+- Responsive website that works well on all devices
 - Event registration
 - Intuitive UI for event posting
 - Import of participants into event timing software
@@ -18,11 +19,11 @@ By using WhyJustRun, you get useful functionality with minimal effort:
 - Membership management
 - IOF Standard XML APIs
 - Live results
+- iOS app for timing smaller events
 
 Coming Soon:
 
 - Upload results automatically from orienteering timing software
-- iOS app for timing smaller events
 - Display of nearby events organized by other clubs
 
 ## Current Users
@@ -36,5 +37,3 @@ Coming Soon:
 Russell - contact@russellporter.com
 
 Thomas - tnipen@gmail.com
-
-### Message us if you want access to our development issue tracker
