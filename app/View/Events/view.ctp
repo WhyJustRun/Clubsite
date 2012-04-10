@@ -83,12 +83,6 @@
                                     <li><a href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>/offeringRide"><i class="icon-road"></i> Register (Offer ride)</a></li>
                                 </ul>
                             </div>
-						<? } else { ?>
-    						<div class="btn-group">
-                                <a class="btn btn-danger" href="/courses/unregister/<?= $course['id'] ?>/<?= $userId ?>">
-                                    <i class="icon-minus icon-white"></i> Unregister
-                                </a>
-                            </div>
 						<?php } ?>
 					</div>
 					
