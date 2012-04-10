@@ -142,6 +142,10 @@ class PagesController extends AppController {
             $this->Page->saveField('name', $name);
             $this->set('content', $name);
             $this->set('useMarkdown', false);
+        } else {
+            // This should never happen, but somehow it does..
+            $this->set('content', null);
+            $this->set('useMarkdown', false);
         }
 
         $this->render('edit');
