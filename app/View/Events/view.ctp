@@ -112,7 +112,8 @@
     		<?php if(empty($userId)) { ?>
                 <a href="/users/login" class="btn btn-primary">Sign in</a>
     		<?php } else { ?>
-                <p>To register someone, choose the course to register them on, then type their name in the participant field, and pick the best match. If they are not yet</p>
+                <p>To register someone else, choose the course to register them on, then type their name, and pick the person from the drop down list.</p>
+                <p><strong>Families</strong>: you don't need to register an account for every family member, just type the participating people's names below and an account will automatically be created for each person.</p>
                 <select id="RegisterOthersCourse">
                     <?php foreach($event['Course'] as $course) { ?>
                         <option value="<?= $course['id'] ?>"><?= $course['name'] ?></option>
