@@ -48,6 +48,9 @@ class PagesController extends AppController {
     function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('*');
+        // Using jEditable so disable security checks for this controller
+        $this->Security->csrfCheck = false;
+        $this->Security->validatePost = false;
     }
     /**
      * Displays a view
@@ -77,9 +80,14 @@ class PagesController extends AppController {
         if (!empty($path[0])) {
             $page = $path[0];
             if($page === 'edit') {
+                $this->params['action'] = 'edit';
                 return $this->edit();
             } else if($page === 'add') {
+                $this->params['action'] = 'add';
                 return $this->add();
+            } else if($page === 'delete') {
+                $this->params['action'] = 'delete';
+                return $this->delete($path[1]);
             }
         }
         if (!empty($path[1])) {
@@ -128,12 +136,21 @@ class PagesController extends AppController {
         if(!empty($this->request->data['value'])) {
             $this->Page->saveField('content', $this->request->data['value']);
             $this->set('content', $this->request->data['value']);
+            $this->set('useMarkdown', true);
         } else if(!empty($this->request->data['name'])) {
-            $this->Page->saveField('name', $this->request->data['name']);
-            $this->set('content', $this->request->data['name']);
+            $name = $this->request->data['name'];
+            $this->Page->saveField('name', $name);
+            $this->set('content', $name);
+            $this->set('useMarkdown', false);
         }
 
         $this->render('edit');
+    }
+    
+    public function delete($id) {
+        $this->checkAuthorization(Configure::read('Privilege.Page.delete'));
+        $this->Page->delete($id);
+        $this->redirect('/pages/resources');
     }
 
     private function parseEntityId($id) {

@@ -15,6 +15,9 @@ class ContentBlocksController extends AppController {
     {
         parent::beforeFilter();
         $this->Auth->allow('view');
+        // Disable security checks on Content Block edits. These edits are handled by JEditable so don't use the CakePHP form helper.
+        $this->Security->csrfCheck = false;
+        $this->Security->validatePost = false;
     }
 
     /**

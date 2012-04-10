@@ -1,2 +1,2 @@
 <? $this->layout = null; ?>
-<?= $this->Markdown->render($content) ?>
+<?= $useMarkdown ? $this->Markdown->render($content) : $content ?>
