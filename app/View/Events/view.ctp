@@ -65,24 +65,27 @@
 			<h2>Course Registration</h2>
 		</header>
 		<div class="courses">
-			<?php foreach($event["Course"] as $course) { ?>
+			<?php 
+			$userId = $this->Session->read('Auth.User.id');
+			$userId = empty($userId) ? 0 : $userId;
+			foreach($event["Course"] as $course) { ?>
 			<div class="course">
 				<div class="course-info">
 					<div class="pull-right">
 						<?php if($course["registered"] === false) { ?>
                             <div class="btn-group">
-                                <a class="btn btn-success" href="/courses/register/<?= $course['id'] ?>"><i class="icon-plus icon-white"></i> Register</a>
+                                <a class="btn btn-success" href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>"><i class="icon-plus icon-white"></i> Register</a>
                                 <a class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/courses/register/<?= $course['id'] ?>/needsRide"><i class="icon-user"></i> Register (Need ride)</a></li>
-                                    <li><a href="/courses/register/<?= $course['id'] ?>/offeringRide"><i class="icon-road"></i> Register (Offer ride)</a></li>
+                                    <li><a href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>/needsRide"><i class="icon-user"></i> Register (Need ride)</a></li>
+                                    <li><a href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>/offeringRide"><i class="icon-road"></i> Register (Offer ride)</a></li>
                                 </ul>
                             </div>
 						<? } else { ?>
     						<div class="btn-group">
-                                <a class="btn btn-danger" href="/courses/unregister/<?= $course['id'] ?>">
+                                <a class="btn btn-danger" href="/courses/unregister/<?= $course['id'] ?>/<?= $userId ?>">
                                     <i class="icon-minus icon-white"></i> Unregister
                                 </a>
                             </div>
@@ -105,11 +108,69 @@
 					</span>
 				</div>
 				<div class="results-list">
-					<?php echo $this->element('Results/list', array('results' => $course["Result"])); ?>
+					<?php echo $this->element('Results/list', array('course' => $course, 'results' => $course["Result"])); ?>
 				</div>
 			</div>
 			<?php } ?>
 		</div>
+		<?php if(!empty($event["Course"])) { ?>
+		<h3>Register Others</h3>
+    		<?php if(empty($userId)) { ?>
+                <a href="/users/login" class="btn btn-primary">Sign in</a>
+    		<?php } else { ?>
+                <p>To register someone, choose the course to register them on, then type their name in the participant field, and pick the best match. If they are not yet</p>
+                <select id="RegisterOthersCourse">
+                    <?php foreach($event['Course'] as $course) { ?>
+                        <option value="<?= $course['id'] ?>"><?= $course['name'] ?></option>
+                    <?php } ?>
+                </select>
+                <script type="text/javascript">
+                $(function() {
+                    $('#RegisterOthersUserId').val(null);
+                    
+                    orienteerAppPersonPicker('#RegisterOthersUserName', { maintainInput: true, allowNew: true }, function(person) {
+                        if(person != null) {
+                            $('#RegisterOthersUserId').val(person.id);
+                        } else {
+                            $('#RegisterOthersUserId').val(null);
+                        }
+                	});
+                	
+                	function completeSubmit(courseId, userId) {
+                	   location.href = "/courses/register/" + courseId + "/" + userId;
+                	}
+                	
+                    $('#RegisterOthersSubmit').click(function() {
+                        var userId = $('#RegisterOthersUserId').val();
+                        var courseId = $('#RegisterOthersCourse').val();
+                        if(!userId) {
+                            var userName = $('#RegisterOthersUserName').val();
+                            if(userName) {
+                                if(userName.indexOf(" ") != -1) {
+                                    if(confirm("This registration will create a new user in the system. Are you sure " + userName + " isn't already an OrienteerApp user?")) {
+                                        $.post('/users/add', { userName: userName }, function(data) {
+                                            completeSubmit(courseId, data)
+                                        });
+                                    } else {
+                                        alert("Thanks! Please re-enter the participant's name and choose the matching person from the dropdown.");
+                                    }
+                                } else {
+                                    alert("Please enter the participant's full name.");
+                                }
+                            } else {
+                                alert("Please enter the participant name");
+                            }
+                	    } else {
+                            completeSubmit(courseId, userId);
+                        }
+                    });
+                });
+                </script>
+                <input type="hidden" id="RegisterOthersUserId" />
+                <input placeholder="Participant Name" type="text" id="RegisterOthersUserName" /><br/>
+                <button id="RegisterOthersSubmit" class="btn btn-success"><i class="icon-plus icon-white"></i> Register</button>
+    		<?php } ?>
+        <?php } ?>
 	</div>
 	</div>
 	<?php } ?>

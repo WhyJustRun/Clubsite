@@ -12,6 +12,11 @@ class UsersController extends AppController
     {
         $this->Auth->allow('register', 'forgot', 'login', 'verify', 'authorized', 'index', 'view');
         parent::beforeFilter();
+        
+        if($this->request->action == 'add') {
+            $this->Security->csrfCheck = false;
+            $this->Security->validatePost = false;
+        }
     }
 
     function index() {
@@ -197,16 +202,14 @@ class UsersController extends AppController
      **/
     function add() {
         if ($this->request->is('post')) {
-            if($this->User->Organizer->isAuthorized($this->request->data["eventId"], AuthComponent::user('id'))) {
-                $this->User->create();
-                $data = array();
-                $data["User"]["name"] = $this->request->data["userName"];
-                if(!$this->User->save($data, false)) {
-                    throw new InternalErrorException('Failed adding a user');
-                }
-            } else {
-                throw new ForbiddenException('You are not authorized to add a user.');
+            $this->User->create();
+            $data = array();
+            $data["User"]["name"] = $this->request->data["userName"];
+            if(!$this->User->save($data, false)) {
+                throw new InternalErrorException('Failed adding a user');
             }
+            
+            $this->set('userId', $this->User->id);
         }
     }
 

@@ -89,13 +89,13 @@ class User extends AppModel {
 			'className' => 'Organizer',
 			'foreignKey' => 'user_id',
 		),
-		/*'Page' => array(
-			'className' => 'Page',
-			'foreignKey' => 'user_id',
-		),*/
 		'Result' => array(
 			'className' => 'Result',
 			'foreignKey' => 'user_id',
+		),
+		'Registrant' => array(
+			'className' => 'Result',
+			'foreignKey' => 'registrant_id',
 		)
 	);
 	

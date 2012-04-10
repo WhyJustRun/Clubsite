@@ -35,23 +35,30 @@ class CoursesController extends AppController {
         }
     }
 
-    function register($id, $carpool = null) {
-        $user = $this->Auth->user();
-        $course = $this->Course->findById($id);
+    // Passing $userId = 0 will register the currently logged in user
+    function register($courseId, $userId = 0, $carpool = null) {
+        $registrant = $this->Auth->user();
+        if(empty($userId)) {
+            $userId = $registrant['id'];
+        }
+        
+        $user = $this->Course->Result->User->findById($userId);
+        $course = $this->Course->Result->Course->findById($courseId);
 
-        if(empty($course["Course"]["id"])) {
+        if(empty($course["Course"]["id"]) || empty($user['User']['id']) || empty($registrant['id'])) {
             $this->redirect("/");
         }
 
         // Make sure the user isn't registered already
         foreach($course["Result"] as $courseUser) {
-            if($courseUser["user_id"] === $user["id"]) {
-                $this->redirect("/Events/view/".$course["Event"]["id"]);
+            if($courseUser["user_id"] === $user['User']["id"]) {
+                $this->redirect("/events/view/".$course["Event"]["id"]);
             }
         }
 
         // TODO-RWP Don't allow registration for events that already happened
-        $registration["Result"]["user_id"] = $user["id"];
+        $registration["Result"]["registrant_id"] = $registrant['id'];
+        $registration["Result"]["user_id"] = $user['User']["id"];
         $registration["Result"]["course_id"] = $course["Course"]["id"];
         if($carpool === "needsRide") {
             $registration["Result"]["needs_ride"] = 1;
@@ -60,8 +67,35 @@ class CoursesController extends AppController {
         }
         $this->Course->Result->save($registration);
 
-        $this->Session->setFlash("You are now registered!", "flash_success");
-        $this->redirect("/Events/view/".$course["Event"]["id"]);
+        $this->Session->setFlash("Registration successful!", "flash_success");
+        $this->redirect("/events/view/".$course["Event"]["id"]);
+    }
+    
+    
+    // Can only unregister people you registered.
+    function unregister($courseId, $userId = null) {
+        $registrant = $this->Auth->user();
+        if(empty($userId)) {
+            $userId = $registrant['id'];
+        }
+        $course = $this->Course->findById($courseId);
+        $registeredUsers = $this->Course->Result->find('all', array('recursive' => -1, 'conditions' => array('Result.registrant_id' => $registrant['id'])));
+        $registeredUsersList = array();
+        foreach($registeredUsers as $registeredUser) {
+            array_push($registeredUsersList, $registeredUser['Result']['user_id']);
+        }
+        
+        if($registrant['id'] != $userId && !in_array($userId, $registeredUsersList)) {
+            $this->redirect('/');
+        }
+
+        $conditions = array();
+        $conditions["Result.user_id"] = $userId;
+        $conditions["Result.course_id"] = $courseId;
+        $this->Course->Result->deleteAll($conditions);
+
+        $this->Session->setFlash("Unregistration successful!", "flash_success");
+        $this->redirect("/events/view/".$course["Event"]["id"]);
     }
 
     function uploadMap($id) {
@@ -87,19 +121,6 @@ class CoursesController extends AppController {
 
     function map($id, $thumbnail = false) {
         $this->Media->display($id, $thumbnail);
-    }
-
-    function unregister($id) {
-        $user = $this->Auth->user();
-        $course = $this->Course->findById($id);
-
-        $conditions = array();
-        $conditions["Result.user_id"] = $user["id"];
-        $conditions["Result.course_id"] = $id;
-        $this->Course->Result->deleteAll($conditions);
-
-        $this->Session->setFlash("You are now unregistered", "flash_success");
-        $this->redirect("/Events/view/".$course["Event"]["id"]);
     }
 }
 ?>

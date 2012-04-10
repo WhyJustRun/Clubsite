@@ -19,10 +19,16 @@ if(!empty($results)) { ?>
     </thead>
     <tbody>
     <?
+    $userId = $this->Session->read('Auth.User.id');
     foreach($results as $result) {
     	echo "<tr>";
     	echo "<td>";
     	echo $this->Html->link($result["User"]["name"], '/users/view/'.$result["User"]["id"]);
+    	if(!empty($userId) && (!empty($result['Registrant']['id']) && $result['Registrant']['id'] == $userId || $result['User']['id'] == $userId)) {
+    	   echo "<span class='pull-right'>";
+    	   echo '<a class="btn btn-mini btn-danger" href="/courses/unregister/'.$course['id'].'/'.$result["User"]["id"].'"><i class="icon-minus icon-white"></i> Unregister</a>';
+    	   echo "</span>";
+    	}
     	echo "</td>";
         $id = SessionHelper::read('Auth.User.id');
         echo "<td colspan='2'>";

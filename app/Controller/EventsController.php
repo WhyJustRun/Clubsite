@@ -154,7 +154,7 @@ class EventsController extends AppController {
                 ), 'Role'
             ), 
             'Course' => array(
-                'Result' => array('User.name', 'User.id', 'User.username', 'User.si_number')
+                'Result' => array('Registrant.id', 'User.name', 'User.id', 'User.username', 'User.si_number')
             )
         );
         $event = $this->Event->find('first', array('conditions' => array('Event.id' => $id), 'contain' => $contain));

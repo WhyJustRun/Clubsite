@@ -34,8 +34,10 @@ $(function() {
 
 
 // Callback should take a person object with id, name. Callback can also be called with null (no person selected)
+// Maintain input will keep the selected user's name in the input after the input loses focus. Allow new will keep the input populated even if there is no user in the system with the given name.
 function orienteerAppPersonPicker(selector, options, callback) {
     options = options || {};
+    options['allowNew'] = options['allowNew'] || false;
     displayName = null;
     
     $(selector).typeahead({
@@ -59,10 +61,12 @@ function orienteerAppPersonPicker(selector, options, callback) {
     });
     
     $(selector).blur(function() {
-        if($(selector).val() == "") {
-            callback(null)
-        } else if($(selector).val() != displayName){
-            $(selector).val(displayName);
+        if(!options['allowNew']) {
+            if($(selector).val() == "") {
+                callback(null)
+            } else if($(selector).val() != displayName){
+                $(selector).val(displayName);
+            }
         }
     });
 }
