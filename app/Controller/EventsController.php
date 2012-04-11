@@ -173,20 +173,18 @@ class EventsController extends AppController {
             $event["Event"]["completed"] = false;
         }
 
-        $course["Result"] = @Set::sort($course["Result"], "{n}.User.name", 'asc');
         foreach($event["Course"] as &$course) {
-            $registered = false;
+            $course["Result"] = @Set::sort($course["Result"], "{n}.User.name", 'asc');
+            $course["registered"] = false;
 
             if($this->Auth->loggedIn()) {
                 foreach($course["Result"] as $result) {
                     if($user["id"] === $result["User"]["id"]) {
-                        $registered = true;
+                        $course["registered"] = true;
                         break;
                     }
                 }
             }
-
-            $course["registered"] = $registered;
         }
 
         $this->set('title_for_layout', $event["Event"]["name"]);

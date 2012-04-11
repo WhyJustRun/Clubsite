@@ -143,12 +143,17 @@ class UsersController extends AppController
 
         $this->set('title_for_layout', $user["User"]["name"]);
         $this->set('user', $user);
-        $results = $this->User->Result->find('all', array( 'conditions' => array('Result.user_id' => $id), 'contain' => array('Course' => array('Event')), 'order'=>array('Result.points DESC')));
-        $this->set('results', $results);
+        $results = $this->User->Result->find('all', 
+            array('conditions' => array('Result.user_id' => $id),
+                'contain' => array('Course' => array('Event'))
+            )
+        );
 
         if(!empty($results)) {
-            $results = Set::sort($results, '{n}.Course.Event.date', 'asc');
+            $results = Set::sort($results, '{n}.Course.Event.date', 'desc');
         }
+        
+        $this->set('results', $results);
 
         $jsonResults = array();
         foreach($results as $result) {

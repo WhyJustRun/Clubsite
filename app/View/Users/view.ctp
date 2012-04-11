@@ -55,7 +55,7 @@ $show_results = true;
     } ?>
     </div>
 </div>
-<?php if(!empty($results)) { ?>
+<?php if($jsonResults != "[]") { ?>
     <h2>Ranking Points over time</h2>
     <div id='results-chart'></div>
 <?php }

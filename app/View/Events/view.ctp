@@ -55,7 +55,7 @@
 	<?php } elseif(count($event["Course"]) === 0) { ?>
 		<div class="results span4">
 			<header>
-				<h2>Course Registration</h2>
+				<h2>Registration</h2>
 			</header>
 			<p>No courses have been posted yet.</p>
 		</div>
