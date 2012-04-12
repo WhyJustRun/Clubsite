@@ -19,7 +19,7 @@ class FacebookGraphHelper extends AppHelper {
         parent::__construct($view);
     }
     
-    function like($feedName) {
+    function like($source = 'like') {
         $config = Configure::read('Facebook');
     
         $html = '<div class="facebook">
@@ -32,7 +32,7 @@ class FacebookGraphHelper extends AppHelper {
         fjs.parentNode.insertBefore(js, fjs);
       }(document, \'script\', \'facebook-jssdk\'));</script>
 
-      <div class="fb-like-box" data-href="http://www.facebook.com/'.$config['sources'][$feedName]['name'].'" data-width="292" data-show-faces="false" data-stream="false" data-header="false"></div>
+      <div class="fb-like-box" data-href="http://www.facebook.com/'.$config['sources'][$source].'" data-width="292" data-show-faces="false" data-stream="false" data-header="false"></div>
       </div>';
       
         return $html;
