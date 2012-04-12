@@ -3,6 +3,7 @@
 <div class="three-column row">
 	<article class="span4">
         <?= $this->ContentBlock->render('general_information'); ?>
+        <?= $this->FacebookGraph->like('news'); ?>
 	</article>
 	
 	<article class="span4">
@@ -34,6 +35,5 @@
 		</header>
 		
 		<?= $this->FacebookGraph->feed('news', array('limit' => 5)); ?>
-      
 	</article>
 </div>
