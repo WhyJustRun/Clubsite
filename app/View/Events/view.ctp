@@ -9,7 +9,10 @@
                 <?php if($edit) { ?>
                   <li><a href="/events/printableEntries/<?= $event['Event']['id'] ?>">Printable List</a></li>
                 <?php } ?>
-                <li><a href="/events/view/<?= $event['Event']['id'] ?>.xml">IOF XML</a></li>
+                <li><a href="<?= Configure::read('Rails.domain') ?>/iof/2.0.3/events/<?= $event['Event']['id'] ?>/start_list.xml">Start List (IOF XML 2)</a></li>
+                <li><a href="<?= Configure::read('Rails.domain') ?>/iof/2.0.3/events/<?= $event['Event']['id'] ?>/result_list.xml">Result List (IOF XML 2)</a></li>
+                <li><a href="<?= Configure::read('Rails.domain') ?>/iof/3.0/events/<?= $event['Event']['id'] ?>/result_list.xml">Result List (IOF XML 3)</a></li>
+                <li><a href="<?= Configure::read('Rails.domain') ?>/iof/3.0/events/<?= $event['Event']['id'] ?>/entry_list.xml">Entry List (IOF XML 3)</a></li>
             </ul>
         </div>
         <?php if($edit) { ?>

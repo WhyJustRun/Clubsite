@@ -57,10 +57,7 @@ class FacebookGraphHelper extends AppHelper {
             $page = $this->facebook->api("/${name}");
             $feed = $this->facebook->api("/${name}/feed");
         } catch(Exception $e) {
-            //$this->log('Failed connecting to Facebook. Feed: '.$name, 'error');
-            //$this->log($e, 'error');
-            
-            return "<p class='padded'>News is currently unavailable due to a connectivity issue with Facebook. It will be back soon.</p>";
+            return "<p>News is currently unavailable due to a connectivity issue with Facebook. It will be back soon.</p>";
         }
         
         $html = '';
