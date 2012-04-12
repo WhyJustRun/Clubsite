@@ -75,7 +75,7 @@ class FacebookGraphHelper extends AppHelper {
                 
                 $html .= '<div class="news-item">
                     <div class="pull-left news-image">
-                        <a target="_blank" href="'.$news['picture-link'].'"><img width="100%" class="hidden-phone" src="'.$news['picture'].'" /></a>
+                        <a target="_blank" href="'.$news['picture-link'].'"><img width="100%" src="'.$news['picture'].'" /></a>
                     </div>
                     <div class="news-content">';
                 if(!empty($news['message'])) {
