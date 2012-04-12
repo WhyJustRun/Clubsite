@@ -249,36 +249,31 @@ footer a, footer a:hover {
 }
 
 .news-item {
-	margin-bottom: 5px;
-	margin-top: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-size: 12px;
 }
 
-.news-item header {
-    font-size: 105%;
+.news-image {
+    padding-top: 3px;
+    width: 50px;
 }
 
-.news-item header a {
-    font-size: 110%;
+.news-content {
+    margin-left: 65px;
 }
 
-.news-item img {
-    padding-right: 8px;
-    padding-top: 5px;
-    float: left;
+.news-link {
+    font-size: 13px;
 }
 
-/** Clear the div **/
-.news-item:after {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
+.news-time {
+    color: gray;
 }
 
 .event-box {
-	margin-bottom: 5px;
-	margin-top: 5px;
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
 
 /** Outer event-box is needed to safely override the a style and still allow for block clicking. **/

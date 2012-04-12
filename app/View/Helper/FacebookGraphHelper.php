@@ -52,6 +52,7 @@ class FacebookGraphHelper extends AppHelper {
         $source = $config['sources'][$feedName];
         $name = $source['name'];
         try {
+            $page = $this->facebook->api("/${name}");
             $feed = $this->facebook->api("/${name}/feed");
         } catch(Exception $e) {
             //$this->log('Failed connecting to Facebook. Feed: '.$name, 'error');
@@ -62,25 +63,34 @@ class FacebookGraphHelper extends AppHelper {
         
         $html = '';
         $i=0;
-        $maxItems = !empty($options['limit']) ? $options['limit'] : 5;
+        $maxItems = empty($options['limit']) ? 5 : $options['limit'];
         foreach($feed['data'] as $news) {
-            if(empty($news['picture'])) {
-                $news['picture'] = 'https://graph.facebook.com/'.$news['from']['id'].'/picture';
-                $news['picture-link'] = 'https://www.facebook.com/'.$news['from']['id'];
-            } else {
-                $news['picture-link'] = $news['link'];
+            if($page['id'] === $news['from']['id']) {
+                if(empty($news['picture'])) {
+                    $news['picture'] = 'https://graph.facebook.com/'.$news['from']['id'].'/picture';
+                    $news['picture-link'] = 'https://www.facebook.com/'.$news['from']['id'];
+                } else {
+                    $news['picture-link'] = $news['link'];
+                }
+                
+                $html .= '<div class="news-item">
+                    <div class="pull-left news-image">
+                        <a target="_blank" href="'.$news['picture-link'].'"><img width="100%" class="hidden-phone" src="'.$news['picture'].'" /></a>
+                    </div>
+                    <div class="news-content">';
+                if(!empty($news['message'])) {
+                    $html .= $news['message'].'<br/>';   
+                }
+    
+                $html .= "<div class='pull-right news-time'>
+                    Posted <time class='timeago' datetime='${news['created_time']}' title='${news['created_time']}'></time>
+                </div>";
+                $html .= !empty($news['link']) ? '<a class="news-link" href="'.$news['link'].'" target="_blank">More…</a>' : null;
+                $html .= '</div></div>';
+                $i++;
+                
+                if($i === $maxItems) break;
             }
-        
-            $html .= '<div class=\'news-item\'><img class="hidden-phone" src="'.$news['picture'].'" /><header><strong><a href="https://www.facebook.com/'.$news['from']['id'].'">'.$news['from']['name'].'</a></strong><br/><i>'.$this->TimePlus->niceShort($news['created_time']).'</i></header><a target="_blank" href="'.$news['picture-link'].'"></a><br/>';
-            if(!empty($news['message'])) {
-                $html .= $news['message'].'<br/>';   
-            }
-
-            $html .= !empty($news['link']) ? '<a href="'.$news['link'].'" target="_blank">More…</a>' : null;
-            $html .= '</div>';
-            $i++;
-            
-            if($i === $maxItems) break;
         }
         // For some reason, the cache doesn't overwrite reliably.. deleting before writing seems to solve this problem. it might be a timezone related issue.
         Cache::delete($key, $this->cacheStore);
