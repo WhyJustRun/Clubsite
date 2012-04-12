@@ -22,7 +22,8 @@ class FacebookGraphHelper extends AppHelper {
     function like($source = 'like') {
         $config = Configure::read('Facebook');
     
-        $html = '<div class="facebook">
+        if(isset($config['sources'][$source])) {
+            $html = '<div class="facebook">
 		<div id="fb-root"></div>
       <script>(function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -34,7 +35,8 @@ class FacebookGraphHelper extends AppHelper {
 
       <div class="fb-like-box" data-href="http://www.facebook.com/'.$config['sources'][$source].'" data-width="292" data-show-faces="false" data-stream="false" data-header="false"></div>
       </div>';
-      
+        } else $html = null;
+        
         return $html;
     }
     
