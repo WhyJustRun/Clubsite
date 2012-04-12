@@ -33,7 +33,7 @@ class FacebookGraphHelper extends AppHelper {
         fjs.parentNode.insertBefore(js, fjs);
       }(document, \'script\', \'facebook-jssdk\'));</script>
 
-      <div class="fb-like-box" data-href="http://www.facebook.com/'.$config['sources'][$source].'" data-width="292" data-show-faces="false" data-stream="false" data-header="false"></div>
+      <div class="fb-like-box" data-href="'.$config['sources'][$source].'" data-width="292" data-show-faces="false" data-stream="false" data-header="false"></div>
       </div>';
         } else $html = null;
         
