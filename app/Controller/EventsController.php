@@ -68,8 +68,12 @@ class EventsController extends AppController {
             $this->_parseJson();
             
             $this->request->data['Event']['date'] = $this->request->data['Event']['date']." ".$this->request->data['Event']['time'];
-
             unset($this->request->data['Event']['time']);
+            
+            if(!empty($this->request->data['Event']['finish_date'])) {
+                $this->request->data['Event']['finish_date'] = $this->request->data['Event']['finish_date']." ".$this->request->data['Event']['finish_time'];
+                unset($this->request->data['Event']['finish_time']);
+            }
 
             // Don't save the default location
             if(floatval($this->request->data['Event']['lat']) == Configure::read('Club.lat') && floatval($this->request->data['Event']['lng']) == Configure::read('Club.lng')) {

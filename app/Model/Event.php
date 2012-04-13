@@ -5,7 +5,6 @@ class Event extends AppModel {
 	var $actsAs = array('Containable');
 
 	var $validate = array(
-		// FIXME-RWP No Validation on datetime (date) field
 		'lat' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),

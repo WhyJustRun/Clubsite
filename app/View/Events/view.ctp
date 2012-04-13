@@ -170,53 +170,150 @@
     		<?php } ?>
         <?php } ?>
 	</div>
-	</div>
 	<?php } ?>
 <?php } else {
 // Show results page
 ?>
-<div class="column span6">
-	<div class="results padded">
-		<header>
-			<h2>Results</h2>
-		</header>
-        <?php echo $this->element('Events/files', array('id' => $event["Event"]["id"])); ?>
-		<div class="results-list">
-		<?= $this->Html->script('result_viewer'); ?>          		
-				<div id="list" class="result-list" data-result-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/events/<?= $event['Event']['id'] ?>/result_list.xml">
-                    <div data-bind="foreach: courses">
-            			<h3 data-bind="text: name"></h3>
-            			<div data-bind="if: results().length == 0">
-            				<p><b>No results</b></p>
-            			</div>
-            			<div data-bind="if: results().length > 0">
-            				<table class="table table-striped table-bordered table-condensed">
-            					<thead>
-            						<tr>
-            							<th>#</th>
-            							<th>Participant</th>
-            							<th>Time</th>
-            							<th>Points</th>
-            						</tr>
-            					</thead>
-            					<tbody data-bind="foreach: results">
-            						<tr>
-            							<td data-bind="text: position || friendlyStatus"></td>
-            							<td><a data-bind="attr: { href: person.profileUrl }"><span data-bind="text: person.givenName + ' ' + person.familyName"></span></a></td>
-            							<td data-bind="text: time != null ? hours + ':' + minutes + ':' + seconds : ''"></td>
-            							<td data-bind="text: scores['WhyJustRun']"></td>
-            						</tr>
-            					</tbody>
-            				</table>
-            			</div>
-            		</div>
-                </div>
-        <?php echo $this->element('Courses/course_maps', array('courses' => $event["Course"])); ?>
-		</div>
-	</div>
-</div>
-<div class="column span6">
-	<?php echo $this->element('Events/info', array('event' => $event)); ?>
-</div>
+    <div class="span6">
+    	<div class="results">
+    		<header>
+    			<h2>Results</h2>
+    		</header>
+            <?php echo $this->element('Events/files', array('id' => $event["Event"]["id"])); ?>
+    		<div class="results-list">
+    		<?= $this->Html->script('result_viewer'); ?>          		
+    				<div id="list" class="result-list" data-result-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/events/<?= $event['Event']['id'] ?>/result_list.xml">
+                        <div data-bind="foreach: courses">
+                			<h3 data-bind="text: name"></h3>
+                			<div data-bind="if: results().length == 0">
+                				<p><b>No results</b></p>
+                			</div>
+                			<div data-bind="if: results().length > 0">
+                				<table class="table table-striped table-bordered table-condensed">
+                					<thead>
+                						<tr>
+                							<th>#</th>
+                							<th>Participant</th>
+                							<th>Time</th>
+                							<th>Points</th>
+                						</tr>
+                					</thead>
+                					<tbody data-bind="foreach: results">
+                						<tr>
+                							<td data-bind="text: position || friendlyStatus"></td>
+                							<td><a data-bind="attr: { href: person.profileUrl }"><span data-bind="text: person.givenName + ' ' + person.familyName"></span></a></td>
+                							<td data-bind="text: time != null ? hours + ':' + minutes + ':' + seconds : ''"></td>
+                							<td data-bind="text: scores['WhyJustRun']"></td>
+                						</tr>
+                					</tbody>
+                				</table>
+                			</div>
+                		</div>
+                    </div>
+            <?php echo $this->element('Courses/course_maps', array('courses' => $event["Course"])); ?>
+    		</div>
+    	</div>
+    	
+    	
+    </div>
+    <div class="span6">
+    	<?php echo $this->element('Events/info', array('event' => $event)); ?>
+    </div>
 <?php } ?>
 </div>
+
+<hr>
+
+<div id="flickr-photos-container" class="photos-grid">
+    <h2>Photos</h2>
+    <?php
+    // Flickr's API is really buggy, so I had to add some padding on the dates. They seem to have some major timezone issues.
+    $startFlickrTime = date("Y-m-d H:i:s", strtotime($event['Event']['date']." - 12 hours"));
+    $endFlickrTime = date("Y-m-d H:i:s", empty($event['Event']['finish_date']) ? strtotime($event['Event']['date']." + 14 hours") : strtotime($event['Event']['finish_date']." + 12 hours"));
+    $event['Event']['finish_date'] = empty($event['Event']['finish_date']) ? date("Y-m-d H:i:s", strtotime($event['Event']['date']." + 2 hours")) : $event['Event']['finish_date'];
+    ?>
+    <p>Photos are from Flickr. To add your photos to this section, tag your Flickr photos with: <span class="label label-success" style="vertical-align: baseline"><?= $event['Event']['tag'] ?></span>. They must have been taken between <?= $event['Event']['date'] ?> and <?= $event['Event']['finish_date'] ?> to appear.</p>
+    <ul id="flickr-photos" class="thumbnails" data-bind="foreach: photos">
+        <li class="span3">
+            <a data-bind="attr: { href: '#flickrPhoto' + id, onclick: 'loadFlickrImage(\'' + id + '\',\'' + largeUrl + '\')' }" class="thumbnail">
+                <div data-bind="style: { backgroundImage: 'url(' + thumbnailUrl + ')' }">
+                
+                </div>
+            </a>
+            
+            <div data-bind="attr: { id: 'flickrPhoto' + id }" style="display:none; ">
+                <div class="pull-right">
+                    Taken: <span data-bind='text: dateTaken'></span><br/>
+                    By: <span data-bind='text: ownerName'></span>
+                </div>
+                <a class='btn btn-large btn-primary' data-bind='attr: { href: page }'>Photo on Flickr</a>
+                <br/><br/>
+                <img src="" />
+            </div>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+function loadFlickrImage(id, largeUrl) {
+    if($("#flickrPhoto" + id + " img").attr('src') == "") {
+        $("#flickrPhoto" + id + " img").attr('src', largeUrl);
+        $.fancybox.showLoading();
+        
+        $("#flickrPhoto" + id + " img").load(function() {
+            $.fancybox.hideLoading();
+            $.fancybox.open("#flickrPhoto" + id);
+        });
+    } else {
+        $.fancybox.open("#flickrPhoto" + id);
+    }
+}
+
+var photoViewModel = {
+    photos: ko.observableArray()
+};
+
+function jsonFlickrApi(results) {
+    $(function() {
+        if(results.stat == "ok") {
+            _.each(results.photos.photo, function(photo) {
+                photoViewModel.photos.push({
+                    id: photo.id,
+                    page: "http://www.flickr.com/photos/" + photo.owner + "/" + photo.id,
+                    thumbnailUrl: "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg", 
+                    largeUrl: "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + "_b.jpg",
+                    ownerName: photo.ownername,
+                    description: photo.description,
+                    dateTaken: photo.datetaken
+                });
+            });
+        }
+    });
+}
+
+
+$(function() {
+    var count = 2;
+    
+    $(window).scroll(function() {
+        if($(window).scrollTop() == $(document).height() - $(window).height()) {
+            loadMorePhotos(count);
+            count++;
+        }
+    });
+    
+    function loadMorePhotos(page) {
+        var script = document.createElement('script');
+        var url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=<?= Configure::read('Flickr.apiKey') ?>&tags=<?= $event['Event']['tag'] ?>&min_taken_date=<?= urlencode($startFlickrTime) ?>&max_taken_date=<?= urlencode($endFlickrTime) ?>&format=json&extras=date_taken,description,owner_name&per_page=30&page=" + page;
+        script.type = 'text/javascript';
+        script.src = url;
+        $("#flickr-photos-container").append(script);
+    }
+    
+    loadMorePhotos(1);
+    ko.applyBindings(photoViewModel, document.getElementById('flickr-photos-container'));
+});
+
+</script>
+
+<script src="" type="text/javascript"></script>

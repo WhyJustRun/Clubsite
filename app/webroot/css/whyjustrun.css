@@ -346,6 +346,29 @@ footer div {
 	padding-left: 12px;
 }
 
+#flickr-photos .thumbnail div {
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 180px;
+}
+
+@media (max-width: 768px) {
+    #flickr-photos {
+        width: 100%;
+    }
+    
+    #flickr-photos > li {
+        width: 46%;
+    }
+}
+
+@media (max-width: 600px) {
+    #flickr-photos > li {
+        width: 100%;
+    }
+}
+
 
 /** Notices and Errors **/
 .alert {
