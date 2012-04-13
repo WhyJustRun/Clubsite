@@ -79,7 +79,7 @@ class AppModel extends Model {
 				// Set unconverted date, useful for integrations that want UTC.
 				$results['utc_date'] = $value;
 				$value = $this->convertDate($value, $from, $to);
-			} else if($key === 'finish_date'){
+			} else if($key === 'finish_date' && !empty($value)){
 				$results['utc_finish_date'] = $value;
 				$value = $this->convertDate($value, $from, $to);
 			}
