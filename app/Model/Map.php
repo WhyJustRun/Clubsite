@@ -37,8 +37,10 @@ class Map extends AppModel {
 	   foreach($maps as &$map) {
 	       $lastUsed = $this->lastUsed($map);
 	       $map['Map']['last_used'] = $lastUsed != null ? $lastUsed : null;
+	       if(!empty($map['Event']))
+	           $map['Event'] = Set::sort($map['Event'], '{n}.date', 'desc');
 	   }
-	   Set::sort(&$maps, '{n}.Event.{n}.date', 'desc');
+	   
 	   return Set::sort($maps, '{n}.Map.last_used', 'asc');
 	}
 	
