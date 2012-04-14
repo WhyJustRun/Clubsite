@@ -49,7 +49,7 @@ echo $this->Form->input('name', array('data-validate' => 'validate(required)', '
 <fieldset class="control-group">
     <label for="EventTag" class="control-label">Tag</label>
     <div class="controls">
-        <?= $this->Form->input('tag', array('label' => false, 'data-validate' => 'validate(required)', 'default' => strtolower(Configure::read('Club.acronym')), 'div' => false)); ?><span class="help-text"> Tag for social networking and showing Flickr photos.</span>
+        <?= $this->Form->input('tag', array('label' => false, 'data-validate' => 'validate(required)', 'default' => strtolower(Configure::read('Club.name')), 'div' => false)); ?><span class="help-text"> Tag for social networking and showing Flickr photos.</span>
     </div>
 </fieldset>
 
