@@ -280,7 +280,7 @@ function jsonFlickrApi(results) {
                 photoViewModel.photos.push({
                     id: photo.id,
                     page: "http://www.flickr.com/photos/" + photo.owner + "/" + photo.id,
-                    thumbnailUrl: "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg", 
+                    thumbnailUrl: "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + "_m.jpg", 
                     largeUrl: "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + "_b.jpg",
                     ownerName: photo.ownername,
                     description: photo.description,
