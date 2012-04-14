@@ -228,8 +228,8 @@
     <h2>Photos</h2>
     <?php
     // Flickr's API is really buggy, so I had to add some padding on the dates. They seem to have some major timezone issues.
-    $startFlickrTime = date("Y-m-d H:i:s", strtotime($event['Event']['date']." - 12 hours"));
-    $endFlickrTime = date("Y-m-d H:i:s", empty($event['Event']['finish_date']) ? strtotime($event['Event']['date']." + 14 hours") : strtotime($event['Event']['finish_date']." + 12 hours"));
+    $startFlickrTime = date("Y-m-d H:i:s", strtotime($event['Event']['date']." - 18 hours"));
+    $endFlickrTime = date("Y-m-d H:i:s", empty($event['Event']['finish_date']) ? strtotime($event['Event']['date']." + 12 hours") : strtotime($event['Event']['finish_date']." + 10 hours"));
     $event['Event']['finish_date'] = empty($event['Event']['finish_date']) ? date("Y-m-d H:i:s", strtotime($event['Event']['date']." + 2 hours")) : $event['Event']['finish_date'];
     ?>
     <p>Photos are from Flickr. To add your photos to this section, tag your Flickr photos with: <span class="label label-success" style="vertical-align: baseline"><?= $event['Event']['tag'] ?></span>. They must have been taken between <?= $event['Event']['date'] ?> and <?= $event['Event']['finish_date'] ?> to appear.</p>
