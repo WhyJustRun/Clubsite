@@ -226,13 +226,7 @@
 
 <div id="flickr-photos-container" class="photos-grid">
     <h2>Photos</h2>
-    <?php
-    // Flickr's API is really buggy, so I had to add some padding on the dates. They seem to have some major timezone issues.
-    $startFlickrTime = date("Y-m-d H:i:s", strtotime($event['Event']['date']." - 18 hours"));
-    $endFlickrTime = date("Y-m-d H:i:s", empty($event['Event']['finish_date']) ? strtotime($event['Event']['date']." + 12 hours") : strtotime($event['Event']['finish_date']." + 10 hours"));
-    $event['Event']['finish_date'] = empty($event['Event']['finish_date']) ? date("Y-m-d H:i:s", strtotime($event['Event']['date']." + 2 hours")) : $event['Event']['finish_date'];
-    ?>
-    <p>Photos are from Flickr. To add your photos to this section, tag your Flickr photos with: <span class="label label-success" style="vertical-align: baseline"><?= $event['Event']['tag'] ?></span>. They must have been taken between <?= $event['Event']['date'] ?> and <?= $event['Event']['finish_date'] ?> to appear.</p>
+    <p>Photos are from Flickr. To add your photos to this section, tag your Flickr photos with: <span class="label label-success" style="vertical-align: baseline">orienteerapp</span> <strong>and</strong> <span class="label label-success" style="vertical-align: baseline"><?= $event['Event']['id'] ?></span></p>
     <ul id="flickr-photos" class="thumbnails" data-bind="foreach: photos">
         <li class="span3">
             <a data-bind="attr: { href: '#flickrPhoto' + id, onclick: 'loadFlickrImage(\'' + id + '\',\'' + largeUrl + '\')' }" class="thumbnail">
@@ -304,7 +298,7 @@ $(function() {
     
     function loadMorePhotos(page) {
         var script = document.createElement('script');
-        var url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=<?= Configure::read('Flickr.apiKey') ?>&tags=<?= $event['Event']['tag'] ?>&min_taken_date=<?= urlencode($startFlickrTime) ?>&max_taken_date=<?= urlencode($endFlickrTime) ?>&format=json&extras=date_taken,description,owner_name&per_page=30&page=" + page;
+        var url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=<?= Configure::read('Flickr.apiKey') ?>&tag_mode=all&tags=<?= urlencode("orienteerapp,".$event['Event']['id']) ?>&format=json&extras=date_taken,description,owner_name&per_page=30&page=" + page;
         script.type = 'text/javascript';
         script.src = url;
         $("#flickr-photos-container").append(script);

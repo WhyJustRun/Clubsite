@@ -46,13 +46,6 @@ echo $this->Form->input('name', array('data-validate' => 'validate(required)', '
     </div>
 </div>
 
-<fieldset class="control-group">
-    <label for="EventTag" class="control-label">Tag</label>
-    <div class="controls">
-        <?= $this->Form->input('tag', array('label' => false, 'data-validate' => 'validate(required)', 'default' => strtolower(Configure::read('Club.name')), 'div' => false)); ?><span class="help-text"> Tag for social networking and showing Flickr photos.</span>
-    </div>
-</fieldset>
-
 <?php echo $this->Form->input('event_classification_id', array('empty' => 'Choose classification', 'required' => 'required', 'data-validate' => 'validate(required)'));
 echo $this->Form->input('custom_url', array('label' => 'Event URL', 'class' => 'input-xlarge', 'placeholder' => 'If on external website'));
 ?>
