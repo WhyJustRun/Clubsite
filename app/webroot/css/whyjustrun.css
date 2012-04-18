@@ -188,6 +188,19 @@ nav ul li a.selected {
     text-decoration: none;
 }
 
+.club-masthead {
+    width: 100%;
+    display: block;
+}
+
+@media (min-width: 1300px) {
+    nav, .club-masthead {
+        width: 1300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
 @media (max-width: 768px) {
     nav ul li {
         padding-left: 0px;

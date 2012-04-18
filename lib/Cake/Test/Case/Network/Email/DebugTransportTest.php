@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
  * @package       Cake.Test.Case.Network.Email
  * @since         CakePHP(tm) v 2.0.0
@@ -50,7 +50,7 @@ class DebugTransportTest extends CakeTestCase {
 		$email->messageID('<4d9946cf-0a44-4907-88fe-1d0ccbdd56cb@localhost>');
 		$email->subject('Testing Message');
 		$date = date(DATE_RFC2822);
-		$email->setHeaders(array('X-Mailer' => $email::EMAIL_CLIENT, 'Date' => $date));
+		$email->setHeaders(array('X-Mailer' => DebugCakeEmail::EMAIL_CLIENT, 'Date' => $date));
 		$email->expects($this->any())->method('message')->will($this->returnValue(array('First Line', 'Second Line', '')));
 
 		$headers = "From: CakePHP Test <noreply@cakephp.org>\r\n";

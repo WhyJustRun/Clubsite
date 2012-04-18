@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP Project
  * @package       Cake.Test.Case.Utility
  * @since         CakePHP(tm) v 1.2.0.5432
@@ -29,13 +29,13 @@ class DebuggerTestCaseDebugger extends Debugger {
 /**
  * DebuggerTest class
  *
+ * !!! Be careful with changing code below as it may
+ * !!! change line numbers which are used in the tests
+ *
  * @package       Cake.Test.Case.Utility
  */
 class DebuggerTest extends CakeTestCase {
-// !!!
-// !!! Be careful with changing code below as it may
-// !!! change line numbers which are used in the tests
-// !!!
+
 	protected $_restoreError = false;
 
 /**
@@ -82,12 +82,12 @@ class DebuggerTest extends CakeTestCase {
 	public function testExcerpt() {
 		$result = Debugger::excerpt(__FILE__, __LINE__, 2);
 		$this->assertTrue(is_array($result));
-		$this->assertEquals(count($result), 5);
+		$this->assertEquals(5, count($result));
 		$this->assertRegExp('/function(.+)testExcerpt/', $result[1]);
 
 		$result = Debugger::excerpt(__FILE__, 2, 2);
 		$this->assertTrue(is_array($result));
-		$this->assertEquals(count($result), 4);
+		$this->assertEquals(4, count($result));
 
 		$pattern = '/<code><span style\="color\: \#\d+">.*?&lt;\?php/';
 		$this->assertRegExp($pattern, $result[0]);
@@ -106,11 +106,11 @@ class DebuggerTest extends CakeTestCase {
 		$this->_restoreError = true;
 
 		$result = Debugger::output(false);
-		$this->assertEquals($result, '');
+		$this->assertEquals('', $result);
 		$out .= '';
 		$result = Debugger::output(true);
 
-		$this->assertEquals($result[0]['error'], 'Notice');
+		$this->assertEquals('Notice', $result[0]['error']);
 		$this->assertRegExp('/Undefined variable\:\s+out/', $result[0]['description']);
 		$this->assertRegExp('/DebuggerTest::testOutput/i', $result[0]['trace']);
 

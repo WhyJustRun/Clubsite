@@ -60,7 +60,7 @@
         <div>
             <?php if(!empty($clubResources['headerImage'])) { ?>
             <a href="/">
-                <img width="100%" style="display: block" src="<?= $clubResources['headerImage']; ?>" />
+                <img class="club-masthead" src="<?= $clubResources['headerImage']; ?>" />
             </a>
             <? } else { ?>
             <h1><?= Configure::read('Club.name') ?></h1>

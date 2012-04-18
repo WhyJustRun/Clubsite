@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
  * @package       Cake.Test.Case.View.Helper
  * @since         CakePHP(tm) v 1.2.0.4206
@@ -49,6 +49,7 @@ class CacheTestController extends Controller {
 		$this->set('batman', 'bruce wayne');
 		$this->set('spiderman', 'peter parker');
 	}
+
 }
 
 /**
@@ -84,7 +85,7 @@ class CacheHelperTest extends CakeTestCase {
 		Configure::write('Cache.check', true);
 		Configure::write('Cache.disable', false);
 		App::build(array(
-			'View' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'View'. DS)
+			'View' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'View' . DS)
 		), App::RESET);
 	}
 
@@ -380,7 +381,6 @@ class CacheHelperTest extends CakeTestCase {
 		$this->assertTrue(file_exists($filename));
 		@unlink($filename);
 
-
 		$this->Controller->cache_parsing();
 		$this->Controller->cacheAction = array(
 			'cache_parsing' => 21600
@@ -397,7 +397,6 @@ class CacheHelperTest extends CakeTestCase {
 		$filename = CACHE . 'views' . DS . 'cachetest_cache_parsing.php';
 		$this->assertTrue(file_exists($filename));
 		@unlink($filename);
-
 
 		$this->Controller->cache_parsing();
 		$this->Controller->request->addParams(array(

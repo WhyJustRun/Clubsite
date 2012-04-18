@@ -7,12 +7,12 @@
  * PHP 5
  *
  * CakePHP :  Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc.
+ * Copyright 2005-2012, Cake Software Foundation, Inc.
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc.
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
  * @link          http://cakephp.org CakePHP Project
  * @package       Cake.Test.Case.Console.Command.Task
  * @since         CakePHP v 1.2.0.7726
@@ -99,6 +99,7 @@ class TestTaskArticle extends Model {
  */
 	protected function _innerMethod() {
 	}
+
 }
 
 /**
@@ -311,7 +312,7 @@ class TestTaskTest extends CakeTestCase {
 		$expected = array('plugin.test_task.test_task_comment', 'app.articles_tags',
 			'app.test_task_article', 'app.test_task_tag');
 
-		$this->assertEquals(sort($result), sort($expected));
+		$this->assertEquals(sort($expected), sort($result));
 	}
 
 /**
@@ -367,7 +368,7 @@ class TestTaskTest extends CakeTestCase {
 		$this->Task->expects($this->at(1))->method('in')->will($this->returnValue(1));
 
 		$result = $this->Task->getClassName('Model');
-		$this->assertEquals($result, 'MyCustomClass');
+		$this->assertEquals('MyCustomClass', $result);
 
 		$result = $this->Task->getClassName('Model');
 		$options = App::objects('model');
@@ -403,7 +404,7 @@ class TestTaskTest extends CakeTestCase {
 
 		$result = $this->Task->getRealClassname('Controller', 'PostsController');
 		$this->assertEquals('PostsController', $result);
-		
+
 		$result = $this->Task->getRealClassname('Controller', 'AlertTypes');
 		$this->assertEquals('AlertTypesController', $result);
 
@@ -538,7 +539,6 @@ class TestTaskTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-
 /**
  * Test that mock class generation works for the appropriate classes
  *
@@ -558,8 +558,8 @@ class TestTaskTest extends CakeTestCase {
 		$this->Task->plugin = 'TestTest';
 
 		//fake plugin path
-		CakePlugin::load('TestTest', array('path' =>  APP . 'Plugin' . DS . 'TestTest' . DS));
-		$path =  APP . 'Plugin' . DS . 'TestTest' . DS . 'Test' . DS . 'Case' . DS . 'View' . DS . 'Helper' . DS  .'FormHelperTest.php';
+		CakePlugin::load('TestTest', array('path' => APP . 'Plugin' . DS . 'TestTest' . DS));
+		$path = APP . 'Plugin' . DS . 'TestTest' . DS . 'Test' . DS . 'Case' . DS . 'View' . DS . 'Helper' . DS . 'FormHelperTest.php';
 		$this->Task->expects($this->once())->method('createFile')
 			->with($path, $this->anything());
 
@@ -636,10 +636,10 @@ class TestTaskTest extends CakeTestCase {
 	public function testTestCaseFileNamePlugin() {
 		$this->Task->path = DS . 'my' . DS . 'path' . DS . 'tests' . DS;
 
-		CakePlugin::load('TestTest', array('path' =>  APP . 'Plugin' . DS . 'TestTest' . DS ));
+		CakePlugin::load('TestTest', array('path' => APP . 'Plugin' . DS . 'TestTest' . DS ));
 		$this->Task->plugin = 'TestTest';
 		$result = $this->Task->testCaseFileName('Model', 'Post');
-		$expected =  APP . 'Plugin' . DS . 'TestTest' . DS . 'Test' . DS . 'Case' . DS . 'Model' . DS . 'PostTest.php';
+		$expected = APP . 'Plugin' . DS . 'TestTest' . DS . 'Test' . DS . 'Case' . DS . 'Model' . DS . 'PostTest.php';
 		$this->assertEquals($expected, $result);
 	}
 
