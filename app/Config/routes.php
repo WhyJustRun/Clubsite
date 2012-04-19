@@ -26,22 +26,20 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
+Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 /**
- * ...and connect the rest of 'Pages' controller's urls.
- */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-	Router::connect('/Pages/*', array('controller' => 'pages', 'action' => 'display'));
-	
-	// JSON is needed for the jQuery FullCalendar plugin
-	Router::parseExtensions('json', 'xml', 'embed');
-    
-	CakePlugin::routes();
-	
-	// Redirect the old API
-    Router::redirect('/events/view/*', 'https://github.com/OrienteerApp/OrienteerApp/wiki/API', array('status' => 301, 'ext' => 'xml'));
+* ...and connect the rest of 'Pages' controller's urls.
+*/
+Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+Router::connect('/Pages/*', array('controller' => 'pages', 'action' => 'display'));
+
+// JSON is needed for the jQuery FullCalendar plugin
+Router::parseExtensions('json', 'xml', 'embed');
+
+CakePlugin::routes();
+
 /**
- * Load the CakePHP default routes. Remove this if you do not want to use
- * the built-in default routes.
- */
-	require CAKE . 'Config' . DS . 'routes.php';
+* Load the CakePHP default routes. Remove this if you do not want to use
+* the built-in default routes.
+*/
+require CAKE . 'Config' . DS . 'routes.php';
