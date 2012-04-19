@@ -1,3 +1,4 @@
+<?php $this->set('title_for_layout', $map["Map"]["name"]); ?>
 <header class="page-header">
     <?php if($edit) { ?>
     <div class="pull-right btn-toolbar">
@@ -7,10 +8,10 @@
         </div>
         <?php } ?>
         <div class="btn-group">
-            <a href="/maps/edit/1" class="btn btn-primary"><i class="icon-cog icon-white"></i> Edit</a>
+            <a href="/maps/edit/<?= $map["Map"]["id"]?>" class="btn btn-primary"><i class="icon-cog icon-white"></i> Edit</a>
         </div>
         <div class="btn-group">
-            <a href="/maps/delete/1" class="btn btn-danger" onclick="return confirm(&quot;Delete this map?&quot;);"><i class="icon-trash icon-white"></i></a>
+            <a href="/maps/delete/<?= $map["Map"]["id"]?>" class="btn btn-danger" onclick="return confirm('Delete this map?');"><i class="icon-trash icon-white"></i></a>
         </div>
     </div>
     <?php } ?>

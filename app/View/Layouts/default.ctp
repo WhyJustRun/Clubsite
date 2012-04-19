@@ -68,6 +68,9 @@
         </div>
 	</header>
 	<div id="content">
+	   <?php
+	   // When the page doesn't exist, CakePHP can't find the controller and doesn't load the Menu helper.
+	   if(!empty($this->Menu)) { ?>
 		<nav>
 			<ul class="container">
 				<li><?php echo $this->Menu->item('Home', '/', true); ?></li>
@@ -83,7 +86,7 @@
 				<?php } ?>
 			</ul>
 		</nav>
-		
+		<?php } ?>
 		<div class="container">
     		<?php echo $this->Session->flash(); ?>
     		<?php echo $this->Session->flash('auth'); ?>

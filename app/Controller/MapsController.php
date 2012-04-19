@@ -46,7 +46,6 @@ class MapsController extends AppController {
     }
 
     function download ($id) {
-        // Check permission
         if(!$this->isAuthorized(Configure::read('Privilege.Map.view_ocad'))) {
             $this->Session->setFlash('You are not authorized to download this map.');
             $this->redirect('/maps/view/'.$id);

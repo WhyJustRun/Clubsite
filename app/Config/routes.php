@@ -34,10 +34,12 @@
 	Router::connect('/Pages/*', array('controller' => 'pages', 'action' => 'display'));
 	
 	// JSON is needed for the jQuery FullCalendar plugin
-	Router::parseExtensions('json', 'ics', 'xml', 'embed');
-
+	Router::parseExtensions('json', 'xml', 'embed');
+    
 	CakePlugin::routes();
-
+	
+	// Redirect the old API
+    Router::redirect('/events/view/*', 'https://github.com/OrienteerApp/OrienteerApp/wiki/API', array('status' => 301, 'ext' => 'xml'));
 /**
  * Load the CakePHP default routes. Remove this if you do not want to use
  * the built-in default routes.
