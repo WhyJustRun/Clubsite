@@ -44,6 +44,11 @@ input, textarea {
     color: #aaa;
 }
 
+/** Facebook bugfix **/
+.fb-like-box iframe {
+    height: 100px;
+}
+
 /** Thinner select input, useful for tables**/
 input.thin-control, select.thin-control, form.thin-form select, form.thin-form input {
     height: 18px;
