@@ -193,6 +193,12 @@ nav ul li a.selected {
     display: block;
 }
 
+header.header h1 {
+    text-align: center;
+    font-size: 40px;
+    line-height: 50px;
+}
+
 @media (min-width: 1300px) {
     nav, .club-masthead {
         width: 1300px;
