@@ -154,19 +154,6 @@ class UsersController extends AppController
         }
         
         $this->set('results', $results);
-
-        $jsonResults = array();
-        foreach($results as $result) {
-            if(!empty($result["Result"]["points"])) {
-                $jsonResult = array();
-                $date = new DateTime($result["Course"]["Event"]['date']);
-                $jsonResult["x"] = $date->getTimestamp()*1000;
-                $jsonResult["y"] = intval($result["Result"]["points"]);
-                $jsonResult["name"] = $result["Course"]["Event"]['name'] . " (".$result["Course"]['name'].") - Time: " . $result["Result"]["time"];
-                array_push($jsonResults, $jsonResult);
-            }
-        }
-        $this->set('jsonResults', json_encode($jsonResults));  
     }
 
     function merge($targetId, $sourceId) {

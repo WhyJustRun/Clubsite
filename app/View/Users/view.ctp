@@ -1,11 +1,7 @@
-<?php
-$this->Html->script('highstock', array('inline' => false));
-$name = $user["User"]["name"];
-$show_results = true;
-?>
 <header class="page-header">
 	<h1><?= $user["User"]["name"] ?></h1>
 </header>
+
 <div class="row">
     <div class="span6">
         <?php if(!empty($results)) {?>
@@ -55,68 +51,3 @@ $show_results = true;
     } ?>
     </div>
 </div>
-<?php if($jsonResults != "[]") { ?>
-    <h2>Ranking Points over time</h2>
-    <div id='results-chart'></div>
-<?php }
-$highstocks = "
-$(function() {
-    function zeroFill( number, width )
-    {
-      width -= number.toString().length;
-      if ( width > 0 )
-      {
-        return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
-      }
-      return number;
-    }
-
-    // Create the chart  
-    window.chart = new Highcharts.StockChart({
-        chart: {
-            renderTo: 'results-chart'
-        },
-        
-        rangeSelector: {
-            selected: 1
-        },
-        xAxis: {
-            maxZoom: 14 * 24 * 3600000 // fourteen days
-        },
-        yAxis: {
-            title: {
-                text: 'Ranking Points'
-            }
-        },
-        plotOptions: {
-           spline: {
-           marker: {
-              radius: 4,
-              lineColor: '#666666',
-              lineWidth: 1,
-              enabled: true
-           }
-         }
-       },
-       rangeSelector: {
-         selected: 5,
-         inputEnabled: false
-       },
-       tooltip: {
-            yDecimals: 4,
-            formatter: function() {
-                var d = new Date(parseInt(this.x));
-                return zeroFill(d.getFullYear(), 2) + \"-\" + zeroFill(d.getMonth() + 1, 2) + \"-\" + zeroFill(d.getDate(), 2) + \"<br/><b>\" + this.points[0].key + \"</b>\";
-            }
-        },
-        series: [{
-            name: 'Competition points',
-            type: 'spline',
-            data: ${jsonResults}
-        }]
-    });
-});
-";
-
-echo $this->Html->scriptBlock($highstocks);
-?>
