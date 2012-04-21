@@ -326,7 +326,7 @@ footer a, footer a:hover {
 }
 
 .event-box .location {
-	font-size: 20px;
+	font-size: 18px;
 	text-decoration: none;
 }
 
@@ -336,7 +336,7 @@ footer a, footer a:hover {
 }
 
 .event-box .date {
-    padding-top: 10px;
+    padding-top: 6px;
     font-size: 100%;
 	font-weight: bold;
 }
