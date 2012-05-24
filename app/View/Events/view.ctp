@@ -37,7 +37,22 @@
 
 	<h1 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Event"]["name"]; ?> <small class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Series"]["name"] ?></small></h1>
 	
-	<h2 class="event-header"><?php $date = new DateTime($event["Event"]["date"]); echo $date->format("F jS Y g:ia"); ?></h2>
+	<h2 class="event-header"><?php 
+	$startDate = new DateTime($event["Event"]["date"]);
+	$finishDate = new DateTime($event["Event"]["finish_date"]);	
+    if($event["Event"]["finish_date"] != NULL) {
+        if($startDate->format('D F jS') === $finishDate->format('D F jS')) {
+            $dateFormatted = $startDate->format('F jS Y g:ia') . " - " . $finishDate->format('g:ia');
+        } else {
+            $dateFormatted = $startDate->format('F jS Y g:ia') . " - " . $finishDate->format('F jS Y g:ia');
+        }
+    }
+    else {
+        $dateFormatted = $startDate->format('F jS Y g:ia');
+    }
+    
+    echo $dateFormatted;
+	?></h2>
     <? if(!empty($event["Event"]["custom_url"])) {?>
     <h2 class="event-header">External website: <?= $this->Html->link($event["Event"]["custom_url"])?></h2>
     <?}?>

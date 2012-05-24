@@ -3,10 +3,14 @@
 $events = $this->requestAction('events/'.$filter.'/'.$limit);
 foreach($events as $event) {
     $startDate = new DateTime($event["Event"]["date"]);	
+    $finishDate = new DateTime($event["Event"]["finish_date"]);	
     if($event["Event"]["finish_date"] != NULL) {
-        $finishDate = new DateTime($event["Event"]["finish_date"]);	
-        $finishDateFormated = $finishDate->format('D F jS g:ia');
-        $dateFormated = $startDate->format('D F jS') . " - " . $finishDate->format('D F jS');
+        if($startDate->format('D F jS') === $finishDate->format('D F jS')) {
+            $dateFormated = $startDate->format('D F jS g:ia') . " - " . $finishDate->format('g:ia');
+        } else {
+            $finishDateFormated = $finishDate->format('D F jS g:ia');
+            $dateFormated = $startDate->format('D F jS') . " - " . $finishDate->format('D F jS');
+        }
     }
     else {
         $dateFormated = $startDate->format('D F jS g:ia');
