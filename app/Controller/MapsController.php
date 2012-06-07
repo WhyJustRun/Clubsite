@@ -35,7 +35,9 @@ class MapsController extends AppController {
         $this->set('map', $map);
         $this->set('map_standard', $this->Map->MapStandard->findById(1));
         $this->set('events', $this->Map->Event->findAllByMapId($id));
-        $this->set('view_ocad', $this->isAuthorized(Configure::read('Privilege.Map.view_ocad')));
+        // Hard code to true for now:
+        //$this->set('view_ocad', $this->isAuthorized(Configure::read('Privilege.Map.view_ocad')));
+        $this->set('view_ocad', 1);
         $this->set('edit', $this->isAuthorized(Configure::read('Privilege.Map.edit')));
     }
 
