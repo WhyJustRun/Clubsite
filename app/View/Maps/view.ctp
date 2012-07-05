@@ -8,7 +8,7 @@
             <a class="btn btn-info" href="/maps/download/<?= $map["Map"]["id"]?>"><i class="icon-download-alt icon-white"></i> Download</a>
         </div>
         <?php } ?>
-        <?php if(0 && $edit) {?>
+        <?php if($edit) {?>
         <div class="btn-group">
             <a href="/maps/edit/<?= $map["Map"]["id"]?>" class="btn btn-primary"><i class="icon-cog icon-white"></i> Edit</a>
         </div>
