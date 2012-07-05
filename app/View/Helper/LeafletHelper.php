@@ -50,7 +50,7 @@ class LeafletHelper extends AppHelper {
 			array(
 				'name' => 'MapBox Streets',
 				'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
-				'url'  => 'https://tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
+				'url'  => 'http://{s}.tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
 				'default' => true,
 				'2x' => true,
 			),
