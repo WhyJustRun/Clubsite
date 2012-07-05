@@ -8,7 +8,7 @@
 
     <?php
     echo $this->Html->meta('icon');
-    echo $this->Html->css('/ccss/bootstrap.min.css,bootstrap-responsive.min.css,fullcalendar.css,datepicker.css,jquery.fancybox.css,leaflet.css,whyjustrun.css');
+    echo $this->Html->css('/ccss/bootstrap.min.css,font-awesome.css,fullcalendar.css,datepicker.css,jquery.fancybox.css,leaflet.css,whyjustrun.css');
     
     echo "<!--[if lte IE 8]>";
     echo $this->Html->css('leaflet.ie');
