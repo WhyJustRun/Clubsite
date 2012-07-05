@@ -242,12 +242,12 @@ class LeafletHelper extends AppHelper {
 					$shadowHeight = $marker["shadow-height"];
 					$shadowSize = "shadowSize: new L.Point(${shadowWidth}, ${shadowHeight})";
 				}
-				$options = "{icon: new (L.Icon.extend({
+				$options = "{icon: new L.Icon({
 					iconUrl: '${iconUrl}',
 					iconSize: new L.Point(${iconWidth}, ${iconHeight}),
 					iconAnchor: new L.Point(${anchorX}, ${anchorY}),
 					$shadowSize
-				}))}";
+				})}";
 			}
 
 			if(!empty($marker["events"]) && count($marker["events"]) > 0) {
