@@ -462,6 +462,29 @@ Configure::write('Leaflet', array(
 			'minZoom' => 14,
 			'default' => false
 		),
+		'layers' => array(
+			array(
+				'name' => 'Mapnik',
+				'url' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+				'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
+				'default' => true,
+				'2x' => false,
+			),
+			array(
+				'name' => 'OpenOrienteeringMap',
+				'url' => 'http://orca.casa.ucl.ac.uk/~ollie/maptiler/oterrain_global/{z}/{x}/{y}.png',
+				'attribution' => 'OpenOrienteeringMap (oobrien.com), Map data &copy; 2011 OpenStreetMap contributors',
+				'minZoom' => 14,
+				'default' => false,
+				'2x' => false,
+			),
+			array(
+				'name' => 'MapBox Streets',
+				'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
+				'url'  => 'https://tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
+				'default' => true,
+				'2x' => true,
+			),
 	),
 	'markers' => array(
 

@@ -43,9 +43,17 @@ class LeafletHelper extends AppHelper {
 			array(
 				'name' => 'Mapnik',
 				'url' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-				'attribution' => 'Map data &copy; 2011 OpenStreetMap contributors',
-				'default' => true
-			)
+				'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
+				'default' => true,
+				'2x' => false,
+			),
+			array(
+				'name' => 'MapBox Streets',
+				'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
+				'url'  => 'https://tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
+				'default' => true,
+				'2x' => true,
+			),
 		),
 		'markers' => array(
 
@@ -95,6 +103,8 @@ class LeafletHelper extends AppHelper {
 		}
 		
 
+		$script .= "defaultLayer = (window.devicePixelRatio > 1) ? hidpiDefaultLayer : defaultLayer;
+		";
 		$script .= "map.${setView}.addLayer(defaultLayer);
 		";
 
@@ -140,7 +150,7 @@ class LeafletHelper extends AppHelper {
 	}
 
 	function _addLayers($options) {
-		$code = "var layers = {}, defaultLayer;
+		$code = "var layers = {}, defaultLayer, hidpiDefaultLayer;
 		";
 		foreach($options['layers'] as $layer) {
 			$name = $layer['name'];
@@ -153,13 +163,25 @@ class LeafletHelper extends AppHelper {
 			if(!empty($layer['minZoom'])) {
 				$layerOptions['minZoom'] = $layer['minZoom'];
 			}
-
-			$code .= "layers.${name} = new L.TileLayer('${url}', ".json_encode($layerOptions).");
+			
+			$isHiDPI = !empty($layer['2x']) && $layer['2x'];
+			if($isHiDPI) {
+				$layerOptions['detectRetina'] = true;
+			}
+			
+			
+			$layerName = "layers[".json_encode($name)."]";
+			
+			if($isHiDPI) $code .= 'if(window.devicePixelRatio > 1) {';
+			$code .= $layerName." = new L.TileLayer('${url}', ".json_encode($layerOptions).");
 		";
 			if($layer['default'] === true || count($options["layers"]) === 1) {
-				$code .= "defaultLayer = layers.${name};
+				$defaultVariableName = !empty($layer['2x']) && $layer['2x'] ? "hidpiDefaultLayer" : "defaultLayer";
+				$code .= $defaultVariableName." = ".$layerName.";
 				";
 			}
+			
+			if($isHiDPI) $code .= '}';
 		}
 
 		$code .= 'var layerPicker = new L.Control.Layers(layers);
