@@ -4,14 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.4206
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -456,7 +456,7 @@ class ModelIntegrationTest extends BaseModelTest {
 		$result = $TestModel->find('all');
 		$this->assertEquals($expected, $result);
 
-		$result = Set::extract($TestModel->User->find('all'), '{n}.User.id');
+		$result = Hash::extract($TestModel->User->find('all'), '{n}.User.id');
 		$this->assertEquals(array('1', '2', '3', '4'), $result);
 		$this->assertEquals($expected, $TestModel->find('all'));
 
@@ -836,14 +836,14 @@ class ModelIntegrationTest extends BaseModelTest {
 
 		$players = $Player->find('all');
 		$this->assertEquals(4 , count($players));
-		$playersGuilds = Set::extract('/Guild/GuildsPlayer', $players);
+		$playersGuilds = Hash::extract($players, '{n}.Guild.{n}.GuildsPlayer');
 		$this->assertEquals(3 , count($playersGuilds));
-		$playersArmors = Set::extract('/Armor/ArmorsPlayer', $players);
+		$playersArmors = Hash::extract($players, '{n}.Armor.{n}.ArmorsPlayer');
 		$this->assertEquals(3 , count($playersArmors));
 		unset($players);
 
 		$larry = $Player->findByName('larry');
-		$larrysArmor = Set::extract('/Armor/ArmorsPlayer', $larry);
+		$larrysArmor = Hash::extract($larry, 'Armor.{n}.ArmorsPlayer');
 		$this->assertEquals(1 , count($larrysArmor));
 
 		$larry['Guild']['Guild'] = array(1, 3); // larry joins another guild
@@ -852,21 +852,20 @@ class ModelIntegrationTest extends BaseModelTest {
 		unset($larry);
 
 		$larry = $Player->findByName('larry');
-		$larrysGuild = Set::extract('/Guild/GuildsPlayer', $larry);
+		$larrysGuild = Hash::extract($larry, 'Guild.{n}.GuildsPlayer');
 		$this->assertEquals(2 , count($larrysGuild));
-		$larrysArmor = Set::extract('/Armor/ArmorsPlayer', $larry);
+		$larrysArmor = Hash::extract($larry, 'Armor.{n}.ArmorsPlayer');
 		$this->assertEquals(2 , count($larrysArmor));
 
-		$larrysArmorsPlayersIds = Set::extract('/Armor/ArmorsPlayer/id', $larry);
+		$larrysArmorsPlayersIds = Hash::extract($larry, 'Armor.{n}.ArmorsPlayer.id');
 
 		$Player->ArmorsPlayer->id = 3;
 		$Player->ArmorsPlayer->saveField('broken', true); // larry's cloak broke
 
 		$larry = $Player->findByName('larry');
-		$larrysArmor = Set::extract('/Armor/ArmorsPlayer', $larry);
-		$larrysCloak = Set::extract('/ArmorsPlayer[armor_id=3]', $larrysArmor);
+		$larrysCloak = Hash::extract($larry, 'Armor.{n}.ArmorsPlayer[armor_id=3]', $larry);
 		$this->assertNotEmpty($larrysCloak);
-		$this->assertTrue($larrysCloak[0]['ArmorsPlayer']['broken']); // still broken
+		$this->assertTrue($larrysCloak[0]['broken']); // still broken
 	}
 
 /**
@@ -898,7 +897,7 @@ class ModelIntegrationTest extends BaseModelTest {
 		$this->assertEquals($columns, array_keys($result));
 
 		$types = array('integer', 'integer', 'string', 'text', 'string', 'datetime', 'datetime');
-		$this->assertEquals(Set::extract(array_values($result), '{n}.type'), $types);
+		$this->assertEquals(Hash::extract(array_values($result), '{n}.type'), $types);
 
 		$result = $Post->schema('body');
 		$this->assertEquals('text', $result['type']);
@@ -1867,7 +1866,6 @@ class ModelIntegrationTest extends BaseModelTest {
 				'doomed' => true
 		))));
 
-		$ts = date('Y-m-d H:i:s');
 		$TestModel->save();
 
 		$TestModel->hasAndBelongsToMany['SomethingElse']['order'] = 'SomethingElse.id ASC';
@@ -1921,7 +1919,7 @@ class ModelIntegrationTest extends BaseModelTest {
 					)
 				)
 			);
-		$this->assertTrue($result['Something']['updated'] >= $ts);
+		$this->assertEquals(self::date(), $result['Something']['updated']);
 		unset($result['Something']['updated']);
 		$this->assertEquals($expected, $result);
 	}

@@ -4,14 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Controller.Component
  * @since         CakePHP(tm) v 1.2.0.5435
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -514,14 +514,14 @@ class CookieComponentTest extends CakeTestCase {
  */
 	public function testReadEmpty() {
 		$_COOKIE['CakeTestCookie'] = array(
-		  'JSON' => '{"name":"value"}',
-		  'Empty' => '',
-		  'String' => '{"somewhat:"broken"}'
+			'JSON' => '{"name":"value"}',
+			'Empty' => '',
+			'String' => '{"somewhat:"broken"}'
 		);
-		$this->assertEqual(array('name' => 'value'), $this->Cookie->read('JSON'));
-		$this->assertEqual('value', $this->Cookie->read('JSON.name'));
-		$this->assertEqual('', $this->Cookie->read('Empty'));
-		$this->assertEqual('{"somewhat:"broken"}', $this->Cookie->read('String'));
+		$this->assertEquals(array('name' => 'value'), $this->Cookie->read('JSON'));
+		$this->assertEquals('value', $this->Cookie->read('JSON.name'));
+		$this->assertEquals('', $this->Cookie->read('Empty'));
+		$this->assertEquals('{"somewhat:"broken"}', $this->Cookie->read('String'));
 	}
 
 /**
@@ -589,7 +589,7 @@ class CookieComponentTest extends CakeTestCase {
 /**
  * encrypt method
  *
- * @param mixed $value
+ * @param array|string $value
  * @return string
  */
 	protected function __encrypt($value) {

@@ -478,8 +478,11 @@ class CakeRoute {
  * @return string Composed route string.
  */
 	protected function _writeUrl($params) {
-		if (isset($params['prefix'], $params['action'])) {
-			$params['action'] = str_replace($params['prefix'] . '_', '', $params['action']);
+		if (isset($params['prefix'])) {
+			$prefixed = $params['prefix'] . '_';
+		}
+		if (isset($prefixed, $params['action']) && strpos($params['action'], $prefixed) === 0) {
+			$params['action'] = substr($params['action'], strlen($prefixed) * -1);
 			unset($params['prefix']);
 		}
 
@@ -494,7 +497,7 @@ class CakeRoute {
 			$named = array();
 			foreach ($params['named'] as $key => $value) {
 				if (is_array($value)) {
-					$flat = Set::flatten($value, '][');
+					$flat = Hash::flatten($value, '][');
 					foreach ($flat as $namedKey => $namedValue) {
 						$named[] = $key . "[$namedKey]" . $separator . rawurlencode($namedValue);
 					}

@@ -4,7 +4,7 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
@@ -33,10 +33,22 @@ class CakeHtmlReporter extends CakeBaseReporter {
  */
 	public function paintHeader() {
 		$this->_headerSent = true;
+		$this->sendContentType();
 		$this->sendNoCacheHeaders();
 		$this->paintDocumentStart();
 		$this->paintTestMenu();
 		echo "<ul class='tests'>\n";
+	}
+
+/**
+ * Set the content-type header so it is in the correct encoding.
+ *
+ * @return void
+ */
+	public function sendContentType() {
+		if (!headers_sent()) {
+			header('Content-Type: text/html; charset=' . Configure::read('App.encoding'));
+		}
 	}
 
 /**
@@ -190,7 +202,8 @@ class CakeHtmlReporter extends CakeBaseReporter {
 		$query = $this->_queryString($query);
 
 		echo "<p><a href='" . $this->baseUrl() . $show . "'>Run more tests</a> | <a href='" . $this->baseUrl() . $query . "&show_passes=1'>Show Passes</a> | \n";
-		echo " <a href='" . $this->baseUrl() . $query . "&amp;code_coverage=true'>Analyze Code Coverage</a></p>\n";
+		echo "<a href='" . $this->baseUrl() . $query . "&debug=1'>Enable Debug Output</a> | \n";
+		echo "<a href='" . $this->baseUrl() . $query . "&amp;code_coverage=true'>Analyze Code Coverage</a></p>\n";
 	}
 
 /**
@@ -235,9 +248,22 @@ class CakeHtmlReporter extends CakeBaseReporter {
 		$trace = $this->_getStackTrace($message);
 		$testName = get_class($test) . '(' . $test->getName() . ')';
 
+		$actualMsg = $expectedMsg = null;
+		$failure = $message->getComparisonFailure();
+		if (is_object($failure)) {
+			$actualMsg = $message->getComparisonFailure()->getActualAsString();
+			$expectedMsg = $message->getComparisonFailure()->getExpectedAsString();
+		}
+
 		echo "<li class='fail'>\n";
 		echo "<span>Failed</span>";
-		echo "<div class='msg'><pre>" . $this->_htmlEntities($message->toString()) . "</pre></div>\n";
+		echo "<div class='msg'><pre>" . $this->_htmlEntities($message->toString());
+
+		if ((is_string($actualMsg) && is_string($expectedMsg)) || (is_array($actualMsg) && is_array($expectedMsg))) {
+			echo "<br />" . PHPUnit_Util_Diff::diff($expectedMsg, $actualMsg);
+		}
+
+		echo "</pre></div>\n";
 		echo "<div class='msg'>" . __d('cake_dev', 'Test case: %s', $testName) . "</div>\n";
 		echo "<div class='msg'>" . __d('cake_dev', 'Stack trace:') . '<br />' . $trace . "</div>\n";
 		echo "</li>\n";

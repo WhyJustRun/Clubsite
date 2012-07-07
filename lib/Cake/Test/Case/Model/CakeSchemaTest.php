@@ -5,14 +5,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.5550
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -510,11 +510,23 @@ class CakeSchemaTest extends CakeTestCase {
  */
 	public function testSchemaName() {
 		$Schema = new CakeSchema();
-		$this->assertEquals(strtolower(APP_DIR), strtolower($Schema->name));
+		$this->assertEquals(Inflector::camelize(Inflector::slug(APP_DIR)), $Schema->name);
 
 		Configure::write('App.dir', 'Some.name.with.dots');
 		$Schema = new CakeSchema();
 		$this->assertEquals('SomeNameWithDots', $Schema->name);
+
+		Configure::write('App.dir', 'Some-name-with-dashes');
+		$Schema = new CakeSchema();
+		$this->assertEquals('SomeNameWithDashes', $Schema->name);
+
+		Configure::write('App.dir', 'Some name with spaces');
+		$Schema = new CakeSchema();
+		$this->assertEquals('SomeNameWithSpaces', $Schema->name);
+
+		Configure::write('App.dir', 'Some,name;with&weird=characters');
+		$Schema = new CakeSchema();
+		$this->assertEquals('SomeNameWithWeirdCharacters', $Schema->name);
 
 		Configure::write('App.dir', 'app');
 	}

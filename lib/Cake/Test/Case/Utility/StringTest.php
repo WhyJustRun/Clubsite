@@ -11,7 +11,7 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Utility
  * @since         CakePHP(tm) v 1.2.0.5432
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -453,6 +453,11 @@ podeís adquirirla.</span></p>
 		$phrases = array('This', 'text');
 		$result = $this->Text->highlight($text, $phrases, array('format' => '<b>\1</b>'));
 		$expected = '<b>This</b> is a test <b>text</b>';
+		$this->assertEquals($expected, $result);
+
+		$phrases = array('is', 'text');
+		$result = $this->Text->highlight($text, $phrases, array('format' => '<b>\1</b>', 'regex' => "|\b%s\b|iu"));
+		$expected = 'This <b>is</b> a test <b>text</b>';
 		$this->assertEquals($expected, $result);
 
 		$text = 'This is a test text';

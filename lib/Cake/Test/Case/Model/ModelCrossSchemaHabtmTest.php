@@ -6,14 +6,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright 2005-2012, Cake Software Foundation, Inc.
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 2.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -110,7 +110,7 @@ class ModelCrossSchemaHabtmTest extends BaseModelTest {
 			),
 		));
 		$this->assertEquals(4, count($players));
-		$wizards = Set::extract('/Guild[name=Wizards]', $players);
+		$wizards = Hash::extract($players, '{n}.Guild.{n}[name=Wizards]');
 		$this->assertEquals(1, count($wizards));
 
 		$players = $Player->find('all', array(
@@ -120,7 +120,7 @@ class ModelCrossSchemaHabtmTest extends BaseModelTest {
 			),
 		));
 		$this->assertEquals(1, count($players));
-		$wizards = Set::extract('/Guild', $players);
+		$wizards = Hash::extract($players, '{n}.Guild.{n}');
 		$this->assertEquals(2, count($wizards));
 	}
 
@@ -163,8 +163,7 @@ class ModelCrossSchemaHabtmTest extends BaseModelTest {
 				),
 			),
 		));
-
-		$rangers = Set::extract('/Guild[name=Rangers]', $players);
+		$rangers = Hash::extract($players, '{n}.Guild.{n}[name=Rangers]');
 		$this->assertEquals(2, count($rangers));
 	}
 
@@ -227,7 +226,7 @@ class ModelCrossSchemaHabtmTest extends BaseModelTest {
 				'Player.id' => 10,
 			)
 		));
-		$spongeBobsArmors = Set::extract('/Armor', $spongebob);
+		$spongeBobsArmors = Hash::extract($spongebob, '{n}.Armor.{n}');
 		$this->assertEquals(4, count($spongeBobsArmors));
 	}
 }

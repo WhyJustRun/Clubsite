@@ -1,13 +1,13 @@
 <?php
 /**
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.TestSuite.Fixture
  * @since         CakePHP(tm) v 1.2.0.4667
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -142,7 +142,7 @@ class CakeTestFixture {
 				$records = $db->fetchAll($db->buildStatement($query, $model), false, $model->alias);
 
 				if ($records !== false && !empty($records)) {
-					$this->records = Set::extract($records, '{n}.' . $model->alias);
+					$this->records = Hash::extract($records, '{n}.' . $model->alias);
 				}
 			}
 		}
@@ -241,7 +241,11 @@ class CakeTestFixture {
 					$fields = array_keys($record);
 					$values[] = array_values(array_merge($default, $record));
 				}
-				return $db->insertMulti($this->table, $fields, $values);
+				$nested = $db->useNestedTransactions;
+				$db->useNestedTransactions = false;
+				$result = $db->insertMulti($this->table, $fields, $values);
+				$db->useNestedTransactions = $nested;
+				return $result;
 			}
 			return true;
 		}

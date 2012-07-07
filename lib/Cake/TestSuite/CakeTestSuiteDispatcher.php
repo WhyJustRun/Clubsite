@@ -4,7 +4,7 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
@@ -136,24 +136,14 @@ class CakeTestSuiteDispatcher {
  * @return boolean true if found, false otherwise
  */
 	public function loadTestFramework() {
-		$found = $path = null;
-
-		if (@include 'PHPUnit' . DS . 'Autoload.php') {
-			$found = true;
-		}
-
-		if (!$found) {
-			foreach (App::path('vendors') as $vendor) {
-				if (is_dir($vendor . 'PHPUnit')) {
-					$path = $vendor;
-				}
-			}
-
-			if ($path && ini_set('include_path', $path . PATH_SEPARATOR . ini_get('include_path'))) {
-				$found = include 'PHPUnit' . DS . 'Autoload.php';
+		foreach (App::path('vendors') as $vendor) {
+			if (is_dir($vendor . 'PHPUnit')) {
+				ini_set('include_path', $vendor . PATH_SEPARATOR . ini_get('include_path'));
+				break;
 			}
 		}
-		return $found;
+
+		return include 'PHPUnit' . DS . 'Autoload.php';
 	}
 
 /**
@@ -247,6 +237,7 @@ class CakeTestSuiteDispatcher {
 		restore_error_handler();
 
 		try {
+			self::time();
 			$command = new CakeTestSuiteCommand('CakeTestLoader', $commandArgs);
 			$result = $command->run($options);
 		} catch (MissingConnectionException $exception) {
@@ -255,6 +246,31 @@ class CakeTestSuiteDispatcher {
 			include CAKE . 'TestSuite' . DS . 'templates' . DS . 'missing_connection.php';
 			exit();
 		}
+	}
+
+/**
+ * Sets a static timestamp
+ *
+ * @param boolean $reset to set new static timestamp.
+ * @return integer timestamp
+ */
+	public static function time($reset = false) {
+		static $now;
+		if ($reset || !$now) {
+			$now = time();
+		}
+		return $now;
+	}
+
+/**
+ * Returns formatted date string using static time
+ * This method is being used as formatter for created, modified and updated fields in Model::save()
+ *
+ * @param string $format format to be used.
+ * @return string formatted date
+ */
+	public static function date($format) {
+		return date($format, self::time());
 	}
 
 }

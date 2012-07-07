@@ -4,14 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.4206
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -80,7 +80,7 @@ class ModelReadTest extends BaseModelTest {
 
 		$this->assertEquals(2, count($result['SomethingElse']));
 
-		$doomed = Set::extract('/JoinThing/doomed', $result['SomethingElse']);
+		$doomed = Hash::extract($result['SomethingElse'], '{n}.JoinThing.doomed');
 		$this->assertTrue(in_array(true, $doomed));
 		$this->assertTrue(in_array(false, $doomed));
 	}
@@ -320,8 +320,8 @@ class ModelReadTest extends BaseModelTest {
 		$result = $Article->query($query, $params, false);
 		$this->assertTrue(is_array($result));
 		$this->assertTrue(
-			   isset($result[0][$this->db->fullTableName('articles', false, false)])
-			|| isset($result[0][0])
+			isset($result[0][$this->db->fullTableName('articles', false, false)]) ||
+			isset($result[0][0])
 		);
 		$result = $this->db->getQueryCache($query, $params);
 		$this->assertTrue(empty($result));
@@ -334,8 +334,8 @@ class ModelReadTest extends BaseModelTest {
 		$result = $Article->query($query, $params);
 		$this->assertTrue(is_array($result));
 		$this->assertTrue(
-			   isset($result[0][$this->db->fullTableName('articles', false, false)]['title'])
-			|| isset($result[0][0]['title'])
+			isset($result[0][$this->db->fullTableName('articles', false, false)]['title']) ||
+			isset($result[0][0]['title'])
 		);
 
 		//related to ticket #5035
@@ -3015,7 +3015,7 @@ class ModelReadTest extends BaseModelTest {
 		$this->loadFixtures('Apple', 'Sample');
 		$Apple = new Apple();
 		$result = $Apple->find('threaded');
-		$result = Set::extract($result, '{n}.children');
+		$result = Hash::extract($result, '{n}.children');
 		$expected = array(array(), array(), array(), array(), array(), array(),	array());
 		$this->assertEquals($expected, $result);
 	}
@@ -3030,7 +3030,7 @@ class ModelReadTest extends BaseModelTest {
 		$Model = new Person();
 		$Model->recursive = -1;
 		$result = $Model->find('threaded');
-		$result = Set::extract($result, '{n}.children');
+		$result = Hash::extract($result, '{n}.children');
 		$expected = array(array(), array(), array(), array(), array(), array(),	array());
 		$this->assertEquals($expected, $result);
 
@@ -5020,6 +5020,39 @@ class ModelReadTest extends BaseModelTest {
 	}
 
 /**
+ * testDeeperAssociationAfterFind method
+ *
+ * @return void
+ */
+	public function testDeeperAssociationAfterFind() {
+		$this->loadFixtures('Post', 'Author', 'Comment', 'Attachment', 'Article');
+
+		$Post = new Post();
+		$Post->bindModel(array(
+			'hasMany' => array(
+				'Comment' => array(
+					'className' => 'ModifiedComment',
+					'foreignKey' => 'article_id',
+				)
+		)));
+		$Post->Comment->bindModel(array(
+			'hasOne' => array(
+				'Attachment' => array(
+					'className' => 'ModifiedAttachment',
+				)
+		)));
+
+		$result = $Post->find('first', array(
+			'conditions' => array('Post.id' => 2),
+			'recursive' => 2
+		));
+		$this->assertTrue(isset($result['Comment'][0]['callback']));
+		$this->assertEquals('Fire', $result['Comment'][0]['callback']);
+		$this->assertTrue(isset($result['Comment'][0]['Attachment']['callback']));
+		$this->assertEquals('Fired', $result['Comment'][0]['Attachment']['callback']);
+	}
+
+/**
  * Tests that callbacks can be properly disabled
  *
  * @return void
@@ -5028,19 +5061,19 @@ class ModelReadTest extends BaseModelTest {
 		$this->loadFixtures('Author');
 		$TestModel = new ModifiedAuthor();
 
-		$result = Set::extract($TestModel->find('all'), '/Author/user');
+		$result = Hash::extract($TestModel->find('all'), '{n}.Author.user');
 		$expected = array('mariano (CakePHP)', 'nate (CakePHP)', 'larry (CakePHP)', 'garrett (CakePHP)');
 		$this->assertEquals($expected, $result);
 
-		$result = Set::extract($TestModel->find('all', array('callbacks' => 'after')), '/Author/user');
+		$result = Hash::extract($TestModel->find('all', array('callbacks' => 'after')), '{n}.Author.user');
 		$expected = array('mariano (CakePHP)', 'nate (CakePHP)', 'larry (CakePHP)', 'garrett (CakePHP)');
 		$this->assertEquals($expected, $result);
 
-		$result = Set::extract($TestModel->find('all', array('callbacks' => 'before')), '/Author/user');
+		$result = Hash::extract($TestModel->find('all', array('callbacks' => 'before')), '{n}.Author.user');
 		$expected = array('mariano', 'nate', 'larry', 'garrett');
 		$this->assertEquals($expected, $result);
 
-		$result = Set::extract($TestModel->find('all', array('callbacks' => false)), '/Author/user');
+		$result = Hash::extract($TestModel->find('all', array('callbacks' => false)), '{n}.Author.user');
 		$expected = array('mariano', 'nate', 'larry', 'garrett');
 		$this->assertEquals($expected, $result);
 	}
@@ -6479,7 +6512,7 @@ class ModelReadTest extends BaseModelTest {
 			$this->assertEquals($expected, $result);
 		}
 
-		$result = Set::combine(
+		$result = Hash::combine(
 			$TestModel->find('all', array(
 				'order' => 'Article.title ASC',
 				'fields' => array('id', 'title')
@@ -6493,7 +6526,7 @@ class ModelReadTest extends BaseModelTest {
 		);
 		$this->assertEquals($expected, $result);
 
-		$result = Set::combine(
+		$result = Hash::combine(
 			$TestModel->find('all', array(
 				'order' => 'Article.title ASC'
 			)),
@@ -6530,7 +6563,7 @@ class ModelReadTest extends BaseModelTest {
 
 		$this->assertEquals($expected, $result);
 
-		$result = Set::combine(
+		$result = Hash::combine(
 			$TestModel->find('all', array(
 				'order' => 'Article.title ASC'
 			)),
@@ -6569,7 +6602,7 @@ class ModelReadTest extends BaseModelTest {
 
 		$this->assertEquals($expected, $result);
 
-		$result = Set::combine(
+		$result = Hash::combine(
 			$TestModel->find('all', array(
 				'order' => 'Article.title ASC',
 				'fields' => array('id', 'title', 'user_id')
@@ -7689,17 +7722,17 @@ class ModelReadTest extends BaseModelTest {
 
 		$Post->Author->virtualFields = array('joined' => 'Post.id * Author.id');
 		$result = $Post->find('all');
-		$result = Set::extract('{n}.Author.joined', $result);
+		$result = Hash::extract($result, '{n}.Author.joined');
 		$expected = array(1, 6, 3);
 		$this->assertEquals($expected, $result);
 
 		$result = $Post->find('all', array('order' => array('Author.joined' => 'ASC')));
-		$result = Set::extract('{n}.Author.joined', $result);
+		$result = Hash::extract($result, '{n}.Author.joined');
 		$expected = array(1, 3, 6);
 		$this->assertEquals($expected, $result);
 
 		$result = $Post->find('all', array('order' => array('Author.joined' => 'DESC')));
-		$result = Set::extract('{n}.Author.joined', $result);
+		$result = Hash::extract($result, '{n}.Author.joined');
 		$expected = array(6, 3, 1);
 		$this->assertEquals($expected, $result);
 	}
@@ -7835,7 +7868,7 @@ class ModelReadTest extends BaseModelTest {
 		$Article = new CustomArticle();
 		$data = array('user_id' => 3, 'title' => 'Fourth Article', 'body' => 'Article Body, unpublished', 'published' => 'N');
 		$Article->create($data);
-		$Article->save();
+		$Article->save(null, false);
 		$this->assertEquals(4, $Article->id);
 
 		$result = $Article->find('published');

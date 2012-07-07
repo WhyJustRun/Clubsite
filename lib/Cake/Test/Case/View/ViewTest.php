@@ -4,14 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
  * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.View
  * @since         CakePHP(tm) v 1.2.0.4206
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -51,10 +51,11 @@ class ViewPostsController extends Controller {
  * @return void
  */
 	public function index() {
-		$this->set('testData', 'Some test data');
-		$test2 = 'more data';
-		$test3 = 'even more data';
-		$this->set(compact('test2', 'test3'));
+		$this->set(array(
+			'testData' => 'Some test data',
+			'test2' => 'more data',
+			'test3' => 'even more data',
+		));
 	}
 
 /**
@@ -109,7 +110,7 @@ class TestThemeView extends View {
 /**
  * renderElement method
  *
- * @param mixed $name
+ * @param string $name
  * @param array $params
  * @return void
  */
@@ -120,7 +121,7 @@ class TestThemeView extends View {
 /**
  * getViewFileName method
  *
- * @param mixed $name
+ * @param string $name
  * @return void
  */
 	public function getViewFileName($name = null) {
@@ -130,7 +131,7 @@ class TestThemeView extends View {
 /**
  * getLayoutFileName method
  *
- * @param mixed $name
+ * @param string $name
  * @return void
  */
 	public function getLayoutFileName($name = null) {
@@ -149,7 +150,7 @@ class TestView extends View {
 /**
  * getViewFileName method
  *
- * @param mixed $name
+ * @param string $name
  * @return void
  */
 	public function getViewFileName($name = null) {
@@ -159,7 +160,7 @@ class TestView extends View {
 /**
  * getLayoutFileName method
  *
- * @param mixed $name
+ * @param string $name
  * @return void
  */
 	public function getLayoutFileName($name = null) {
@@ -639,8 +640,8 @@ class ViewTest extends CakeTestCase {
 		$this->assertEquals('this is the plugin element using params[plugin]', $result);
 
 		$result = $this->View->element('test_plugin.plugin_element');
-		$this->assertPattern('/Not Found:/', $result);
-		$this->assertPattern('/test_plugin.plugin_element/', $result);
+		$this->assertRegExp('/Not Found:/', $result);
+		$this->assertRegExp('/test_plugin.plugin_element/', $result);
 
 		$this->View->plugin = 'TestPlugin';
 		$result = $this->View->element('test_plugin_element');
@@ -793,6 +794,19 @@ class ViewTest extends CakeTestCase {
 		$View->helpers = array('Html', 'Form');
 		$View->loadHelpers();
 
+		$this->assertInstanceOf('HtmlHelper', $View->Html, 'Object type is wrong.');
+		$this->assertInstanceOf('FormHelper', $View->Form, 'Object type is wrong.');
+	}
+
+/**
+ * test lazy loading helpers
+ *
+ * @return void
+ */
+	public function testLazyLoadHelpers() {
+		$View = new View($this->PostsController);
+
+		$View->helpers = array();
 		$this->assertInstanceOf('HtmlHelper', $View->Html, 'Object type is wrong.');
 		$this->assertInstanceOf('FormHelper', $View->Form, 'Object type is wrong.');
 	}
@@ -994,6 +1008,23 @@ class ViewTest extends CakeTestCase {
 	}
 
 /**
+ * Test render()ing a file in a subdir from a custom viewPath
+ * in a plugin.
+ *
+ * @return void
+ */
+	public function testGetViewFileNameSubdirWithPluginAndViewPath() {
+		$this->PostsController->plugin = 'TestPlugin';
+		$this->PostsController->viewPath = 'Elements';
+		$this->PostsController->name = 'Posts';
+		$View = new TestView($this->PostsController);
+
+		$expected = CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS . 'TestPlugin' .
+			DS . 'View' . DS . 'Elements' . DS . 'sub_dir' . DS . 'sub_element.ctp';
+		$this->assertEquals($expected, $View->getViewFileName('sub_dir/sub_element'));
+	}
+
+/**
  * test that view vars can replace the local helper variables
  * and not overwrite the $this->Helper references
  *
@@ -1022,7 +1053,7 @@ class ViewTest extends CakeTestCase {
 		$this->assertRegExp('/Posts(\/|\\\)index.ctp/', $result);
 
 		$result = $View->getViewFileName('TestPlugin.index');
-		$this->assertPattern('/Posts(\/|\\\)index.ctp/', $result);
+		$this->assertRegExp('/Posts(\/|\\\)index.ctp/', $result);
 
 		$result = $View->getViewFileName('/Pages/home');
 		$this->assertRegExp('/Pages(\/|\\\)home.ctp/', $result);
@@ -1065,9 +1096,7 @@ class ViewTest extends CakeTestCase {
 		$f = fopen($path, 'w+');
 		fwrite($f, $cacheText);
 		fclose($f);
-		ob_start();
-		$View->renderCache($path, '+1 second');
-		$result = ob_get_clean();
+		$result = $View->renderCache($path, '+1 second');
 
 		$this->assertRegExp('/^some cacheText/', $result);
 
