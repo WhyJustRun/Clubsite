@@ -89,7 +89,7 @@ class Resource extends AppModel {
 
 	// Thumbnail sizes, in ImageMagick resize notation
 	private function sizes() {
-	   return array('500', '50');
+	   return array('1000', '500', '100', '50');
 	}
 	
 	private function extensionOf($file) {

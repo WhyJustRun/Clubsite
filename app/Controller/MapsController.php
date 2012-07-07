@@ -57,15 +57,16 @@ class MapsController extends AppController {
         $this->viewClass = 'Media';
 
         // Get file from repository and store it in /tmp
-        $file = tempnam("/tmp", "wjr_");
-        $command = "svn list file:///var/svn/gvoc" . $map["Map"]["repository_path"] . " --depth empty";
+        $file = tempnam(CACHE, "map_download_");
+        $repoURL = Configure::read('Maps.repository.url');
+        $command = "svn list " . $repoURL . $map["Map"]["repository_path"] . " --depth empty";
         $sys = system($command);
         if(!$sys){
             $this->Session->setFlash('File does not exist. Please contact webmaster.');
             $this->redirect('/maps/view/'. $id);
             return;
         } else {
-            $command = "svn cat file:///var/svn/gvoc" . $map["Map"]["repository_path"] . " > $file";
+            $command = "svn cat " . $repoURL . $map["Map"]["repository_path"] . " > $file";
             $sys = system($command);
 
             $params = array(
@@ -118,8 +119,7 @@ class MapsController extends AppController {
             if($id == null) {
                 $this->Session->setFlash('You are not authorized to add a map.');
                 $this->redirect('/maps/');
-            }
-            else {
+            } else {
                 $this->Session->setFlash('You are not authorized to edit this map.');
                 $this->redirect('/maps/view/'.$id);
             }
@@ -132,9 +132,7 @@ class MapsController extends AppController {
         $this->Map->id = $id;
         if (empty($this->data)) {
             $this->data = $this->Map->read();
-        }
-        // Process
-        else {
+        } else {
             if ($this->Map->save($this->data)) {
                 $this->Session->setFlash('The map has been updated.', "flash_success");
 

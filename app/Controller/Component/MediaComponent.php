@@ -9,6 +9,7 @@ class MediaComponent extends Component {
         $this->defaultType = !empty($options['type']) ? $options['type'] : null;
         $this->allowedExts = !empty($options['allowedExts']) ? $options['allowedExts'] : null;
         $this->thumbnailSizes = !empty($options['thumbnailSizes']) ? $options['thumbnailSizes'] : null;
+        $this->addHiDPISizes();
         $this->thumbnailExtension = !empty($options['thumbnailExt']) ? $options['thumbnailExt'] : $this->thumbnailExtension;
     }
 
@@ -17,7 +18,7 @@ class MediaComponent extends Component {
     }
 
     /**
-     * $file is a PHP file upload associativeArray
+     * $file is a PHP file upload associative array
      */
     public function create($file, $id, $type = null) {
         if(empty($file['name']) || empty($file['tmp_name'])) {
@@ -195,6 +196,23 @@ class MediaComponent extends Component {
         if(!$type) {
             throw new Exception("Failed loading media type.");
         }
+    }
+    
+    private function addHiDPISizes() {
+    	$newSizes = array();
+    	$glue = "x";
+
+	    foreach($this->thumbnailSizes as $size) {
+		    $components = explode($glue, $size);
+		    $newComponents = array();
+		    foreach($components as $component) {
+			    $newComponents[] = intval($component) * 2;
+		    }
+		    
+		    $newSizes[] = implode($glue, $newComponents);
+	    }
+	    
+	    $this->thumbnailSizes = array_merge($this->thumbnailSizes, $newSizes);
     }
 }
 ?>
