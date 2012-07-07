@@ -40,18 +40,17 @@ class LeafletHelper extends AppHelper {
 			'bounds' => array(),
 		),
 		'layers' => array(
-			array(
-				'name' => 'Mapnik',
+			'Mapnik' => array(
 				'url' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 				'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
 				'default' => true,
 				'2x' => false,
 			),
-			array(
-				'name' => 'MapBox Streets',
+			'MapBox Streets' => array(
 				'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
 				'url'  => 'http://{s}.tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
 				'default' => true,
+				'maxZoom' => 17,
 				'2x' => true,
 			),
 		),
@@ -152,31 +151,27 @@ class LeafletHelper extends AppHelper {
 	function _addLayers($options) {
 		$code = "var layers = {}, defaultLayer, hidpiDefaultLayer;
 		";
-		foreach($options['layers'] as $layer) {
-			$name = $layer['name'];
-			$url = $layer['url'];
-			$layerOptions = array();
-			if(!empty($layer['attribution'])) {
-				$layerOptions['attribution'] = $layer['attribution'];
-			}
-
-			if(!empty($layer['minZoom'])) {
-				$layerOptions['minZoom'] = $layer['minZoom'];
-			}
+		$notAttributes = array('name', 'url', '2x');
+		
+		foreach($options['layers'] as $name => $layerOptions) {
+			$url = $layerOptions['url'];
 			
-			$isHiDPI = !empty($layer['2x']) && $layer['2x'];
+			$isHiDPI = !empty($layerOptions['2x']) && $layerOptions['2x'];
 			if($isHiDPI) {
 				$layerOptions['detectRetina'] = true;
 			}
-			
-			
+
 			$layerName = "layers[".json_encode($name)."]";
 			
 			if($isHiDPI) $code .= 'if(window.devicePixelRatio > 1) {';
+			
+			foreach($notAttributes as $attribute) {
+				unset($layerOptions[$attribute]);
+			}
 			$code .= $layerName." = new L.TileLayer('${url}', ".json_encode($layerOptions).");
 		";
-			if($layer['default'] === true || count($options["layers"]) === 1) {
-				$defaultVariableName = !empty($layer['2x']) && $layer['2x'] ? "hidpiDefaultLayer" : "defaultLayer";
+			if($layerOptions['default'] === true || count($options["layers"]) === 1) {
+				$defaultVariableName = $isHiDPI ? "hidpiDefaultLayer" : "defaultLayer";
 				$code .= $defaultVariableName." = ".$layerName.";
 				";
 			}

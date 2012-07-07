@@ -449,42 +449,26 @@ Configure::write('Leaflet', array(
 		'bounds' => array(),
 	),
 	'layers' => array(
-		array(
-			'name' => 'Mapnik',
+		'Mapnik' => array(
 			'url' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-			'attribution' => 'Map data &copy; 2011 OpenStreetMap contributors',
-			'default' => true
+			'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
+			'default' => true,
+			'2x' => false,
 		),
-		array(
-			'name' => 'OpenOrienteeringMap',
+		'OpenOrienteeringMap' => array(
 			'url' => 'http://orca.casa.ucl.ac.uk/~ollie/maptiler/oterrain_global/{z}/{x}/{y}.png',
 			'attribution' => 'OpenOrienteeringMap (oobrien.com), Map data &copy; 2011 OpenStreetMap contributors',
 			'minZoom' => 14,
-			'default' => false
+			'default' => false,
+			'2x' => false,
 		),
-		'layers' => array(
-			array(
-				'name' => 'Mapnik',
-				'url' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-				'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
-				'default' => true,
-				'2x' => false,
-			),
-			array(
-				'name' => 'OpenOrienteeringMap',
-				'url' => 'http://orca.casa.ucl.ac.uk/~ollie/maptiler/oterrain_global/{z}/{x}/{y}.png',
-				'attribution' => 'OpenOrienteeringMap (oobrien.com), Map data &copy; 2011 OpenStreetMap contributors',
-				'minZoom' => 14,
-				'default' => false,
-				'2x' => false,
-			),
-			array(
-				'name' => 'MapBox Streets',
-				'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
-				'url'  => 'http://{s}.tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
-				'default' => true,
-				'2x' => true,
-			),
+		'MapBox Streets' => array(
+			'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
+			'url'  => 'http://{s}.tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
+			'default' => true,
+			'maxZoom' => 17,
+			'2x' => true,
+		),
 	),
 	'markers' => array(
 
