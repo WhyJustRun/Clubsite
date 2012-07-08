@@ -5,7 +5,6 @@ class RebuildDerivedImagesShell extends Shell {
 	function main() {
 		$entities = array("Map" => "MapsController", "Course" => "CoursesController");
 		
-/*
 		// Standard Media component images
 		foreach($entities as $modelName => $controllerName) {
 			App::uses($controllerName, 'Controller');
@@ -25,7 +24,6 @@ class RebuildDerivedImagesShell extends Shell {
 				echo "Regenerating $modelName derived images completed $percentage%\n";
 			}
 		}
-*/
 		
 		// Special cases
 		
