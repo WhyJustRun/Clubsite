@@ -8,6 +8,7 @@ class MediaHelper extends Helper {
     );
     
     public function image($type, $id, $thumbnail = false, $options = array()) {
+    	$options['data-2x-src'] = $this->url($type, $id, $thumbnail, true);
         return $this->Html->image($this->url($type, $id, $thumbnail), $options);
     }
     
@@ -29,7 +30,18 @@ class MediaHelper extends Helper {
         );
     }
     
-    public function url($type, $id, $thumbnail = false) {
+    public function url($type, $id, $thumbnail = false, $hiDPI = false) {
+    	if ($hiDPI && $thumbnail) {
+    		$glue = "x";
+	    	$components = explode($glue, $thumbnail);
+		    $newComponents = array();
+		    foreach($components as $component) {
+			    $newComponents[] = intval($component) * 2;
+		    }
+		    
+		    $thumbnail = implode($glue, $newComponents);
+    	}
+
         $endpoint = $this->endpoint($type);
         if($thumbnail) {
             return $endpoint . $id . '/' . $thumbnail;
@@ -40,8 +52,7 @@ class MediaHelper extends Helper {
     public function exists($type, $id, $thumbnail = false) {
         if(!$thumbnail) {
             $matches = glob(Configure::read("$type.dir").$id.".*");
-        }
-        else {
+        } else {
             $matches = glob(Configure::read("$type.dir")."${id}_${thumbnail}.*");
         }
         if(count($matches) == 1) {

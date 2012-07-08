@@ -30,6 +30,14 @@ $(function() {
     
     $('.date-picker').datepicker();
     $('input, textarea').placeholder();
+    
+    // HiDPI resolution images
+    if(window.devicePixelRatio > 1) {
+	    $('img[data-2x-src]').each(function (index, img) {
+	    	var newSrc = $(img).attr('data-2x-src');
+		    $(img).attr('src', newSrc);
+	    });
+    }
 });
 
 

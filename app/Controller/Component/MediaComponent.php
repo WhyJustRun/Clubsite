@@ -4,6 +4,7 @@ class MediaComponent extends Component {
     private $allowedExts;
     private $thumbnailExtension = 'png';
     private $controller;
+    public $thumbnailSizes;
 
     function __construct($collection, $options = array()) {
         $this->defaultType = !empty($options['type']) ? $options['type'] : null;
@@ -38,10 +39,7 @@ class MediaComponent extends Component {
             throw new Exception('The uploaded file format is not allowed. Please use one of ' . $exts);
         }
 
-        foreach($this->thumbnailSizes as $thumbnailSize) {
-            $thumbnailPath = $folder . $id . '_' . $thumbnailSize . '.' . $this->thumbnailExtension;
-            $this->createThumbnail($filename, $thumbnailPath, $thumbnailSize);
-        }
+        $this->buildThumbnailsForFile($filename, $folder, $id);
     }
 
     public function delete($id, $type = null) {
@@ -117,29 +115,60 @@ class MediaComponent extends Component {
         );
         $this->controller->set($params);
     }
-
+    
+    public function buildThumbnails($id, $type = null) {
+    	$this->loadType($type);
+        $folder = $this->folder($type);
+        $file = $this->findFile($id, $folder);
+        
+        if(!$file) return;
+        $this->buildThumbnailsForFile($file, $folder, $id);
+    }
+    
+    private function buildThumbnailsForFile($file, $folder, $id) {
+    	assert(!empty($file));
+    	
+	    foreach($this->thumbnailSizes as $thumbnailSize) {
+            $thumbnailPath = $folder . $id . '_' . $thumbnailSize . '.' . $this->thumbnailExtension;
+            $this->createThumbnail($file, $thumbnailPath, $thumbnailSize);
+        }
+    }
+    
     private function createThumbnail($source, $destination, $size) {
+    	if (file_exists($destination)) {
+    		unlink($destination);
+    	}
         shell_exec("convert '$source' -resize $size\> '$destination'");
     }
 
-    public function createCroppedThumbnail($id, $type, $size) {
-        $this->loadType($type);
+    public function createCroppedThumbnail($id, $type, $size, $position = "random") {
+        $this->createCroppedImage($id, $type, $size, $position);
+        $this->createCroppedImage($id, $type, $this->doubledSize($size), $position);
+    }
+    
+    private function createCroppedImage($id, $type, $size, $position = "random") {
+	    $this->loadType($type);
         $folder = $this->folder($type);
         $source = $this->findFile($id, $folder);
-
-        $image = new Imagick($source);
-        $d = $image->getImageGeometry();
-        $origSizeX = $d['width'];
-        $origSizeY = $d['height']; 
-        //echo "ORIGINAL SIZE $origSizeX $origSizeY";
-
-        $destination = $folder . $id . "_$size." . $this->thumbnailExtension;
-        $offsetX = rand(0,$origSizeX);
-        $offsetY = rand(0,$origSizeY);
-        //echo "OFFSETS $offsetX, $offsetY";
-        $str = "convert -crop ${size}+${offsetX}+${offsetY} -resize " . $size .' +repage ' . $source . ' ' . $destination;
-        //echo "STRING $str";
-        shell_exec("convert -crop ${size}+${offsetX}+${offsetY} -resize $size +repage $source $destination");
+        
+        if($source) {
+	        $image = new Imagick($source);
+	        $d = $image->getImageGeometry();
+	        $origSizeX = $d['width'];
+	        $origSizeY = $d['height']; 
+	
+	        $destination = $folder . $id . "_$size." . $this->thumbnailExtension;
+	        
+	        if ($position == "random") {
+		        $offsetX = rand(0,$origSizeX);
+		        $offsetY = rand(0,$origSizeY);
+	        } else {
+		        $offsetX = $origSizeX / 2;
+		        $offsetY = $origSizeY / 2;
+	        }
+	        	        
+	        shell_exec("convert -crop ${size}+${offsetX}+${offsetY} -resize $size +repage $source $destination");
+        }
     }
 
     private function findFile($id, $folder) {
@@ -198,21 +227,26 @@ class MediaComponent extends Component {
         }
     }
     
+    private function doubledSize($size) {
+    	$glue = "x";
+	    $components = explode($glue, $size);
+	    $newComponents = array();
+	    foreach($components as $component) {
+		    $newComponents[] = intval($component) * 2;
+	    }
+	    
+	    return implode($glue, $newComponents);
+    }
+    
     private function addHiDPISizes() {
     	$newSizes = array();
-    	$glue = "x";
 
 	    foreach($this->thumbnailSizes as $size) {
-		    $components = explode($glue, $size);
-		    $newComponents = array();
-		    foreach($components as $component) {
-			    $newComponents[] = intval($component) * 2;
-		    }
-		    
-		    $newSizes[] = implode($glue, $newComponents);
+		    $newSizes[] = $this->doubledSize($size);
 	    }
 	    
 	    $this->thumbnailSizes = array_merge($this->thumbnailSizes, $newSizes);
     }
+
 }
 ?>

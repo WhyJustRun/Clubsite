@@ -37,8 +37,7 @@
         <?php
         if($this->Media->exists('Map', $map["Map"]["id"])) { ?>
             <?= $this->Media->linkedImage("Map", $map["Map"]["id"], '400x600', array(), array('width' => '100%')) ?>
-        <? } 
-        else {?>
+        <? } else {?>
             No map image available.
         <? } ?>
         <hr>
