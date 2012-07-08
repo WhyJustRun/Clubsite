@@ -8,7 +8,7 @@ class CoursesController extends AppController {
         'Media' => array(
             'type' => 'Course',
             'allowedExts' => array('jpg', 'jpeg', 'gif', 'png', 'pdf'),
-            'thumbnailSizes' => array('100x150')
+            'thumbnailSizes' => array('100x150', '600x600')
         )
     );
 

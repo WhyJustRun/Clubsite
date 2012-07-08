@@ -9,7 +9,7 @@ if(!empty($courses)) { ?>
 			?>
 			<div class="column">
 				<h3><?= $course["name"] ?></h3><br>
-				<?= $this->Media->linkedImage("Course", $course["id"], '100x150') ?> 
+				<?= $this->Media->linkedImage("Course", $course["id"], '600x600') ?> 
 			</a>
 		</div>
 		<?php
