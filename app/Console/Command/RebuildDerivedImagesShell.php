@@ -9,7 +9,7 @@ class RebuildDerivedImagesShell extends Shell {
 		
 		//$this->croppedMapImages();
 		
-		$this->resourceDerivedImages();
+		//$this->resourceDerivedImages();
 	}
 	
 	private function mediaImages() {
@@ -62,7 +62,6 @@ class RebuildDerivedImagesShell extends Shell {
 		foreach($resources as $resource) {
 			$resourceOnly = $resource['Resource'];
 			$this->Resource->doThumbnailingIfNecessary($resourceOnly);
-			print_r($resourceOnly);
 			$data = array('Resource' => $resourceOnly);
 			if(!$this->Resource->save($data)) {
 				echo "Failed saving resource: $data";
