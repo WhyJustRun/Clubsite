@@ -34,15 +34,21 @@ $(function() {
     
     
     // HiDPI resolution images
-    if(window.devicePixelRatio > 1) {
+    swapHiDPIImages();
+});
+
+function swapHiDPIImages() {
+	if(window.devicePixelRatio > 1) {
 	    $('img[data-2x-src]').each(function (index, img) {
 	    	function load2xImage() {
 		    	if(img.getAttribute('width') != undefined || img.getAttribute('height') != undefined) {
 		    		img.setAttribute('src', img.getAttribute('data-2x-src'));
+		    		img.removeAttribute('data-2x-src');
 		    	} else if(img.complete) {
 		    		img.setAttribute('width', img.offsetWidth);
 		    		img.setAttribute('height', img.offsetHeight);
 			    	img.setAttribute('src', img.getAttribute('data-2x-src'));
+			    	img.removeAttribute('data-2x-src');
 		    	} else {
 			    	setTimeout(load2xImage, 5);
 		    	}
@@ -51,8 +57,7 @@ $(function() {
 	    	load2xImage();
 	    });
     }
-});
-
+}
 
 // Callback should take a person object with id, name. Callback can also be called with null (no person selected)
 // Maintain input will keep the selected user's name in the input after the input loses focus. Allow new will keep the input populated even if there is no user in the system with the given name.

@@ -43,24 +43,13 @@
     echo $this->Html->script('cakebootstrap');
     ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- UserVoice feedback -->
-<!--
-    <script type="text/javascript">
-      var uvOptions = {};
-      (function() {
-        var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
-        uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/OOr0QWysv98u5kUZjsi3mA.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
-      })();
-    </script>
--->
 </head>
 <body>
 	<header class="header">
         <div>
             <?php if(!empty($clubResources['headerImage'])) { ?>
             <a href="/">
-                <img class="club-masthead" src="<?= $clubResources['headerImage']; ?>" />
+                <img class="club-masthead" src="<?= $clubResources['headerImage_1300']; ?>" data-2x-src="<?= $clubResources['headerImage_2600']; ?>" />
             </a>
             <? } else { ?>
             <h1><?= Configure::read('Club.name') ?></h1>

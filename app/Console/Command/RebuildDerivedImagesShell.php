@@ -1,8 +1,18 @@
 <?php
 class RebuildDerivedImagesShell extends Shell {
-	var $uses = array("Map", "Course", "Result");
+	var $uses = array("Map", "Course", "Result", 'Resource');
 
 	function main() {
+		//$this->mediaImages();
+		
+		// Special cases
+		
+		//$this->croppedMapImages();
+		
+		$this->resourceDerivedImages();
+	}
+	
+	private function mediaImages() {
 		$entities = array("Map" => "MapsController", "Course" => "CoursesController");
 		
 		// Standard Media component images
@@ -24,9 +34,9 @@ class RebuildDerivedImagesShell extends Shell {
 				echo "Regenerating $modelName derived images completed $percentage%\n";
 			}
 		}
-		
-		// Special cases
-		
+	}
+	
+	private function croppedMapImages() {
 		App::uses('MapsController', 'Controller');
 		$mapsController = new MapsController();
 		$mapsController->constructClasses();
@@ -43,6 +53,19 @@ class RebuildDerivedImagesShell extends Shell {
 				$i++;
 				$percentage = round($i/$count * 100);
 				echo "Regenerating cropped map derived images completed $percentage%\n";
+			}
+		}
+	}
+	
+	private function resourceDerivedImages() {
+		$resources = $this->Resource->findByClubId(Configure::read('Club.id'));
+		foreach($resources as $resource) {
+			$resourceOnly = $resource['Resource'];
+			$this->Resource->doThumbnailingIfNecessary($resourceOnly);
+			print_r($resourceOnly);
+			$data = array('Resource' => $resourceOnly);
+			if(!$this->Resource->save($data)) {
+				echo "Failed saving resource: $data";
 			}
 		}
 	}

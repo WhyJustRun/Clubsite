@@ -36,7 +36,7 @@
     		$maxLng = max($maxLng, $map["Map"]["lng"]);
     
     		if($this->Media->exists('Map', $map["Map"]["id"], '60x60')) {
-    		   $image = "<br>".$this->Media->image("Map", $map["Map"]["id"], '60x60');
+    		   $image = "<br>".$this->Media->image("Map", $map["Map"]["id"], '60x60', array('onload' => 'swapHiDPIImages();'));
     		} else {
     		   $image = null;
     		}

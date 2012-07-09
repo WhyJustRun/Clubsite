@@ -142,32 +142,34 @@ class MediaComponent extends Component {
     }
 
     public function createCroppedThumbnail($id, $type, $size, $position = "random") {
-        $this->createCroppedImage($id, $type, $size, $position);
-        $this->createCroppedImage($id, $type, $this->doubledSize($size), $position);
-    }
-    
-    private function createCroppedImage($id, $type, $size, $position = "random") {
-	    $this->loadType($type);
+        $this->loadType($type);
         $folder = $this->folder($type);
         $source = $this->findFile($id, $folder);
         
         if($source) {
+        	$doubledSize = $this->doubledSize($size);
 	        $image = new Imagick($source);
 	        $d = $image->getImageGeometry();
 	        $origSizeX = $d['width'];
 	        $origSizeY = $d['height']; 
 	
 	        $destination = $folder . $id . "_$size." . $this->thumbnailExtension;
+	        $doubledDestination = $folder . $id . "_$doubledSize." . $this->thumbnailExtension;
+	        $explodedDoubledSize = explode("x", $doubledSize);
+	        $doubledSizeWidth = $explodedDoubledSize[0];
+	        $doubledSizeHeight =  $explodedDoubledSize[1];
 	        
 	        if ($position == "random") {
-		        $offsetX = rand(0,$origSizeX);
-		        $offsetY = rand(0,$origSizeY);
+		        $offsetX = rand(0,$origSizeX - $doubledSizeWidth);
+		        $offsetY = rand(0,$origSizeY - $doubledSizeHeight);
 	        } else {
 		        $offsetX = $origSizeX / 2;
 		        $offsetY = $origSizeY / 2;
 	        }
-	        	        
-	        shell_exec("convert -crop ${size}+${offsetX}+${offsetY} -resize $size +repage $source $destination");
+	        
+	        $resizeCommandFirstPart = "convert -crop ${$doubledSize}+${offsetX}+${offsetY} -resize ";
+	        shell_exec($resizeCommandFirstPart.$size." +repage $source $destination");
+	        shell_exec($resizeCommandFirstPart.$doubledSize." +repage $source $doubledDestination");
         }
     }
 

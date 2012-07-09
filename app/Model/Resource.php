@@ -22,6 +22,13 @@ class Resource extends AppModel {
         if($clubResources != null) {
             foreach($clubResources as $resource) {
                 $map[$resource['Resource']['key']] = $resource['Resource']['url'];
+                $sizes = $this->sizes();
+                foreach($sizes as $size) {
+                	$thumbnailKey = 'thumbnail_'.$size.'_url';
+                	if(!empty($resource['Resource'][$thumbnailKey])) {
+	                	$map[$resource['Resource']['key']."_".$size] = $resource['Resource'][$thumbnailKey];
+                	}
+                }
             }
         }
 	   
@@ -66,15 +73,7 @@ class Resource extends AppModel {
 	   $path = $this->pathForFile($resource['key'], $fileUpload, $resourceConfig['allowedExtensions']);
 	   $resource['url'] = $this->storeFile($fileUpload, $path);
 	   
-	   if(in_array($this->extensionOf($path), $this->thumbnailableFiles)) {
-	       $sizes = $this->sizes();
-	   
-    	   foreach($sizes as $size) {
-    	       $resource["thumbnail_${size}_url"] = Configure::read('Club.dataUrl').$this->pathForFile($key, $fileUpload, $resourceConfig['allowedExtensions'], $size);
-    	   }
-    	   
-    	   $this->buildThumbnails($resource, $sizes);
-	   }
+	   $this->doThumbnailingIfNecessary($resource);
 
         // Check for a duplicate resource and remove if necessary
 	   $preexistingResource = $this->find('first', array('conditions' => array('Resource.key' => $key, 'Club.id' => $clubId)));
@@ -87,16 +86,26 @@ class Resource extends AppModel {
 	   } else return false;
 	}
 
+	public function doThumbnailingIfNecessary(&$resource) {
+	    if(in_array($this->extensionOf($resource['url']), $this->thumbnailableFiles)) {
+		    $sizes = $this->sizes();
+		    foreach($sizes as $size) {
+			    $resource["thumbnail_${size}_url"] = $this->thumbnailURLForResourceWithURL($resource, $size);
+			}
+    	    $this->buildThumbnails($resource, $sizes);
+	    }
+    }
+    
 	// Thumbnail sizes, in ImageMagick resize notation
 	private function sizes() {
-	   return array('1000', '500', '100', '50');
+	   return array('2600', '1300', '1000', '500', '100', '50');
 	}
 	
 	private function extensionOf($file) {
         $path = pathinfo($file);
         return strtolower($path['extension']);
     }
-       
+
     private function fileForUrl($url) {
         return str_replace(Configure::read('Club.dataUrl'), Configure::read('Club.dir'), $url);
     }
@@ -112,18 +121,17 @@ class Resource extends AppModel {
         $destination = $this->fileForUrl($resource["thumbnail_${size}_url"]);
         shell_exec("convert '$source' -resize $size\> '$destination'");
     }
+    
+    private function thumbnailURLForResourceWithURL($resource, $thumbnail) {
+    	$urlParts = explode('.', $resource['url']);
+    	array_pop($urlParts);
+	    return implode(".", $urlParts).'_'.$thumbnail.".jpg";
+    }
 
-	private function pathForFile($name, $fileUpload, $allowedExtensions, $thumbnail = '', $directory = '') {
-	   if($directory) $directory += "/";
-	   if($thumbnail) {
-	       $ext = 'jpg';
-	       $thumbnail = "_".$thumbnail;
-	   } else {
-	       $ext = $this->extensionOf($fileUpload['name']);
-	   }
-	   $this->ensureDirectoryExists($directory);
+	private function pathForFile($name, $fileUpload, $allowedExtensions) {
+	   $ext = $this->extensionOf($fileUpload['name']);
 	   $this->checkExtension($ext, $allowedExtensions);
-	   return $directory.$name.$thumbnail.'.'.$ext;
+	   return $name.$thumbnail.'.'.$ext;
 	}
 	
 	private function ensureDirectoryExists($directory) {
