@@ -31,6 +31,12 @@ class Course extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+	
+	var $validate = array(
+		'name' => array(
+			'rule' => 'notEmpty',
+		),
+	);
     
     function getDate($course_id) {
         return $this->Event->field('date');

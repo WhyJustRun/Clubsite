@@ -55,7 +55,7 @@ var finishLoadingOrganizers = function() {
 	var viewModel = {
 		organizers: ko.observableArray([]),
 		addOrganizer: function(id, name, roleId) {
-			this.organizers.push(new Organizer(id, name, roleId));   
+			this.organizers.push(new Organizer(id, name, roleId));
 		},
 		courses: ko.observableArray([]),
 		addCourse: function(id, name, distance, climb, description) {
@@ -120,7 +120,7 @@ var finishLoadingOrganizers = function() {
 <div id='edit-courses'>
     <script type="text/html" id="courseTemplate">
     <tr>
-        <td class="span2"><input type="text" class="span2 thin-control" data-bind="value: name, uniqueName: true" required /></td>
+        <td class="span2"><input type="text" class="span2 thin-control" data-validate = "validate(required)" data-bind="value: name, uniqueName: true" required /></td>
         <td class="span1"><input class="span1 thin-control" type="number" data-bind="value: distance" /></td>
         <td class="span1"><input class="span1 thin-control" type="number" data-bind="value: climb" /></td>
         <td><input type="text" class="thin-control spanning-control" data-bind="value: description" /></td>

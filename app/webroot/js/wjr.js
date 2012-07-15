@@ -35,6 +35,8 @@ $(function() {
     
     // HiDPI resolution images
     swapHiDPIImages();
+    
+    orienteerAppCheckKetchupFormsAreValidOnSubmit();
 });
 
 function swapHiDPIImages() {
@@ -95,4 +97,14 @@ function orienteerAppPersonPicker(selector, options, callback) {
             }
         }
     });
+}
+
+function orienteerAppCheckKetchupFormsAreValidOnSubmit() {
+	$('[data-validate="ketchup"]').each(function(index, element) {
+		jqe = $(element);
+		jqe.submit(function(eventObject) {
+			jqe.ketchup();
+			return jqe.ketchup('isValid');
+		});
+	});
 }
