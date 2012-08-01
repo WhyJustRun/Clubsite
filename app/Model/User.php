@@ -1,9 +1,9 @@
 <?php
 class User extends AppModel {
-	var $name = 'User';
-	var $displayField = 'name';
-	protected $clubSpecific = false;
-	var $actsAs = array('Containable', 'Merge');
+    var $name = 'User';
+    var $displayField = 'name';
+    protected $clubSpecific = false;
+    var $actsAs = array('Containable', 'Merge');
 
     // is_member is a virtual field, however its definition must be made at runtime, since we have the dynamical
     // variable $year. Therefore modify the constructor.
@@ -18,132 +18,135 @@ class User extends AppModel {
         );
     }
 
-	var $validate = array(
-	  'name' => array(
-			'required' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Characters and numbers only',
-				//'allowEmpty' => true,
-				'required' => true,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	  'username' => array(
-		 'unique' => array(
-			'rule' => array('isUnique'),
-			'message' => 'Username already in use',
-				'required' => true
-		 )
-		),
-		'email' => array(
-			'email' => array(
-				'rule' => array('email'),
-				'message' => 'Must be a valid e-mail address',
-				//'allowEmpty' => true,
-				'required' => true,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		// This rule vill probably never be broken since we are checking the hashed password, not the raw one.
-		'password' => array(
-			'alphanumeric' => array(
-				'rule' => array('alphanumeric'),
-				'message' => 'Characters and numbers only',
-				//'allowEmpty' => true,
-				'required' => true,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'year_of_birth' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				'message' => 'Must be a valid year',
-				'allowEmpty' => true,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'si_number' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				'message' => 'Must consist of numbers only',
-				'allowEmpty' => true
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+    var $validate = array(
+        'name' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                //'message' => 'Characters and numbers only',
+                //'allowEmpty' => true,
+                'required' => true,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'username' => array(
+            'unique' => array(
+                'rule' => array('isUnique'),
+                'message' => 'Username already in use',
+                'required' => true
+            )
+        ),
+        'email' => array(
+            'email' => array(
+                'rule' => array('email'),
+                'message' => 'Must be a valid e-mail address',
+                //'allowEmpty' => true,
+                'required' => true,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        // This rule vill probably never be broken since we are checking the hashed password, not the raw one.
+        'password' => array(
+            'alphanumeric' => array(
+                'rule' => array('alphanumeric'),
+                'message' => 'Characters and numbers only',
+                //'allowEmpty' => true,
+                'required' => true,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'year_of_birth' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'message' => 'Must be a valid year',
+                'allowEmpty' => true,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'si_number' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'message' => 'Must consist of numbers only',
+                'allowEmpty' => true
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+    );
+    //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-	var $hasMany = array(
-		'Membership' => array(
-			'className' => 'Membership',
-			'foreignKey' => 'user_id',
-		),
-		'Organizer' => array(
-			'className' => 'Organizer',
-			'foreignKey' => 'user_id',
-		),
-		'Result' => array(
-			'className' => 'Result',
-			'foreignKey' => 'user_id',
-		),
-		'Registrant' => array(
-			'className' => 'Result',
-			'foreignKey' => 'registrant_id',
-		)
-	);
-	
-	var $hasOne = array('Privilege');
-	
-	var $belongsTo = array(
-		'Club' => array(
-			'className' => 'Club',
-		)
-	);
+    var $hasMany = array(
+        'Membership' => array(
+            'className' => 'Membership',
+            'foreignKey' => 'user_id',
+        ),
+        'Organizer' => array(
+            'className' => 'Organizer',
+            'foreignKey' => 'user_id',
+        ),
+        'Result' => array(
+            'className' => 'Result',
+            'foreignKey' => 'user_id',
+        ),
+        'Registrant' => array(
+            'className' => 'Result',
+            'foreignKey' => 'registrant_id',
+        )
+    );
 
-	/**
-	* @deprecated Use AuthComponent password
-	*/
-	function hashPasswords($data) {
-	   
-		if (isset($data['User']['password'])) {
-			$data['User']['password'] = $this->hashPassword($data['User']['password']);
-			return $data;
-		}
-		
-		return $data;
-	}
+    var $hasOne = array('Privilege');
 
-	/**
-	* @deprecated Use AuthComponent password
-	*/
-	function hashPassword($password) {
-		return hash('sha512', Configure::read("Security.salt").$password);
-	}
+    var $belongsTo = array(
+        'Club' => array(
+            'className' => 'Club',
+        )
+    );
 
-   function is_duplicate($data) {
-	  $q = $this->findAllByName($data['User']['name']);
-	  if(count($q) > 0)
-		 return true;
-	  else 
-		 return false;
-   }
-	
-	/**
-	* Checks if a user is authorized to access a page based on their privileges
-	*/
-	function isAuthorized($userId, $minimumPrivilege) {
-		$privilege = $this->Privilege->find('count', array('conditions' => array('Privilege.user_id' => $userId, 'Group.access_level >=' => $minimumPrivilege, 'Group.club_id' => Configure::read('Club.id'))));
-		if($privilege > 0) {
-			return true;
-		} else return false;
-	}
+    /**
+     * @deprecated Use AuthComponent password
+     */
+    function hashPasswords($data) {
+
+        if (isset($data['User']['password'])) {
+            $data['User']['password'] = $this->hashPassword($data['User']['password']);
+            return $data;
+        }
+
+        return $data;
+    }
+
+    /**
+     * @deprecated Use AuthComponent password
+     */
+    function hashPassword($password) {
+        return hash('sha512', Configure::read("Security.salt").$password);
+    }
+
+    function is_duplicate($data) {
+        $q = $this->findAllByName($data['User']['name']);
+        if(count($q) > 0)
+            return true;
+        else 
+            return false;
+    }
+
+    /**
+     * Checks if a user is authorized to access a page based on their privileges
+     */
+    function isAuthorized($userId, $minimumPrivilege) {
+        if($minimumPrivilege == 0) {
+            return true;
+        }
+        $privilege = $this->Privilege->find('count', array('conditions' => array('Privilege.user_id' => $userId, 'Group.access_level >=' => $minimumPrivilege, 'Group.club_id' => Configure::read('Club.id'))));
+        if($privilege > 0) {
+            return true;
+        } else return false;
+    }
 
     function getLevel($userId) {
         $level = $this->Privilege->find('first', array('fields' => array('MAX(Group.access_level) as level'), 'conditions' => array('Privilege.user_id' => $userId, 'Group.club_id' => Configure::read('Club.id'))));
@@ -154,15 +157,15 @@ class User extends AppModel {
             return 0;
         }
     }
-	
-	function findByName($name) {
-		return $this->find('all', array('recursive' => -1, 'conditions' => array('User.name LIKE' => '%'.$name.'%')));
-	}
+
+    function findByName($name) {
+        return $this->find('all', array('recursive' => -1, 'conditions' => array('User.name LIKE' => '%'.$name.'%')));
+    }
 
     /**
-    * Finds any temporary user accounts (those without a username, e.g. those that have been created 
-    * in the results section)
-    */
+     * Finds any temporary user accounts (those without a username, e.g. those that have been created 
+     * in the results section)
+     */
     function findTemporaryByName($name) {
         $conditions = array('User.name LIKE' => '%'.$name.'%' , 'User.username' => '');
         return $this->find('first', array('recursive' => -1, 'conditions' => $conditions));
@@ -245,7 +248,7 @@ class User extends AppModel {
                 // Run out of options... pick the first one
                 $primaryIndex = 2;
             }
-            
+
             if($primaryIndex == 1) {
                 $primary = &$user1;
                 $duplicate = &$user2;
