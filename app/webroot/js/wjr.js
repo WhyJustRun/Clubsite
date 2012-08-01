@@ -29,10 +29,11 @@ $(function() {
     $('time.timeago').timeago();
     
     $('.date-picker').datepicker();
+    
+    cakebootstrap();
+    errorstrap();
     $('input, textarea').placeholder();
-    
-    
-    
+
     // HiDPI resolution images
     swapHiDPIImages();
     

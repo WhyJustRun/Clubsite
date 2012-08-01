@@ -43,23 +43,6 @@ function errorstrap()
 }
 
 //Styling start when document loads
-$(document).ready(function(){
-	cakebootstrap();
-	errorstrap();
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
