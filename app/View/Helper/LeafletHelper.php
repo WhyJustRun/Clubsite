@@ -84,8 +84,9 @@ class LeafletHelper extends AppHelper {
 		//";
 		$script = "var map = new L.Map('${divId}');
 		";
-		$script .= $this->_addLayers($options);
+		
 		$script .= $this->_addMarkers($options);
+		$script .= $this->_addLayers($options);
 		
 		if(!empty($options['map']['bounds'])) {
 			$north = $options['map']['bounds']['north'];
@@ -106,9 +107,11 @@ class LeafletHelper extends AppHelper {
 		";
 		$script .= "map.${setView}.addLayer(defaultLayer);
 		";
+		$script .= 'var layerPicker = new L.Control.Layers(layers);
+		map.addControl(layerPicker);
+		';
 
-		$script = $this->Html->scriptBlock($script);
-		return $script;
+		return $this->Html->scriptBlock($script);
 	}
 	
 	function simpleMarker($lat, $lng, $zoom, $height, $options = array()) {
@@ -178,10 +181,6 @@ class LeafletHelper extends AppHelper {
 			
 			if($isHiDPI) $code .= '}';
 		}
-
-		$code .= 'var layerPicker = new L.Control.Layers(layers);
-		map.addControl(layerPicker);
-		';
 
 		return $code;
 	}
