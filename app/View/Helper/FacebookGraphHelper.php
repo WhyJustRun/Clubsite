@@ -64,7 +64,7 @@ class FacebookGraphHelper extends AppHelper {
         $i=0;
         $maxItems = empty($options['limit']) ? 5 : $options['limit'];
         foreach($feed['data'] as $news) {
-            if($page['id'] === $news['from']['id']) {
+            if($page['id'] === $news['from']['id'] && !empty($news['message'])) {
                 if(empty($news['picture'])) {
                     $news['picture'] = 'https://graph.facebook.com/'.$news['from']['id'].'/picture';
                     $news['picture-link'] = 'https://www.facebook.com/'.$news['from']['id'];
@@ -77,10 +77,7 @@ class FacebookGraphHelper extends AppHelper {
                         <a target="_blank" href="'.$news['picture-link'].'"><img width="100%" src="'.$news['picture'].'" /></a>
                     </div>
                     <div class="news-content">';
-                if(!empty($news['message'])) {
-                    $html .= $news['message'].'<br/>';   
-                }
-    
+                $html .= $news['message'].'<br/>';
                 $html .= "<div class='pull-right news-time'>
                     Posted <time class='timeago' datetime='${news['created_time']}' title='${news['created_time']}'></time>
                 </div>";
