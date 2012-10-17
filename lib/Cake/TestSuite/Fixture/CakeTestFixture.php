@@ -75,7 +75,13 @@ class CakeTestFixture {
 		if (!empty($this->useDbConfig)) {
 			$connection = $this->useDbConfig;
 			if (strpos($connection, 'test') !== 0) {
-				throw new CakeException(__d('cake_dev', 'Invalid datasource %s for object %s', $connection, $this->name));
+				$message = __d(
+					'cake_dev',
+					'Invalid datasource name "%s" for "%s" fixture. Fixture datasource names must begin with "test".',
+					$connection,
+					$this->name
+				);
+				throw new CakeException($message);
 			}
 		}
 		$this->Schema = new CakeSchema(array('name' => 'TestSuite', 'connection' => $connection));
@@ -194,6 +200,14 @@ class CakeTestFixture {
 			$db->execute($db->createSchema($this->Schema), array('log' => false));
 			$this->created[] = $db->configKeyName;
 		} catch (Exception $e) {
+			$msg = __d(
+				'cake_dev',
+				'Fixture creation for "%s" failed "%s"',
+				$this->table,
+				$e->getMessage()
+			);
+			CakeLog::error($msg);
+			trigger_error($msg, E_USER_WARNING);
 			return false;
 		}
 		return true;

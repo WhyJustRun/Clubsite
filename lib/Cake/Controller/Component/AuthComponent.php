@@ -332,7 +332,7 @@ class AuthComponent extends Component {
 		if (!empty($this->loginRedirect)) {
 			$default = $this->loginRedirect;
 		}
-		$controller->redirect($controller->referer($default), null, true);
+		$controller->redirect($controller->referer($default, true), null, true);
 		return false;
 	}
 
@@ -565,10 +565,7 @@ class AuthComponent extends Component {
 		if ($key === null) {
 			return $user;
 		}
-		if ($value = Hash::get($user, $key)) {
-			return $value;
-		}
-		return null;
+		return Hash::get($user, $key);
 	}
 
 /**

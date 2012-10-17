@@ -1745,7 +1745,6 @@ class Model extends Object implements CakeEventListener {
 
 		if ($success && $count > 0) {
 			if (!empty($this->data)) {
-				$success = $this->data;
 				if ($created) {
 					$this->data[$this->alias][$this->primaryKey] = $this->id;
 				}
@@ -1755,7 +1754,7 @@ class Model extends Object implements CakeEventListener {
 				$this->getEventManager()->dispatch($event);
 			}
 			if (!empty($this->data)) {
-				$success = Hash::merge($success, $this->data);
+				$success = $this->data;
 			}
 			$this->data = false;
 			$this->_clearCache();
@@ -2364,7 +2363,7 @@ class Model extends Object implements CakeEventListener {
 
 			$updateCounterCache = false;
 			if (!empty($this->belongsTo)) {
-				foreach ($this->belongsTo as $parent => $assoc) {
+				foreach ($this->belongsTo as $assoc) {
 					if (!empty($assoc['counterCache'])) {
 						$updateCounterCache = true;
 						break;
@@ -2450,7 +2449,7 @@ class Model extends Object implements CakeEventListener {
  * @return void
  */
 	protected function _deleteLinks($id) {
-		foreach ($this->hasAndBelongsToMany as $assoc => $data) {
+		foreach ($this->hasAndBelongsToMany as $data) {
 			list($plugin, $joinModel) = pluginSplit($data['with']);
 			$records = $this->{$joinModel}->find('all', array(
 				'conditions' => array($this->{$joinModel}->escapeField($data['foreignKey']) => $id),
@@ -2863,7 +2862,7 @@ class Model extends Object implements CakeEventListener {
 			$query['order'] = $field . ' ASC';
 			$neighbors = $this->find('all', $query);
 			if (!array_key_exists('prev', $return)) {
-				$return['prev'] = $neighbors[0];
+				$return['prev'] = isset($neighbors[0]) ? $neighbors[0] : null;
 			}
 			if (count($neighbors) === 2) {
 				$return['next'] = $neighbors[1];
@@ -3043,7 +3042,7 @@ class Model extends Object implements CakeEventListener {
 	public function isForeignKey($field) {
 		$foreignKeys = array();
 		if (!empty($this->belongsTo)) {
-			foreach ($this->belongsTo as $assoc => $data) {
+			foreach ($this->belongsTo as $data) {
 				$foreignKeys[] = $data['foreignKey'];
 			}
 		}
@@ -3251,7 +3250,7 @@ class Model extends Object implements CakeEventListener {
 			return array($with, array_unique(array_merge($assoc[$with], $keys)));
 		}
 		trigger_error(
-			__d('cake_dev', 'Invalid join model settings in %s', $model->alias),
+			__d('cake_dev', 'Invalid join model settings in %s. The association parameter has the wrong type, expecting a string or array, but was passed type: %s', $this->alias, gettype($assoc)),
 			E_USER_WARNING
 		);
 	}

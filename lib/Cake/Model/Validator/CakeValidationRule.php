@@ -18,8 +18,7 @@
  * @since         CakePHP(tm) v 2.2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-App::uses('ModelValidator', 'Model');
-App::uses('CakeValidationSet', 'Model/Validator');
+
 App::uses('Validation', 'Utility');
 
 /**
@@ -246,7 +245,7 @@ class CakeValidationRule {
  * If called with no parameters it will return whether this rule
  * is configured for update operations or not.
  *
- * @return boolean 
+ * @return boolean
  **/
 	public function isUpdate($exists = null) {
 		if ($exists === null) {
@@ -280,6 +279,17 @@ class CakeValidationRule {
 		}
 
 		return true;
+	}
+
+/**
+ * Resets interal state for this rule, by default it will become valid
+ * and it will set isUpdate() to false
+ *
+ * @return void
+ **/
+	public function reset() {
+		$this->_valid = true;
+		$this->_recordExists = false;
 	}
 
 /**

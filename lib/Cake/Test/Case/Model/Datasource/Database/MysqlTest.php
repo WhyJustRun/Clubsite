@@ -839,6 +839,45 @@ class MysqlTest extends CakeTestCase {
 	}
 
 /**
+ * Test that two columns with key => primary doesn't create invalid sql.
+ *
+ * @return void
+ */
+	public function testTwoColumnsWithPrimaryKey() {
+		$schema = new CakeSchema(array(
+			'connection' => 'test',
+			'roles_users' => array(
+				'role_id' => array(
+					'type' => 'integer',
+					'null' => false,
+					'default' => null,
+					'key' => 'primary'
+				),
+				'user_id' => array(
+					'type' => 'integer',
+					'null' => false,
+					'default' => null,
+					'key' => 'primary'
+				),
+				'indexes' => array(
+					'user_role_index' => array(
+						'column' => array('role_id', 'user_id'),
+						'unique' => 1
+					),
+					'user_index' => array(
+						'column' => 'user_id',
+						'unique' => 0
+					)
+				),
+			)
+		));
+
+		$result = $this->Dbo->createSchema($schema);
+		$this->assertContains('`role_id` int(11) NOT NULL,', $result);
+		$this->assertContains('`user_id` int(11) NOT NULL,', $result);
+	}
+
+/**
  * Tests that listSources method sends the correct query and parses the result accordingly
  * @return void
  */
@@ -1978,6 +2017,25 @@ class MysqlTest extends CakeTestCase {
 		$result = $this->Dbo->conditions('Member.email = "mariano@cricava.com" AND Member.user LIKE "mariano.iglesias%"');
 		$expected = ' WHERE `Member`.`email` = "mariano@cricava.com" AND `Member`.`user` LIKE "mariano.iglesias%"';
 		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * test that - in conditions and field names works
+ *
+ * @return void
+ */
+	public function testHypenInStringConditionsAndFieldNames() {
+		$result = $this->Dbo->conditions('I18n__title_pt-br.content = "test"');
+		$this->assertEquals(' WHERE `I18n__title_pt-br`.`content` = "test"', $result);
+
+		$result = $this->Dbo->conditions('Model.field=NOW()-3600');
+		$this->assertEquals(' WHERE `Model`.`field`=NOW()-3600', $result);
+
+		$result = $this->Dbo->conditions('NOW() - Model.created < 7200');
+		$this->assertEquals(' WHERE NOW() - `Model`.`created` < 7200', $result);
+
+		$result = $this->Dbo->conditions('NOW()-Model.created < 7200');
+		$this->assertEquals(' WHERE NOW()-`Model`.`created` < 7200', $result);
 	}
 
 /**

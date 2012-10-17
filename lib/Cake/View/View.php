@@ -290,11 +290,6 @@ class View extends Object {
 	protected $_eventManager = null;
 
 /**
- * The view file to be rendered, only used inside _execute()
- */
-	private $__viewFileName = null;
-
-/**
  * Whether the event manager was already configured for this object
  *
  * @var boolean
@@ -420,8 +415,14 @@ class View extends Object {
 				$this->getEventManager()->dispatch(new CakeEvent('View.beforeRender', $this, array($file)));
 			}
 
+			$current = $this->_current;
+			$restore = $this->_currentType;
+
 			$this->_currentType = self::TYPE_ELEMENT;
 			$element = $this->_render($file, array_merge($this->viewVars, $data));
+
+			$this->_currentType = $restore;
+			$this->_current = $current;
 
 			if ($callbacks) {
 				$this->getEventManager()->dispatch(new CakeEvent('View.afterRender', $this, array($file, $element)));
@@ -651,7 +652,7 @@ class View extends Object {
  * @param string $value The content for the block.
  * @return void
  * @throws CakeException when you use non-string values.
- * @see ViewBlock::assign()
+ * @see ViewBlock::set()
  */
 	public function assign($name, $value) {
 		return $this->Blocks->set($name, $value);
@@ -663,7 +664,7 @@ class View extends Object {
  *
  * @param string $name Name of the block
  * @return The block content or '' if the block does not exist.
- * @see ViewBlock::fetch()
+ * @see ViewBlock::get()
  */
 	public function fetch($name) {
 		return $this->Blocks->get($name);
@@ -673,7 +674,7 @@ class View extends Object {
  * End a capturing block. The compliment to View::start()
  *
  * @return void
- * @see ViewBlock::start()
+ * @see ViewBlock::end()
  */
 	public function end() {
 		return $this->Blocks->end();
@@ -856,7 +857,7 @@ class View extends Object {
  */
 	public function loadHelpers() {
 		$helpers = HelperCollection::normalizeObjectArray($this->helpers);
-		foreach ($helpers as $name => $properties) {
+		foreach ($helpers as $properties) {
 			list($plugin, $class) = pluginSplit($properties['class']);
 			$this->{$class} = $this->Helpers->load($properties['class'], $properties['settings']);
 		}
@@ -908,7 +909,7 @@ class View extends Object {
  * Sandbox method to evaluate a template / view script in.
  *
  * @param string $viewFn Filename of the view
- * @param array $___dataForView Data to include in rendered view.
+ * @param array $dataForView Data to include in rendered view.
  *    If empty the current View::$viewVars will be used.
  * @return string Rendered output
  */
@@ -919,7 +920,7 @@ class View extends Object {
 
 		include $this->__viewFile;
 
-		unset($this->_viewFile);
+		unset($this->__viewFile);
 		return ob_get_clean();
 	}
 
