@@ -32,7 +32,10 @@ if(!empty($map)) { ?>
     <? }
 }
 echo $this->Form->hidden('lat', array('default' => Configure::read('Club.lat')));
-echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng'))); ?>
+echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng'))); 
+$this->Form->unlockField('Map.lat');
+$this->Form->unlockField('Map.lng');
+?>
 <fieldset class="control-group">
     <label class="control-label">Location</label>
     <div class="controls">
