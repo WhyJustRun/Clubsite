@@ -210,13 +210,13 @@ class EventsController extends AppController {
                 array_push($allowedCourses, $allowedCourseResult['Course']['id']);
             }
             $courses = json_decode($this->request->data["Event"]["courses"]);
-            $updatedResults = array();
             foreach($courses as $course) {
                 // Security check: make sure the course being edited is actually part of the event being edited
                 if(!in_array($course->id, $allowedCourses)) {
                     $this->redirect("/");
                 }
                 
+                $updatedResults = array();
                 foreach($course->results as $result) {
                     $processedResult = array();
                     $processedResult["user_id"] = $result->user->id;
@@ -236,6 +236,7 @@ class EventsController extends AppController {
                     }
                     array_push($updatedResults, $processedResult);					
                 }
+                
                 if(empty($updatedResults) || $this->Event->Course->Result->saveAll($updatedResults)) {
                     $this->Event->Course->Result->calculatePoints($course->id);
                     $this->Event->saveField('results_posted', $this->request->data["Event"]["results_posted"]);
