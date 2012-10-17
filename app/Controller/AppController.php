@@ -5,7 +5,8 @@ class AppController extends Controller {
     // so session component is lost if it's not included here!
     var $components = array('Auth', 'Session', 'Security' => array(
         'csrfExpires' => '+12 hours',
-        'csrfUseOnce' => false
+        'csrfUseOnce' => false,
+        'unlockedFields' => array('leaflet-base-layers'), // Leaflet includes a radio input in IE in POST requests if it is within the form.
     ));
     var $helpers = array('Session', 'Html', 'Menu', 'ContentBlock');
 
