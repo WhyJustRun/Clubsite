@@ -139,12 +139,13 @@ class User extends AppModel {
      * Checks if a user is authorized to access a page based on their privileges
      */
     function isAuthorized($userId, $minimumPrivilege) {
-    	// This shouldn't really be necessary, but if there is a bug that causes a null privilege to be inserted, we won't give site access to everyone.
-    	if(empty($userId)) return false;
-
         if($minimumPrivilege == 0) {
             return true;
         }
+        
+        // This shouldn't really be necessary, but if there is a bug that causes a null privilege to be inserted, we won't give site access to everyone.
+    	if(empty($userId)) return false;
+        
         $privilege = $this->Privilege->find('count', array('conditions' => array('Privilege.user_id' => $userId, 'Group.access_level >=' => $minimumPrivilege, 'Group.club_id' => Configure::read('Club.id'))));
         if($privilege > 0) {
             return true;
