@@ -49,7 +49,6 @@ function swapHiDPIImages() {
 		    		img.removeAttribute('data-2x-src');
 		    	} else if(img.complete) {
 		    		img.setAttribute('width', img.offsetWidth);
-		    		img.setAttribute('height', img.offsetHeight);
 			    	img.setAttribute('src', img.getAttribute('data-2x-src'));
 			    	img.removeAttribute('data-2x-src');
 		    	} else {
