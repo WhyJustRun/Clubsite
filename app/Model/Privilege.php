@@ -22,6 +22,21 @@ class Privilege extends AppModel {
 		)
 	);
 	
+	var $validate = array(
+        'user_id' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+            ),
+        ),
+        'group_id' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'required' => true,
+            ),
+        ),
+    );
+	
 	// For privileges, we just want to make sure that privileges in groups in the current club are the only ones found
 	function beforeFind($queryData) {
         if(empty($queryData['conditions']["Group.club_id"])) {
