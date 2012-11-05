@@ -167,7 +167,7 @@ class MediaComponent extends Component {
 		        $offsetY = $origSizeY / 2;
 	        }
 	        
-	        $resizeCommandFirstPart = "convert -crop ${$doubledSize}+${offsetX}+${offsetY} -resize ";
+	        $resizeCommandFirstPart = "convert -crop ${doubledSize}+${offsetX}+${offsetY} -resize ";
 	        shell_exec($resizeCommandFirstPart.$size." +repage $source $destination");
 	        shell_exec($resizeCommandFirstPart.$doubledSize." +repage $source $doubledDestination");
         }
