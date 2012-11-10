@@ -69,6 +69,18 @@ $this->Form->unlockField('Event.lng');
 ?>
 
 <?= $this->element('Events/edit_courses_organizers') ?>
+
+<div class="control-group">
+	<label class="control-label">Number of Participants</label>
+    <div class="controls">
+        <div>
+            <?= $this->Form->input('number_of_participants', array('type' => 'number', 'min' => '0', 'max' => '4294967295', 'style' => 'width: 120px', 'div' => false, 'label' => false)) ?>
+            <span class="help-text">(used for insurance purposes, overrides participant count from event results)</span>
+        </div>
+    </div>
+</div>
+
+
 <fieldset class="control-group">
     <label class="control-label">Meeting location</label>
     <div class="controls">
