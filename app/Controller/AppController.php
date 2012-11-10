@@ -14,6 +14,7 @@ class AppController extends Controller {
     function beforeFilter() {
         parent::beforeFilter();
 
+        $this->Security->blackHoleCallback = 'blackholed';
         // CakePHP bug: the Session Auth variables won't be set if $this->Auth->user() isn't called.
         $this->Auth->user();
         $this->Auth->authenticate  = array('Form');
@@ -32,6 +33,12 @@ class AppController extends Controller {
         if(array_key_exists('ext', $this->request->params) && $this->request->params['ext'] == 'embed') {
             $this->layout = 'embed';
         }
+    }
+    
+    function blackholed($type) {
+	    CakeLog::error("Request was blackholed of type: $type");
+	    $this->Session->setFlash('An error occurred, email: support@whyjustrun.ca.');
+	    $this->redirect('/');
     }
 
     function setClubResources() {
