@@ -30,7 +30,7 @@
     // Fix CSS selectors using html5 elements
     echo $this->Html->script('html5.ie');
     echo "<![endif]-->";
-    echo $this->Html->script("/cjs/jquery-1.7.2.min.js,jquery.ketchup.all.min.js,ketchup-bootstrap.js,jquery.fancybox.pack.js,jquery.placeholder.min.js,underscore-min.js,knockout.js,jquery.jeditable.mini.js,jquery.timeago.js,jquery.iecors.js");
+    echo $this->Html->script("/cjs/jquery-1.8.2.min.js,jquery.mousewheel-3.0.6.pack.js,jquery.ketchup.all.min.js,ketchup-bootstrap.js,jquery.fancybox.pack.js,jquery.placeholder.min.js,underscore-min.js,knockout.js,jquery.jeditable.mini.js,jquery.timeago.js,jquery.iecors.js");
     echo $this->Html->script('/cjs/bootstrap.min.js,bootstrap-typeahead.js,bootstrap-datepicker.js');
     echo $this->Html->script('wjr');
     
