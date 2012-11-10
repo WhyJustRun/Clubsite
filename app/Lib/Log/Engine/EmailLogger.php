@@ -23,6 +23,10 @@ Method: ".$_SERVER['REQUEST_METHOD']."
         $message .= "
         
         ";
+        $message .= print_r($GLOBALS, true);
+        $message .= "
+        
+        ";
         $message .= $error;
         $email->send($message);
     }

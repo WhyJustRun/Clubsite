@@ -100,7 +100,7 @@
 				&copy; <?= date('Y').' '.Configure::read('Club.name') ?>
 			</span>
 			<span id="credits" class="pull-right">
-				By <a href="">Thomas Nipen</a> and <a href="http://www.russellporter.com">Russell Porter</a>
+				By <a href="">Thomas Nipen</a> and <a href="http://www.russellporter.com">Russell Porter</a> | <a href="mailto:support@whyjustrun.ca">support@whyjustrun.ca</a>
 			</span>
 		</div>
   	</footer>

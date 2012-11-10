@@ -15,6 +15,8 @@
     <div class="span4">
         <h2>Events</h2>
         <a href="/roles/" class="btn">Define organizer roles</a>
+        <br/><br/>
+        <a href="<?= Configure::read('Rails.domain') ?>/club/<?= Configure::read('Club.id') ?>/participation_report.csv" class="btn">Event Participation Information (CSV)</a>
     </div>
     <div class="span4">
         <h2>Series</h2>
