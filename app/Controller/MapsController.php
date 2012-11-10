@@ -138,6 +138,7 @@ class MapsController extends AppController {
 
                 if($this->request->data["Map"]["image"]["tmp_name"] != "") {
                     $this->Media->create($this->request->data['Map']['image'], $this->Map->id);
+                    $this->generateBanner($id);
                 }
 
                 $this->redirect('/maps/view/'.$this->Map->id);

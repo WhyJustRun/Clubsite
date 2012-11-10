@@ -20,7 +20,7 @@ if(!empty($map)) { ?>
             </div>
         </fieldset>
     <?php
-    if($this->Media->exists('Map', $map["Map"]["id"], '60x60')) { ?>
+    if($this->Media->exists('Map', $map["Map"]["id"])) { ?>
         <fieldset class="control-group">
             <label class="control-label">Banner image</label>
             <div class="controls">
