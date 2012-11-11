@@ -33,6 +33,10 @@ class AppController extends Controller {
         if(array_key_exists('ext', $this->request->params) && $this->request->params['ext'] == 'embed') {
             $this->layout = 'embed';
         }
+        else {
+           // Set layout based on club's layout parameter
+           $this->layout = Configure::read('Club.layout');
+        }
     }
     
     function blackholed($type) {

@@ -187,7 +187,7 @@ nav ul li a:active {
 	text-decoration: none;
 }
 
-nav ul li a.selected {
+nav ul li.active a {
     background-color: #ffffff;
     color: #213449;
     text-decoration: none;

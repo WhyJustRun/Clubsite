@@ -3,8 +3,10 @@
 class MenuHelper extends Helper {
 	var $helpers = array('Html', 'Link');
 	
-	function item($name, $url, $home = false) {
-	   return $this->Html->link($name, $url, array('class' => $this->highlight($url, $home)));
+	function item($name, $url, $class='', $home = false) {
+      return "<li class='".$this->highlight($url, $home). " " . $class . "'>"
+         . $this->Html->link($name, $url)
+         . "</li>";
 	}
  
 /**
@@ -18,7 +20,7 @@ class MenuHelper extends Helper {
  * @param optional highlight class to be returned, default 'selected'
  * @return returns the proper class based on the url
  */
-	function highlight($path, $home = false, $normal = '', $selected = 'selected') {
+	function highlight($path, $home = false, $normal = '', $selected = 'active') {
 		$class = $normal;
 		$currentPath = substr($this->Html->here, strlen($this->Html->base));
 		// if there is a star in the path we need to do different checking

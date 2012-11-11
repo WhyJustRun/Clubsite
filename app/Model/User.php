@@ -210,11 +210,10 @@ class User extends AppModel {
                 // User2 is a fake account
                 $primaryIndex = 1;
             }
-            if($user1["User"]["password"] == NULL && $user2["User"]["password"] != NULL) {
+            else if($user1["User"]["password"] == NULL && $user2["User"]["password"] != NULL) {
                 // User1 is a fake account
                 $primaryIndex = 2;
             }
-
             /* Recent login */
             else if($user1["User"]["last_login"] != NULL && $user2["User"]["last_login"] != NULL) {
                 if($user1["User"]["last_login"] > $user2["User"]["last_login"]) {
