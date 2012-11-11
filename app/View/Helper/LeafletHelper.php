@@ -17,15 +17,6 @@ class LeafletHelper extends AppHelper {
 		center: lat, lng, zoom OR bounds: north, south, east, west (bounds)
 	*/
 
-	function __construct($view) {
-		$options = Configure::read('Leaflet');
-		if(!empty($options)) {
-			$this->_defaultOptions = $options;
-		}
-
-		parent::__construct($view);
-	}
-
 	var $helpers = array("Html");
 
 	protected $_defaultOptions = array(

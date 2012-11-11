@@ -1,51 +1,51 @@
 <?php if(!$event["Event"]["completed"] && !empty($event["Series"]["information"])) { ?>
-		<h2><?= $event["Series"]["name"] ?> Series Info</h2>
-		<?= $this->Markdown->render($event["Series"]["information"]) ?>
-		<hr class="divider" />
+        <h2><?= $event["Series"]["name"] ?> Series Info</h2>
+        <?= $this->Markdown->render($event["Series"]["information"]) ?>
+        <hr class="divider" />
 <?php } ?>
     
-	<h2>Event Information</h2>
-	<?php if(!empty($event["Organizer"])) { ?>
+    <h2>Event Information</h2>
+    <?php if(!empty($event["Organizer"])) { ?>
     <p><?= count($event["Organizer"]) > 1 ? '<b>Organizers</b>' : '<b>Organizer</b>' ?>: <?= $this->element('Organizers/list', array('organizers' => $event["Organizer"])); ?></p>
-	<?php }
+    <?php }
 
     if(!empty($event["Map"])) { 
         $map_id = $event["Map"]["id"];
         if($map_id != NULL) {?>
             <p><b>Map</b>: <?= $this->Html->link($event["Map"]["name"],"/maps/view/$map_id")?></p>
         <?}?>
-	<?php }
+    <?php }
 
-	if(!empty($event["Event"]["description"])) { 
-		// TODO-RWP Should sanitize imported data instead
-		echo $this->Markdown->render($event["Event"]["description"]);
-	} else {
-		echo "Check back soon for more information.";
-	} ?>
+    if(!empty($event["Event"]["description"])) { 
+        // TODO-RWP Should sanitize imported data instead
+        echo $this->Markdown->render($event["Event"]["description"]);
+    } else {
+        echo "Check back soon for more information.";
+    } ?>
     <hr class="divider" />
     <?php if(!empty($event["Event"]["lat"])) { ?>
-		<h2>Location</h2>
-		<?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px', array('pan-interaction' => false)); ?>
-		<script type="text/javascript">
-    		var clickHandler = function(e) {
-    		    // Leaflet doesn't seem to provide a way to test for clicks on controls, so we have this hack here to ignore interactions with the zoom buttons
-    		    var x = e.containerPoint.x;
-    		    var y = e.containerPoint.y;
-        		if (x >= 15 && y >= 15 && x <= 34 && y <= 58) {
-            		return; // clicking the zoom buttons, we don't want to interfere..
-        		}
-    		    var url =  '/events/map/<?= $event['Event']['id'] ?>';
-    		    if ($(window).width() <= 768) {
-        		    window.location = url;
-    		    } else {
-        		    $.fancybox.open({
-              		    width: '100%',
-              		    type: 'iframe',
-              		    href: url,
-            		});
-    		    }
+        <h2>Location</h2>
+        <?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px', array('pan-interaction' => false)); ?>
+        <script type="text/javascript">
+            var clickHandler = function(e) {
+                // Leaflet doesn't seem to provide a way to test for clicks on controls, so we have this hack here to ignore interactions with the zoom buttons
+                var x = e.containerPoint.x;
+                var y = e.containerPoint.y;
+                if (x >= 15 && y >= 15 && x <= 34 && y <= 58) {
+                    return; // clicking the zoom buttons, we don't want to interfere..
+                }
+                var url =  '/events/map/<?= $event['Event']['id'] ?>';
+                if ($(window).width() <= 768) {
+                    window.location = url;
+                } else {
+                    $.fancybox.open({
+                          width: '100%',
+                          type: 'iframe',
+                          href: url,
+                    });
+                }
             };
-    		map.on('mousedown', clickHandler);
-		</script>
-		
+            map.on('mousedown', clickHandler);
+        </script>
+        
     <?php } ?>
