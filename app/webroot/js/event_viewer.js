@@ -6,6 +6,10 @@ function zeroFill(number, width) {
     return number;
 }
 
+function sameDay(date1, date2) {
+    return (date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear());
+}
+
 // Sample: http://whyjustrun.ca/iof/3.0/events/746/result_list.xml
 var wjr = {};
 wjr.eventViewer = {};
@@ -18,7 +22,14 @@ wjr.eventViewer.IOF.Event = function(id, name, url, startTime, endTime, classifi
     this.classification = classification;
     this.series = series
     this.url = url
-    this.date = startTime.format("ddd mmmm dS yyyy h:MMtt"); // presented date/time
+    var formatter = "ddd mmmm dS h:MMtt";
+    if (startTime == endTime) {
+        this.date = formattedStartTime;
+    } else if (sameDay(startTime, endTime)) {
+        this.date = startTime.format(formatter) + " - " + endTime.format('h:MMtt');
+    } else {
+        this.date = endTime.format(formatter) + " - " + endTime.format(formatter);
+    }
 }
 
 wjr.eventViewer.IOF.loadEventsList = function(xml) {

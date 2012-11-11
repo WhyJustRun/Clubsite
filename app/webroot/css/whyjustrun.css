@@ -360,13 +360,13 @@ footer a, footer a:hover {
 }
 
 @media (min-width: 980px) {
-    .event-box .location, .event-box .city, .event-box .date {
+    .event-box.has-picture .location, .event-box.has-picture .city, .event-box.has-picture .date {
         width: 220px;
     }
 }
 
 @media (min-width: 1200px) {
-    .event-box .location, .event-box .city, .event-box .date {
+    .event-box.has-picture .location, .event-box.has-picture .city, .event-box.has-picture .date {
         width: 290px;
     }
 }

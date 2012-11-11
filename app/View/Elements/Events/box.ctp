@@ -1,10 +1,11 @@
 <?php
 $hiddenClassifications = array("Club", "Local");
+$hasPicture = $this->Media->exists("Map", $mapId, "60x60");
 ?>
-<div class="event-box">
+<div class="event-box <?php echo $hasPicture ? "has-picture" : ""; ?>">
     <a href="<?= $link ?>">
         <div class="event-box-inner">
-            <?php if($this->Media->exists("Map", $mapId, "60x60")) { ?>
+            <?php if($hasPicture) { ?>
             <div class="event-box-icon visible-desktop">
                 <?= $this->Media->image("Map", $mapId, "60x60") ?>
             </div>
