@@ -340,7 +340,7 @@ footer a, footer a:hover {
     overflow: hidden;
 }
 
-.event-box .location {
+.event-box .location, .event-box .city, .event-box .date {
 	font-size: 18px;
 	text-decoration: none;
 	white-space: nowrap;
