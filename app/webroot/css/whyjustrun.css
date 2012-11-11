@@ -361,7 +361,7 @@ footer a, footer a:hover {
 
 @media (min-width: 980px) {
     .event-box .location, .event-box .city, .event-box .date {
-        width: 230px;
+        width: 220px;
     }
 }
 
