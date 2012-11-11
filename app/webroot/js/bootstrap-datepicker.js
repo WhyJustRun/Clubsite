@@ -46,10 +46,37 @@
 				this.element.on('click', $.proxy(this.show, this));
 			}
 		}
-		
-		this.viewMode = 0;
+		this.minViewMode = options.minViewMode||this.element.data('date-minviewmode')||0;
+		if (typeof this.minViewMode === 'string') {
+			switch (this.minViewMode) {
+				case 'months':
+					this.minViewMode = 1;
+					break;
+				case 'years':
+					this.minViewMode = 2;
+					break;
+				default:
+					this.minViewMode = 0;
+					break;
+			}
+		}
+		this.viewMode = options.viewMode||this.element.data('date-viewmode')||0;
+		if (typeof this.viewMode === 'string') {
+			switch (this.viewMode) {
+				case 'months':
+					this.viewMode = 1;
+					break;
+				case 'years':
+					this.viewMode = 2;
+					break;
+				default:
+					this.viewMode = 0;
+					break;
+			}
+		}
+		this.startViewMode = this.viewMode;
 		this.weekStart = options.weekStart||this.element.data('date-weekstart')||0;
-		this.weekEnd = this.weekStart == 0 ? 6 : this.weekStart - 1;
+		this.weekEnd = this.weekStart === 0 ? 6 : this.weekStart - 1;
 		this.fillDow();
 		this.fillMonths();
 		this.update();
@@ -80,28 +107,39 @@
 		hide: function(){
 			this.picker.hide();
 			$(window).off('resize', this.place);
-			this.viewMode = 0;
+			this.viewMode = this.startViewMode;
 			this.showMode();
 			if (!this.isInput) {
 				$(document).off('mousedown', this.hide);
 			}
-			this.setValue();
+			this.set();
 			this.element.trigger({
 				type: 'hide',
 				date: this.date
 			});
 		},
 		
-		setValue: function() {
-			var formatted = this.isNull ? null : DPGlobal.formatDate(this.date, this.format);
+		set: function() {
+			var formated = DPGlobal.formatDate(this.date, this.format);
 			if (!this.isInput) {
 				if (this.component){
-					this.element.find('input').prop('value', formatted);
+					this.element.find('input').prop('value', formated);
 				}
-				this.element.data('date', formatted);
+				this.element.data('date', formated);
 			} else {
-				this.element.prop('value', formatted);
+				this.element.prop('value', formated);
 			}
+		},
+		
+		setValue: function(newDate) {
+			if (typeof newDate === 'string') {
+				this.date = DPGlobal.parseDate(newDate, this.format);
+			} else {
+				this.date = new Date(newDate);
+			}
+			this.set();
+			this.viewDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1, 0, 0, 0, 0);
+			this.fill();
 		},
 		
 		place: function(){
@@ -112,16 +150,12 @@
 			});
 		},
 		
-		update: function(){
+		update: function(newDate){
 			this.date = DPGlobal.parseDate(
-				this.isInput ? this.element.prop('value') : this.element.data('date'),
+				typeof newDate === 'string' ? newDate : (this.isInput ? this.element.prop('value') : this.element.data('date')),
 				this.format
 			);
-			
-			this.compare = new Date(1970, 1, 1, 0, 0, 0);
-			this.isNull = (this.date.getTime() == this.compare.getTime()) ? true : false;
-			this.date = this.isNull ? new Date() : this.date;
-			this.viewDate = new Date(this.date);
+			this.viewDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1, 0, 0, 0, 0);
 			this.fill();
 		},
 		
@@ -161,7 +195,7 @@
 			html = [];
 			var clsName;
 			while(prevMonth.valueOf() < nextMonth) {
-				if (prevMonth.getDay() == this.weekStart) {
+				if (prevMonth.getDay() === this.weekStart) {
 					html.push('<tr>');
 				}
 				clsName = '';
@@ -170,11 +204,11 @@
 				} else if (prevMonth.getMonth() > month) {
 					clsName += ' new';
 				}
-				if (prevMonth.valueOf() == currentDate) {
+				if (prevMonth.valueOf() === currentDate) {
 					clsName += ' active';
 				}
 				html.push('<td class="day'+clsName+'">'+prevMonth.getDate() + '</td>');
-				if (prevMonth.getDay() == this.weekEnd) {
+				if (prevMonth.getDay() === this.weekEnd) {
 					html.push('</tr>');
 				}
 				prevMonth.setDate(prevMonth.getDate()+1);
@@ -187,7 +221,7 @@
 							.text(year)
 							.end()
 						.find('span').removeClass('active');
-			if (currentYear == year) {
+			if (currentYear === year) {
 				months.eq(this.date.getMonth()).addClass('active');
 			}
 			
@@ -200,7 +234,7 @@
 								.find('td');
 			year -= 1;
 			for (var i = -1; i < 11; i++) {
-				html += '<span class="year'+(i == -1 || i == 10 ? ' old' : '')+(currentYear == year ? ' active' : '')+'">'+year+'</span>';
+				html += '<span class="year'+(i === -1 || i === 10 ? ' old' : '')+(currentYear === year ? ' active' : '')+'">'+year+'</span>';
 				year += 1;
 			}
 			yearCont.html(html);
@@ -210,7 +244,7 @@
 			e.stopPropagation();
 			e.preventDefault();
 			var target = $(e.target).closest('span, td, th');
-			if (target.length == 1) {
+			if (target.length === 1) {
 				switch(target[0].nodeName.toLowerCase()) {
 					case 'th':
 						switch(target[0].className) {
@@ -222,9 +256,10 @@
 								this.viewDate['set'+DPGlobal.modes[this.viewMode].navFnc].call(
 									this.viewDate,
 									this.viewDate['get'+DPGlobal.modes[this.viewMode].navFnc].call(this.viewDate) + 
-									DPGlobal.modes[this.viewMode].navStep * (target[0].className == 'prev' ? -1 : 1)
+									DPGlobal.modes[this.viewMode].navStep * (target[0].className === 'prev' ? -1 : 1)
 								);
 								this.fill();
+								this.set();
 								break;
 						}
 						break;
@@ -236,8 +271,17 @@
 							var year = parseInt(target.text(), 10)||0;
 							this.viewDate.setFullYear(year);
 						}
+						if (this.viewMode !== 0) {
+							this.date = new Date(this.viewDate);
+							this.element.trigger({
+								type: 'changeDate',
+								date: this.date,
+								viewMode: DPGlobal.modes[this.viewMode].clsName
+							});
+						}
 						this.showMode(-1);
 						this.fill();
+						this.set();
 						break;
 					case 'td':
 						if (target.is('.day')){
@@ -249,14 +293,14 @@
 								month += 1;
 							}
 							var year = this.viewDate.getFullYear();
-							this.isNull = false;
 							this.date = new Date(year, month, day,0,0,0,0);
-							this.viewDate = new Date(year, month, day,0,0,0,0);
+							this.viewDate = new Date(year, month, Math.min(28, day),0,0,0,0);
 							this.fill();
-							this.setValue();
+							this.set();
 							this.element.trigger({
 								type: 'changeDate',
-								date: this.date
+								date: this.date,
+								viewMode: DPGlobal.modes[this.viewMode].clsName
 							});
 						}
 						break;
@@ -271,21 +315,21 @@
 		
 		showMode: function(dir) {
 			if (dir) {
-				this.viewMode = Math.max(0, Math.min(2, this.viewMode + dir));
+				this.viewMode = Math.max(this.minViewMode, Math.min(2, this.viewMode + dir));
 			}
 			this.picker.find('>div').hide().filter('.datepicker-'+DPGlobal.modes[this.viewMode].clsName).show();
 		}
 	};
 	
-	$.fn.datepicker = function ( option ) {
+	$.fn.datepicker = function ( option, val ) {
 		return this.each(function () {
 			var $this = $(this),
 				data = $this.data('datepicker'),
-				options = typeof option == 'object' && option;
+				options = typeof option === 'object' && option;
 			if (!data) {
 				$this.data('datepicker', (data = new Datepicker(this, $.extend({}, $.fn.datepicker.defaults,options))));
 			}
-			if (typeof option == 'string') data[option]();
+			if (typeof option === 'string') data[option](val);
 		});
 	};
 
@@ -324,18 +368,22 @@
 			return [31, (DPGlobal.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month]
 		},
 		parseFormat: function(format){
-			var separator = format.match(/[.\/-].*?/),
+			var separator = format.match(/[.\/\-\s].*?/),
 				parts = format.split(/\W+/);
-			if (!separator || !parts || parts.length == 0){
+			if (!separator || !parts || parts.length === 0){
 				throw new Error("Invalid date format.");
 			}
 			return {separator: separator, parts: parts};
 		},
 		parseDate: function(date, format) {
 			var parts = date.split(format.separator),
-				originalDate = date = new Date(1970, 1, 1, 0, 0, 0),
+				date = new Date(),
 				val;
-			if (parts.length == format.parts.length) {
+			date.setHours(0);
+			date.setMinutes(0);
+			date.setSeconds(0);
+			date.setMilliseconds(0);
+			if (parts.length === format.parts.length) {
 				for (var i=0, cnt = format.parts.length; i < cnt; i++) {
 					val = parseInt(parts[i], 10)||1;
 					switch(format.parts[i]) {
@@ -356,8 +404,7 @@
 					}
 				}
 			}
-			
-			return date
+			return date;
 		},
 		formatDate: function(date, format){
 			var val = {
@@ -376,9 +423,9 @@
 		},
 		headTemplate: '<thead>'+
 							'<tr>'+
-								'<th class="prev"><i class="icon-arrow-left"/></th>'+
+								'<th class="prev">&lsaquo;</th>'+
 								'<th colspan="5" class="switch"></th>'+
-								'<th class="next"><i class="icon-arrow-right"/></th>'+
+								'<th class="next">&rsaquo;</th>'+
 							'</tr>'+
 						'</thead>',
 		contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>'
