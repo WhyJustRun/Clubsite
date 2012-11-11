@@ -55,7 +55,7 @@
 	?></h2>
     <? if(!empty($event["Event"]["custom_url"])) {?>
     <h2 class="event-header">External website: <?= $this->Html->link($event["Event"]["custom_url"])?></h2>
-    <?}?>
+    <? } ?>
 </header>
 
 <div class="row">

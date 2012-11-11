@@ -17,47 +17,48 @@ class LeafletHelper extends AppHelper {
 		center: lat, lng, zoom OR bounds: north, south, east, west (bounds)
 	*/
 
-	function __construct($view) {
-		$options = Configure::read('Leaflet');
-		if(!empty($options)) {
-			$this->_defaultOptions = $options;
-		}
-
-		parent::__construct($view);
-	}
-
 	var $helpers = array("Html");
 
 	protected $_defaultOptions = array(
-		'div' => array(
-			'id' => 'leaflet-map',
-			'width' => '100%',
-			'height' => '500px',
-			'class' => 'map-canvas',
-		),
-		'map' => array(
-			'center' => array(),
-			'bounds' => array(),
-		),
-		'layers' => array(
-			'Mapnik' => array(
-				'url' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-				'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
-				'default' => true,
-				'2x' => false,
-			),
-			'MapBox Streets' => array(
-				'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
-				'url'  => 'http://{s}.tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
-				'default' => true,
-				'maxZoom' => 17,
-				'2x' => true,
-			),
-		),
-		'markers' => array(
-
-		)
-	);
+    	'div' => array(
+    		'id' => 'leaflet-map',
+    		'width' => '100%',
+    		'height' => '500px',
+    		'class' => 'map-canvas',
+    	),
+    	'map' => array(
+    		'center' => array(),
+    		'bounds' => array(),
+    	),
+    	'layers' => array(
+    		'Mapnik' => array(
+    			'url' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    			'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
+    			'default' => true,
+    			'2x' => false,
+    		),
+    		'OpenOrienteeringMap' => array(
+    			'url' => 'http://orca.casa.ucl.ac.uk/~ollie/maptiler/oterrain_global/{z}/{x}/{y}.png',
+    			'attribution' => 'OpenOrienteeringMap (oobrien.com), Map data &copy; 2011 OpenStreetMap contributors',
+    			'minZoom' => 14,
+    			'default' => false,
+    			'2x' => false,
+    		),
+    		'MapBox Streets' => array(
+    			'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
+    			'url'  => 'http://{s}.tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
+    			'default' => true,
+    			'maxZoom' => 17,
+    			'2x' => true,
+    		),
+    	),
+    	'markers' => array(
+    
+    	),
+    	'js' => true,
+    	'html' => true,
+    	'pan-interaction' => true,
+    );
 	
 	private function dependencies() {
 	   $this->Html->script("leaflet/leaflet", array('inline' => false, 'once' => true));
@@ -70,9 +71,14 @@ class LeafletHelper extends AppHelper {
 		$divWidth = $options['div']['width'];
 		$divHeight = $options['div']['height'];
 		$divClass = $options['div']['class'];
+		$map = '';
+		if ($options['html'] === true) {
+		    $map .= "<div id='${divId}' class='${divClass}' style='height: ${divHeight}; width: ${divWidth}'></div>";
+		}
 		
-		$map = "<div id='${divId}' class='${divClass}' style='height: ${divHeight}; width: ${divWidth}'></div>";
-		$map .= $this->script($options);
+		if ($options['js'] === true) {
+		    $map .= $this->script($options);
+		}
 		return $map;
 	}
 
@@ -107,9 +113,16 @@ class LeafletHelper extends AppHelper {
 		";
 		$script .= "map.${setView}.addLayer(defaultLayer);
 		";
-		$script .= 'var layerPicker = new L.Control.Layers(layers);
-		map.addControl(layerPicker);
-		';
+		if ($options['pan-interaction']) {
+    		$script .= 'var layerPicker = new L.Control.Layers(layers);
+    		map.addControl(layerPicker);
+    		';
+		} else {
+    		// disable interaction handlers that impact scrolling
+    		$script .= 'map.dragging.disable();
+    		map.scrollWheelZoom.disable();
+    		';
+		}
 
 		return $this->Html->scriptBlock($script);
 	}
@@ -126,7 +139,6 @@ class LeafletHelper extends AppHelper {
 		$marker['lat'] = $lat;
 		$marker['lng'] = $lng;
 		array_push($options['markers'], $marker);
-
 		return $this->map($options);
 	}
 
@@ -261,8 +273,12 @@ class LeafletHelper extends AppHelper {
 	function _combineOptions(&$options) {
 		$result = $this->_defaultOptions;
 		foreach($result as $key => $option) {
-			if(!empty($options[$key])) {
-				$result[$key] = array_merge($result[$key], $options[$key]);
+			if(isset($options[$key])) {
+    			if(is_array($options[$key])) {
+        			$result[$key] = array_merge($result[$key], $options[$key]);
+    			} else {
+        			$result[$key] = $options[$key];
+    			}
 			}
 			
 		}

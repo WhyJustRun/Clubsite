@@ -6,7 +6,7 @@ $hiddenClassifications = array("Club", "Local");
         <div class="event-box-inner">
             <?php if($this->Media->exists("Map", $mapId, "60x60")) { ?>
             <div class="event-box-icon visible-desktop">
-                <?= $this->Media->image("Map", $mapId, "60x60", array('width' => '45px')) ?>
+                <?= $this->Media->image("Map", $mapId, "60x60") ?>
             </div>
             <?php } ?>
             <div class="event-box-left">
