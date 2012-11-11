@@ -15,7 +15,7 @@ function cakebootstrap()
     //All submit forms converted to primary button
     $('input[type="submit"]').addClass('btn btn-primary');
     //All index actions converted into pretty buttons
-    $('td][class="actions"] > a[class!="btn"]').addClass('btn');
+    $('td[class="actions"] > a[class!="btn"]').addClass('btn');
     
     //All (div.inputs) with default FormHelper style (div.input > label ~ input)
     //converted into Twitter Bootstrap Style (div.clearfix > label ~ div.input)

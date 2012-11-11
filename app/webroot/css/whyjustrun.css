@@ -298,6 +298,7 @@ footer a, footer a:hover {
 .event-box {
 	margin-bottom: 10px;
 	margin-top: 10px;
+	height: 60px;
 }
 
 /** Outer event-box is needed to safely override the a style and still allow for block clicking. **/
@@ -307,14 +308,28 @@ footer a, footer a:hover {
 	
 }
 .event-box-icon {
-    float: right;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 60px;
+}
+
+.event-box-icon > img {
+    width: 60px;
+    height: 60px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.event-box-inner {
+    position: relative;
 }
 
 .event-box-inner, .news-item {
 	background-color: #F3F6F6;
 	border-radius: 15px;
 	
-	padding: 7px;
+	padding: 9px;
 	padding-left: 11px;
 	padding-right: 11px;
 	display: block;
@@ -328,6 +343,9 @@ footer a, footer a:hover {
 .event-box .location {
 	font-size: 18px;
 	text-decoration: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .event-box .city {
@@ -340,6 +358,19 @@ footer a, footer a:hover {
     font-size: 100%;
 	font-weight: bold;
 }
+
+@media (min-width: 980px) {
+    .event-box .location, .event-box .city, .event-box .date {
+        width: 230px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .event-box .location, .event-box .city, .event-box .date {
+        width: 290px;
+    }
+}
+
 .event-box-classification {
     vertical-align: 3px;
 }
