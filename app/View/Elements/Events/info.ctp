@@ -23,7 +23,29 @@
 		echo "Check back soon for more information.";
 	} ?>
     <hr class="divider" />
-<?php if(!empty($event["Event"]["lat"])) { ?>
+    <?php if(!empty($event["Event"]["lat"])) { ?>
 		<h2>Location</h2>
-		<?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px'); ?>
-<?php } ?>
+		<?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px', array('pan-interaction' => false)); ?>
+		<script type="text/javascript">
+    		var clickHandler = function(e) {
+    		    // Leaflet doesn't seem to provide a way to test for clicks on controls, so we have this hack here to ignore interactions with the zoom buttons
+    		    var x = e.containerPoint.x;
+    		    var y = e.containerPoint.y;
+        		if (x >= 15 && y >= 15 && x <= 34 && y <= 58) {
+            		return; // clicking the zoom buttons, we don't want to interfere..
+        		}
+    		    var url =  '/events/map/<?= $event['Event']['id'] ?>';
+    		    if ($(window).width() <= 768) {
+        		    window.location = url;
+    		    } else {
+        		    $.fancybox.open({
+              		    width: '100%',
+              		    type: 'iframe',
+              		    href: url,
+            		});
+    		    }
+            };
+    		map.on('mousedown', clickHandler);
+		</script>
+		
+    <?php } ?>

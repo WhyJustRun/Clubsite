@@ -1,7 +1,7 @@
 <?php $this->set('title_for_layout', Configure::read("Club.name")); ?>
 
 <div class="three-column row">
-    <div class="pull-right">
+    <div class="not-mobile-pull-right">
         <article class="span4">
             <header>
               <h2>Events</h2>

@@ -15,7 +15,7 @@ class EventsController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('index', 'upcoming', 'past', 'major', 'view', 'rendering', 'planner', 'embed');
+        $this->Auth->allow('index', 'upcoming', 'past', 'major', 'view', 'rendering', 'planner', 'embed', 'map');
     }
 
     // TODO-RWP Move ajax request $starTimestamp, $endTimestamp to separate call
@@ -197,6 +197,12 @@ class EventsController extends AppController {
     }
     function results($id) {
         return $this->view($id);
+    }
+
+    function map($id) {
+        $this->layout = 'embed';
+        $event = $this->Event->findById($id);
+        $this->set('event', $event);
     }
 
     function editResults($id) {

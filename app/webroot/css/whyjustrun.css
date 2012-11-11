@@ -387,6 +387,12 @@ footer div {
     }
 }
 
+@media (min-width: 768px) {
+    .not-mobile-pull-right {
+        float:right;
+    }
+}
+
 @media (max-width: 600px) {
     #flickr-photos > li {
         width: 100%;
