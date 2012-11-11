@@ -18,37 +18,6 @@
                 }
             }
             ?>
-            
-            <!--
-<div id="list" class="result-list" data-result-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/events/<?= $event['Event']['id'] ?>/result_list.xml">
-                        <div data-bind="foreach: courses">
-                			<h3 data-bind="text: name"></h3>
-                			<div data-bind="if: results().length == 0">
-                				<p><b>No results</b></p>
-                			</div>
-                			<div data-bind="if: results().length > 0">
-                				<table class="table table-striped table-bordered table-condensed">
-                					<thead>
-                						<tr>
-                							<th>#</th>
-                							<th>Participant</th>
-                							<th>Time</th>
-                							<th>Points</th>
-                						</tr>
-                					</thead>
-                					<tbody data-bind="foreach: results">
-                						<tr>
-                							<td data-bind="text: position || friendlyStatus"></td>
-                							<td><a data-bind="attr: { href: person.profileUrl }"><span data-bind="text: person.givenName + ' ' + person.familyName"></span></a></td>
-                							<td data-bind="text: time != null ? hours + ':' + minutes + ':' + seconds : ''"></td>
-                							<td data-bind="text: scores['WhyJustRun']"></td>
-                						</tr>
-                					</tbody>
-                				</table>
-                			</div>
-                		</div>
-                    </div>
--->
 
             <?= $this->Html->script('event_viewer'); ?>
             <div class="event-list" data-event-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/clubs/<?= Configure::read('Club.id') ?>/event_list/significant.xml?start=<?= time() ?>">
@@ -58,7 +27,10 @@
                     <a data-bind="attr: { href: url }">
                         <div class="event-box-inner">
                             <div class="event-box-left">
-                                <div class="location series-2" data-bind="text: name, style: { color: series.color }"></div>
+                                <div class="location series-2" data-bind="style: { color: series.color }">
+                                    <span data-bind="text: name"></span>
+                                    <span class="label label-info event-box-classification" data-bind="text: classification"></span>
+                                </div>
                                 <div class="date" data-bind="text: date"></div>
                             </div>
                         </div>
