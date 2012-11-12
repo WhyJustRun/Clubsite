@@ -30,7 +30,7 @@ $(document).ready(function(){
 	   } else this.name = name;
 	}
 
-	wjr.Course = function(id, name, distance, climb, event_id, description, results, isScoreO) {
+	wjr.Course = function(id, name, distance, climb, event_id, description, results, is_score_o) {
 		this.id = id;
 		this.name = name;
 		this.distance = distance;
@@ -38,10 +38,10 @@ $(document).ready(function(){
 		this.event_id = event_id;
 		this.description = description;
 		this.results = ko.observableArray(results);
-		this.isScoreO = isScoreO;
+		this.is_score_o = ko.observable(is_score_o);
 	}
 
-	wjr.Result = function(id, user, course_id, time, status, points, needs_ride, offering_ride) {
+	wjr.Result = function(id, user, course_id, time, status, points, needs_ride, offering_ride, score_points, is_score_o) {
 		this.id = id;
 		this.user = user;
 		this.course_id = course_id;
@@ -55,6 +55,8 @@ $(document).ready(function(){
 		this.points = points;
 		this.needs_ride = needs_ride;
 		this.offering_ride = offering_ride;
+		this.is_score_o = ko.observable(is_score_o);
+		this.score_points = ko.observable(score_points);
 		
 		this.remove = function() {
 			if(this.id) {
@@ -94,7 +96,7 @@ $(document).ready(function(){
 			}
 			
 			var user = new wjr.User(id, name);
-			viewModel.selectedCourse().results.push(new wjr.Result(undefined, user, viewModel.selectedCourse().id, undefined, undefined, undefined, undefined, undefined));
+			viewModel.selectedCourse().results.push(new wjr.Result(undefined, user, viewModel.selectedCourse().id, undefined, undefined, undefined, undefined, undefined, undefined, viewModel.selectedCourse().is_score_o));
 		}
 	};
 
@@ -118,11 +120,10 @@ $(document).ready(function(){
 				for(var j = 0; j < results.length; j++) {
 					var result = results[j];
 					var user = new wjr.User(result.User.id, result.User.name);
-					alert
-					importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time, result.status, result.points, result.needs_ride, result.offering_ride));
+					importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time, result.status, result.points, result.needs_ride, result.offering_ride, result.score_points, course.is_score_o));
 				}
 
-				viewModel.courses.push(new wjr.Course(course.id, course.name, course.distance, course.climb, course.event_id, course.description, importedResults, course.isScoreO));
+				viewModel.courses.push(new wjr.Course(course.id, course.name, course.distance, course.climb, course.event_id, course.description, importedResults, course.is_score_o));
 			}
 		});
 	}
@@ -141,6 +142,7 @@ $(document).ready(function(){
 <script type="text/html" id="resultTemplate">
 	<tr>
 		<td class="span4" data-bind="text: user.name"></td>
+		<td data-bind="visible: is_score_o"><input type="number" class="thin-control spanning-control" data-bind="value: score_points"></td>
 		<td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: hours" /></td>
 		<td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: minutes" /></td>
 		<td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: seconds" /></td>
@@ -155,6 +157,7 @@ $(document).ready(function(){
 		<thead> 
 			<tr>
 				<th>Name</th>
+				<th data-bind="visible: is_score_o">Score Points</th>
 				<th>HH</th>
 				<th>MM</th>
 				<th>SS</th>

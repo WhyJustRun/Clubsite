@@ -80,7 +80,6 @@ $this->Form->unlockField('Event.lng');
     </div>
 </div>
 
-
 <fieldset class="control-group">
     <label class="control-label">Meeting location</label>
     <div class="controls">
