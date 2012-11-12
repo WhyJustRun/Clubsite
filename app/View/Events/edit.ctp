@@ -75,7 +75,17 @@ $this->Form->unlockField('Event.lng');
     <div class="controls">
         <div>
             <?= $this->Form->input('number_of_participants', array('type' => 'number', 'min' => '0', 'max' => '4294967295', 'style' => 'width: 120px', 'div' => false, 'label' => false)) ?>
-            <span class="help-text">(used for insurance purposes, overrides participant count from event results)</span>
+            <span class="help-text">(Optional: used for insurance purposes, overrides participant count from event results)</span>
+        </div>
+    </div>
+</div>
+
+<div class="control-group">
+	<label class="control-label">Ranked</label>
+    <div class="controls">
+        <div>
+            <?=$this->Form->input('is_ranked', array('type'=>'checkbox', 'style' => 'width: 30px', 'div' => false, 'label' => false, 'default'=> "1")); ?>
+            <span class="help-text">(should results be included in rankings?)</span>
         </div>
     </div>
 </div>
