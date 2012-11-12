@@ -30,7 +30,7 @@ $(document).ready(function(){
 	   } else this.name = name;
 	}
 
-	wjr.Course = function(id, name, distance, climb, event_id, description, results) {
+	wjr.Course = function(id, name, distance, climb, event_id, description, results, isScoreO) {
 		this.id = id;
 		this.name = name;
 		this.distance = distance;
@@ -38,6 +38,7 @@ $(document).ready(function(){
 		this.event_id = event_id;
 		this.description = description;
 		this.results = ko.observableArray(results);
+		this.isScoreO = isScoreO;
 	}
 
 	wjr.Result = function(id, user, course_id, time, status, points, needs_ride, offering_ride) {
@@ -121,7 +122,7 @@ $(document).ready(function(){
 					importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time, result.status, result.points, result.needs_ride, result.offering_ride));
 				}
 
-				viewModel.courses.push(new wjr.Course(course.id, course.name, course.distance, course.climb, course.event_id, course.description, importedResults));
+				viewModel.courses.push(new wjr.Course(course.id, course.name, course.distance, course.climb, course.event_id, course.description, importedResults, course.isScoreO));
 			}
 		});
 	}

@@ -308,7 +308,7 @@ class EventsController extends AppController {
         if(count($courses) > 0) {
             $this->request->data["Course"] = array();
             foreach($courses as $course) {
-                array_push($this->request->data["Course"], array('id' => $course->id, 'name' => $course->name, 'description' => $course->description, 'distance' => $course->distance, 'climb' => $course->climb));
+                array_push($this->request->data["Course"], array('id' => $course->id, 'name' => $course->name, 'description' => $course->description, 'distance' => $course->distance, 'climb' => $course->climb, 'is_score_o' => $course->isScoreO));
             }
         }
     }
@@ -330,6 +330,7 @@ class EventsController extends AppController {
             $course["distance"] = $originalCourse["distance"];
             $course["climb"] = $originalCourse["climb"];
             $course["description"] = $originalCourse["description"];
+            $course["isScoreO"] = $originalCourse['is_score_o'];
 
             array_push($courses, $course);
         }

@@ -59,7 +59,7 @@
 </header>
 
 <div class="row">
-<?php if($event["Event"]["results_posted"] === '0' ) { 
+<?php if(!$event["Event"]["results_posted"]) { 
 // Show event information
 ?>
 	<div class="span8">
