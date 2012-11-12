@@ -30,6 +30,7 @@
                                 <div class="location series-2" data-bind="style: { color: series.color }">
                                     <span data-bind="text: name"></span>
                                     <span class="label label-info event-box-classification" data-bind="text: classification"></span>
+                                    <span class="label label-success event-box-club-acronym" data-bind="text: clubAcronym"></span>
                                 </div>
                                 <div class="date" data-bind="text: date"></div>
                             </div>

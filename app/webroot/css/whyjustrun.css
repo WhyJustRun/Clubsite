@@ -371,7 +371,7 @@ footer a, footer a:hover {
     }
 }
 
-.event-box-classification {
+.event-box-classification, .event-box-club-acronym {
     vertical-align: 3px;
 }
 
@@ -434,4 +434,10 @@ footer div {
 /** Notices and Errors **/
 .alert {
     margin: 5px;
+}
+
+.typeahead{margin-top:2px;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
+
+.typeahead .active > a {
+    color: #fff;
 }

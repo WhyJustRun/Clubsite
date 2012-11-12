@@ -14,7 +14,7 @@ function sameDay(date1, date2) {
 var wjr = {};
 wjr.eventViewer = {};
 wjr.eventViewer.IOF = {};
-wjr.eventViewer.IOF.Event = function(id, name, url, startTime, endTime, classification, series) {
+wjr.eventViewer.IOF.Event = function(id, name, url, startTime, endTime, classification, series, club) {
     this.id = id;
     this.name = name;
     this.startTime = startTime;
@@ -22,6 +22,7 @@ wjr.eventViewer.IOF.Event = function(id, name, url, startTime, endTime, classifi
     this.classification = classification;
     this.series = series
     this.url = url
+    this.clubAcronym = club.acronym
     var formatter = "ddd mmmm dS h:MMtt";
     if (startTime == endTime) {
         this.date = formattedStartTime;
@@ -47,8 +48,9 @@ wjr.eventViewer.IOF.loadEventsList = function(xml) {
         var endDate = endTimeDate.children("Date").text();
         var endTime = endTimeDate.children("Time").text();
         var url = $(element).children('URL').text();
+        var clubAcronym = $(element).children('Organiser').children('ShortName').text();
         var classification = $(element).children('Classification').text();
-        events.push(new wjr.eventViewer.IOF.Event(eventID, eventName, url, new Date(startDate + " " + startTime), new Date(endDate + " " + endTime), classification, {color: seriesColor}));
+        events.push(new wjr.eventViewer.IOF.Event(eventID, eventName, url, new Date(startDate + " " + startTime), new Date(endDate + " " + endTime), classification, {color: seriesColor}, {acronym: clubAcronym}));
     });
     return events;
 }
