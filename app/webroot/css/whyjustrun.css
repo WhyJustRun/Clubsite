@@ -340,7 +340,7 @@ footer a, footer a:hover {
     overflow: hidden;
 }
 
-.event-box .location, .event-box .city, .event-box .date {
+.event-box .location, .event-box .city, .event-box .date-text {
 	font-size: 18px;
 	text-decoration: none;
 	white-space: nowrap;
@@ -361,13 +361,13 @@ footer a, footer a:hover {
 
 @media (min-width: 980px) {
     .event-box.has-picture .location, .event-box.has-picture .city, .event-box.has-picture .date {
-        width: 220px;
+        margin-right: 50px;
     }
 }
 
-@media (min-width: 1200px) {
+@media (max-width: 767px) {
     .event-box.has-picture .location, .event-box.has-picture .city, .event-box.has-picture .date {
-        width: 290px;
+        margin-right: 50px;
     }
 }
 

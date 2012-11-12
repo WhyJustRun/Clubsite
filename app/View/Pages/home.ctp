@@ -27,12 +27,15 @@
                     <a data-bind="attr: { href: url }">
                         <div class="event-box-inner">
                             <div class="event-box-left">
-                                <div class="location series-2" data-bind="style: { color: series.color }">
-                                    <span data-bind="text: name"></span>
-                                    <span class="label label-info event-box-classification" data-bind="text: classification"></span>
-                                    <span class="label label-success event-box-club-acronym" data-bind="text: clubAcronym"></span>
+                                <div class="location series-2" data-bind="style: { color: series.color }, text: name">
                                 </div>
-                                <div class="date" data-bind="text: date"></div>
+                                <span class="date">
+                                    <span class="data-text" data-bind="text: date"></span>
+                                    <span class="hidden-tablet pull-right">
+                                        <span class="label label-info event-box-classification" data-bind="text: classification"></span>
+                                        <span class="label label-success event-box-club-acronym hidden-tablet" data-bind="text: clubAcronym"></span>
+                                    </span>
+                                </span>
                             </div>
                         </div>
                     </a>

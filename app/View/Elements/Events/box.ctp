@@ -6,7 +6,7 @@ $hasPicture = $this->Media->exists("Map", $mapId, "60x60");
     <a href="<?= $link ?>">
         <div class="event-box-inner">
             <?php if($hasPicture) { ?>
-            <div class="event-box-icon visible-desktop">
+            <div class="event-box-icon hidden-tablet">
                 <?= $this->Media->image("Map", $mapId, "60x60") ?>
             </div>
             <?php } ?>
@@ -17,7 +17,7 @@ $hasPicture = $this->Media->exists("Map", $mapId, "60x60");
                 <?php } ?>
                 </div>
                 
-                <div class="date"><?= $date ?></div>
+                <div class="date date-text"><?= $date ?></div>
             </div>
         </div>
     </a>

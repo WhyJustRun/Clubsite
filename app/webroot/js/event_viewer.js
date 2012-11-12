@@ -6,8 +6,12 @@ function zeroFill(number, width) {
     return number;
 }
 
+function sameMonth(date1, date2) {
+    return (date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear());
+}
+
 function sameDay(date1, date2) {
-    return (date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear());
+    return (date1.getDate() == date2.getDate() && sameMonth(date1, date2));
 }
 
 // Sample: http://whyjustrun.ca/iof/3.0/events/746/result_list.xml
@@ -23,13 +27,14 @@ wjr.eventViewer.IOF.Event = function(id, name, url, startTime, endTime, classifi
     this.series = series
     this.url = url
     this.clubAcronym = club.acronym
-    var formatter = "ddd mmmm dS h:MMtt";
-    if (startTime == endTime) {
-        this.date = formattedStartTime;
-    } else if (sameDay(startTime, endTime)) {
-        this.date = startTime.format(formatter) + " - " + endTime.format('h:MMtt');
-    } else {
-        this.date = endTime.format(formatter) + " - " + endTime.format(formatter);
+    var formatter = "mmmm dS";
+    this.date = startTime.format(formatter);
+    if (!sameDay(startTime, endTime)) {
+        if (sameMonth(startTime, endTime)) {
+            this.date += " - " + endTime.format('dS');
+        } else {
+            this.date += " - " + endTime.format(formatter);
+        }
     }
 }
 
@@ -42,15 +47,14 @@ wjr.eventViewer.IOF.loadEventsList = function(xml) {
         var series = extensions.children('Series');
         var seriesColor = series.children('Color').text();
         var startTimeDate = $(element).children("StartTime");
-        var startDate = startTimeDate.children("Date").text();
-        var startTime = startTimeDate.children("Time").text();
+        var startDate = startTimeDate.children("ISODate").text();
         var endTimeDate = $(element).children("EndTime");
-        var endDate = endTimeDate.children("Date").text();
-        var endTime = endTimeDate.children("Time").text();
+        var endDate = endTimeDate.children("ISODate").text();
         var url = $(element).children('URL').text();
         var clubAcronym = $(element).children('Organiser').children('ShortName').text();
         var classification = $(element).children('Classification').text();
-        events.push(new wjr.eventViewer.IOF.Event(eventID, eventName, url, new Date(startDate + " " + startTime), new Date(endDate + " " + endTime), classification, {color: seriesColor}, {acronym: clubAcronym}));
+        // Need to get dates to be of format: 2011-10-10T14:48:00.000z
+        events.push(new wjr.eventViewer.IOF.Event(eventID, eventName, url, new Date(startDate), new Date(endDate), classification, {color: seriesColor}, {acronym: clubAcronym}));
     });
     return events;
 }
