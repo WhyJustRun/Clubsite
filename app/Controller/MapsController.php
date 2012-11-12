@@ -71,7 +71,7 @@ class MapsController extends AppController {
 
             $params = array(
                 'id' => $file,
-                'name' => basename($map["Map"]["repository_path"]),
+                'name' => basename($map["Map"]["repository_path"], ".ocd"),
                 'download' => true,
                 'extension' => 'ocd',
                 'mimeType' => array(
