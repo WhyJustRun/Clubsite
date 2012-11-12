@@ -20,6 +20,10 @@ body {
     font-weight: bold;
 }
 
+.page-header {
+    border-bottom: 1px solid #AAA;
+}
+
 /* Highlight current menu */
 .navbar .nav .active>a,.navbar .nav .active>a:hover{
    background-color:#111;

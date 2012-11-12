@@ -32,14 +32,15 @@
                         echo $this->Menu->item('Home', '/', '', true);
                         echo $this->Menu->item('Events', '/events/index');
                         echo $this->Menu->item('Maps', '/maps/');
-                        echo $this->Menu->item('Officials', '/officials/');
-                        echo $this->Menu->item('Reports', '/reports/');
-                        echo '<li class="divider-vertical"></li>';
                         if($this->Session->check('Auth.User.id')) {
+                            echo $this->Menu->item('Officials', '/officials/');
+                            echo $this->Menu->item('Reports', '/pages/reports/');
+                            echo '<li class="divider-vertical"></li>';
                             echo $this->Menu->item('Admin', '/pages/admin/');
                             echo $this->Menu->item('My Profile', '/users/view/'.$this->Session->read('Auth.User.id'));
                             echo $this->Menu->item('Logout', '/users/logout/', 'menu_login');
                         } else {
+                            echo '<li class="divider-vertical"></li>';
                             echo $this->Menu->item('Login/Register', '/users/login', 'menu_login');
                         } ?>
                     </ul>
