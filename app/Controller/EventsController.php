@@ -230,6 +230,9 @@ class EventsController extends AppController {
                     $processedResult["time"] = $this->_timeFromParts($result->hours, $result->minutes, $result->seconds);
                     $processedResult['status'] = empty($result->status) ? 'ok' : $result->status;
                     $processedResult["needs_ride"] = empty($result->needs_ride) ? false : $result->needs_ride;
+                    if (!empty($result->score_points)) {
+                        $processedResult["score_points"] = $result->score_points;
+                    }
 
                     if(empty($result->offering_ride)) {
                         $processedResult["offering_ride"] = false;
@@ -244,7 +247,10 @@ class EventsController extends AppController {
                 }
                 
                 if(empty($updatedResults) || $this->Event->Course->Result->saveAll($updatedResults)) {
-                    $this->Event->Course->Result->calculatePoints($course->id);
+                    $courseFromDatabase = $this->Event->Course->findById($course->id);
+                    if ($courseFromDatabase['Event']['is_ranked'] && !($courseFromDatabase['Course']['is_score_o'])) {
+                        $this->Event->Course->Result->calculatePoints($course->id);
+                    }
                     $this->Event->saveField('results_posted', $this->request->data["Event"]["results_posted"]);
                 }
             }

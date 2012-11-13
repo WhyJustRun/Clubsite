@@ -209,16 +209,18 @@
                 						<tr>
                 							<th>#</th>
                 							<th>Participant</th>
+                							<th data-bind="visible: isScore">Score Points</th>
                 							<th>Time</th>
-                							<th>Points</th>
+                							<th data-bind="visible: isTimed">Points</th>
                 						</tr>
                 					</thead>
                 					<tbody data-bind="foreach: results">
                 						<tr>
                 							<td data-bind="text: position || friendlyStatus"></td>
                 							<td><a data-bind="attr: { href: person.profileUrl }"><span data-bind="text: person.givenName + ' ' + person.familyName"></span></a></td>
+                							<td data-bind="visible: $parent.isScore, text: scores['Points']"></td>
                 							<td data-bind="text: time != null ? hours + ':' + minutes + ':' + seconds : ''"></td>
-                							<td data-bind="text: scores['WhyJustRun']"></td>
+                							<td data-bind="visible: $parent.isTimed, text: scores['WhyJustRun']"></td>
                 						</tr>
                 					</tbody>
                 				</table>
