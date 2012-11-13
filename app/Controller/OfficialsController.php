@@ -20,43 +20,44 @@ class OfficialsController extends AppController {
 
     function index() {
         $this->set('officials', $this->Official->find('all', array('order'=>'OfficialClassification.id')));
-    }
-
-    function edit($id = null) {
-        // Check permission
-        //$edit = $this->isAuthorized(Configure::read('Privilege.Official.edit'));
-        $edit = 1;
-        if(!$edit) {
-            if($id == null) {
-                $this->Session->setFlash('You are not authorized to add an official.');
-                $this->redirect('/officials/');
-            } else {
-                $this->Session->setFlash('You are not authorized to edit this official.');
-                $this->redirect('/official/index/');
-            }
-        }
-
-        if($id != null)
-            $this->set('official', $this->Official->findById($id));
         $this->set('officialClassifications', $this->Official->OfficialClassification->find('list'));
         $this->set('users', $this->Official->User->find('list'));
+    }
 
-        $this->Official->id = $id;
-        if (empty($this->data)) {
-            $this->data = $this->Official->read();
-        } else {
-            if ($this->Official->save($this->data)) {
+    function edit() {
+        $this->checkAuthorization(Configure::read('Privilege.Official.edit'));
+        if(!empty($this->data)) {
+            if($this->Official->save($this->data)){
                 $this->Session->setFlash('The official has been updated.', "flash_success");
-                $this->redirect('/officials/');
+            } else {
+                $this->Session->setFlash('The official could not be updated.');
             }
+            $this->redirect('/officials/');
+        }
+    }
+
+    function add() {
+        if(!empty($this->data)) {
+            if($this->data["Official"]["date"] == 2) {
+            }
+            if($this->Official->save($this->data)){
+                $this->Session->setFlash('The official has been added.', "flash_success");
+            } else {
+                $this->Session->setFlash('The official could not be added.');
+            }
+            $this->redirect('/officials/');
         }
     }
 
     function delete() {
         $this->checkAuthorization(Configure::read('Privilege.Official.delete'));
         if(!empty($this->data)) {
-           $this->Official->delete($this->data["Official"]["id"]);
-            $this->Session->setFlash('The official was deleted.', 'flash_success');
+           if($this->Official->delete($this->data["Official"]["id"])) {
+               $this->Session->setFlash('The official was deleted.', 'flash_success');
+           }
+           else {
+               $this->Session->setFlash('The official could not be deleted.');
+           }
         }
         else {
             $this->Session->setFlash('No official id provided.');
