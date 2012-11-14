@@ -162,8 +162,12 @@ class User extends AppModel {
         }
     }
 
-    function findByName($name) {
-        return $this->find('all', array('recursive' => -1, 'conditions' => array('User.name LIKE' => '%'.$name.'%')));
+    function findByName($name, $limit = -1) {
+        $options = array('recursive' => -1, 'conditions' => array('User.name LIKE' => '%'.$name.'%'));
+        if ($limit > -1) {
+            $options['limit'] = $limit;
+        }
+        return $this->find('all', $options);
     }
 
     /**
