@@ -37,6 +37,7 @@ class LeafletHelper extends AppHelper {
     			'default' => true,
     			'2x' => false,
     		),
+/*
     		'OpenOrienteeringMap' => array(
     			'url' => 'http://orca.casa.ucl.ac.uk/~ollie/maptiler/oterrain_global/{z}/{x}/{y}.png',
     			'attribution' => 'OpenOrienteeringMap (oobrien.com), Map data &copy; 2011 OpenStreetMap contributors',
@@ -44,6 +45,7 @@ class LeafletHelper extends AppHelper {
     			'default' => false,
     			'2x' => false,
     		),
+*/
     		'MapBox Streets' => array(
     			'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
     			'url'  => 'http://{s}.tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
