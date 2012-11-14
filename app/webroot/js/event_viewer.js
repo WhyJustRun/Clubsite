@@ -6,6 +6,9 @@ function zeroFill(number, width) {
     return number;
 }
 
+function sameYear(date1, date2) {
+    return(date1.getFullYear() == date2.getFullYear());
+}
 function sameMonth(date1, date2) {
     return (date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear());
 }
@@ -27,14 +30,19 @@ wjr.eventViewer.IOF.Event = function(id, name, url, startTime, endTime, classifi
     this.series = series
     this.url = url
     this.clubAcronym = club.acronym
-    var formatter = "mmmm dS";
-    this.date = startTime.format(formatter);
     if (!sameDay(startTime, endTime)) {
-        if (sameMonth(startTime, endTime)) {
-            this.date += " - " + endTime.format('dS');
+        if (!sameMonth(startTime, endTime)) {
+            if (!sameYear(startTime, endTime)) {
+                this.date = startTime.format('mmmm dS yyyy') + " - " + endTime.format('mmmm dS, yyyy');
+            } else {
+                this.date = startTime.format('mmmm dS') + " - " + endTime.format('mmmm dS, yyyy');
+            }
         } else {
-            this.date += " - " + endTime.format(formatter);
+            this.date = startTime.format('mmmm dS') + " - " + endTime.format('dS, yyyy');
         }
+    }
+    else {
+        this.date = startTime.format('mmmm dS, yyyy');
     }
 }
 
