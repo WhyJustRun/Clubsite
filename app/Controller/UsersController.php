@@ -23,7 +23,7 @@ class UsersController extends AppController
         // Autocomplete
         if(!empty($_GET["term"])) {
             $conditions = array('User.name' => $_GET["term"]);
-            $this->set("users", $this->User->findByName($_GET["term"]));
+            $this->set("users", $this->User->findByName($_GET["term"], 8));
         } else {
             $this->set("users", array());
         }
