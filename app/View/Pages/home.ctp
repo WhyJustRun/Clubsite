@@ -27,7 +27,7 @@
                     <a data-bind="attr: { href: url }">
                         <div class="event-box-inner">
                             <div class="event-box-left">
-                                <div class="location series-2" data-bind="style: { color: series.color }, text: name">
+                                <div class="location" data-bind="style: { color: series.color }, text: name">
                                 </div>
                                 <span class="date">
                                     <span class="data-text" data-bind="text: date"></span>
