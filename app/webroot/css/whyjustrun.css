@@ -298,7 +298,6 @@ footer a, footer a:hover {
 .event-box {
 	margin-bottom: 10px;
 	margin-top: 10px;
-	height: 60px;
 }
 
 /** Outer event-box is needed to safely override the a style and still allow for block clicking. **/
@@ -340,8 +339,12 @@ footer a, footer a:hover {
     overflow: hidden;
 }
 
+
+.event-box .location {
+  font-size: 18px;
+}
+
 .event-box .location, .event-box .city, .event-box .date-text {
-	font-size: 18px;
 	text-decoration: none;
 	white-space: nowrap;
 	overflow: hidden;

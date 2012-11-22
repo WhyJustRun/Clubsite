@@ -19,43 +19,33 @@ class FacebookGraphHelper extends AppHelper {
         parent::__construct($view);
     }
     
-    function like($source = 'like') {
-        $config = Configure::read('Facebook');
-    
-        if(isset($config['sources'][$source])) {
-            $html = '<div class="facebook">
-		<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, \'script\', \'facebook-jssdk\'));</script>
-
-      <div class="fb-like-box" data-href="'.$config['sources'][$source].'" data-width="292" data-show-faces="false" data-stream="false" data-header="false"></div>
+    function like($pageID) {
+        return '<div class="facebook">
+                		<div id="fb-root"></div>
+                    <script>(function(d, s, id) {
+                      var js, fjs = d.getElementsByTagName(s)[0];
+                      if (d.getElementById(id)) return;
+                      js = d.createElement(s); js.id = id;
+                      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+                      fjs.parentNode.insertBefore(js, fjs);
+                    }(document, \'script\', \'facebook-jssdk\'));</script>
+                    <div class="fb-like-box" data-href="'.$pageID.'" data-width="292" data-show-faces="false" data-stream="false" data-header="false"></div>
       </div>';
-        } else $html = null;
-        
-        return $html;
     }
     
     /**
     * Displays a facebook feed (fetches feed config from app config)
     */
-    function feed($feedName, $options) {
-        $key = "facebook_feed_${feedName}";
+    function feed($pageID, $options) {
+        $key = "facebook_feed_${pageID}";
         $html = Cache::read($key, $this->cacheStore);
 
         if ($html !== false) {
             return $html;
         }
-        $config = Configure::read('Facebook');
-        $source = $config['sources'][$feedName];
-        $name = $source['name'];
         try {
-            $page = $this->facebook->api("/${name}");
-            $feed = $this->facebook->api("/${name}/feed");
+            $page = $this->facebook->api("/${pageID}");
+            $feed = $this->facebook->api("/${pageID}/feed");
         } catch(Exception $e) {
             return "<p>News is currently unavailable due to a connectivity issue with Facebook. It will be back soon.</p>";
         }

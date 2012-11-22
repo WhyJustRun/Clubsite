@@ -6,8 +6,8 @@ class PrivilegesController extends AppController {
     var $components = array('Email', 'RequestHandler');
 
     function beforeFilter() {
-        $this->Auth->allow('register', 'forgot', 'login', 'verify', 'authorized');
         parent::beforeFilter();
+        $this->Auth->allow('register', 'forgot', 'login', 'verify', 'authorized');
     }
 
     function index() {

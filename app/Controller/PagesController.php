@@ -60,7 +60,9 @@ class PagesController extends AppController {
      */
     public function display() {
         $path = func_get_args();
-
+        if ($path[0] === 'home' && Configure::read('Club.layout') === 'other') {
+            $path[0] = 'other';
+        }
         $count = count($path);
         if (!$count) {
             if(!empty($_GET['id'])) {
@@ -71,7 +73,7 @@ class PagesController extends AppController {
                     $this->set('field', 'name');
                 } else $this->set('field', 'content');
             } else {
-                $this->redirect('/');
+                $this->redirect('/');die('test');
             }
         }
 

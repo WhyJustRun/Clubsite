@@ -13,7 +13,7 @@ class AppController extends Controller {
 
     function beforeFilter() {
         parent::beforeFilter();
-
+        $this->setClubProperties();
         $this->Security->blackHoleCallback = 'blackholed';
         // CakePHP bug: the Session Auth variables won't be set if $this->Auth->user() isn't called.
         $this->Auth->user();
@@ -32,10 +32,9 @@ class AppController extends Controller {
 
         if(array_key_exists('ext', $this->request->params) && $this->request->params['ext'] == 'embed') {
             $this->layout = 'embed';
-        }
-        else {
-           // Set layout based on club's layout parameter
-           $this->layout = Configure::read('Club.layout');
+        } else {
+            // Set layout based on club's layout parameter
+            $this->layout = Configure::read('Club.layout');
         }
     }
     
@@ -43,6 +42,20 @@ class AppController extends Controller {
 	    CakeLog::error("Request was blackholed of type: $type");
 	    $this->Session->setFlash('An error occurred, email: support@whyjustrun.ca.');
 	    $this->redirect('/');
+    }
+    
+    function setClubProperties() {
+        if (!Configure::read('Club.loadedFresh')) {
+            $this->loadModel('Club');
+            $club = $this->Club->find('first', array('recursive' => -1, 'conditions' => array('Club.id' => Configure::read('Club.id'))));
+            Configure::write('Club.loadedFresh', true);
+            foreach($club['Club'] as $key => $value) {
+                if ($key === 'timezone') {
+                    $value = timezone_open($value);
+                }
+                Configure::write('Club.'.$key, $value);
+            }
+        }
     }
 
     function setClubResources() {
@@ -55,7 +68,8 @@ class AppController extends Controller {
         $this->Session->write('Privilege.User.id', $this->Session->read('Auth.User.id'));
         foreach(Configure::read('Privilege') as $entity => $privileges) {
             foreach($privileges as $key => $privilege) {
-                $this->Session->write("Club.".Configure::read('Club.id').".Privilege.$entity.$key", $this->isAuthorized($privilege));
+                $key = "Club.".Configure::read('Club.id').".Privilege.$entity.$key";
+                $this->Session->write($key, $this->isAuthorized($privilege));
             }
         }
     }

@@ -26,12 +26,9 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
-if(Configure::read('Club.layout') == "default") {
-   Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-}
-else {
-   Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'other'));
-}
+
+Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
+
 /**
 * ...and connect the rest of 'Pages' controller's urls.
 */

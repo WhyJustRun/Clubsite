@@ -383,40 +383,40 @@ Configure::write("Result.statuses", array(
 ));
 
 Configure::write('Rails.domain', 'http://www.whyjustrun.ca');
-Configure::write("Club.id", 1);
-Configure::write("Club.name", "Greater Vancouver Orienteering Club");
-Configure::write("Club.acronym", "GVOC");
-Configure::write("Club.timezone", timezone_open("America/Vancouver"));
-Configure::write("Club.lat", 49.25);
-Configure::write("Club.lng", -123);
-Configure::write("Cloudmade.apiKey", "YOUR_CLOUDMADE_API_KEY_HERE");
-Configure::write("Facebook", array('app' => array('id' => 'YOUR_FACEBOOK_APP_ID_HERE', 'secret' => 'YOUR_FACEBOOK_APP_SECRET_HERE'), 'sources' => array('news' => array('name' => 'YOUR_ORIENTEERING_CLUB_FACEBOOK_GRAPH_ID_HERE', 'accessToken' => 'YOUR_FACEBOOK_ACCESS_TOKEN_HERE'))));
+Configure::write("Cloudmade.apiKey", "86f61295c36e4bd0b933dd78eaa0915c");
+Configure::write("Facebook", array('app' => array('id' => '4700793388', 'secret' => 'c9752de72a24ef8eb51cf0238fb46629'), 'defaultPageID' => 'orienteeringcanada'));
+Configure::write('Club.nearby.max', 3);
+Configure::write('Club.id', 1);
 
 // Minimum access level for adding/editing an event without being an organizer
+Configure::write('Privilege.Admin.page', 90);
+Configure::write('Privilege.Club.edit', 90);
+Configure::write('Privilege.ContentBlock.edit', 80);
+Configure::write('Privilege.Event.delete', 90);
 Configure::write('Privilege.Event.edit', 80);
+Configure::write('Privilege.Event.planning', 80);
 Configure::write('Privilege.Map.edit', 80);
 Configure::write('Privilege.Map.view_ocad', 0);
-Configure::write('Privilege.MapStandard.edit', 100);
-Configure::write('Privilege.MapStandard.delete', 100);
-Configure::write('Privilege.Role.edit', 100);
-Configure::write('Privilege.Role.delete', 100);
-Configure::write('Privilege.Membership.edit', 80);
+Configure::write('Privilege.MapStandard.delete', 90);
+Configure::write('Privilege.MapStandard.edit', 90);
 Configure::write('Privilege.Membership.delete', 80);
-Configure::write('Privilege.Privilege.edit', 100);
-Configure::write('Privilege.Privilege.delete', 100);
-Configure::write('Privilege.Series.edit', 100);
-Configure::write('Privilege.ContentBlock.edit', 80);
+Configure::write('Privilege.Membership.edit', 80);
 Configure::write('Privilege.Page.edit', 80);
-Configure::write('Privilege.Admin.page', 100);
-Configure::write("Privilege.Event.planning", 80);
-Configure::write('Privilege.Resource.index', 100);
-Configure::write('Privilege.Resource.edit', 100);
-Configure::write('Privilege.Resource.delete', 100);
+Configure::write('Privilege.Page.delete', 80);
+Configure::write('Privilege.Privilege.delete', 90);
+Configure::write('Privilege.Privilege.edit', 90);
+Configure::write('Privilege.Resource.delete', 90);
+Configure::write('Privilege.Resource.edit', 90);
+Configure::write('Privilege.Resource.index', 90);
+Configure::write('Privilege.Role.delete', 90);
+Configure::write('Privilege.Role.edit', 90);
+Configure::write('Privilege.Series.edit', 90);
+Configure::write('Privilege.User.edit', 90);
 
 // File Resource configuration
 Configure::write('Resource.Club.headerImage.allowedExtensions', array('jpg', 'jpeg', 'gif', 'png'));
 Configure::write('Resource.Club.headerImage.name', 'Header Image');
-Configure::write('Resource.Club.headerImage.description', 'Image that will show at the top of every page. Should be at least 1300px wide.');
+Configure::write('Resource.Club.headerImage.description', 'Image that will show at the top of every page. Should be at least 2600px wide.');
 
 Configure::write('Resource.Club.logo.allowedExtensions', array('jpg', 'jpeg', 'gif', 'png'));
 Configure::write('Resource.Club.logo.name', 'Logo');
@@ -429,51 +429,10 @@ Configure::write('Resource.Club.style.description', 'You can override the defaul
 // Specify content block defaults (so clubs upgrade cleanly)
 Configure::write('ContentBlock.default.general_information.1', '## Welcome!');
 Configure::write('ContentBlock.default.general_maps_information.1', 'No map information has been entered yet.');
-Configure::write('ContentBlock.default.general_maps_information.2', null);
-Configure::write('ContentBlock.default.general_maps_information.3', null);
 Configure::write('ContentBlock.default.contact.1', 'No contact information has been entered yet.');
 
 Configure::write('Event.planner.dateThreshold', new DateTime('-5 months'));
 Configure::write('Event.planner.attendanceThreshold', 5);
-Configure::write('Club.nearby.max', 3);
-
-Configure::write('Leaflet', array(
-	'div' => array(
-		'id' => 'leaflet-map',
-		'width' => '100%',
-		'height' => '500px',
-		'class' => 'map-canvas',
-	),
-	'map' => array(
-		'center' => array(),
-		'bounds' => array(),
-	),
-	'layers' => array(
-		'Mapnik' => array(
-			'url' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-			'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
-			'default' => true,
-			'2x' => false,
-		),
-		'OpenOrienteeringMap' => array(
-			'url' => 'http://orca.casa.ucl.ac.uk/~ollie/maptiler/oterrain_global/{z}/{x}/{y}.png',
-			'attribution' => 'OpenOrienteeringMap (oobrien.com), Map data &copy; 2011 OpenStreetMap contributors',
-			'minZoom' => 14,
-			'default' => false,
-			'2x' => false,
-		),
-		'MapBox Streets' => array(
-			'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
-			'url'  => 'http://{s}.tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
-			'default' => true,
-			'maxZoom' => 17,
-			'2x' => true,
-		),
-	),
-	'markers' => array(
-
-	)
-));
 
 Configure::write('Log.Emails', array('EMAIL ADDRESS TO SEND ERRORS TO'));
 

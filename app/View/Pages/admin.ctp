@@ -25,6 +25,7 @@
     
     <div class="span4">
         <h2>Club</h2>
+        <a href="/clubs/edit" class="btn">Edit club configuration</a><br/><br/>
         <a href="/resources/index" class="btn">Customize design</a>
     </div>
     <div class="span4">

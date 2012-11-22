@@ -30,7 +30,7 @@
                                 <div class="location" data-bind="style: { color: series.color }, text: name">
                                 </div>
                                 <span class="date">
-                                    <span class="data-text" data-bind="text: date"></span>
+                                    <span class="date-text" data-bind="text: date"></span>
                                     <span class="hidden-tablet pull-right">
                                         <span class="label label-info event-box-classification" data-bind="text: classification"></span>
                                         <span class="label label-success event-box-club-acronym hidden-tablet" data-bind="text: clubAcronym"></span>
@@ -52,11 +52,24 @@
             <h2>News</h2>
             </header>
             
-            <?= $this->FacebookGraph->feed('news', array('limit' => 5)); ?>
+            <?php
+            $fbPageID = Configure::read('Club.facebook_page_id');
+            if (!$fbPageID) {
+                if($this->Session->check('Auth.User.id') && $this->Session->read("Club.".Configure::read('Club.id').'.Privilege.Club.edit') === true) { ?>
+                <a class="btn" href="/clubs/edit">Customize Facebook Page source</a>
+                <?php }
+                $fbPageID = Configure::read('Facebook.defaultPageID');
+            }
+            
+            echo $this->FacebookGraph->feed($fbPageID, array('limit' => 5));
+
+            if ($fbPageID) {
+                echo $this->FacebookGraph->like("http://www.facebook.com/".$fbPageID);
+            }
+            ?>
         </article>
     </div>
     <article class="span4 pull-left">
         <?= $this->ContentBlock->render('general_information'); ?>
-        <?= $this->FacebookGraph->like(); ?>
     </article>
 </div>

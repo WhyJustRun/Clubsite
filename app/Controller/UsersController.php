@@ -10,8 +10,8 @@ class UsersController extends AppController
 
     function beforeFilter()
     {
-        $this->Auth->allow('register', 'forgot', 'login', 'verify', 'authorized', 'index', 'view');
         parent::beforeFilter();
+        $this->Auth->allow('register', 'forgot', 'login', 'verify', 'authorized', 'index', 'view');
         
         if($this->request->action == 'add') {
             $this->Security->csrfCheck = false;

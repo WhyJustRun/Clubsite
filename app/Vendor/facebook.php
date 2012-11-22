@@ -33,9 +33,7 @@ class Facebook extends BaseFacebook
    * @see BaseFacebook::__construct in facebook.php
    */
   public function __construct($config) {
-    if (!session_id()) {
-      session_start();
-    }
+    // CUSTOMIZATION: Let CakePHP initialize the session.
     parent::__construct($config);
   }
 
