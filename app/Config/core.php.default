@@ -435,8 +435,6 @@ Configure::write('Event.planner.attendanceThreshold', 5);
 
 Configure::write('Log.Emails', array('EMAIL ADDRESS TO SEND ERRORS TO'));
 
-// Branch can override any of the configuration
-require('branch_specifics.php');
 App::uses('Sanitize', 'Utility');
 
 function clubFromHost($host) {
