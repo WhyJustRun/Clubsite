@@ -24,7 +24,20 @@
     } ?>
     <hr class="divider" />
     <?php if(!empty($event["Event"]["lat"])) { ?>
-        <h2>Location</h2>
+        <?php
+        $query = $event["Event"]["lat"].','.$event["Event"]["lng"];
+        $linkHTML = '<a class="btn" href="http://maps.google.com/?q='.$query.'">Google Maps</a>
+        <a class="btn" href="http://maps.apple.com/?q='.$query.'">Apple Maps</a>';
+        ?>
+        <div>
+            <div class="btn-group pull-right hidden-phone" style="margin-top: 5px;">
+                <?= $linkHTML ?>
+            </div>
+            <h2>Location</h2>
+        </div>
+        <div class="btn-group visible-phone" style="margin-bottom: 12px;">
+            <?= $linkHTML ?>
+        </div>
         <?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px', array('pan-interaction' => false)); ?>
         <script type="text/javascript">
             var clickHandler = function(e) {
