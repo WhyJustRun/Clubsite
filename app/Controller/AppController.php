@@ -13,7 +13,6 @@ class AppController extends Controller {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->setClubProperties();
         $this->Security->blackHoleCallback = 'blackholed';
         // CakePHP bug: the Session Auth variables won't be set if $this->Auth->user() isn't called.
         $this->Auth->user();
@@ -42,20 +41,6 @@ class AppController extends Controller {
 	    CakeLog::error("Request was blackholed of type: $type");
 	    $this->Session->setFlash('An error occurred, email: support@whyjustrun.ca.');
 	    $this->redirect('/');
-    }
-    
-    function setClubProperties() {
-        if (!Configure::read('Club.loadedFresh')) {
-            $this->loadModel('Club');
-            $club = $this->Club->find('first', array('recursive' => -1, 'conditions' => array('Club.id' => Configure::read('Club.id'))));
-            Configure::write('Club.loadedFresh', true);
-            foreach($club['Club'] as $key => $value) {
-                if ($key === 'timezone') {
-                    $value = timezone_open($value);
-                }
-                Configure::write('Club.'.$key, $value);
-            }
-        }
     }
 
     function setClubResources() {

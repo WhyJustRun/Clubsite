@@ -386,7 +386,6 @@ Configure::write('Rails.domain', 'http://www.whyjustrun.ca');
 Configure::write("Cloudmade.apiKey", "86f61295c36e4bd0b933dd78eaa0915c");
 Configure::write("Facebook", array('app' => array('id' => '4700793388', 'secret' => 'c9752de72a24ef8eb51cf0238fb46629'), 'defaultPageID' => 'orienteeringcanada'));
 Configure::write('Club.nearby.max', 3);
-Configure::write('Club.id', 1);
 
 // Minimum access level for adding/editing an event without being an organizer
 Configure::write('Privilege.Admin.page', 90);
@@ -438,6 +437,49 @@ Configure::write('Log.Emails', array('EMAIL ADDRESS TO SEND ERRORS TO'));
 
 // Branch can override any of the configuration
 require('branch_specifics.php');
+App::uses('Sanitize', 'Utility');
+
+function clubFromHost($host) {
+    $escapedHost = Sanitize::escape($host, 'default');
+    clubForQuery("SELECT * FROM clubs WHERE custom_domain = '$escapedHost'", false);
+  
+}
+
+function clubFromID($id) {
+    $id = intval($id);
+    clubForQuery("SELECT * FROM clubs WHERE id = $id", true);
+}
+
+function validClubResults($results) {
+    return (count($results) === 1) && (!empty($results[0]["clubs"]));
+}
+
+function clubForQuery($query, $fromID) {
+    $db = ConnectionManager::getDataSource('default');
+    $results = $db->fetchAll($query);
+    if (validClubResults($results)) {
+        foreach($results[0]['clubs'] as $key => $value) {
+            if ($key === 'timezone') {
+                $value = timezone_open($value);
+            }
+            Configure::write('Club.'.$key, $value);
+        }
+    } else if ($fromID) {
+        die("ERROR: No valid club results.");
+    } else {
+        echo "WARN: Falling back";
+        clubFromID(1);
+    }
+}
+
+// Load in club configuration based on the request domain name
+if (!empty($_SERVER['HTTP_HOST'])) {
+    clubFromHost($_SERVER['HTTP_HOST']);
+} else {
+    clubFromID(1);
+    echo "WARN: HTTP Host not set, falling back.";
+}
+
 
 if(!Configure::read("Club.dir")) {
     Configure::write("Club.dir", "/var/www/data/" . strtolower(Configure::read('Club.acronym')) . "/");
@@ -462,4 +504,3 @@ if(!Configure::read("Event.dir")) {
 if(!Configure::read("Event.numBlankEntries")) {
     Configure::write("Event.numBlankEntries", 5);
 }
-
