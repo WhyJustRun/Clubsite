@@ -70,14 +70,7 @@
 	<div class="results span4">
         <?php echo $this->element('Courses/course_maps', array('courses' => $event["Course"])); ?>
 	</div>
-	<?php } elseif(count($event["Course"]) === 0) { ?>
-		<div class="results span4">
-			<header>
-				<h2>Registration</h2>
-			</header>
-			<p>No courses have been posted yet.</p>
-		</div>
- 	<?php } else { ?>
+    <?php } elseif(count($event["Course"]) > 0) { ?>
 	<div class="results span4">
 		<header>
 			<h2>Course Registration</h2>
