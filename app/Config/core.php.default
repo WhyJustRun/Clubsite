@@ -439,7 +439,7 @@ App::uses('Sanitize', 'Utility');
 
 function clubFromHost($host) {
     $escapedHost = Sanitize::escape($host, 'default');
-    clubForQuery("SELECT * FROM clubs WHERE custom_domain = '$escapedHost' OR custom_domain = 'www.$escapedHost'", false);
+    clubForQuery("SELECT * FROM clubs WHERE domain = '$escapedHost' OR domain = 'www.$escapedHost'", false);
 }
 
 function clubFromID($id) {
@@ -464,7 +464,6 @@ function clubForQuery($query, $fromID) {
     } else if ($fromID) {
         die("ERROR: No valid club results.");
     } else {
-        echo "WARN: Falling back";
         clubFromID(1);
     }
 }
