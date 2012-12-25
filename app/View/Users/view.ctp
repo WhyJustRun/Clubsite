@@ -14,9 +14,9 @@
             <? if($user["User"]["email"] != NULL) echo "Email: " . $user["User"]["email"]."<br>"; ?>
             <h2>Groups</h2>
             <?php
-                foreach($groups as $group) {
-                    echo $group["Groups"]["id"] . "<br>";
-                }
+            foreach($groups as $group) {
+                echo $group["Groups"]["id"] . "<br>";
+            }
             ?>
         <?php }
         if(!empty($memberships)) {?>
@@ -36,10 +36,10 @@
         echo '<h2>Send message</h2>
         <p>Your email address will be revealed to the receiver so they can reply.</p>';
         echo $this->Form->create('User');
-    	echo $this->Form->hidden('id', array('value' => $user['User']['id']));
-    	echo $this->Form->textarea('message', array('class' => 'input-xlarge', 'rows' => 5, 'data-validate' => 'validate(required)'));
-    	echo $this->Recaptcha->display();
-    	echo $this->Form->end('Send');
+      	echo $this->Form->hidden('id', array('value' => $user['User']['id']));
+      	echo $this->Form->textarea('message', array('class' => 'input-xlarge', 'rows' => 5, 'data-validate' => 'validate(required)'));
+      	echo $this->Recaptcha->display();
+      	echo $this->Form->end('Send');
     } else if(!empty($user['User']['email']) && $this->Session->read('Auth.User.id') != $user['User']['id']) {
         // Not logged in
         echo '<h2>Send message</h2>

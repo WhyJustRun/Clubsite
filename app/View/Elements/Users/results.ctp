@@ -15,15 +15,16 @@
         $statuses["ok"] = null;
         foreach($results as $result) {
             $time = $result["Result"]["time"];
-            $event = $result["Course"]["Event"]["name"];
-            $eventId = $result["Course"]["event_id"];
-            $date = substr($result["Course"]["Event"]["date"],0,10);
+            $event = $result["Course"]["Event"];
+            $eventName = $event['name'];
+            $eventId = $event['id'];
+            $date = substr($event["date"], 0, 10);
             $date = date("M j, Y", strtotime($date));
             $points = $result["Result"]["points"];
-            $url = "/Events/view/$eventId";
+            $url = $this->Link->eventURL($event, $event['Club']);
             echo "<tr>";
             echo "<td>$date</td>";
-            echo "<td><a href=\"$url\">$event</a></td>";
+            echo "<td><a href=\"$url\">$eventName</a></td>";
             $timeOrStatus = !empty($result["Result"]["time"]) && $result["Result"]["status"] === 'ok' ? $result["Result"]["time"] : $statuses[$result["Result"]["status"]];
             echo "<td>$timeOrStatus</td>";
             echo "<td>$points</td>";

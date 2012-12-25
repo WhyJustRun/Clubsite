@@ -42,7 +42,7 @@ class Club extends AppModel {
     );
     
     var $belongsTo = array('ClubCategory');
-    var $hasMany = array('User', 'Resource');
+    var $hasMany = array('User', 'Resource', 'Event');
     
     function checkForCycles($check) {
         $id = $this->id;

@@ -5,7 +5,7 @@ class UsersController extends AppController
 {
 
     var $name = 'Users';
-    var $helpers = array("Form", 'Recaptcha.Recaptcha');
+    var $helpers = array("Form", 'Recaptcha.Recaptcha', 'Link');
     var $components = array('Email', 'RequestHandler', 'Recaptcha.Recaptcha');
 
     function beforeFilter()
@@ -83,11 +83,8 @@ class UsersController extends AppController
     function edit() 
     {
         $this->request->data["User"]["id"] = AuthComponent::user('id');
-        if(empty($this->request->data)) {
-
-        } else {
+        if(!empty($this->request->data)) {
             $this->User->set($this->request->data);
-            //$this->request->data["User"]["password"] = AuthComponent::password($this->request->data["User"]["password"]);
             if($this->User->save($this->request->data, array('validate' => true, 'fieldList'=>array('name', 'email', 'year_of_birth', 'si_number')))) {
                 foreach ($this->request->data["User"] as $key=>$value) {
                     $this->Session->write("Auth.User.$key",$value);
@@ -136,8 +133,6 @@ class UsersController extends AppController
         // User is allowed to see their own settings
         if ($this->Auth->user('id') == $id) {
             $this->set('show_settings', true);
-            //$this->set('memberships', $this->User->Membership->findAllByUserId($id));
-            //$this->set('show_membership', true);
             $this->set('is_subscribed', $this->_isSubscribed($id));
         }
 
@@ -145,7 +140,7 @@ class UsersController extends AppController
         $this->set('user', $user);
         $results = $this->User->Result->find('all', 
             array('conditions' => array('Result.user_id' => $id),
-                'contain' => array('Course' => array('Event'))
+                'contain' => array('Course' => array('Event' => array('Club.id', 'Club.domain')))
             )
         );
 

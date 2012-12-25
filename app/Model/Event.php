@@ -41,7 +41,7 @@ class Event extends AppModel {
         'url' => 'CONCAT("/events/view/", Event.id)'
     );
 
-    var $belongsTo = array('Map', 'Series', 'EventClassification');
+    var $belongsTo = array('Map', 'Series', 'EventClassification', 'Club');
 
     var $hasMany = array(
         'Course' => array('className' => 'Course', 'dependent' => true),
