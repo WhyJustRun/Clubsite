@@ -117,8 +117,19 @@
       if (!items.length) {
         return this.shown ? this.hide() : this
       }
+      
+      var bottomItem = undefined;
+      var lastItem = items[items.length - 1]
+      if (lastItem.position === 'bottom') {
+          bottomItem = lastItem
+          items.pop()
+      }
+      
+      var slicedItems = items.slice(0, this.options.items)
+      if (bottomItem)
+          slicedItems.push(bottomItem);
 
-      return this.render(items.slice(0, this.options.items)).show()
+      return this.render(slicedItems).show()
     }
 
   , matcher: function (item) {
@@ -129,6 +140,7 @@
       var beginswith = []
         , caseSensitive = []
         , caseInsensitive = []
+        , bottom = []
         , item
         , sortby
 
@@ -136,12 +148,14 @@
         if (this.strings) sortby = item
         else sortby = item[this.options.property]
 
-        if (!sortby.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
+        if (item.position === "bottom") {
+          bottom.push(item);
+        } else if (!sortby.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
         else if (~sortby.indexOf(this.query)) caseSensitive.push(item)
         else caseInsensitive.push(item)
       }
 
-      return beginswith.concat(caseSensitive, caseInsensitive)
+      return beginswith.concat(caseSensitive, caseInsensitive, bottom)
     }
 
   , highlighter: function (item) {

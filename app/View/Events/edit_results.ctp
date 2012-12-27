@@ -90,22 +90,27 @@ $(document).ready(function(){
         userName: ko.observable(),
         selectedCourse: ko.observable(),
         addCompetitorToCourse: function(id, name) {            
-            if(!viewModel.selectedCourse()) {
+            if (!viewModel.selectedCourse()) {
                 alert("Adding competitor failed, because a course wasn't selected.");
                 return;
             }
             
-            var user = new wjr.User(id, name);
-            viewModel.selectedCourse().results.push(new wjr.Result(undefined, user, viewModel.selectedCourse().id, undefined, undefined, undefined, undefined, undefined, undefined, viewModel.selectedCourse().is_score_o()));
+            if (id === undefined) {
+                // create user asynchronously, then add to the UI once we've go the user ID.
+                var options = {
+                    userName: name,
+                    eventId: viewModel.event().id,
+                };
+                var successHandler = function (userID) {
+                    viewModel.addCompetitorToCourse(userID, name);
+                };
+                $.post("/Users/add", options, successHandler);
+            } else {
+                var user = new wjr.User(id, name);
+                viewModel.selectedCourse().results.push(new wjr.Result(undefined, user, viewModel.selectedCourse().id, undefined, undefined, undefined, undefined, undefined, undefined, viewModel.selectedCourse().is_score_o()));
+            }
         }
     };
-
-    viewModel.addUser = function() {
-        if(viewModel.userName() && viewModel.userName() !== '') {
-            $.post("/Users/add", { userName: viewModel.userName(), eventId:  viewModel.event().id} );
-            viewModel.userName(null);
-        }
-    }
 
     var loadObjects = function() {
         $.getJSON('/events/view/<?= $eventId ?>.json', function(data) {
@@ -131,11 +136,13 @@ $(document).ready(function(){
     loadObjects();
     ko.applyBindings(viewModel);
 
-    orienteerAppPersonPicker('#competitorResults', { maintainInput: false, allowNew: true }, function(person) {
+    orienteerAppPersonPicker('#competitorResults', { maintainInput: false, createNew: true }, function(person) {
         if(person != null) {
             viewModel.addCompetitorToCourse(person.id, person.name);
         }
     });
+    
+    
 });
 </script>
 
@@ -198,7 +205,7 @@ $(document).ready(function(){
     
     <div class="span4">
           <h2>Add Competitor</h2>
-          <p>Use this to add a participant that didn't register online before the event. If they don't come up in the list, use the Create User dialog below, then use this form to add the competitor.</p>
+          <p>Choose the course you would like to add a competitor. <br/>Type in the participant's name and choose the matching person. If they are not already in the system, choose the "Create New User" option.</p>
           <select data-bind="options: courses, optionsText: 'name', value: selectedCourse, optionsCaption: 'Choose Course..'"></select>
           <?php echo $this->Form->input('competitorResults', array('label' => '', 'placeholder' => 'Competitor Name')); ?>
     </div>
