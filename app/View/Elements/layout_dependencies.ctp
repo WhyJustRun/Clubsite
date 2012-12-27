@@ -11,7 +11,7 @@ echo $this->Html->script('ie7/warning');
 echo '<script>window.onload=function(){e("/js/ie7/")}</script>';
 echo "<![endif]-->";
 
-echo $this->element('Series/css', array(), array('cache' => array('config' => 'view_short')));
+echo $this->element('Series/css', array(), array('cache' => array('key' => 'series_css_club_'.Configure::read('Club.id'), 'config' => 'view_short')));
 
 // Custom club CSS uploaded through the admin interface
 if(!empty($clubResources['style'])) {
