@@ -63,7 +63,7 @@
                     <?= $this->element('privileged_link', array('name' => 'Admin', 'url' => '/pages/admin', 'privilege' => 'Privilege.Admin.page', 'suffix' => ' |')) ?> 
 
                     <?= $this->Html->link('API', 'https://github.com/OrienteerApp/OrienteerApp/wiki/API') ?> | 
-                    <?= $this->Html->link('Get this website for your club', 'https://github.com/OrienteerApp/OrienteerApp/wiki/Get-WhyJustRun!') ?>
+                    <?= $this->Html->link('Get this website for your club', 'https://github.com/OrienteerApp/OrienteerApp/wiki/Get-OrienteerApp-for-your-club!') ?>
                 </span>
             </div>
             <div>
