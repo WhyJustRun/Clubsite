@@ -4,7 +4,7 @@ class SeriesController extends AppController {
     var $name = 'Series';
 
     var $components = array('RequestHandler');
-    var $helpers = array("Form", 'Markdown');
+    var $helpers = array("Form");
 
     function beforeFilter()
     {

@@ -1,6 +1,5 @@
 <?php
 class ContentBlockHelper extends AppHelper {
-    public $helpers = array('Markdown');
     private $cachePrefix = "content_block_";
     private $cacheStore = 'default';
 
@@ -13,7 +12,7 @@ class ContentBlockHelper extends AppHelper {
 			foreach($blocks as $block) {
                 $content .= $start;
                 $content .= "<div id=\"" . $this->getId($block) . "\" class=\"content-block\">";
-                $content .= $this->Markdown->render($block['ContentBlock']['content']);
+                $content .= $block['ContentBlock']['content'];
                 $content .= "</div>";
                 $content .= $end;
             }

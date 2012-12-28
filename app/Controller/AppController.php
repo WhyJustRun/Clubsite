@@ -6,7 +6,7 @@ class AppController extends Controller {
     var $components = array('Auth', 'Session', 'Security' => array(
         'csrfExpires' => '+12 hours',
         'csrfUseOnce' => false,
-        'unlockedFields' => array('leaflet-base-layers'), // Leaflet includes a radio input in IE in POST requests if it is within the form.
+        'unlockedFields' => array('leaflet-base-layers', '_wysihtml5_mode'), // Leaflet includes a radio input in IE in POST requests if it is within the form.
     ));
     var $helpers = array('Session', 'Html', 'Menu', 'ContentBlock');
 

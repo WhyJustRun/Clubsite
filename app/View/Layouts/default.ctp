@@ -27,17 +27,19 @@
             if(!empty($this->Menu)) { ?>
             <nav>
                 <ul class="container">
-                    <?php echo $this->Menu->item('Home', '/', '', true); ?>
-                    <?php echo $this->Menu->item('Calendar', '/events/index'); ?>
-                    <?php echo $this->Menu->item('Maps', '/maps/'); ?>
-                    <?php echo $this->Menu->item('Resources', '/pages/resources'); ?>
-                    <?php echo $this->Menu->item('Contact', '/pages/contact'); ?>
-                    <?php if($this->Session->check('Auth.User.id')) { ?>
-                    <?php echo $this->Menu->item('My Profile', '/users/view/'.$this->Session->read('Auth.User.id'), 'menu_login'); ?>
-                    <?php echo $this->Menu->item('Logout', '/users/logout/', 'menu_login'); ?>
-                    <?php } else { ?>
-                    <?php echo $this->Menu->item('Login/Register', '/users/login/', 'menu_login'); ?>
-                    <?php } ?>
+                    <?php 
+                    echo $this->Menu->item('Home', '/', '', true);
+                    echo $this->Menu->item('Calendar', '/events/index'); 
+                    echo $this->Menu->item('Maps', '/maps/');
+                    echo $this->Menu->item('Resources', '/pages/resources');
+                    echo $this->Menu->item('Contact', '/pages/contact');
+                    if($this->Session->check('Auth.User.id')) {
+                        echo $this->Menu->item('My Profile', '/users/view/'.$this->Session->read('Auth.User.id'), 'menu_login');
+                        echo $this->Menu->item('Logout', '/users/logout/', 'menu_login');
+                    } else {
+                        echo $this->Menu->item('Login/Register', '/users/login/', 'menu_login');
+                    }
+                    ?>
                 </ul>
             </nav>
             <?php } ?>

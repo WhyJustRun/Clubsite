@@ -52,10 +52,7 @@ echo $this->Form->input('custom_url', array('label' => 'Event URL', 'class' => '
 <fieldset class="control-group">
     <label for="EventDescription" class="control-label">Description</label>
     <div class="controls">
-        <?= $this->Form->input('description', array('label' => false, 'class' => 'span8', 'rows' => 12, 'div' => false)); ?>
-        <p class="help-block">
-            <?= $this->Element('markdown_basics'); ?>
-        </p>
+        <?= $this->Form->input('description', array('label' => false, 'class' => 'input-xxxlarge oa-wysiwyg', 'rows' => 12, 'div' => false)); ?>
     </div>
 </fieldset>
 <?php

@@ -9,7 +9,7 @@
 <div class="row">
     <div class="span6">
         <h3>General information</h3>
-        <?= $this->Markdown->render($series["Series"]["information"])?>
+        <?= $series["Series"]["information"] ?>
     </div>
     <div class="span6">
         <div class="results-list">

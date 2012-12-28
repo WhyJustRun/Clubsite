@@ -38,6 +38,10 @@ $(function() {
     swapHiDPIImages();
     
     orienteerAppCheckKetchupFormsAreValidOnSubmit();
+    
+    $('.oa-wysiwyg').each(function(idx, element) {
+        orienteerAppWYSIWYG(element);
+    });
 });
 
 function swapHiDPIImages() {
@@ -59,6 +63,18 @@ function swapHiDPIImages() {
             load2xImage();
         });
     }
+}
+
+function orienteerAppWYSIWYG(element) {
+    $(element).wysihtml5('deepExtend', {
+        parserRules: {
+            tags: {
+                strong: {},
+                em: {}
+            }
+        },
+        html: true
+    });
 }
 
 // Callback should take a person object with id, name. Callback can also be called with null (no person selected)

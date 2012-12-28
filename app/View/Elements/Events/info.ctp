@@ -1,6 +1,6 @@
 <?php if(!$event["Event"]["completed"] && !empty($event["Series"]["information"])) { ?>
         <h2><?= $event["Series"]["name"] ?> Series Info</h2>
-        <?= $this->Markdown->render($event["Series"]["information"]) ?>
+        <?= $event["Series"]["information"] ?>
         <hr class="divider" />
 <?php } ?>
     
@@ -18,7 +18,7 @@
 
     if(!empty($event["Event"]["description"])) { 
         // TODO-RWP Should sanitize imported data instead
-        echo $this->Markdown->render($event["Event"]["description"]);
+        echo $event["Event"]["description"];
     } else {
         echo "Check back soon for more information.";
     } ?>

@@ -9,7 +9,6 @@ class ContentBlocksController extends AppController {
     public $components = array(
         'RequestHandler'
     );
-    public $helpers = array('Markdown');
 
     function beforeFilter()
     {
@@ -24,30 +23,24 @@ class ContentBlocksController extends AppController {
      * Called by the ContentBlockHelper
      */    
     public function view($key = null) {
-        if(empty($key)) {
-            // called from Jeditable for in place editing
-            $id = str_replace('content-block-', '', $_GET['id']);
-            $this->set('contentBlock', $this->ContentBlock->findById($id));
-        } else {
-            $contentBlocks = $this->ContentBlock->findAllByKey($key, array(), array('ContentBlock.order' => 'asc'));
-            if(count($contentBlocks) === 0) {
-                // If we didn't find any content blocks, create them from the defaults
-                $contentBlocks = Configure::read('ContentBlock.default.'.$key);
-                if($contentBlocks == null) {
-                    return array();
-                }
-                foreach($contentBlocks as $order => $content) {
-                    $this->ContentBlock->create();
-                    $this->ContentBlock->save(array('ContentBlock' => array('key' => $key, 'order' => $order, 'content' => $content)));
-                    $contentBlocks = $this->ContentBlock->findAllByKey($key, array(), array('ContentBlock.order' => 'asc'));
-                }
+        $contentBlocks = $this->ContentBlock->findAllByKey($key, array(), array('ContentBlock.order' => 'asc'));
+        if(count($contentBlocks) === 0) {
+            // If we didn't find any content blocks, create them from the defaults
+            $contentBlocks = Configure::read('ContentBlock.default.'.$key);
+            if($contentBlocks == null) {
+                return array();
             }
-            return $contentBlocks;
+            foreach($contentBlocks as $order => $content) {
+                $this->ContentBlock->create();
+                $this->ContentBlock->save(array('ContentBlock' => array('key' => $key, 'order' => $order, 'content' => $content)));
+                $contentBlocks = $this->ContentBlock->findAllByKey($key, array(), array('ContentBlock.order' => 'asc'));
+            }
         }
+        return $contentBlocks;
     }
 
     /**
-     * POST Ajax call by Jeditable - returns the rendered markdown
+     * POST Ajax call by Jeditable
      */
     public function edit() {
         $this->checkAuthorization(Configure::read('Privilege.ContentBlock.edit'));

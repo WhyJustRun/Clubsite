@@ -1,5 +1,6 @@
 <?php
 // Responsible for loading the club config into CakePHP
+App::import('Model', 'ConnectionManager');
 App::uses('Sanitize', 'Utility');
 function clubFromHost($host) {
     $escapedHost = Sanitize::escape($host, 'default');

@@ -27,17 +27,16 @@ $('.colorpicker').colorpicker();
 <div class="control-group">
     <label class="control-label" for="optionsCheckbox">Description</label>
     <div class="controls">
-        <?= $this->Form->input('description', array('div' => false, 'class' => 'input-xxlarge', 'label' => false)) ?>
+        <?= $this->Form->input('description', array('div' => false, 'class' => 'input-xxxlarge oa-wysiwyg', 'label' => false)) ?>
     </div>
 </div>
 
 <div class="control-group">
     <label class="control-label" for="optionsCheckbox">Information</label>
     <div class="controls">
-        <?= $this->Form->input('information', array('div' => false, 'class' => 'input-xxlarge', 'label' => false)) ?>
+        <?= $this->Form->input('information', array('div' => false, 'class' => 'input-xxxlarge oa-wysiwyg', 'label' => false)) ?>
         <div class="help-block">
             <p>Information specific to the series is shown on event pages.</p>
-            <?= $this->Element('markdown_basics') ?>
         </div>
     </div>
 </div>

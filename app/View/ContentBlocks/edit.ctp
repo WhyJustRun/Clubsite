@@ -1,1 +1,1 @@
-<?= $this->Markdown->render($contentBlock['ContentBlock']['content']); ?>
+<?= $contentBlock['ContentBlock']['content']; ?>

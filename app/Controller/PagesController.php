@@ -43,7 +43,7 @@ class PagesController extends AppController {
      *
      * @var array
      */
-    public $helpers = array('Html', 'Session', 'Geocode', 'Markdown', 'FacebookGraph', 'Form', 'Media');
+    public $helpers = array('Html', 'Session', 'Geocode', 'FacebookGraph', 'Form', 'Media');
 
     function beforeFilter() {
         parent::beforeFilter();
@@ -65,16 +65,7 @@ class PagesController extends AppController {
         }
         $count = count($path);
         if (!$count) {
-            if(!empty($_GET['id'])) {
-                // for jeditable request
-                $path[0] = $this->parseEntityId($_GET['id']);
-                $this->set('onlyMarkdown', true);
-                if(!empty($_GET['name'])) {
-                    $this->set('field', 'name');
-                } else $this->set('field', 'content');
-            } else {
-                $this->redirect('/');die('test');
-            }
+            $this->redirect('/');
         }
 
         $page = $subpage = $title_for_layout = null;
@@ -138,16 +129,13 @@ class PagesController extends AppController {
         if(!empty($this->request->data['value'])) {
             $this->Page->saveField('content', $this->request->data['value']);
             $this->set('content', $this->request->data['value']);
-            $this->set('useMarkdown', true);
         } else if(!empty($this->request->data['name'])) {
             $name = $this->request->data['name'];
             $this->Page->saveField('name', $name);
             $this->set('content', $name);
-            $this->set('useMarkdown', false);
         } else {
             // This should never happen, but somehow it does..
             $this->set('content', null);
-            $this->set('useMarkdown', false);
         }
 
         $this->render('edit');

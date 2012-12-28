@@ -21,10 +21,7 @@ if($this->Session->check('Auth.User.id') && $this->Session->read("Club.".Configu
     <fieldset class="control-group">
         <label for="PageContent" class="control-label">Content</label>
         <div class="controls">
-            <?= $this->Form->input('content', array('label' => false, 'class' => 'input-xxlarge', 'rows' => 20, 'data-validate' => 'validate(required)', 'div' => false)); ?>
-            <p class="help-block">
-                <?= $this->Element('markdown_basics'); ?>
-            </p>
+            <?= $this->Form->input('content', array('label' => false, 'class' => 'input-xxlarge oa-wysiwyg', 'rows' => 20, 'data-validate' => 'validate(required)', 'div' => false)); ?>
         </div>
     </fieldset>
     <?= $this->Form->end(array('label' => 'Add', 'class' => 'btn btn-primary', 'div' => array('class' => 'form-actions'))) ?>

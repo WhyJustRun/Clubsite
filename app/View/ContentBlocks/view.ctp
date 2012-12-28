@@ -1,1 +1,0 @@
-<?= $contentBlock['ContentBlock']['content'] ?>
