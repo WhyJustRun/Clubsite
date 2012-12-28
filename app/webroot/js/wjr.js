@@ -68,6 +68,10 @@ function swapHiDPIImages() {
 function orienteerAppWYSIWYG(element) {
     $(element).wysihtml5('deepExtend', {
         parserRules: {
+            classes: {
+                'full-width': 1,
+                'lightbox': 1,
+            },
             tags: {
                 strong: {},
                 em: {}
