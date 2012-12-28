@@ -20,15 +20,23 @@ By using OrienteerApp, you get useful functionality with minimal effort:
 - IOF Standard XML APIs
 - Live results
 - iOS app for timing smaller events
+- Display of nearby events organized by other clubs
 
 Coming Soon:
 
 - Upload results automatically from orienteering timing software
-- Display of nearby events organized by other clubs
 
 ## Current Users
 
 [Greater Vancouver Orienteering Club](http://gvoc.whyjustrun.ca/)
+
+[Victoria Orienteering Club](http://vico.whyjustrun.ca/)
+
+[Stars Orienteering Club](http://stars.whyjustrun.ca/)
+
+[Whistler Orienteering Club](http://whistler.whyjustrun.ca/)
+
+[Sage Orienteering Club](http://sage.whyjustrun.ca/)
 
 [Kootenay Orienteering Club](http://kootenayorienteering.com/)
 
