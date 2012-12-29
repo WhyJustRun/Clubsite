@@ -66,19 +66,7 @@ function swapHiDPIImages() {
 }
 
 function orienteerAppWYSIWYG(element) {
-    $(element).wysihtml5('deepExtend', {
-        parserRules: {
-            classes: {
-                'full-width': 1,
-                'lightbox': 1,
-            },
-            tags: {
-                strong: {},
-                em: {}
-            }
-        },
-        html: true
-    });
+    $(element).redactor();
 }
 
 // Callback should take a person object with id, name. Callback can also be called with null (no person selected)
