@@ -15,6 +15,9 @@ $(document).ready(function() {
             $(this).append(textarea);
             return(textarea);
         },
+        submit : function (settings, original) {
+            orienteerAppWYSIWYGUpdateTextareas();
+        },
         plugin : function(settings, original) {
             orienteerAppWYSIWYG($('textarea', this));
         }

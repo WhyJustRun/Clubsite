@@ -24,10 +24,6 @@ echo $this->Html->script('html5.ie');
 echo "<![endif]-->";
 echo $this->Html->script("/cjs/jquery-1.8.2.min.js,jquery.mousewheel-3.0.6.pack.js,jquery.ketchup.all.min.js,ketchup-bootstrap.js,jquery.fancybox.pack.js,jquery.placeholder.min.js,underscore-min.js,knockout.js,jquery.jeditable.mini.js,jquery.timeago.js,jquery.iecors.js,date.format.js");
 echo $this->Html->script('/cjs/bootstrap.min.js,bootstrap-datepicker.js,bootstrap-typeahead.js');
-?>
-<link rel="stylesheet" type="text/css" href="/js/redactor/css/redactor.css" />
-<script type="text/javascript" src="/js/redactor/redactor.js"></script>
-<?
 echo $this->Html->script('wjr');
 
 // Easy editable content blocks
