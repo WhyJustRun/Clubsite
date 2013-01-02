@@ -212,7 +212,7 @@
                 							<td data-bind="text: position || friendlyStatus"></td>
                 							<td><a data-bind="attr: { href: person.profileUrl }"><span data-bind="text: person.givenName + ' ' + person.familyName"></span></a></td>
                 							<td data-bind="visible: $parent.isScore, text: scores['Points']"></td>
-                							<td data-bind="text: time != null ? hours + ':' + minutes + ':' + seconds : ''"></td>
+                							<td data-bind="text: time != null ? hours + ':' + minutes + ':' + seconds + ($parent.millisecondTiming ? '.' + milliseconds : '' ) : ''"></td>
                 							<td data-bind="visible: $parent.isTimed, text: scores['WhyJustRun']"></td>
                 						</tr>
                 					</tbody>

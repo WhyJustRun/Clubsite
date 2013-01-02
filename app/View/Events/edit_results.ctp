@@ -1,5 +1,14 @@
 <script type="text/javascript">
-$(document).ready(function(){
+
+function zeroFill(number, width) {
+    width -= number.toString().length;
+    if (width > 0) {
+      return new Array(width + (/\./.test(number) ? 2 : 1)).join('0') + number;
+    }
+    return number + "";
+}
+
+$(document).ready(function() {
     var wjr = {};
 
     wjr._statuses = null;
@@ -41,13 +50,20 @@ $(document).ready(function(){
         this.is_score_o = ko.observable(is_score_o);
     }
 
-    wjr.Result = function(id, user, course_id, time, status, points, needs_ride, offering_ride, score_points, is_score_o) {
+    wjr.Result = function(id, user, course_id, time_seconds, status, points, needs_ride, offering_ride, score_points, is_score_o) {
         this.id = id;
         this.user = user;
         this.course_id = course_id;
-        this.hours = ko.observable(time ? time.substr(0, 2) : '00');
-        this.minutes = ko.observable(time ? time.substr(3, 2) : '00');
-        this.seconds = ko.observable(time ? time.substr(6, 2) : '00');
+        
+        var hoursCount = Math.floor(time_seconds / 3600);
+        var minutesCount = Math.floor((time_seconds - hoursCount * 3600) / 60);
+        var secondsCount = time_seconds - hoursCount * 3600 - minutesCount * 60;
+        var millisecondsCount = Math.round((secondsCount % 1) * 1000);
+        
+        this.hours = ko.observable(time_seconds ? zeroFill(hoursCount, 2) : '00');
+        this.minutes = ko.observable(time_seconds ? zeroFill(minutesCount, 2) : '00');
+        this.seconds = ko.observable(time_seconds ? zeroFill(Math.floor(secondsCount), 2) : '00');
+        this.milliseconds = ko.observable(time_seconds ? zeroFill(millisecondsCount, 3) : '000');
         this.statuses = function() {
             return wjr.sorted_statuses();
         }
@@ -125,7 +141,7 @@ $(document).ready(function(){
                 for(var j = 0; j < results.length; j++) {
                     var result = results[j];
                     var user = new wjr.User(result.User.id, result.User.name);
-                    importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time, result.status, result.points, result.needs_ride, result.offering_ride, result.score_points, course.is_score_o));
+                    importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time_seconds, result.status, result.points, result.needs_ride, result.offering_ride, result.score_points, course.is_score_o));
                 }
 
                 viewModel.courses.push(new wjr.Course(course.id, course.name, course.distance, course.climb, course.event_id, course.description, importedResults, course.is_score_o));
@@ -150,9 +166,17 @@ $(document).ready(function(){
     <tr>
         <td class="span4" data-bind="text: user.name"></td>
         <td data-bind="visible: is_score_o"><input type="number" class="thin-control spanning-control" data-bind="value: score_points"></td>
-        <td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: hours" /></td>
-        <td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: minutes" /></td>
-        <td><input type="text" class="thin-control spanning-control" maxlength="2" size="2" data-bind="value: seconds" /></td>
+        <td>
+            <div class="input-prepend input-append">
+                <input type="text" class="thin-control time-segment" maxlength="2" size="2" data-bind="value: hours" pattern="[0-9]{0,2}" />
+                <span class="add-on thin-control time-spacer">:</span>
+                <input type="text" class="thin-control time-segment" maxlength="2" size="2" data-bind="value: minutes" pattern="[0-9]{0,2}" />
+                <span class="add-on thin-control time-spacer">:</span>
+                <input type="text" class="thin-control time-segment" maxlength="2" size="2" data-bind="value: seconds" pattern="[0-9]{0,2}" />
+                <span class="add-on thin-control time-spacer">.</span>
+                <input type="text" class="thin-control millisecond-time-segment" maxlength="3" size="3" data-bind="value: milliseconds" pattern="[0-9]{0,3}"/>
+            </div>
+        </td>
         <td class="results-editing"><select class="input-medium thin-control" data-bind="options: statuses(), optionsText: 'name', optionsValue: 'id', value: status, optionsCaption: 'Choose...'"></select></td>
         <td><button type="submit" class="btn btn-mini btn-danger" data-bind="click: remove"><i class="icon-trash icon-white"></i></button></td>
     </tr>
@@ -165,9 +189,7 @@ $(document).ready(function(){
             <tr>
                 <th>Name</th>
                 <th data-bind="visible: is_score_o">Score Points</th>
-                <th>HH</th>
-                <th>MM</th>
-                <th>SS</th>
+                <th>Time (hh:mm:ss)</th>
                 <th>Status</th>
                 <th></th>
             </tr>

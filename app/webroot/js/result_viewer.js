@@ -15,13 +15,14 @@ wjr.IOF.Event = function(id, name, startTime) {
 	this.startTime = startTime;
 }
 	
-wjr.IOF.Course = function(id, name, results, scoringType) {
+wjr.IOF.Course = function(id, name, results, scoringType, millisecondTiming) {
 	this.id = id;
 	this.name = name;
 	this.results = ko.observableArray(results);
 	this.scoringType = scoringType;
 	this.isScore = (scoringType === 'Points');
 	this.isTimed = (scoringType === 'Timed');
+	this.millisecondTiming = millisecondTiming;
 }
 
 wjr.IOF.friendlyStatuses = {
@@ -46,9 +47,11 @@ wjr.IOF.Result = function(time, position, status, scores, person) {
 		this.time = time;
 		this.hours = zeroFill((time - time % 3600) / 3600, 2);
 		this.minutes = zeroFill((time - time % 60) / 60 - this.hours * 60, 2);
-		this.seconds = zeroFill(time % 60, 2);
+		var millis = Math.round((time % 1) * 1000);
+		this.seconds = zeroFill(Math.floor(time) % 60, 2);
+		this.milliseconds = zeroFill(millis, 3);
 	} else {
-		this.time = this.hours = this.minutes = this.seconds = null;
+		this.time = this.hours = this.minutes = this.seconds = this.milliseconds = null;
 	}
 	this.status = status;
 	this.friendlyStatus = wjr.IOF.friendlyStatuses[status];
@@ -79,6 +82,7 @@ wjr.IOF.loadResultsList = function(xml) {
 		var scoringType = element.children("Course").children('Extensions').children('ScoringType').text();
 		var courseName = classes[courseId];
 		var results = [];
+		var millisecondTiming = false;
 		element.children('PersonResult').each(function(index, element) {
 			element = $(element);
 			var person = element.children("Person").first();
@@ -86,16 +90,20 @@ wjr.IOF.loadResultsList = function(xml) {
 			var personFamilyName = person.children("Name").children("Family").text();
 			var personProfileUrl = person.children("Contact[type='WebAddress']").text();
 			var personId = person.children("Id").text();
-			var resultTime = parseInt(element.children("Result").children("Time").text());
+			var resultTime = parseFloat(element.children("Result").children("Time").text());
 			var resultStatus = element.children("Result").children("Status").text();
 			var resultPosition = element.children("Result").children("Position").text();
 			var resultScores = {};
 			element.children("Result").children("Score").each(function(index, element) {
 				resultScores[$(element).attr("type")] = $(element).text();
 			});
-			results.push(new wjr.IOF.Result(resultTime, resultPosition, resultStatus, resultScores, new wjr.IOF.Person(personId, personGivenName, personFamilyName, personProfileUrl)));
+			var result = new wjr.IOF.Result(resultTime, resultPosition, resultStatus, resultScores, new wjr.IOF.Person(personId, personGivenName, personFamilyName, personProfileUrl));
+			if (!millisecondTiming && result.milliseconds != '000' && result.milliseconds != null) {
+  			  millisecondTiming = true;
+			}
+			results.push(result);
 		});
-		courses.push(new wjr.IOF.Course(courseId, courseName, results, scoringType));
+		courses.push(new wjr.IOF.Course(courseId, courseName, results, scoringType, millisecondTiming));
 	})
 	// TODO-RWP startTime
 	return [new wjr.IOF.Event(event.children("Id").text(), event.children("Name").text(), null), courses];

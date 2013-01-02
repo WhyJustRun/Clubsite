@@ -460,3 +460,25 @@ footer div {
 .full-width {
     width: 100%;
 }
+
+span.add-on.thin-control {
+    height: 18px;
+    line-height: 18px;
+    min-height: 18px;
+    padding: 0;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-bottom: 0;
+}
+
+span.add-on.time-spacer {
+    min-width: intrinsic;
+}
+
+input.time-segment {
+    width: 17px;
+}
+
+input.millisecond-time-segment {
+    width: 25px;
+}

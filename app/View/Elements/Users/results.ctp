@@ -14,7 +14,8 @@
         $statuses = Configure::read("Result.statuses");
         $statuses["ok"] = null;
         foreach($results as $result) {
-            $time = $result["Result"]["time"];
+            $time = $result["Result"]["time_seconds"];
+            $formattedTime = $this->TimePlus->formattedResultTime($time);
             $event = $result["Course"]["Event"];
             $eventName = $event['name'];
             $eventId = $event['id'];
@@ -25,7 +26,7 @@
             echo "<tr>";
             echo "<td>$date</td>";
             echo "<td><a href=\"$url\">$eventName</a></td>";
-            $timeOrStatus = !empty($result["Result"]["time"]) && $result["Result"]["status"] === 'ok' ? $result["Result"]["time"] : $statuses[$result["Result"]["status"]];
+            $timeOrStatus = !empty($time) && $result["Result"]["status"] === 'ok' ? $formattedTime : $statuses[$result["Result"]["status"]];
             echo "<td>$timeOrStatus</td>";
             echo "<td>$points</td>";
             echo "</tr>";

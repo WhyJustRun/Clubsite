@@ -227,7 +227,7 @@ class EventsController extends AppController {
                     $processedResult = array();
                     $processedResult["user_id"] = $result->user->id;
                     $processedResult["course_id"] = $course->id;
-                    $processedResult["time"] = $this->_timeFromParts($result->hours, $result->minutes, $result->seconds);
+                    $processedResult["time_seconds"] = $this->_timeFromParts($result->hours, $result->minutes, $result->seconds, $result->milliseconds);
                     $processedResult['status'] = empty($result->status) ? 'ok' : $result->status;
                     $processedResult["needs_ride"] = empty($result->needs_ride) ? false : $result->needs_ride;
                     if (!empty($result->score_points)) {
@@ -357,16 +357,13 @@ class EventsController extends AppController {
         $this->request->data["Event"]["courses"] = json_encode($courses);
     }  
 
-    function _timeFromParts($hours, $minutes, $seconds) {
-        if(intval($hours) === 0 && intval($minutes) === 0 && intval($seconds) === 0) {
-            return null;
-        }
-
-        $hours = str_pad($hours, 2, '0', STR_PAD_LEFT);
-        $minutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
-        $seconds = str_pad($seconds, 2, '0', STR_PAD_LEFT);
-
-        return $hours . ":" . $minutes . ":" . $seconds;
+    function _timeFromParts($hours, $minutes, $seconds, $milliseconds) {
+        $hours = intval($hours);
+        $minutes = intval($minutes);
+        $seconds = intval($seconds);
+        $milliseconds = intval($milliseconds);
+        if ($hours === 0 && $minutes === 0 && $seconds === 0 && $milliseconds === 0) return null;
+        return 3600 * $hours + 60 * $minutes + $seconds + 0.001 * $milliseconds;
     }
 }
 ?>
