@@ -3,6 +3,7 @@ class Role extends AppModel {
 	var $name = 'Role';
 	var $displayField = 'name';
 	var $actsAs = array('Containable');
+    var $clubSpecific = false;
 	var $validate = array(
 		'id' => array(
 			'numeric' => array(
