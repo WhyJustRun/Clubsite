@@ -43,8 +43,8 @@ Configure::write('Privilege.Privilege.edit', 90);
 Configure::write('Privilege.Resource.delete', 90);
 Configure::write('Privilege.Resource.edit', 90);
 Configure::write('Privilege.Resource.index', 90);
-Configure::write('Privilege.Role.delete', 90);
-Configure::write('Privilege.Role.edit', 90);
+Configure::write('Privilege.Role.delete', 99);
+Configure::write('Privilege.Role.edit', 99);
 Configure::write('Privilege.Series.edit', 90);
 Configure::write('Privilege.User.edit', 90);
 
