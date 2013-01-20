@@ -54,7 +54,9 @@
     echo $dateFormatted;
 	?></h2>
     <? if(!empty($event["Event"]["custom_url"])) {?>
-    <h2 class="event-header">External website: <?= $this->Html->link($event["Event"]["custom_url"])?></h2>
+    <div class="danger alert alert-danger">
+        <h3 class="event-header">This event has an external website: <?= $this->Html->link($event["Event"]["custom_url"])?></h3>
+    </div>
     <? } ?>
 </header>
 
