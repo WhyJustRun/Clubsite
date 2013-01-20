@@ -143,8 +143,7 @@ class EventsController extends AppController {
     function _setLists() {
         $this->set('maps', $this->Event->Map->find('list', array('order'=>'Map.name')));
         $this->set('series', $this->Event->Series->find('list'));
-        $this->set('eventClassifications', $this->Event->EventClassification->find('list'));
-
+        $this->set('eventClassifications', $this->Event->EventClassification->getDescriptionList());
     }
 
     function view($id = null) {
