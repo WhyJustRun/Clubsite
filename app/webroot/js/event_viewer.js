@@ -33,16 +33,16 @@ wjr.eventViewer.IOF.Event = function(id, name, url, startTime, endTime, classifi
     if (!sameDay(startTime, endTime)) {
         if (!sameMonth(startTime, endTime)) {
             if (!sameYear(startTime, endTime)) {
-                this.date = startTime.format('mmmm dS yyyy') + " - " + endTime.format('mmmm dS, yyyy');
+                this.date = startTime.toString('MMMM dS yyyy') + " - " + endTime.toString('MMMM dS, yyyy');
             } else {
-                this.date = startTime.format('mmmm dS') + " - " + endTime.format('mmmm dS, yyyy');
+                this.date = startTime.toString('MMMM dS') + " - " + endTime.toString('MMMM dS, yyyy');
             }
         } else {
-            this.date = startTime.format('mmmm dS') + " - " + endTime.format('dS, yyyy');
+            this.date = startTime.toString('MMMM dS') + " - " + endTime.toString('dS, yyyy');
         }
     }
     else {
-        this.date = startTime.format('mmmm dS, yyyy');
+        this.date = startTime.toString('MMMM dS, yyyy');
     }
 }
 
@@ -62,7 +62,7 @@ wjr.eventViewer.IOF.loadEventsList = function(xml) {
         var clubAcronym = $(element).children('Organiser').children('ShortName').text();
         var classification = $(element).children('Classification').text();
         // Need to get dates to be of format: 2011-10-10T14:48:00.000z
-        events.push(new wjr.eventViewer.IOF.Event(eventID, eventName, url, new Date(startDate), new Date(endDate), classification, {color: seriesColor}, {acronym: clubAcronym}));
+        events.push(new wjr.eventViewer.IOF.Event(eventID, eventName, url, new XDate(startDate), new XDate(endDate), classification, {color: seriesColor}, {acronym: clubAcronym}));
     });
     return events;
 }
