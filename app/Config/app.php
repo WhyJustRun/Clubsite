@@ -36,6 +36,8 @@ Configure::write('Privilege.MapStandard.delete', 90);
 Configure::write('Privilege.MapStandard.edit', 90);
 Configure::write('Privilege.Membership.delete', 80);
 Configure::write('Privilege.Membership.edit', 80);
+Configure::write('Privilege.Official.delete', 90);
+Configure::write('Privilege.Official.edit', 90);
 Configure::write('Privilege.Page.edit', 80);
 Configure::write('Privilege.Page.delete', 80);
 Configure::write('Privilege.Privilege.delete', 90);

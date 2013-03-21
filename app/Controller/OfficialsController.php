@@ -19,6 +19,7 @@ class OfficialsController extends AppController {
     }
 
     function index() {
+        $this->checkAuthorization(Configure::read('Privilege.Official.edit'));
         $this->set('officials', $this->Official->find('all', array('order'=>'OfficialClassification.id')));
         $this->set('officialClassifications', $this->Official->OfficialClassification->find('list'));
         $this->set('users', $this->Official->User->find('list'));
@@ -37,6 +38,7 @@ class OfficialsController extends AppController {
     }
 
     function add() {
+        $this->checkAuthorization(Configure::read('Privilege.Official.edit'));
         if(!empty($this->data)) {
             if($this->data["Official"]["date"] == 2) {
             }

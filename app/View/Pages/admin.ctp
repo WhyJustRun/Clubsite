@@ -19,6 +19,10 @@
         <a href="<?= Configure::read('Rails.domain') ?>/club/<?= Configure::read('Club.id') ?>/participation_report.csv" class="btn">Event Participation Information (CSV)</a>
     </div>
     <div class="span4">
+        <h2>Officials</h2>
+        <a href="/officials/" class="btn">Officials certification</a>
+    </div>
+    <div class="span4">
         <h2>Series</h2>
         <a href="/series/" class="btn">Define</a>
     </div>
