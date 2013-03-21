@@ -8,10 +8,12 @@
 <div class="three-column">
     <div class="span4">
         <h4>Events</h4>
-            For an event to have proper insurance, covering liability to organizers and club officials and also injury to competitors, the following is mandatory:
+            You can enter your club's events in the OCNDB quickly and easily. You allows you to:
             <ul>
-                <li>Prior to the event: enter the event in the Events page. </li>
-                <li>Following the event: edit the event information to specify the number of participants</li>
+                <li>do event registration</li>
+                <li>post results</li>
+                <li>post course maps</li>
+                <li>expose your event to other clubs</li>
             </ul>
 
         <h4>Maps</h4>
