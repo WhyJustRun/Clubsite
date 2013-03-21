@@ -8,7 +8,7 @@
 <div class="three-column">
     <div class="span4">
         <h4>Events</h4>
-            You can enter your club's events in the OCNDB quickly and easily. You allows you to:
+            You can enter your club's events in the OCNDB quickly and easily. This allows you to:
             <ul>
                 <li>do event registration</li>
                 <li>post results</li>
