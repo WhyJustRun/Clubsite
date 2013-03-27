@@ -49,7 +49,7 @@ Configure::write('Privilege.Resource.index', 80);
 Configure::write('Privilege.Role.delete', 100);
 Configure::write('Privilege.Role.edit', 100);
 Configure::write('Privilege.Series.edit', 90);
-Configure::write('Privilege.User.edit', 90);
+Configure::write('Privilege.User.edit', 100);
 
 // File Resource configuration
 Configure::write('Resource.Club.headerImage.allowedExtensions', array('jpg', 'jpeg', 'gif', 'png'));
