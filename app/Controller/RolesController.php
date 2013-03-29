@@ -12,7 +12,6 @@ class RolesController extends AppController {
 
     // Used for the roles list, and for a JSON request by the Edit Events page (regular users need access)
     function index() {
-        $this->checkAuthorization(Configure::read('Privilege.Role.edit'));
         $this->set('roles', $this->Role->find('all'));
     }
 
