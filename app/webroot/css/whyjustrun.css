@@ -472,7 +472,7 @@ span.add-on.thin-control {
 }
 
 span.add-on.time-spacer {
-    min-width: intrinsic;
+    padding: 0;
 }
 
 input.time-segment {
