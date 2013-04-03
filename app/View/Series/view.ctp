@@ -4,7 +4,7 @@
             <i class="icon-cog icon-white"></i> Edit
         </a>
     </div>
-	<h1><?= $series["Series"]["name"] ?> <small><?= "Hosted by " . Configure::read("Club.acronym") ?></small></h1>
+    <h1><?= $series["Series"]["name"] ?> <small><?= "Hosted by " . Configure::read("Club.acronym") ?></small></h1>
 </header>
 <div class="row">
     <div class="span6">
@@ -30,3 +30,4 @@
         </div>
     </div>
 </div>
+

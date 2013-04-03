@@ -22,3 +22,4 @@
         <?= $this->Html->link('Register', '/users/register/', array('class' => 'btn btn-primary')) ?>
     </div>
 </div>
+

@@ -7,8 +7,8 @@ App::uses('AppController', 'Controller');
  */
 class ContentBlocksController extends AppController {
     public $components = array(
-        'RequestHandler'
-    );
+            'RequestHandler'
+            );
 
     function beforeFilter()
     {

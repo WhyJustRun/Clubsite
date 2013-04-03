@@ -68,7 +68,7 @@ $this->Form->unlockField('Event.lng');
 <?= $this->element('Events/edit_courses_organizers') ?>
 
 <div class="control-group">
-	<label class="control-label">Number of Participants</label>
+    <label class="control-label">Number of Participants</label>
     <div class="controls">
         <div>
             <?= $this->Form->input('number_of_participants', array('type' => 'number', 'min' => '0', 'max' => '4294967295', 'style' => 'width: 120px', 'div' => false, 'label' => false)) ?>
@@ -78,7 +78,7 @@ $this->Form->unlockField('Event.lng');
 </div>
 
 <div class="control-group">
-	<label class="control-label">Ranked</label>
+    <label class="control-label">Ranked</label>
     <div class="controls">
         <div>
             <?=$this->Form->input('is_ranked', array('type'=>'checkbox', 'style' => 'width: 30px', 'div' => false, 'label' => false, 'default'=> "1")); ?>
@@ -102,3 +102,4 @@ $("#EventEditForm").submit(function() {
     $(this).find('[name ^= "ko_unique"]').attr("name", null);
 });
 </script>
+

@@ -30,10 +30,10 @@
 Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 
 /**
-* ...and connect the rest of 'Pages' controller's urls.
-*/
+ * ...and connect the rest of 'Pages' controller's urls.
+ */
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-Router::connect('/Pages/*', array('controller' => 'pages', 'action' => 'display'));
+                         Router::connect('/Pages/*', array('controller' => 'pages', 'action' => 'display'));
 
 // JSON is needed for the jQuery FullCalendar plugin
 Router::parseExtensions('json', 'xml', 'embed');
@@ -41,7 +41,7 @@ Router::parseExtensions('json', 'xml', 'embed');
 CakePlugin::routes();
 
 /**
-* Load the CakePHP default routes. Remove this if you do not want to use
-* the built-in default routes.
-*/
+ * Load the CakePHP default routes. Remove this if you do not want to use
+ * the built-in default routes.
+                        */
 require CAKE . 'Config' . DS . 'routes.php';

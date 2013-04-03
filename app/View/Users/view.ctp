@@ -1,5 +1,5 @@
 <header class="page-header">
-	<h1><?= $user["User"]["name"] ?></h1>
+    <h1><?= $user["User"]["name"] ?></h1>
 </header>
 
 <div class="row">
@@ -36,10 +36,10 @@
         echo '<h2>Send message</h2>
         <p>Your email address will be revealed to the receiver so they can reply.</p>';
         echo $this->Form->create('User');
-      	echo $this->Form->hidden('id', array('value' => $user['User']['id']));
-      	echo $this->Form->textarea('message', array('class' => 'input-xlarge', 'rows' => 5, 'data-validate' => 'validate(required)'));
-      	echo $this->Recaptcha->display();
-      	echo $this->Form->end('Send');
+        echo $this->Form->hidden('id', array('value' => $user['User']['id']));
+        echo $this->Form->textarea('message', array('class' => 'input-xlarge', 'rows' => 5, 'data-validate' => 'validate(required)'));
+        echo $this->Recaptcha->display();
+        echo $this->Form->end('Send');
     } else if(!empty($user['User']['email']) && $this->Session->read('Auth.User.id') != $user['User']['id']) {
         // Not logged in
         echo '<h2>Send message</h2>
@@ -51,3 +51,4 @@
     } ?>
     </div>
 </div>
+

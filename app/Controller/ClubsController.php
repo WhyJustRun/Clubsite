@@ -19,7 +19,7 @@ class ClubsController extends AppController {
             $this->set('clubs', $clubs);
         }
     }
-    
+
     function edit() {
         $this->checkAuthorization(Configure::read('Privilege.Club.edit'));
         $this->set('title_for_layout', 'Edit Club Information');
@@ -32,7 +32,7 @@ class ClubsController extends AppController {
                 $this->redirect('/pages/admin');
             }
         }
-        
+
         $club = $this->Club->find('first', array('recursive' => -1, 'conditions' => array('Club.id' => Configure::read('Club.id'))));
         $club['Club']['facebook_page_id'] = $this->Facebook->transformPageIDToURL($club['Club']['facebook_page_id']);
         $this->data = $club;

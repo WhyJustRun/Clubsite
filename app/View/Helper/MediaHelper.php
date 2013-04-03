@@ -6,12 +6,12 @@ class MediaHelper extends Helper {
         'Map' => '/maps/rendering/',
         'Result' => '/events/rendering/',
     );
-    
+
     public function image($type, $id, $thumbnail = false, $options = array()) {
-    	$options['data-2x-src'] = $this->url($type, $id, $thumbnail, true);
+        $options['data-2x-src'] = $this->url($type, $id, $thumbnail, true);
         return $this->Html->image($this->url($type, $id, $thumbnail), $options);
     }
-    
+
     public function linkedImage($type, $id, $thumbnail = false, $options = array(), $imageOptions = array()) {
         $options['escape'] = false;
         return $this->Html->link(
@@ -29,18 +29,18 @@ class MediaHelper extends Helper {
             $options
         );
     }
-    
+
     public function url($type, $id, $thumbnail = false, $hiDPI = false) {
-    	if ($hiDPI && $thumbnail) {
-    		$glue = "x";
-	    	$components = explode($glue, $thumbnail);
-		    $newComponents = array();
-		    foreach($components as $component) {
-			    $newComponents[] = intval($component) * 2;
-		    }
-		    
-		    $thumbnail = implode($glue, $newComponents);
-    	}
+        if ($hiDPI && $thumbnail) {
+            $glue = "x";
+            $components = explode($glue, $thumbnail);
+            $newComponents = array();
+            foreach($components as $component) {
+                $newComponents[] = intval($component) * 2;
+                    }
+
+                    $thumbnail = implode($glue, $newComponents);
+        }
 
         $endpoint = $this->endpoint($type);
         if($thumbnail) {
@@ -48,7 +48,7 @@ class MediaHelper extends Helper {
         }
         return $endpoint . $id;
     }
-    
+
     public function exists($type, $id, $thumbnail = false) {
         if(!$thumbnail) {
             $matches = glob(Configure::read("$type.dir").$id.".*");
@@ -63,14 +63,15 @@ class MediaHelper extends Helper {
             throw new Exception('Multiple matches for media resource.');
         }
     }
-    
+
     private function endpoint($type) {
         $endpoint = $this->endpoints[$type];
         if(!$endpoint) {
             throw new Exception('No endpoint found');
         }
-        
+
         return $endpoint;
     }
 }
 ?>
+

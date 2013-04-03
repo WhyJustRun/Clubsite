@@ -4,13 +4,13 @@ class CoursesController extends AppController {
     var $name = 'Courses';
 
     var $components = array(
-        'RequestHandler',
-        'Media' => array(
-            'type' => 'Course',
-            'allowedExts' => array('jpg', 'jpeg', 'gif', 'png', 'pdf'),
-            'thumbnailSizes' => array('100x150', '600x600')
-        )
-    );
+            'RequestHandler',
+            'Media' => array(
+                'type' => 'Course',
+                'allowedExts' => array('jpg', 'jpeg', 'gif', 'png', 'pdf'),
+                'thumbnailSizes' => array('100x150', '600x600')
+                )
+            );
 
     function beforeFilter()
     {
@@ -41,7 +41,7 @@ class CoursesController extends AppController {
         if(empty($userId)) {
             $userId = $registrant['id'];
         }
-        
+
         $user = $this->Course->Result->User->findById($userId);
         $course = $this->Course->Result->Course->findById($courseId);
 
@@ -70,8 +70,8 @@ class CoursesController extends AppController {
         $this->Session->setFlash("Registration successful!", "flash_success");
         $this->redirect("/events/view/".$course["Event"]["id"]);
     }
-    
-    
+
+
     // Can only unregister people you registered.
     function unregister($courseId, $userId = null) {
         $registrant = $this->Auth->user();
@@ -84,7 +84,7 @@ class CoursesController extends AppController {
         foreach($registeredUsers as $registeredUser) {
             array_push($registeredUsersList, $registeredUser['Result']['user_id']);
         }
-        
+
         if($registrant['id'] != $userId && !in_array($userId, $registeredUsersList)) {
             $this->redirect('/');
         }

@@ -29,19 +29,19 @@ class RolesController extends AppController {
         }
     }
     /*
-    We don't want dangling references to deleted roles
-    function delete() {
-    $this->checkAuthorization(Configure::read('Privilege.Role.delete'));
-    if(!empty($this->data)) {
-    if($this->Role->delete($this->data["Role"]["id"])){
-    $this->Session->setFlash('The role has been deleted.', "flash_success");
-    }
-    else {
-    $this->Session->setFlash('The role could not be deleted.');
-    }
-    $this->redirect('/roles/');
-    }
-    }
+       We don't want dangling references to deleted roles
+       function delete() {
+       $this->checkAuthorization(Configure::read('Privilege.Role.delete'));
+       if(!empty($this->data)) {
+       if($this->Role->delete($this->data["Role"]["id"])){
+       $this->Session->setFlash('The role has been deleted.', "flash_success");
+       }
+       else {
+       $this->Session->setFlash('The role could not be deleted.');
+       }
+       $this->redirect('/roles/');
+       }
+       }
      */
 }
 ?>

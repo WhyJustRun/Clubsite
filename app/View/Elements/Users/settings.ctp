@@ -15,3 +15,4 @@ echo $this->Form->input('password', array('label'=>'New Password', 'type'=>'pass
 echo $this->Form->input('new_password2', array('label'=>'New Password (confirm)', 'type'=>'password'));
 echo $this->Form->end('Save');
 ?>
+

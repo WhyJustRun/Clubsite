@@ -24,7 +24,7 @@
                 if(person != null) {
                     $("#PrivilegeUserId").val(person.id);
                 }
-        	});
+            });
         });
         </script>
         <?= $this->Form->input('group_id', array('class' => 'input-medium', 'label' => false, 'div' => false)) ?>
@@ -71,3 +71,4 @@
         </table>
     </div>
 </div>
+

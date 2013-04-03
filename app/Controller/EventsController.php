@@ -4,13 +4,13 @@ class EventsController extends AppController {
     var $name = 'Events';
 
     var $components = array(
-        'RequestHandler',
-        'Media' => array(
-            'type' => 'Event',
-            'allowedExts' => array('xml'),
-            'thumbnailSizes' => array('')
-        )
-    );
+            'RequestHandler',
+            'Media' => array(
+                'type' => 'Event',
+                'allowedExts' => array('xml'),
+                'thumbnailSizes' => array('')
+                )
+            );
     var $helpers = array("Time", "Geocode", "Form", "TimePlus", 'Leaflet', 'Session', 'Media');
 
     function beforeFilter() {
@@ -66,10 +66,10 @@ class EventsController extends AppController {
         if ($this->request->is('post')) {
             // Organizer data from JSON
             $this->_parseJson();
-            
+
             $this->request->data['Event']['date'] = $this->request->data['Event']['date']." ".$this->request->data['Event']['time'];
             unset($this->request->data['Event']['time']);
-            
+
             if(!empty($this->request->data['Event']['finish_date'])) {
                 $this->request->data['Event']['finish_date'] = $this->request->data['Event']['finish_date']." ".$this->request->data['Event']['finish_time'];
                 unset($this->request->data['Event']['finish_time']);
@@ -118,11 +118,11 @@ class EventsController extends AppController {
 
     function printableEntries($id) {
         $contain = array(
-            'Series', 
-            'Course' => array(
-                'Result' => array('User.name', 'User.id', 'User.username', 'User.si_number', 'User.is_member')
-            )
-        );
+                'Series', 
+                'Course' => array(
+                    'Result' => array('User.name', 'User.id', 'User.username', 'User.si_number', 'User.is_member')
+                    )
+                );
         $event = $this->Event->find('first', array('conditions' => array('Event.id' => $id), 'contain' => $contain));
         // Sort according to name
         $event["Course"] = @Set::sort($event["Course"], "{n}.Result.{s}.User.name", 'asc');
@@ -148,18 +148,18 @@ class EventsController extends AppController {
 
     function view($id = null) {
         $contain = array(
-            'Series', 
-            'Map', 
-            'EventClassification',
-            'Organizer' => array(
-                'User' => array(
-                    'fields' => array('id', 'name', 'username')
-                ), 'Role'
-            ), 
-            'Course' => array(
-                'Result' => array('Registrant.id', 'User.name', 'User.id', 'User.username', 'User.si_number')
-            )
-        );
+                'Series', 
+                'Map', 
+                'EventClassification',
+                'Organizer' => array(
+                    'User' => array(
+                        'fields' => array('id', 'name', 'username')
+                        ), 'Role'
+                    ), 
+                'Course' => array(
+                    'Result' => array('Registrant.id', 'User.name', 'User.id', 'User.username', 'User.si_number')
+                    )
+                );
         $event = $this->Event->find('first', array('conditions' => array('Event.id' => $id), 'contain' => $contain));
         $user = AuthComponent::user();
 
@@ -220,7 +220,7 @@ class EventsController extends AppController {
                 if(!in_array($course->id, $allowedCourses)) {
                     $this->redirect("/");
                 }
-                
+
                 $updatedResults = array();
                 foreach($course->results as $result) {
                     $processedResult = array();
@@ -244,7 +244,7 @@ class EventsController extends AppController {
                     }
                     array_push($updatedResults, $processedResult);					
                 }
-                
+
                 if(empty($updatedResults) || $this->Event->Course->Result->saveAll($updatedResults)) {
                     $courseFromDatabase = $this->Event->Course->findById($course->id);
                     if ($courseFromDatabase['Event']['is_ranked'] && !($courseFromDatabase['Course']['is_score_o'])) {

@@ -11,3 +11,4 @@ $(window).resize(function () {
     map.setView(new L.LatLng(<?= $event["Event"]["lat"]?>, <?= $event["Event"]["lng"] ?>), 14);
 });
 </script>
+

@@ -3,92 +3,92 @@ var availableRoles = [];
 
 // Load up data from the server
 $.getJSON('/roles/index.json', function(data) {
-	for(var i = 0; i < data.length; i++) {
-		var availableRole = {};
-		availableRole.id = data[i].id;
-		availableRole.name = data[i].name;
-		availableRoles.push(availableRole);
-	}
+    for(var i = 0; i < data.length; i++) {
+        var availableRole = {};
+        availableRole.id = data[i].id;
+        availableRole.name = data[i].name;
+        availableRoles.push(availableRole);
+    }
 
-	$(document).ready(function(){
-		finishLoadingOrganizers();
-	});
+    $(document).ready(function(){
+        finishLoadingOrganizers();
+    });
 });
 
 var roleById = function(id) {
-	for(var i = 0; i < availableRoles.length; i++) {
-		if(availableRoles[i].id == id) {
-			return availableRoles[i];
-		}
-	}
+    for(var i = 0; i < availableRoles.length; i++) {
+        if(availableRoles[i].id == id) {
+            return availableRoles[i];
+        }
+    }
 }
 
 var finishLoadingOrganizers = function() {
-	var Course = function(id, name, distance, climb, isScoreO, description) {
-		this.id = id;
-		this.name = ko.observable(name);
-		this.distance = ko.observable(distance);
-		this.climb = ko.observable(climb);
-		this.isScoreO = ko.observable(isScoreO);
-		this.description = ko.observable(description);
-		this.remove = function() {
-			// Only need to confirm for deletion if the course hasn't been created locally
-			if(this.id != null) {
-				if(confirm("Are you sure you want to delete this course? This will also delete any results associated to the course.")) {
-					$.ajax('/courses/delete/' + this.id);
-					viewModel.courses.remove(this);
-				}
-			} else {
-				viewModel.courses.remove(this);
-			}
-		}
-	}
-		
-	var Organizer = function(id, name, roleId) {
-		this.id = id;
-		this.name = ko.observable(name);
-		this.availableRoles = ko.observableArray(availableRoles);
-		this.role = ko.observable(roleById(roleId));
-		this.remove = function() {
-			viewModel.organizers.remove(this);
-		}
-	}
-	var viewModel = {
-		organizers: ko.observableArray([]),
-		addOrganizer: function(id, name, roleId) {
-			this.organizers.push(new Organizer(id, name, roleId));
-		},
-		courses: ko.observableArray([]),
-		addCourse: function(id, name, distance, climb, isScoreO, description) {
-			this.courses.push(new Course(id, name, distance, climb, isScoreO, description));   
-		},
-		addNewCourse: function() {
-			this.courses.push(new Course(null, null, null, null, false, null));
-		}
-	}
+    var Course = function(id, name, distance, climb, isScoreO, description) {
+        this.id = id;
+        this.name = ko.observable(name);
+        this.distance = ko.observable(distance);
+        this.climb = ko.observable(climb);
+        this.isScoreO = ko.observable(isScoreO);
+        this.description = ko.observable(description);
+        this.remove = function() {
+            // Only need to confirm for deletion if the course hasn't been created locally
+            if(this.id != null) {
+                if(confirm("Are you sure you want to delete this course? This will also delete any results associated to the course.")) {
+                    $.ajax('/courses/delete/' + this.id);
+                    viewModel.courses.remove(this);
+                }
+            } else {
+                viewModel.courses.remove(this);
+            }
+        }
+    }
+        
+    var Organizer = function(id, name, roleId) {
+        this.id = id;
+        this.name = ko.observable(name);
+        this.availableRoles = ko.observableArray(availableRoles);
+        this.role = ko.observable(roleById(roleId));
+        this.remove = function() {
+            viewModel.organizers.remove(this);
+        }
+    }
+    var viewModel = {
+        organizers: ko.observableArray([]),
+        addOrganizer: function(id, name, roleId) {
+            this.organizers.push(new Organizer(id, name, roleId));
+        },
+        courses: ko.observableArray([]),
+        addCourse: function(id, name, distance, climb, isScoreO, description) {
+            this.courses.push(new Course(id, name, distance, climb, isScoreO, description));   
+        },
+        addNewCourse: function() {
+            this.courses.push(new Course(null, null, null, null, false, null));
+        }
+    }
 
-	var organizerJson = $("#EventOrganizers").val();
-	var originalOrganizers = JSON.parse(organizerJson);
-	for(var i = 0; i < originalOrganizers.length; i++) {
-		var originalOrganizer = originalOrganizers[i];
-		viewModel.addOrganizer(originalOrganizer["id"], originalOrganizer["name"], originalOrganizer["role"]["id"]);
-	}
-		
-	var courseJson = $("#EventCourses").val();
-	var originalCourses = JSON.parse(courseJson);
-	for(var i = 0; i < originalCourses.length; i++) {
-		var originalCourse = originalCourses[i];
-		viewModel.addCourse(originalCourse["id"], originalCourse["name"], originalCourse["distance"], originalCourse["climb"], originalCourse['isScoreO'],  originalCourse["description"]);
-	}
+    var organizerJson = $("#EventOrganizers").val();
+    var originalOrganizers = JSON.parse(organizerJson);
+    for(var i = 0; i < originalOrganizers.length; i++) {
+        var originalOrganizer = originalOrganizers[i];
+        viewModel.addOrganizer(originalOrganizer["id"], originalOrganizer["name"], originalOrganizer["role"]["id"]);
+    }
+        
+    var courseJson = $("#EventCourses").val();
+    var originalCourses = JSON.parse(courseJson);
+    for(var i = 0; i < originalCourses.length; i++) {
+        var originalCourse = originalCourses[i];
+        viewModel.addCourse(originalCourse["id"], originalCourse["name"], originalCourse["distance"], originalCourse["climb"], originalCourse['isScoreO'],  originalCourse["description"]);
+    }
     $(function() {
         orienteerAppPersonPicker('#organizers', { maintainInput: false }, function(person) {
             if(person != null) {
                 $('#organizers').val(null);
                 viewModel.addOrganizer(person.id, person.name);
             }
-    	});
+        });
     });
-	ko.applyBindings(viewModel);
+    ko.applyBindings(viewModel);
 }
 </script>
 <div id='edit-organizers'>
@@ -154,3 +154,4 @@ var finishLoadingOrganizers = function() {
         </div>
     </fieldset>
 </div>
+

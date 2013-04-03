@@ -3,12 +3,12 @@ App::uses('AppModel', 'Model');
 
 class EventClassification extends AppModel {
 
-	public $displayField = 'name';
+    public $displayField = 'name';
     public $clubSpecific = false;
-    
-	public $hasMany = array(
-		'Event'
-	);
+
+    public $hasMany = array(
+            'Event'
+            );
 
     // Returns a formated list of all classifications in the form:
     // id => "name (description)"

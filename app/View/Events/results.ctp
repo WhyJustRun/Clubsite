@@ -1,7 +1,7 @@
 <header>
-	<h1 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Event"]["name"]; ?></h1>
-	<h2 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Series"]["name"] ?></h2>
-	<h3 class="event-header"><?php $date = new DateTime($event["Event"]["date"]); echo $date->format("F jS Y g:ia"); ?></h3>
+    <h1 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Event"]["name"]; ?></h1>
+    <h2 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Series"]["name"] ?></h2>
+    <h3 class="event-header"><?php $date = new DateTime($event["Event"]["date"]); echo $date->format("F jS Y g:ia"); ?></h3>
 </header>
 
 <?php if($event["Event"]["results_posted"] === '0' ) { ?>
@@ -19,3 +19,4 @@
     </div>
 </div>
 <?php } ?>
+

@@ -4,10 +4,10 @@ class AppController extends Controller {
     // AppController's components are NOT merged with defaults,
     // so session component is lost if it's not included here!
     var $components = array('Auth', 'Session', 'Security' => array(
-        'csrfExpires' => '+12 hours',
-        'csrfUseOnce' => false,
-        'unlockedFields' => array('leaflet-base-layers'), // Leaflet includes a radio input in IE in POST requests if it is within the form.
-    ));
+                'csrfExpires' => '+12 hours',
+                'csrfUseOnce' => false,
+                'unlockedFields' => array('leaflet-base-layers'), // Leaflet includes a radio input in IE in POST requests if it is within the form.
+                ));
     var $helpers = array('Session', 'Html', 'Menu', 'ContentBlock');
 
 
@@ -36,11 +36,11 @@ class AppController extends Controller {
             $this->layout = Configure::read('Club.layout');
         }
     }
-    
+
     function blackholed($type) {
-	    CakeLog::error("Request was blackholed of type: $type");
-	    $this->Session->setFlash('An error occurred, email: support@whyjustrun.ca.');
-	    $this->redirect('/');
+        CakeLog::error("Request was blackholed of type: $type");
+        $this->Session->setFlash('An error occurred, email: support@whyjustrun.ca.');
+        $this->redirect('/');
     }
 
     function setClubResources() {

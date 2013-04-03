@@ -1,7 +1,7 @@
 <header>
     <h1>Memberships</h1>
 </header>
-	<div class="column span-8">
+    <div class="column span-8">
         <div class="column-box">
             <?php 
             $date = new DateTime();
@@ -16,15 +16,15 @@
             //echo $this->Form->end(array('label' => 'Add membership', 'div' => 'right submit padded'));?>
         </div>
     </div>
-	<script type="text/javascript">
-	$(function() {
-		$('#MembershipCreated').datetimepicker({
-			dateFormat: 'yy-mm-dd',
-			timeFormat: 'hh:mm:ss',
-		});
-	});
+    <script type="text/javascript">
+    $(function() {
+        $('#MembershipCreated').datetimepicker({
+            dateFormat: 'yy-mm-dd',
+            timeFormat: 'hh:mm:ss',
+        });
+    });
 
-	</script>
+    </script>
 
     <div class="column span-16 last">
         <div class="results-list">
@@ -68,3 +68,4 @@
             </table>
         </div>
     </div>
+

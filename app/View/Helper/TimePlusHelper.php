@@ -1,8 +1,8 @@
 <?php
 /**
-* Time helper that is smart about timezones, wraps the CakePHP time helper
-* Can add other functions from Time as needed
-*/
+ * Time helper that is smart about timezones, wraps the CakePHP time helper
+ * Can add other functions from Time as needed
+ */
 class TimePlusHelper extends AppHelper {
     var $helpers = array("Time");
 
@@ -20,16 +20,16 @@ class TimePlusHelper extends AppHelper {
     }
 
     /**
-    * Converts a date string to UTC of form 2008-01-21 00:00:00
-    */
+     * Converts a date string to UTC of form 2008-01-21 00:00:00
+     */
     function toSQL($date_string) {
         $offset = -1 * $this->_computeOffset(new DateTime($date_string));
         return $this->Time->format('Y-m-d H:i:s', $date_string, false, $offset);
     }
 
     /**
-    * Returns the current time in SQL format (2008-01-21 00:00:00)
-    */
+     * Returns the current time in SQL format (2008-01-21 00:00:00)
+     */
     function nowSQL() {
         $time = new DateTime();
         $offset = $this->_computeOffset($time);
@@ -37,8 +37,8 @@ class TimePlusHelper extends AppHelper {
     }
 
     /**
-    * Converts a date string from UTC SQL returning the same form (2008-01-21 00:00:00)
-    */
+     * Converts a date string from UTC SQL returning the same form (2008-01-21 00:00:00)
+     */
     function fromSQL($date_string) {
         $offset = $this->_computeOffset(new DateTime($date_string));
         return $this->Time->format('Y-m-d H:i:s', $date_string, false, $offset);
@@ -50,8 +50,8 @@ class TimePlusHelper extends AppHelper {
     }
 
     /**
-    * Time offset in hours returned
-    */
+     * Time offset in hours returned
+     */
     function _computeOffset($date) {
         $clubTimezone = Configure::read("Club.timezone");
         // Could look at user timezone here
@@ -66,7 +66,7 @@ class TimePlusHelper extends AppHelper {
 
         return $hours . ":" . $minutes . ":" . $seconds;
     }
-    
+
     function formattedResultTime($seconds) {
         if ($seconds === null) return null;
         $hours = floor($seconds / 3600);
@@ -74,11 +74,12 @@ class TimePlusHelper extends AppHelper {
         $seconds = $seconds - $hours * 3600 - $minutes * 60;
         return sprintf("%d", $hours).":".sprintf("%02d", $minutes).":".sprintf("%02d", $seconds);
     }
-    
+
     function ago($datetime) {
-       return "<time class=\"timeago\" datetime=\"".$datetime->format(DateTime::ISO8601)."\">
-                ".$datetime->format(DateTime::ISO8601)."
+        return "<time class=\"timeago\" datetime=\"".$datetime->format(DateTime::ISO8601)."\">
+            ".$datetime->format(DateTime::ISO8601)."
             </time>";
     }
 }
 ?>
+

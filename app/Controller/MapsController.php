@@ -4,14 +4,14 @@ class MapsController extends AppController {
     var $name = 'Maps';
 
     var $components = array(
-        'RequestHandler',
-        'Media' => array(
-            'type' => 'Map',
-            'allowedExts' => array('jpg', 'jpeg', 'gif', 'png'),
-            'thumbnailSizes' => array('400x600', '50x50'),
-            'thumbnailExt' => 'gif'
-        )
-    );
+            'RequestHandler',
+            'Media' => array(
+                'type' => 'Map',
+                'allowedExts' => array('jpg', 'jpeg', 'gif', 'png'),
+                'thumbnailSizes' => array('400x600', '50x50'),
+                'thumbnailExt' => 'gif'
+                )
+            );
 
     var $helpers = array("Time", "Geocode", "Form", "Leaflet", 'Media', 'Link');
 
@@ -68,15 +68,15 @@ class MapsController extends AppController {
             $sys = system($command);
 
             $params = array(
-                'id' => $file,
-                'name' => basename($map["Map"]["repository_path"], ".ocd"),
-                'download' => true,
-                'extension' => 'ocd',
-                'mimeType' => array(
-                    'ocad' => 'application/octet-stream'
-                ),
-                'path' => '/'
-            );
+                    'id' => $file,
+                    'name' => basename($map["Map"]["repository_path"], ".ocd"),
+                    'download' => true,
+                    'extension' => 'ocd',
+                    'mimeType' => array(
+                        'ocad' => 'application/octet-stream'
+                        ),
+                    'path' => '/'
+                    );
             $this->set($params);
         }
     }

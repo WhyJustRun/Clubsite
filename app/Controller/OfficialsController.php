@@ -4,13 +4,13 @@ class OfficialsController extends AppController {
     var $name = 'Officials';
 
     var $components = array(
-        'RequestHandler',
-        'Media' => array(
-            'type' => 'Event',
-            'allowedExts' => array('xml'),
-            'thumbnailSizes' => array('')
-        )
-    );
+            'RequestHandler',
+            'Media' => array(
+                'type' => 'Event',
+                'allowedExts' => array('xml'),
+                'thumbnailSizes' => array('')
+                )
+            );
     var $helpers = array("Time", "Geocode", "Form", "TimePlus", 'Leaflet', 'Session', 'Media');
 
     function beforeFilter() {
@@ -54,12 +54,12 @@ class OfficialsController extends AppController {
     function delete() {
         $this->checkAuthorization(Configure::read('Privilege.Official.delete'));
         if(!empty($this->data)) {
-           if($this->Official->delete($this->data["Official"]["id"])) {
-               $this->Session->setFlash('The official was deleted.', 'flash_success');
-           }
-           else {
-               $this->Session->setFlash('The official could not be deleted.');
-           }
+            if($this->Official->delete($this->data["Official"]["id"])) {
+                $this->Session->setFlash('The official was deleted.', 'flash_success');
+            }
+            else {
+                $this->Session->setFlash('The official could not be deleted.');
+            }
         }
         else {
             $this->Session->setFlash('No official id provided.');

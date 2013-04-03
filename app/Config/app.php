@@ -5,21 +5,21 @@
 Configure::write("Event.numBlankEntries", 5);
 
 Configure::write("Result.statuses", array(
-    'ok' => 'Finished',
-    'inactive' => 'Inactive',
-    'did_not_start' => 'DNS',
-    'active' => 'In Progress',
-    'finished' => 'Unofficial',
-    'mis_punch' => 'MP',
-    'did_not_finish' => 'DNF',
-    'disqualified' => 'DSQ',
-    'not_competing' => 'NC',
-    'sport_withdrawal' => 'Sport Withdrawal',
-    'over_time' => 'Over Time',
-    'moved' => 'Moved',
-    'moved_up' => 'Moved Up',
-    'cancelled' => 'Cancelled'
-));
+            'ok' => 'Finished',
+            'inactive' => 'Inactive',
+            'did_not_start' => 'DNS',
+            'active' => 'In Progress',
+            'finished' => 'Unofficial',
+            'mis_punch' => 'MP',
+            'did_not_finish' => 'DNF',
+            'disqualified' => 'DSQ',
+            'not_competing' => 'NC',
+            'sport_withdrawal' => 'Sport Withdrawal',
+            'over_time' => 'Over Time',
+            'moved' => 'Moved',
+            'moved_up' => 'Moved Up',
+            'cancelled' => 'Cancelled'
+            ));
 
 Configure::write('Club.nearby.max', 3);
 

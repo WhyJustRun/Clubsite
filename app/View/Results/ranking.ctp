@@ -65,3 +65,4 @@ foreach($rankingsAll as $ranking) {
      </table>
  </div>
 </div>
+

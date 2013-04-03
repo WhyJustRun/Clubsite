@@ -48,3 +48,4 @@ else {?>
 No courses defined
     
 <?}?>
+

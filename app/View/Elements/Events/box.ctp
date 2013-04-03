@@ -22,3 +22,4 @@ $hasPicture = $this->Media->exists("Map", $mapId, "60x60");
         </div>
     </a>
 </div>
+

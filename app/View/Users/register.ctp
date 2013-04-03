@@ -16,3 +16,4 @@ echo $this->Recaptcha->display();
 echo "</div></fieldset>";
 echo $this->Form->end(array('label' => 'Register', 'div' => array('class' => 'form-actions')));
 ?>
+

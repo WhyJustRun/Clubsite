@@ -232,3 +232,4 @@ $(document).ready(function() {
           <?php echo $this->Form->input('competitorResults', array('label' => '', 'placeholder' => 'Competitor Name')); ?>
     </div>
 </div>
+

@@ -12,3 +12,4 @@
 <div id="page-resource-<?= $page['Page']['id'] ?>" class="page-resource">
 <?= $page["Page"]["content"] ?>
 </div>
+

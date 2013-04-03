@@ -25,3 +25,4 @@ as thumbnails also have to be generated. Uploading will overwrite any existing m
 <? } else { ?>
 <p>No courses defined.</p>
 <? } ?>
+

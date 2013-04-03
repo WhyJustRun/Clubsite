@@ -13,3 +13,4 @@
 <li>July 15: Russell: Added token based forgot account system</li>
 <li>July 15: Russell: Sessions persist across different clubs</li>
 </ul>
+

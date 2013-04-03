@@ -140,7 +140,7 @@ class PagesController extends AppController {
 
         $this->render('edit');
     }
-    
+
     public function delete($id) {
         $this->checkAuthorization(Configure::read('Privilege.Page.delete'));
         $this->Page->delete($id);

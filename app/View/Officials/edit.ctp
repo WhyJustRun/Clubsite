@@ -11,7 +11,7 @@
                 if(person != null) {
                     $("#PrivilegeUserId").val(person.id);
                 }
-        	});
+            });
         });
         </script>
 <?
@@ -20,4 +20,5 @@ echo $this->Form->input('date', array('type' => 'text', 'dateFormat'=>'DMY', 'ti
 
 ?>
 <?= $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'form-actions'))) ?>
+
 

@@ -26,3 +26,4 @@ if($this->Session->check('Auth.User.id') && $this->Session->read("Club.".Configu
     </fieldset>
     <?= $this->Form->end(array('label' => 'Add', 'class' => 'btn btn-primary', 'div' => array('class' => 'form-actions'))) ?>
 <?php } ?>
+

@@ -13,67 +13,68 @@
     <h1>Maps</h1>
 </div>
 <div class="row">
-	<div class="column span4">
-	    <?= $this->ContentBlock->render('general_maps_information', null, '<hr class="divider" />') ?>
-	</div>
-	<div class="column span8">
-    	<?php
-    	$minLat = 90;
-    	$maxLat = -90;
-    	$minLng = 180;
-    	$maxLng = -180;
+    <div class="column span4">
+        <?= $this->ContentBlock->render('general_maps_information', null, '<hr class="divider" />') ?>
+    </div>
+    <div class="column span8">
+        <?php
+        $minLat = 90;
+        $maxLat = -90;
+        $minLng = 180;
+        $maxLng = -180;
     
-    	$contentsMinWidth = 230;
-    	$delta = 0.01; // boundary padding in degrees
+        $contentsMinWidth = 230;
+        $delta = 0.01; // boundary padding in degrees
     
-    	$options = array();
-    	$options['markers'] = array();
+        $options = array();
+        $options['markers'] = array();
     
-    	foreach($maps as $map) {
-    		$minLat = min($minLat, $map["Map"]["lat"]);
-    		$maxLat = max($maxLat, $map["Map"]["lat"]);
-    		$minLng = min($minLng, $map["Map"]["lng"]);
-    		$maxLng = max($maxLng, $map["Map"]["lng"]);
+        foreach($maps as $map) {
+            $minLat = min($minLat, $map["Map"]["lat"]);
+            $maxLat = max($maxLat, $map["Map"]["lat"]);
+            $minLng = min($minLng, $map["Map"]["lng"]);
+            $maxLng = max($maxLng, $map["Map"]["lng"]);
     
-    		if($this->Media->exists('Map', $map["Map"]["id"], '60x60')) {
-    		   $image = "<br>".$this->Media->image("Map", $map["Map"]["id"], '60x60', array('onload' => 'swapHiDPIImages();'));
-    		} else {
-    		   $image = null;
-    		}
-    	
-    	    $content = '<h3>' . $map["Map"]["name"] . '</h3>' . ' (<a href="/maps/view/' . $map["Map"]["id"] . '">More info</a>)' . $image;
+            if($this->Media->exists('Map', $map["Map"]["id"], '60x60')) {
+               $image = "<br>".$this->Media->image("Map", $map["Map"]["id"], '60x60', array('onload' => 'swapHiDPIImages();'));
+            } else {
+               $image = null;
+            }
+        
+            $content = '<h3>' . $map["Map"]["name"] . '</h3>' . ' (<a href="/maps/view/' . $map["Map"]["id"] . '">More info</a>)' . $image;
     
-    		if($map["Map"]["map_standard_id"] == 1) {
-    			$iconUrl = "/img/leaflet/greenmarker.png";
-    		}
-    		else {
-    			$iconUrl = "/img/leaflet/redmarker.png";
-    		}
+            if($map["Map"]["map_standard_id"] == 1) {
+                $iconUrl = "/img/leaflet/greenmarker.png";
+            }
+            else {
+                $iconUrl = "/img/leaflet/redmarker.png";
+            }
     
-    		$marker = array();
-    		$marker['lat'] = $map["Map"]["lat"];
-    		$marker['lng'] = $map["Map"]["lng"];
-    		$marker['content'] = $content;
-    		$marker['content-min-width'] = $contentsMinWidth;
-    		$marker['icon-url'] = $iconUrl;
-    		$marker['icon-width'] = 12;
-    		$marker['icon-height'] = 20;
-    		$marker['shadow-width'] = 20;
-    		$marker['shadow-height'] = 20;
-    		array_push($options['markers'], $marker);
-    	}
+            $marker = array();
+            $marker['lat'] = $map["Map"]["lat"];
+            $marker['lng'] = $map["Map"]["lng"];
+            $marker['content'] = $content;
+            $marker['content-min-width'] = $contentsMinWidth;
+            $marker['icon-url'] = $iconUrl;
+            $marker['icon-width'] = 12;
+            $marker['icon-height'] = 20;
+            $marker['shadow-width'] = 20;
+            $marker['shadow-height'] = 20;
+            array_push($options['markers'], $marker);
+        }
     
-    	$options['map'] = array();
-    	$options['div'] = array();
-    	$options['div']['height'] = '700px';
-    	$options['map']['bounds']['north'] = $maxLat + $delta;
-    	$options['map']['bounds']['south'] = $minLat - $delta;
-    	$options['map']['bounds']['east'] = $maxLng + $delta;
-    	$options['map']['bounds']['west'] = $minLng - $delta;
+        $options['map'] = array();
+        $options['div'] = array();
+        $options['div']['height'] = '700px';
+        $options['map']['bounds']['north'] = $maxLat + $delta;
+        $options['map']['bounds']['south'] = $minLat - $delta;
+        $options['map']['bounds']['east'] = $maxLng + $delta;
+        $options['map']['bounds']['west'] = $minLng - $delta;
     
-    	echo $this->Leaflet->map($options);
-    	?>
-	    <img src="/img/leaflet/redmarker.png"> Sprint maps (ISSOM)
-	    <img src="/img/leaflet/greenmarker.png"> Other maps (ISOM)
-	</div>
+        echo $this->Leaflet->map($options);
+        ?>
+        <img src="/img/leaflet/redmarker.png"> Sprint maps (ISSOM)
+        <img src="/img/leaflet/greenmarker.png"> Other maps (ISOM)
+    </div>
 </div>
+

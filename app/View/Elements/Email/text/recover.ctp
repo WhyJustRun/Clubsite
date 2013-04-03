@@ -13,3 +13,4 @@ support. You can log in to change your password
 at this address:
 
 <?php echo Router::url(array('controller' => 'users', 'action' => 'login'), true); ?>
+

@@ -21,3 +21,4 @@ echo $this->Form->input('password_confirm',array('type' => 'password', 'div' => 
 echo $this->Form->hidden('token', array('value' => $token));
 echo $this->Form->end(array('label' => 'Sign in', 'class' => 'btn btn-primary', 'div' => array('class' => 'form-actions')));
 ?>
+

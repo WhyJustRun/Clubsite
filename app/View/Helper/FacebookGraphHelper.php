@@ -13,29 +13,29 @@ class FacebookGraphHelper extends AppHelper {
     function __construct($view) {
         $config = Configure::read('Facebook');
         $this->facebook = new Facebook(array(
-          'appId'  => $config['app']['id'],
-          'secret' => $config['app']['secret']
+            'appId'  => $config['app']['id'],
+            'secret' => $config['app']['secret']
         ));
         parent::__construct($view);
     }
-    
+
     function like($pageID) {
         return '<div class="facebook">
-                		<div id="fb-root"></div>
-                    <script>(function(d, s, id) {
-                      var js, fjs = d.getElementsByTagName(s)[0];
-                      if (d.getElementById(id)) return;
-                      js = d.createElement(s); js.id = id;
-                      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-                      fjs.parentNode.insertBefore(js, fjs);
+            <div id="fb-root"></div>
+            <script>(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+fjs.parentNode.insertBefore(js, fjs);
                     }(document, \'script\', \'facebook-jssdk\'));</script>
-                    <div class="fb-like-box" data-href="'.$pageID.'" data-width="292" data-show-faces="false" data-stream="false" data-header="false"></div>
-      </div>';
+                        <div class="fb-like-box" data-href="'.$pageID.'" data-width="292" data-show-faces="false" data-stream="false" data-header="false"></div>
+                        </div>';
     }
-    
+
     /**
-    * Displays a facebook feed (fetches feed config from app config)
-    */
+     * Displays a facebook feed (fetches feed config from app config)
+     */
     function feed($pageID, $options) {
         $key = "facebook_feed_${pageID}";
         $html = Cache::read($key, $this->cacheStore);
@@ -49,7 +49,7 @@ class FacebookGraphHelper extends AppHelper {
         } catch(Exception $e) {
             return "<p>News is currently unavailable due to a connectivity issue with Facebook. It will be back soon.</p>";
         }
-        
+
         $html = '';
         $i=0;
         $maxItems = empty($options['limit']) ? 5 : $options['limit'];
@@ -61,20 +61,20 @@ class FacebookGraphHelper extends AppHelper {
                 } else {
                     $news['picture-link'] = $news['link'];
                 }
-                
+
                 $html .= '<div class="news-item">
                     <div class="pull-left news-image">
-                        <a target="_blank" href="'.$news['picture-link'].'"><img width="100%" src="'.$news['picture'].'" /></a>
+                    <a target="_blank" href="'.$news['picture-link'].'"><img width="100%" src="'.$news['picture'].'" /></a>
                     </div>
                     <div class="news-content">';
                 $html .= $news['message'].'<br/>';
                 $html .= "<div class='pull-right news-time'>
                     Posted <time class='timeago' datetime='${news['created_time']}' title='${news['created_time']}'></time>
-                </div>";
+                    </div>";
                 $html .= !empty($news['link']) ? '<a class="news-link" href="'.$news['link'].'" target="_blank">More…</a>' : null;
                 $html .= '</div></div>';
                 $i++;
-                
+
                 if($i === $maxItems) break;
             }
         }
@@ -86,3 +86,4 @@ class FacebookGraphHelper extends AppHelper {
 }
 
 ?>
+

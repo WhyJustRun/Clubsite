@@ -35,10 +35,10 @@ App::uses('Model', 'Model');
  */
 class AppModel extends Model {
     protected $clubSpecific = true;
-    
+
     /**
-    * Select data only for this club
-    */
+     * Select data only for this club
+     */
     function beforeFind($queryData) {
         if($this->clubSpecific) {
             $key = $this->name.".club_id";
@@ -55,50 +55,50 @@ class AppModel extends Model {
         }
         return $queryData;
     }
-    
-	/**
-	* Convert date fields to/from UTC seamlessly!
-	* Extended from: http://stackoverflow.com/questions/3775038/converting-dates-between-timezones-in-appmodel-afterfind-cakephp
-	*/
-	function afterFind($results, $primary){
-		// Only bother converting if the local timezone is set.
-		$from = new DateTimeZone("UTC");
-		$to = Configure::read("Club.timezone");
-		if($primary && $to)
-			$this->replaceDateRecursive($results, $from, $to);
-		return $results;
-	}
 
-	function beforeSave() {
-		$from = Configure::read("Club.timezone");
-		$to = new DateTimeZone("UTC");
-		if($from)
-			$this->replaceDateRecursive($this->data, $from, $to);
+    /**
+     * Convert date fields to/from UTC seamlessly!
+     * Extended from: http://stackoverflow.com/questions/3775038/converting-dates-between-timezones-in-appmodel-afterfind-cakephp
+     */
+    function afterFind($results, $primary){
+        // Only bother converting if the local timezone is set.
+        $from = new DateTimeZone("UTC");
+        $to = Configure::read("Club.timezone");
+        if($primary && $to)
+            $this->replaceDateRecursive($results, $from, $to);
+        return $results;
+    }
+
+    function beforeSave() {
+        $from = Configure::read("Club.timezone");
+        $to = new DateTimeZone("UTC");
+        if($from)
+            $this->replaceDateRecursive($this->data, $from, $to);
         if($this->clubSpecific && empty($this->data[$this->name]['club_id'])) {
             $this->data[$this->name]['club_id'] = Configure::read("Club.id");
         }
-		return true;
-	}
+        return true;
+    }
 
-	function replaceDateRecursive(&$results, $from, $to){
-		foreach($results as $key => &$value){
-			if(is_array($value)){
-				$this->replaceDateRecursive($value, $from, $to);
-			}
-			else if($key === 'date'){
-				// Set unconverted date, useful for integrations that want UTC.
-				$results['utc_date'] = $value;
-				$value = $this->convertDate($value, $from, $to);
-			} else if($key === 'finish_date' && !empty($value)){
-				$results['utc_finish_date'] = $value;
-				$value = $this->convertDate($value, $from, $to);
-			}
-		}
-	}
+    function replaceDateRecursive(&$results, $from, $to){
+        foreach($results as $key => &$value){
+            if(is_array($value)){
+                $this->replaceDateRecursive($value, $from, $to);
+            }
+            else if($key === 'date'){
+                // Set unconverted date, useful for integrations that want UTC.
+                $results['utc_date'] = $value;
+                $value = $this->convertDate($value, $from, $to);
+            } else if($key === 'finish_date' && !empty($value)){
+                $results['utc_finish_date'] = $value;
+                $value = $this->convertDate($value, $from, $to);
+            }
+        }
+    }
 
-	function convertDate($date_string, $from, $to){
-		$date = new DateTime($date_string, $from);
-		$date->setTimezone($to);
-		return $date->format('Y-m-d H:i:s');
-	}
+    function convertDate($date_string, $from, $to){
+        $date = new DateTime($date_string, $from);
+        $date->setTimezone($to);
+        return $date->format('Y-m-d H:i:s');
+    }
 }

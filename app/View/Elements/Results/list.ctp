@@ -8,28 +8,28 @@ $statusTable['ok'] = '';
 if(!empty($results)) { ?>
     <table class="table table-striped table-bordered table-condensed">
     <thead>
-    	<tr>
-    		<?php 
+        <tr>
+            <?php 
             $entryCount = count($results);
             $entries = $entryCount == 1 ? "Entries" : "Entries ($entryCount)";
-    		echo "<th width='100%'>$entries</th>";
-    		echo "<th colspan='2'>Ride?</th>";
-    		?>
-    	</tr>
+            echo "<th width='100%'>$entries</th>";
+            echo "<th colspan='2'>Ride?</th>";
+            ?>
+        </tr>
     </thead>
     <tbody>
     <?
     $userId = $this->Session->read('Auth.User.id');
     foreach($results as $result) {
-    	echo "<tr>";
-    	echo "<td>";
-    	echo $this->Html->link($result["User"]["name"], '/users/view/'.$result["User"]["id"]);
-    	if(!empty($userId) && (!empty($result['Registrant']['id']) && $result['Registrant']['id'] == $userId || $result['User']['id'] == $userId)) {
-    	   echo "<span class='pull-right'>";
-    	   echo '<a class="btn btn-mini btn-danger" href="/courses/unregister/'.$course['id'].'/'.$result["User"]["id"].'"><i class="icon-minus icon-white"></i> Unregister</a>';
-    	   echo "</span>";
-    	}
-    	echo "</td>";
+        echo "<tr>";
+        echo "<td>";
+        echo $this->Html->link($result["User"]["name"], '/users/view/'.$result["User"]["id"]);
+        if(!empty($userId) && (!empty($result['Registrant']['id']) && $result['Registrant']['id'] == $userId || $result['User']['id'] == $userId)) {
+           echo "<span class='pull-right'>";
+           echo '<a class="btn btn-mini btn-danger" href="/courses/unregister/'.$course['id'].'/'.$result["User"]["id"].'"><i class="icon-minus icon-white"></i> Unregister</a>';
+           echo "</span>";
+        }
+        echo "</td>";
         $id = SessionHelper::read('Auth.User.id');
         echo "<td colspan='2'>";
         if($result["needs_ride"] == true) {
@@ -38,7 +38,7 @@ if(!empty($results)) { ?>
             echo "<i class='icon-road' title='Offering ride'>";
         }
         echo "</td>";
-    	echo "</tr>";
+        echo "</tr>";
     }
     ?>
     </tbody>
@@ -46,4 +46,5 @@ if(!empty($results)) { ?>
 <?php
 }
 ?>
+
 

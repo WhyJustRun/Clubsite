@@ -37,3 +37,4 @@
         <a href="/mapStandards/" class="btn">Define map standards</a>
     </div>
 </div>
+

@@ -13,99 +13,99 @@ class User extends AppModel {
         $date = new DateTime();
         $year = $date->format('Y');
         $this->virtualFields = array(
-            'is_member' => "SELECT COUNT(id) from memberships where user_id = User.id AND year = $year AND club_id = ".Configure::read('Club.id'),
-            'url' => 'CONCAT("/users/view/", User.id)'
-        );
+                'is_member' => "SELECT COUNT(id) from memberships where user_id = User.id AND year = $year AND club_id = ".Configure::read('Club.id'),
+                'url' => 'CONCAT("/users/view/", User.id)'
+                );
     }
 
     var $validate = array(
-        'name' => array(
-            'required' => array(
-                'rule' => array('notEmpty'),
-                //'message' => 'Characters and numbers only',
-                //'allowEmpty' => true,
-                'required' => true,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'username' => array(
-            'unique' => array(
-                'rule' => array('isUnique'),
-                'message' => 'Username already in use',
-                'required' => true
-            )
-        ),
-        'email' => array(
+            'name' => array(
+                'required' => array(
+                    'rule' => array('notEmpty'),
+                    //'message' => 'Characters and numbers only',
+                    //'allowEmpty' => true,
+                    'required' => true,
+                    //'last' => false, // Stop validation after this rule
+                    //'on' => 'create', // Limit validation to 'create' or 'update' operations
+                    ),
+                ),
+            'username' => array(
+                'unique' => array(
+                    'rule' => array('isUnique'),
+                    'message' => 'Username already in use',
+                    'required' => true
+                    )
+                ),
             'email' => array(
-                'rule' => array('email'),
-                'message' => 'Must be a valid e-mail address',
-                //'allowEmpty' => true,
-                'required' => true,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        // This rule vill probably never be broken since we are checking the hashed password, not the raw one.
-        'password' => array(
-            'alphanumeric' => array(
-                'rule' => array('alphanumeric'),
-                'message' => 'Characters and numbers only',
-                //'allowEmpty' => true,
-                'required' => true,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'year_of_birth' => array(
-            'numeric' => array(
-                'rule' => array('numeric'),
-                'message' => 'Must be a valid year',
-                'allowEmpty' => true,
-                //'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-        'si_number' => array(
-            'numeric' => array(
-                'rule' => array('numeric'),
-                'message' => 'Must consist of numbers only',
-                'allowEmpty' => true
-                //'required' => false,
-                //'last' => false, // Stop validation after this rule
-                //'on' => 'create', // Limit validation to 'create' or 'update' operations
-            ),
-        ),
-    );
+                'email' => array(
+                    'rule' => array('email'),
+                    'message' => 'Must be a valid e-mail address',
+                    //'allowEmpty' => true,
+                    'required' => true,
+                    //'last' => false, // Stop validation after this rule
+                    //'on' => 'create', // Limit validation to 'create' or 'update' operations
+                    ),
+                ),
+            // This rule vill probably never be broken since we are checking the hashed password, not the raw one.
+            'password' => array(
+                    'alphanumeric' => array(
+                        'rule' => array('alphanumeric'),
+                        'message' => 'Characters and numbers only',
+                        //'allowEmpty' => true,
+                        'required' => true,
+                        //'last' => false, // Stop validation after this rule
+                        //'on' => 'create', // Limit validation to 'create' or 'update' operations
+                        ),
+                    ),
+            'year_of_birth' => array(
+                    'numeric' => array(
+                        'rule' => array('numeric'),
+                        'message' => 'Must be a valid year',
+                        'allowEmpty' => true,
+                        //'required' => false,
+                        //'last' => false, // Stop validation after this rule
+                        //'on' => 'create', // Limit validation to 'create' or 'update' operations
+                        ),
+                    ),
+            'si_number' => array(
+                    'numeric' => array(
+                        'rule' => array('numeric'),
+                        'message' => 'Must consist of numbers only',
+                        'allowEmpty' => true
+                        //'required' => false,
+                        //'last' => false, // Stop validation after this rule
+                        //'on' => 'create', // Limit validation to 'create' or 'update' operations
+                        ),
+                    ),
+            );
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
     var $hasMany = array(
-        'Membership' => array(
-            'className' => 'Membership',
-            'foreignKey' => 'user_id',
-        ),
-        'Organizer' => array(
-            'className' => 'Organizer',
-            'foreignKey' => 'user_id',
-        ),
-        'Result' => array(
-            'className' => 'Result',
-            'foreignKey' => 'user_id',
-        ),
-        'Registrant' => array(
-            'className' => 'Result',
-            'foreignKey' => 'registrant_id',
-        )
-    );
+            'Membership' => array(
+                'className' => 'Membership',
+                'foreignKey' => 'user_id',
+                ),
+            'Organizer' => array(
+                'className' => 'Organizer',
+                'foreignKey' => 'user_id',
+                ),
+            'Result' => array(
+                'className' => 'Result',
+                'foreignKey' => 'user_id',
+                ),
+            'Registrant' => array(
+                'className' => 'Result',
+                'foreignKey' => 'registrant_id',
+                )
+            );
 
     var $hasOne = array('Privilege');
 
     var $belongsTo = array(
-        'Club' => array(
-            'className' => 'Club',
-        )
-    );
+            'Club' => array(
+                'className' => 'Club',
+                )
+            );
 
     /**
      * @deprecated Use AuthComponent password
@@ -142,10 +142,10 @@ class User extends AppModel {
         if($minimumPrivilege == 0) {
             return true;
         }
-        
+
         // This shouldn't really be necessary, but if there is a bug that causes a null privilege to be inserted, we won't give site access to everyone.
-    	if(empty($userId)) return false;
-        
+        if(empty($userId)) return false;
+
         $privilege = $this->Privilege->find('count', array('conditions' => array('Privilege.user_id' => $userId, 'Group.access_level >=' => $minimumPrivilege, 'Group.club_id' => Configure::read('Club.id'))));
         if($privilege > 0) {
             return true;

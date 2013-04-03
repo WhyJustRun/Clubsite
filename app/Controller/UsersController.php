@@ -12,7 +12,7 @@ class UsersController extends AppController
     {
         parent::beforeFilter();
         $this->Auth->allow('register', 'forgot', 'login', 'verify', 'authorized', 'index', 'view');
-        
+
         if($this->request->action == 'add') {
             $this->Security->csrfCheck = false;
             $this->Security->validatePost = false;
@@ -139,25 +139,25 @@ class UsersController extends AppController
         $this->set('title_for_layout', $user["User"]["name"]);
         $this->set('user', $user);
         $results = $this->User->Result->find('all', 
-            array('conditions' => array('Result.user_id' => $id),
-                'contain' => array('Course' => array('Event' => array('Club.id', 'Club.domain')))
-            )
-        );
+                array('conditions' => array('Result.user_id' => $id),
+                    'contain' => array('Course' => array('Event' => array('Club.id', 'Club.domain')))
+                    )
+                );
 
         if(!empty($results)) {
             $results = Set::sort($results, '{n}.Course.Event.date', 'desc');
         }
-        
+
         $this->set('results', $results);
     }
 
     function merge($targetId, $sourceId) {
         $this->checkAuthorization(Configure::read('Privilege.User.edit'));
         $field_options = array('year_of_birth'=>'target_source',
-            'club_id'=>'target_source',
-            'si_number'=>'target_source',
-            'email'=>'target_source',
-            'referred_from'=>'target_source');
+                'club_id'=>'target_source',
+                'si_number'=>'target_source',
+                'email'=>'target_source',
+                'referred_from'=>'target_source');
         $this->User->merge($targetId, $sourceId, $field_options);
         $this->redirect('/users/showDuplicates');
         return;
@@ -195,7 +195,7 @@ class UsersController extends AppController
             if(!$this->User->save($data, false)) {
                 throw new InternalErrorException('Failed adding a user');
             }
-            
+
             $this->set('userId', $this->User->id);
         }
     }

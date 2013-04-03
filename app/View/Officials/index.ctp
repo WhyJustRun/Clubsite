@@ -17,7 +17,7 @@
                 if(person != null) {
                     $("#OfficialUserId").val(person.id);
                 }
-        	});
+            });
         });
         </script>
         <?= $this->Form->input('official_classification_id', array('class' => 'input-medium', 'label'=>false, 'div' => false));?>
@@ -72,3 +72,4 @@
 </table>
 </div>
 </div>
+

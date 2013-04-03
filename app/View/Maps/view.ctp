@@ -47,3 +47,4 @@
         <?php echo $this->element('Maps/info', array('map' => $map)); ?>
     </div>
 </div>
+
