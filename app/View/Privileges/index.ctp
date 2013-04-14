@@ -11,6 +11,7 @@
            <dd><?= $group["Group"]["description"] ?></dd>
         <?php } ?>
         </dl>
+        Those users not listed here can only sign up for events and have no other privileges.
     </div>
     <div class="span7">
         <h3>Add privilege</h3>
