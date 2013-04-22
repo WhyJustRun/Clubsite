@@ -31,7 +31,7 @@
         $mapModified = substr($map["Map"]["modified"],0,10);
         $mapLat = sprintf("%3.3f", $map["Map"]["lat"]);
         $mapLng = sprintf("%3.3f", $map["Map"]["lng"]);
-        if($this->Media->exists("Map", $mapId, "40x40"))
+        if($this->Media->exists("Map", $mapId, "50x50"))
             $mapImage = $this->Media->image("Map", $mapId, "50x50");
         else
             $mapImage =  "";
