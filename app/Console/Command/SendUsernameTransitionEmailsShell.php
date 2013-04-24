@@ -22,13 +22,13 @@ class SendUsernameTransitionEmailsShell extends Shell {
         $primaryUsername = $primaryUser['User']['username'];
         $subject = "Upcoming changes to your WhyJustRun account";
         $message = "<h2>Important changes to your WhyJustRun account</h2>";
-        $message .= "WhyJustRun, the orienteering website software used by GVOC, VICO, SAGE, KOC, STARS, FWOC, Whistler OC, and others will have some improvements to the login system in the coming weeks. The will be able to:
+        $message .= "WhyJustRun, the orienteering website software used by GVOC, VICO, SAGE, KOC, STARS, FWOC, Whistler OC, and others will have some improvements to its login system in the coming weeks. You will be able to:
             <ul>
                 <li>Log in using your Google or Facebook account</li>
                 <li>Log in with your email address instead of your WhyJustRun username</li>
             </ul>";
         $message .= "<h3>How will this change impact you?</h3>";
-        $message .= "Currently, there are multiple WhyJustRun accounts registered with your email address. After these changes, only one account can be associated with your email address. This means the other accounts will no longer be accessible. Depending on your situation, this may be ok. If you want to register other family members on your account for an event, you can use the 'Register others' section at the bottom of the registration page. For other situations, you may want to assign a new email address to the other user accounts so they remain accessible after the changes.<br/><br/>";
+        $message .= "Currently, there are multiple WhyJustRun accounts registered with your email address. After these changes, only one account can be associated with your email address. This means the other accounts will no longer be accessible. Depending on your situation, this may be ok. If you want to register other family members on your account for an event, you can use the 'Register others' section at the bottom of the registration section on the event page. For other situations, you may want to assign a new email address to the other user accounts so they remain accessible after the changes.<br/><br/>";
 
         $message .= "<b>Here is how the accounts associated with your email address will be affected:</b><br/><br/>";
         $message .= "<b>$primaryUserName</b> (old username: $primaryUsername): <b>account will not be affected</b>, after the changes, simply log in using your email address ($email)<br/><br/>";
@@ -42,7 +42,7 @@ class SendUsernameTransitionEmailsShell extends Shell {
 
         $message .= "<h3>These changes will take effect on or after May 3rd 2013.</h3>";
         $message .= "If you have any questions, feel free to email Russell Porter at contact@russellporter.com.";
-        $this->sendEmail('contact@russellporter.com', $subject, $message);
+        $this->sendEmail($email, $subject, $message);
     }
 
     private function sendEmail($emailAddress, $subject, $message) {
