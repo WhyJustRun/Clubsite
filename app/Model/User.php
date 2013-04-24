@@ -22,11 +22,7 @@ class User extends AppModel {
             'name' => array(
                 'required' => array(
                     'rule' => array('notEmpty'),
-                    //'message' => 'Characters and numbers only',
-                    //'allowEmpty' => true,
                     'required' => true,
-                    //'last' => false, // Stop validation after this rule
-                    //'on' => 'create', // Limit validation to 'create' or 'update' operations
                     ),
                 ),
             'username' => array(
@@ -37,13 +33,15 @@ class User extends AppModel {
                     )
                 ),
             'email' => array(
+                'unique' => array(
+                    'message' => 'That email address is being used by another account.',
+                    'rule' => 'isUnique',
+                    'required' => true 
+                ),
                 'email' => array(
                     'rule' => array('email'),
                     'message' => 'Must be a valid e-mail address',
-                    //'allowEmpty' => true,
                     'required' => true,
-                    //'last' => false, // Stop validation after this rule
-                    //'on' => 'create', // Limit validation to 'create' or 'update' operations
                     ),
                 ),
             // This rule vill probably never be broken since we are checking the hashed password, not the raw one.

@@ -80,35 +80,6 @@ class UsersController extends AppController
         $this->redirect('/');
     }
 
-    function edit() 
-    {
-        $this->request->data["User"]["id"] = AuthComponent::user('id');
-        if(!empty($this->request->data)) {
-            $this->User->set($this->request->data);
-            if($this->User->save($this->request->data, array('validate' => true, 'fieldList'=>array('name', 'email', 'year_of_birth', 'si_number')))) {
-                foreach ($this->request->data["User"] as $key=>$value) {
-                    $this->Session->write("Auth.User.$key",$value);
-                }
-                $this->Session->setFlash('Settings changed', 'flash_success');  
-            }
-        }
-        $id = $this->Auth->user('id');
-        $this->set('is_subscribed', $this->_isSubscribed($id));
-        $this->redirect('/users/view/'.$id);
-
-    }
-    // Determine if user is subscribed to the e-mailing list
-    function _isSubscribed($id) {
-        $this->User->id = $id;
-        $emailAddress = $this->User->field('email');
-        $string = "/usr/bin/python /usr/sbin/list_members gvoc | grep $emailAddress";// /tmp/wjr.check_subscription.error";
-        $q = shell_exec($string);
-        if($q == "")
-            return false;
-        else {
-            return true;
-        }
-    }
     // Internally used by element: Event/add_link
     // Namespace conflict with Auth isAuthorized (that might be something we can use though)
     function authorized($authorizationLevel) {
@@ -127,13 +98,26 @@ class UsersController extends AppController
             $this->message();
         }
 
+        $this->request->data["User"]["id"] = AuthComponent::user('id');
+        if(!empty($this->request->data) && $this->request->isPost()) {
+            $this->User->set($this->request->data);
+            if($this->User->save($this->request->data, array('validate' => true, 'fieldList'=>array('name', 'email', 'year_of_birth', 'si_number')))) {
+                // NOTE: This seems kinda weird.. But I guess it is going away in a few weeks anyways
+                foreach ($this->request->data["User"] as $key=>$value) {
+                    $this->Session->write("Auth.User.$key",$value);
+                }
+                $this->Session->setFlash('Settings changed', 'flash_success');  
+            } else {
+                $this->Session->setFlash('Changes failed');
+            }
+        }
+
         $this->set('show_settings', false);
         $this->set('show_info', false);
         $this->set('show_membership', false);
         // User is allowed to see their own settings
         if ($this->Auth->user('id') == $id) {
             $this->set('show_settings', true);
-            $this->set('is_subscribed', $this->_isSubscribed($id));
         }
 
         $this->set('title_for_layout', $user["User"]["name"]);
@@ -273,7 +257,7 @@ class UsersController extends AppController
 
                 // Check if temporary account already exists
                 $existingUser = $this->User->findTemporaryByName($this->request->data['User']['name']);
-                if($existingUser != "") {
+                if(!empty($existingUser['User']['id'])) {
                     // If so, commandeer this account
                     $this->User->id = $existingUser["User"]["id"];
                 }
