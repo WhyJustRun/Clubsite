@@ -128,4 +128,3 @@ var BrowserDetect = {
 BrowserDetect.init();
 BrowserDetect.warnIfUnsupported();
 
-window.onload=function(){  { e("/js/ie7/") }}
