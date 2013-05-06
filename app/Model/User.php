@@ -14,7 +14,9 @@ class User extends AppModel {
         $year = $date->format('Y');
         $this->virtualFields = array(
                 'is_member' => "SELECT COUNT(id) from memberships where user_id = User.id AND year = $year AND club_id = ".Configure::read('Club.id'),
-                'url' => 'CONCAT("/users/view/", User.id)'
+                'url' => 'CONCAT(\''.
+                Sanitize::escape(Configure::read('Rails.profileURL'), 'default')
+                .'\', User.id)'
                 );
     }
 

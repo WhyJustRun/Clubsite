@@ -2,6 +2,12 @@
 
 // Application wide constants and configuration (Club.dir will be defined before this is included)
 
+// Append user id to get the actual URL
+Configure::write("Rails.profileURL", Configure::read('Rails.domain').'/users/');
+
+Configure::write("Rails.loginURL", Configure::read('Rails.domain').'/users/sign_in_clubsite');
+Configure::write("Rails.logoutURL", Configure::read('Rails.domain').'/users/sign_out_clubsite');
+
 Configure::write("Event.numBlankEntries", 5);
 
 Configure::write("Result.statuses", array(

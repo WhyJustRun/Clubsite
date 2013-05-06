@@ -34,16 +34,19 @@
                     echo $this->Menu->item('Resources', '/pages/resources');
                     echo $this->Menu->item('Contact', '/pages/contact');
                     if($this->Session->check('Auth.User.id')) {
-                        echo $this->Menu->item('My Profile', '/users/view/'.$this->Session->read('Auth.User.id'), 'menu_login');
-                        echo $this->Menu->item('Logout', '/users/logout/', 'menu_login');
+                        echo $this->Menu->item('My Profile', Configure::read('Rails.profileURL').$this->Session->read('Auth.User.id'), 'menu_login');
+                        echo $this->Menu->item('Sign out', '/users/logout/', 'menu_login');
                     } else {
-                        echo $this->Menu->item('Login/Register', '/users/login/', 'menu_login');
+                        echo $this->Menu->item('Sign in/Sign up', '/users/login/', 'menu_login');
                     }
                     ?>
                 </ul>
             </nav>
             <?php } ?>
             <div class="container">
+                <div class="alert alert-info">
+                    Major changes to the WhyJustRun orienteering software login system just launched. Let us know if you have any problems by emailing <a href="mailto:support@whyjustrun.ca">support@whyjustrun.ca</a>
+                </div>
                 <?php echo $this->Session->flash(); ?>
                 <?php echo $this->Session->flash('auth'); ?>
                 <?php echo $content_for_layout; ?>

@@ -40,7 +40,7 @@
                             <ul class="nav pull-right">
                             <li class="divider-vertical"></li><?
                             echo $this->Menu->item('Admin', '/pages/admin/');
-                            echo $this->Menu->item('My Profile', '/users/view/'.$this->Session->read('Auth.User.id'));
+                            echo $this->Menu->item('My Profile', Configure::read('Rails.profileURL').$this->Session->read('Auth.User.id'));
                             echo $this->Menu->item('Logout', '/users/logout/', 'menu_login');
                         } else {?>
                             <?= $this->Menu->item('Export', '/pages/export/');?>

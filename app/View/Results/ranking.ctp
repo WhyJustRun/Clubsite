@@ -17,14 +17,15 @@
 <? $counter = 1;
 foreach($rankings as $ranking) {
     $name = $ranking["User"]["name"];
-    $user_id = $ranking["User"]["id"];
+    $userID = $ranking["User"]["id"];
     $points = $ranking[0]["points"];
     $count = $ranking[0]["count"];
     $club = $ranking["Club"]["acronym"];
-?>
+    $profileLink = $this->Html->link($name, Configure::read('Rails.profileURL').$userID);
+    ?>
             <tr>
                 <td><?=$counter?></td>
-                <td><?=$this->Html->link($name,"/users/view/$user_id")?></td>
+                <td><?= $profileLink ?></td>
                 <td><?=$club?></td>
                 <td><? echo sprintf("%.2f",$points);?></td>
                 <td><?=$count?></td>
@@ -49,14 +50,15 @@ foreach($rankings as $ranking) {
 <? $counter = 1;
 foreach($rankingsAll as $ranking) {
     $name = $ranking["User"]["name"];
-    $user_id = $ranking["User"]["id"];
+    $userID = $ranking["User"]["id"];
+    $profileLink = $this->Html->link($name, Configure::read('Rails.profileURL').$userID);
     $points = $ranking[0]["points"];
     $count = $ranking[0]["count"];
     $club = $ranking["Club"]["acronym"];
 ?>
             <tr>
                 <td><?=$counter?></td>
-                <td><?=$this->Html->link($name,"/users/view/$user_id")?></td>
+                <td><?= $profileLink ?></td>
                 <td><?=$club?></td>
                 <td><? echo sprintf("%.2f",$points);?></td>
                 <td><?=$count?></td>

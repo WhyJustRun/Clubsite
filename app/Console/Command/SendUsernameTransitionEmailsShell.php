@@ -46,6 +46,7 @@ class SendUsernameTransitionEmailsShell extends Shell {
     }
 
     private function sendEmail($emailAddress, $subject, $message) {
+        die("Email sending disabled so we don't send this out by accident in the future");
         $email = new CakeEmail('default');
         $email->domain('gvoc.whyjustrun.ca');
         $email->emailFormat('html');
