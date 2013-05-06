@@ -22,9 +22,16 @@ class SendFinalTransitionEmailsShell extends Shell {
     public function main() {
         $this->out('Sending out emails to all people...');
         $users = $this->User->query($this->query());
+        $started = false;
         foreach ($users as $user) {
+            // Resume where we left off when gmail quotas killed us..
+            if ($user['users']['id'] == 1430) {
+                $started = true;
+            }
+            if(!$started) continue;
             $email = $user['users']['email'];
             $username = $user['users']['username'];
+            if (empty($username)) continue;
             $this->out("Emailing $email with username $username");
             $subject = 'Access changes to your WhyJustRun account';
             $message = "<h2>Signing in to your WhyJustRun account</h2>";
@@ -39,7 +46,7 @@ class SendFinalTransitionEmailsShell extends Shell {
                 
                 <p>If you have any questions, you can email Russell Porter for support at contact@russellporter.com</p>
                 <p>Thanks,<br/>The WhyJustRun team</p>";
-            $this->sendEmail($email, $subject, $message);
+            //$this->sendEmail($email, $subject, $message);
         }
     }
 }
