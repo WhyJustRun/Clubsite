@@ -16,6 +16,11 @@ class UsersController extends AppController
         }
     }
 
+    function register() {
+        $url = Configure::read('Rails.domain').'/users/sign_up';
+        $this->redirect($url, 301, false);
+    }
+
     function view($id) {
         $url = Configure::read('Rails.profileURL').$id;
         $this->redirect($url, 301, false);
