@@ -147,6 +147,10 @@ class EventsController extends AppController {
     }
 
     function view($id = null) {
+        if ($this->params['ext'] == 'xml') {
+            $eventXMLURL = Configure::read('Rails.domain').'/iof/3.0/events/'.$id.'/result_list.xml';
+            $this->redirect($eventXMLURL, 301, true);
+        }
         $contain = array(
                 'Series', 
                 'Map', 
