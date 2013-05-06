@@ -16,6 +16,11 @@ class UsersController extends AppController
         }
     }
 
+    function view($id) {
+        $url = Configure::read('Rails.profileURL').$id;
+        $this->redirect($url, 301, false);
+    }
+
     function index() {
         // Autocomplete
         if(!empty($_GET["term"])) {
