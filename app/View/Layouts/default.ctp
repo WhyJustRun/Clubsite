@@ -54,13 +54,7 @@
         </div>
         <footer>
             <div>
-                <span id="footer_menu">
-                    <?php
-                    $cacheKey = 'club_'.Configure::read('Club.id').'_footer';
-                    $options = array('cache' => array('config' => 'view_short', 'key' => $cacheKey));
-                    echo $this->element('Clubs/footer', array(), $options);
-                    ?>
-                </span>
+                <a href="<?= Configure::read("Rails.domain") ?>">whyjustrun.ca</a>
                 <span class="pull-right">
                     <?= $this->element('privileged_link', array('name' => 'Event Planner', 'url' => '/events/planner', 'privilege' => 'Privilege.Event.planning', 'suffix' => ' |')) ?>
                     <?= $this->element('privileged_link', array('name' => 'Admin', 'url' => '/pages/admin', 'privilege' => 'Privilege.Admin.page', 'suffix' => ' |')) ?> 
