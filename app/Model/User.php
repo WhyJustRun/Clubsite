@@ -46,18 +46,7 @@ class User extends AppModel {
                     'required' => true,
                     ),
                 ),
-            // This rule vill probably never be broken since we are checking the hashed password, not the raw one.
-            'password' => array(
-                    'alphanumeric' => array(
-                        'rule' => array('alphanumeric'),
-                        'message' => 'Characters and numbers only',
-                        //'allowEmpty' => true,
-                        'required' => true,
-                        //'last' => false, // Stop validation after this rule
-                        //'on' => 'create', // Limit validation to 'create' or 'update' operations
-                        ),
-                    ),
-            'year_of_birth' => array(
+                'year_of_birth' => array(
                     'numeric' => array(
                         'rule' => array('numeric'),
                         'message' => 'Must be a valid year',
@@ -106,26 +95,6 @@ class User extends AppModel {
                 'className' => 'Club',
                 )
             );
-
-    /**
-     * @deprecated Use AuthComponent password
-     */
-    function hashPasswords($data) {
-
-        if (isset($data['User']['password'])) {
-            $data['User']['password'] = $this->hashPassword($data['User']['password']);
-            return $data;
-        }
-
-        return $data;
-    }
-
-    /**
-     * @deprecated Use AuthComponent password
-     */
-    function hashPassword($password) {
-        return hash('sha512', Configure::read("Security.salt").$password);
-    }
 
     function is_duplicate($data) {
         $q = $this->findAllByName($data['User']['name']);
@@ -196,6 +165,11 @@ class User extends AppModel {
         return $data;
     }
 
+    function hasPassword($user) {
+        return !empty($user['User']['old_password']) ||
+            !empty($user['User']['encrypted_password']);
+    }
+
     // Returns array of potential duplicates
     function getDuplicates() {
         $data = $this->query('SELECT U1.id, U2.id, U1.name, U2.name FROM users as U1, users as U2 WHERE U1.name LIKE U2.name AND U1.id < U2.id ORDER BY U1.name');
@@ -210,17 +184,18 @@ class User extends AppModel {
             // Determine which is primary and which is duplicate
 
             /* Check for password */
-            if($user1["User"]["password"] != NULL && $user2["User"]["password"] == NULL) {
+            if($this->hasPassword($user1) && !$this->hasPassword($user2)) {
                 // User2 is a fake account
                 $primaryIndex = 1;
             }
-            else if($user1["User"]["password"] == NULL && $user2["User"]["password"] != NULL) {
+            else if(!$this->hasPassword($user1) && $this->hasPassword($user2)) {
                 // User1 is a fake account
                 $primaryIndex = 2;
             }
             /* Recent login */
-            else if($user1["User"]["last_login"] != NULL && $user2["User"]["last_login"] != NULL) {
-                if($user1["User"]["last_login"] > $user2["User"]["last_login"]) {
+            else if(!empty($user1["User"]["last_sign_in_at"]) &&
+                    !empty($user2["User"]["last_sign_in_at"])) {
+                if($user1["User"]["last_sign_in_at"] > $user2["User"]["last_sign_in_at"]) {
                     // User1 logged in most recently
                     $primaryIndex = 1; 
                 }
@@ -229,11 +204,11 @@ class User extends AppModel {
                     $primaryIndex = 2;
                 }
             }
-            else if($user1["User"]["last_login"] != NULL) {
+            else if($user1["User"]["last_sign_in_at"] != NULL) {
                 // User2 never logged in
                 $primaryIndex = 1;
             }
-            else if($user2["User"]["last_login"] != NULL) {
+            else if($user2["User"]["last_sign_in_at"] != NULL) {
                 // User1 never logged in
                 $primaryIndex = 2;
             }
@@ -264,6 +239,9 @@ class User extends AppModel {
                 $primary = &$user2;
                 $duplicate = &$user1;
             }
+
+            $primary['has_password'] = $this->hasPassword($primary);
+            $duplicate['has_password'] = $this->hasPassword($duplicate);
             $newcase["primary"] = $primary;
             $newcase["duplicate"] = $duplicate;
             array_push($cases, $newcase);

@@ -40,13 +40,14 @@
                     <th></th>
                 </tr>
             </thead>
-            <?foreach ($dupUsers as $dupUser) {
+            <?php
+            foreach ($dupUsers as $dupUser) {
                 $primaryId = $dupUser["primary"]["User"]["id"];
                 $duplicateId = $dupUser["duplicate"]["User"]["id"];
                 $primaryDate = substr($dupUser["primary"]["most_recent"],0,10);
                 $duplicateDate = substr($dupUser["duplicate"]["most_recent"],0,10);
-                $real1 = $dupUser["primary"]["User"]["password"]? '&#x2713;' : '&nbsp';
-                $real2 = $dupUser["duplicate"]["User"]["password"]? '&#x2713;' : '&nbsp';
+                $real1 = $dupUser["primary"]['has_password'] ? '&#x2713;' : '&nbsp';
+                $real2 = $dupUser["duplicate"]['has_password'] ? '&#x2713;' : '&nbsp';
                 ?>
             <tr>
                 <td><?= $dupUser["primary"]["User"]["name"]?></td>
