@@ -25,7 +25,7 @@ class SendFinalTransitionEmailsShell extends Shell {
         $started = false;
         foreach ($users as $user) {
             // Resume where we left off when gmail quotas killed us..
-            if ($user['users']['id'] == 1430) {
+            if ($user['users']['id'] == 1433) {
                 $started = true;
             }
             if(!$started) continue;
