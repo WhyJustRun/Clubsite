@@ -118,7 +118,7 @@ $(document).ready(function() {
                     eventId: viewModel.event().id,
                 };
                 var successHandler = function (userID) {
-                    viewModel.addCompetitorToCourse(userID, name);
+                    viewModel.addCompetitorToCourse($.parseJSON(userID), name);
                 };
                 $.post("/Users/add", options, successHandler);
             } else {

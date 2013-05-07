@@ -1,3 +1,1 @@
-<?= $userId; ?>
-
-
+<?= json_encode($userId); ?>
