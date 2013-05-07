@@ -11,7 +11,8 @@ $(function() {
     var poppingState = false;
     
     $('#calendar').fullCalendar({
-        events: '<?= Configure::read('Rails.domain'); ?>/club/<?= Configure::read('Club.id') ?>/events.json',
+        eventSources: ['<?= Configure::read('Rails.domain'); ?>/club/<?= Configure::read('Club.id') ?>/events.json',
+        '<?= Configure::read('Rails.domain') ?>/club/<?= Configure::read('Club.id') ?>/events.json?list_type=significant&prefix_club_acronym=1&only_non_club=1'],
         year: <?= $year ?>,
         month: <?php echo(intval($month) - 1); // January = 0 ?>,
         date: <?= $day ?>,
