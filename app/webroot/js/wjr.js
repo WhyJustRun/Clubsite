@@ -68,7 +68,7 @@ function swapHiDPIImages() {
 var orienteerAppState = {
     wysiwygScriptLoaded: false,
     wysiwygScriptLoading: false,
-    wysiwygWaitingElements: [],
+    wysiwygWaitingElements: []
 };
 
 function loadScriptAsynchronously(scriptSrc, lookFor, procedure) {
