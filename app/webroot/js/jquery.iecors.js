@@ -16,9 +16,6 @@
 
     // Create transport if the browser can provide an xdr (and fails $.support.cors)
     if ($.support.iecors) {
-
-        console.log("Adding support for iecors");
-
         $.ajaxTransport(function(options, originalOptions, jqXHR) {
             var xdr;
             
@@ -36,7 +33,6 @@
                     xdr.onload = xdr.onerror = xdr.ontimeout = xdr.onprogress = $.noop;
                     
                     xdr.onload = function() {
-                        console.log("XDR load");
                         var headers = {
                             'Content-Type': xdr.contentType
                         };
@@ -51,14 +47,11 @@
                         // XDR does not support withCredentials
                     } else {
                         xdr.onprogress = function() {
-                            console.log("XDR progress");
                         };
                         xdr.onerror = function() {
-                            console.log("XDR error");
                             complete(404, "Not Found");
                         };
                         xdr.ontimeout = function() {
-                            console.log("XDR timeout");
                             complete(408, "Request Timeout");
                         };
                     }
@@ -66,7 +59,6 @@
                     // // TODO: If you're getting "Aborted" requests in IE9, try uncommenting this block.
                     // // A few people reported 'jQuery.noop' wasn't good enough, but I can't figure out why.
                     // xdr.onprogress = function() {
-                    //     console.log("XDR progress");
                     // };
 
                     xdr.open(options.type, options.url);
@@ -79,7 +71,6 @@
                 },
 
                 abort: function () {
-                    console.log("XDR abort");
                     return xdr && xdr.abort();
                 }
             };
