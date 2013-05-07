@@ -134,4 +134,3 @@ class SimpleByLabelOrName {
         return ($widget->getName() == $this->_label);
     }
 }
-?>

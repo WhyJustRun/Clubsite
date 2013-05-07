@@ -69,4 +69,3 @@ class RebuildDerivedImagesShell extends Shell {
 		}
 	}
 }
-?>

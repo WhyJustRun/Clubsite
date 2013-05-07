@@ -42,4 +42,3 @@ class MapStandardsController extends AppController {
     }
 
 }
-?>

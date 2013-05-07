@@ -35,5 +35,3 @@ class GeocodeHelper extends AppHelper {
     }
 }
 
-?>
-

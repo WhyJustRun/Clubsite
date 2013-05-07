@@ -6,5 +6,3 @@ foreach($organizers as $organizer) {
         echo " (" . $organizer["Role"]["name"]. ")";
     $separator = ", ";
 }
-?>
-

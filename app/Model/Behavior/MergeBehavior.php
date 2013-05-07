@@ -242,4 +242,3 @@ class MergeBehavior extends ModelBehavior  {
         return true;
     }
 }
-?>

@@ -111,4 +111,3 @@ class Organizer extends AppModel {
         return $map;
     }
 }
-?>

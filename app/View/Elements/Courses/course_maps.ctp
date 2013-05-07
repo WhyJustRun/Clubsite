@@ -19,5 +19,3 @@ if(!empty($courses)) { ?>
         echo "No course maps posted yet.";
     }
 }
-?>
-

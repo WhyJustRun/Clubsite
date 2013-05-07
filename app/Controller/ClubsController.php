@@ -40,4 +40,3 @@ class ClubsController extends AppController {
         $this->set('clubCategories', $this->Club->ClubCategory->find('list'));
     }
 }
-?>

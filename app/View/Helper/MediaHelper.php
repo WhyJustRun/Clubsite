@@ -73,5 +73,3 @@ class MediaHelper extends Helper {
         return $endpoint;
     }
 }
-?>
-

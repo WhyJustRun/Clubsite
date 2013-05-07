@@ -41,4 +41,3 @@ class FacebookComponent extends Component {
         return 'http://www.facebook.com/'.$id;
     }
 }
-?>

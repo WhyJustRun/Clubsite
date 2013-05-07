@@ -297,4 +297,3 @@ class TestRunnerForLeftOverAndNotEnoughErrors extends UnitTestCase {
 }
 
 // TODO: Add stacked error handler test
-?>

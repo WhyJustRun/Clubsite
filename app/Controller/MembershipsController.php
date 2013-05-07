@@ -46,4 +46,3 @@ class MembershipsController extends AppController {
         }
     }
 }
-?>

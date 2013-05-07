@@ -31,4 +31,3 @@ Method: ".$_SERVER['REQUEST_METHOD']."
         $email->send($message);
     }
 }
-?>

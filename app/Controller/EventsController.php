@@ -369,4 +369,3 @@ class EventsController extends AppController {
         return 3600 * $hours + 60 * $minutes + $seconds + 0.001 * $milliseconds;
     }
 }
-?>

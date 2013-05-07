@@ -41,4 +41,3 @@ class Official extends AppModel {
     var $belongsTo = array('User', 'OfficialClassification');
 
 }
-?>

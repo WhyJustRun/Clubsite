@@ -761,4 +761,3 @@ class SimpleSaxListener {
     function addContent($text) {
     }
 }
-?>

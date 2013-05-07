@@ -123,4 +123,3 @@ class CoursesController extends AppController {
         $this->Media->display($id, $thumbnail);
     }
 }
-?>

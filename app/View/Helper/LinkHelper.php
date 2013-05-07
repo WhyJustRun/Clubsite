@@ -24,5 +24,3 @@ class LinkHelper extends Helper {
         return "http://".$domain.$path;
     }
 }
-?>
-

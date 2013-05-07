@@ -42,4 +42,3 @@ class Course extends AppModel {
         return $this->Event->field('date');
     }
 }
-?>

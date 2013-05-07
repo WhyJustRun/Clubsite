@@ -37,5 +37,3 @@ class ContentBlockHelper extends AppHelper {
         return $this->cachePrefix . $key . '-' . md5($start.$end);
         }
 }
-?>
-

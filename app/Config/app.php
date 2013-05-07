@@ -81,5 +81,3 @@ Configure::write('Event.planner.attendanceThreshold', 5);
 Configure::write("Map.dir", Configure::read('Club.dir') . "maps/");
 Configure::write("Course.dir", Configure::read('Club.dir') . "courses/");
 Configure::write("Event.dir", Configure::read('Club.dir') . "events/");
-
-?>

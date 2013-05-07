@@ -4,4 +4,3 @@ class Page extends AppModel {
     var $displayField = 'name';
     var $actsAs = array('Containable');
 }
-?>

@@ -35,5 +35,3 @@ class MenuHelper extends Helper {
                 return $class;
     }
 }
-?>
-

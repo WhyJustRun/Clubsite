@@ -444,4 +444,3 @@ class NoSkipsReporter extends SimpleReporterDecorator {
      */
     function paintSkip($message) { }
 }
-?>

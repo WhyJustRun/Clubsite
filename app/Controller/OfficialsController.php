@@ -67,4 +67,3 @@ class OfficialsController extends AppController {
         $this->redirect("/officials/");
     }
 }
-?>

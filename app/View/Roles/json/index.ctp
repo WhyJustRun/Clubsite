@@ -6,5 +6,3 @@ foreach($roles as $role) {
 }
 
 echo json_encode($json_roles);
-?>
-

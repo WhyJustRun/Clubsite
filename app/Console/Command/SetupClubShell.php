@@ -29,4 +29,3 @@ class SetupClubShell extends Shell {
         $this->out('All done. Head to '.$club['url'].' and get the club up and running!');
     }
 }
-?>

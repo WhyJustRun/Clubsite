@@ -271,4 +271,3 @@ class User extends AppModel {
         return $cases;
     }
 }
-?>

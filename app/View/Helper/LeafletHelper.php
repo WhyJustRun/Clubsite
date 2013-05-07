@@ -301,5 +301,3 @@ class LeafletHelper extends AppHelper {
         }
 
 }
-?>
-

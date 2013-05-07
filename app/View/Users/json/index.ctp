@@ -12,5 +12,3 @@ foreach($users as $user) {
 }
 
 echo json_encode($results);
-?>
-

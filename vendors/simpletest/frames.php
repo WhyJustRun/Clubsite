@@ -593,4 +593,3 @@ class SimpleFrameset {
         return null;
     }
 }
-?>

@@ -267,4 +267,3 @@ class Result extends AppModel {
         return $map;
     }
 }
-?>

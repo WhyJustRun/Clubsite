@@ -17,4 +17,3 @@ class AirbrakeLogger implements CakeLogInterface {
         //$this->airbrake->exceptionHandler(new Exception($message));
     }
 }*/
-?>

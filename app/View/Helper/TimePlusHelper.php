@@ -81,5 +81,3 @@ class TimePlusHelper extends AppHelper {
             </time>";
     }
 }
-?>
-

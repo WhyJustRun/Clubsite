@@ -41,4 +41,3 @@ class Group extends AppModel {
     var $hasOne = array('Privilege');
 
 }
-?>

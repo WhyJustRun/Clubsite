@@ -991,4 +991,3 @@ class TestOfPHP5AbstractMethodMocking extends UnitTestCase {
     }
 }
 
-?>

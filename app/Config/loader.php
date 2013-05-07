@@ -39,4 +39,3 @@ if (!empty($_SERVER['HTTP_HOST'])) {
 } else {
     clubFromID(1);
 }
-?>

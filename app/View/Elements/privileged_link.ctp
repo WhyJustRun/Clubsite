@@ -8,5 +8,3 @@ if($this->Session->check('Auth.User.id')) {
         echo $this->Html->link($name, $url) . $suffix;
     }
 }
-?>
-

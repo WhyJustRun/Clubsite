@@ -210,4 +210,3 @@ class TestOfFormHeaders extends UnitTestCase {
         $encoding->writeHeadersTo($socket);
     }
 }
-?>

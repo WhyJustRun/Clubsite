@@ -45,6 +45,3 @@ if(!empty($results)) { ?>
     </table>
 <?php
 }
-?>
-
-

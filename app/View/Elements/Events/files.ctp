@@ -6,5 +6,3 @@ if(file_exists($imageFileName)) {?>
     </div>
     <?
 }
-?>
-

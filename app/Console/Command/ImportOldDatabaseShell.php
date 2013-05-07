@@ -515,4 +515,3 @@ $this->importUsers();
 	  return $newId;
    }
 }
-?>

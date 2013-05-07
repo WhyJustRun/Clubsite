@@ -82,4 +82,3 @@ class Series extends AppModel {
     }
 
 }
-?>

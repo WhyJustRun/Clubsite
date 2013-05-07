@@ -24,5 +24,3 @@ class WhyJustRunAuthenticate extends BaseAuthenticate {
         }
     }
 }
-?>
-
