@@ -44,9 +44,6 @@
             </nav>
             <?php } ?>
             <div class="container">
-                <div class="alert alert-info">
-                    Major changes to the WhyJustRun orienteering software login system just launched. Let us know if you have any problems by emailing <a href="mailto:support@whyjustrun.ca">support@whyjustrun.ca</a>
-                </div>
                 <?php echo $this->Session->flash(); ?>
                 <?php echo $this->Session->flash('auth'); ?>
                 <?php echo $content_for_layout; ?>
