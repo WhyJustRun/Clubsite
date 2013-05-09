@@ -76,7 +76,7 @@ $(document).ready(function() {
         
         this.remove = function() {
             if(this.id) {
-                if(!confirm("Are you sure you want to delete this competitor?")) {
+                if(!confirm("Are you sure you want to delete this competitor? The entry be deleted from the server immediately.")) {
                     return;
                 }
                 $.ajax('/results/delete/' + this.id);
