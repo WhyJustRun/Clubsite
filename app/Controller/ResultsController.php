@@ -39,7 +39,7 @@ class ResultsController extends AppController {
     }
 
     function delete($id) {
-        if($this->Result->isAuthorized($id, AuthComponent::user())) {
+        if($this->Result->isAuthorized($id, AuthComponent::user('id'))) {
             $this->Result->delete($id);
         }
     }

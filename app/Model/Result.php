@@ -246,9 +246,9 @@ class Result extends AppModel {
         return $points;
     }
 
-    function isAuthorized($id, $user) {
+    function isAuthorized($id, $userID) {
         $result = $this->find('first', array('conditions' => array('Result.id' => $id), 'contain' => array('Course.Event.id')));
-        return $this->Course->Event->Organizer->isAuthorized($result["Course"]["Event"]["id"], $user);
+        return $this->Course->Event->Organizer->isAuthorized($result["Course"]["Event"]["id"], $userID);
     }
 
     /**
