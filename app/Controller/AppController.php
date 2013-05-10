@@ -19,7 +19,23 @@ class AppController extends Controller {
 
     function beforeFilter() {
         parent::beforeFilter();
+
         $this->Security->blackHoleCallback = 'blackholed';
+
+        // Ensure the session is consistent with the cross app session
+        if ($this->Session->check('CrossAppSession.id')) {
+            $crossAppSessionID = $this->Session->read('CrossAppSession.id');
+            $this->loadModel('CrossAppSession');
+            $count = $this->CrossAppSession->find('count', array('conditions' => array('CrossAppSession.cross_app_session_id' => $crossAppSessionID)));
+            
+            if ($count != 1) {
+                $this->Session->setFlash('You were signed out of your WhyJustRun account.');
+                $this->Session->delete('CrossAppSession.id');
+                $this->Auth->logout();
+                $this->redirect('/', 302, false);
+            }
+        }
+        
         // CakePHP bug: the Session Auth variables won't be set if $this->Auth->user() isn't called.
         $this->Auth->user();
         $this->Auth->loginRedirect  = array('controller' => 'pages', 'action' => 'display', 'home');

@@ -39,6 +39,11 @@ class UsersController extends AppController
     function localLogin()
     {
         if ($this->Auth->login()) {
+            $sessionID = $this->request->query['cross_app_session_id'];
+            if (!empty($sessionID)) {
+                $this->Session->write('CrossAppSession.id', $sessionID);
+            }
+
             $this->Session->setFlash('Sign in completed');
             if ($this->Session->check('User.lastPage')) {
                 $this->Auth->loginRedirect = $this->Session->read('User.lastPage');
@@ -72,6 +77,7 @@ class UsersController extends AppController
 
     function logout()
     {
+        $this->Session->delete('CrossAppSession.id');
         $this->Auth->logout();
         $url = Configure::read('Rails.logoutURL');
         $url.= "?redirect_club_id=".Configure::read('Club.id');
