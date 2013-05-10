@@ -3,10 +3,10 @@
 </header>
 
 <?php if(!$pages) { ?>
-<h2>Sorry, no resources are posted yet.</h2>
+<h3>Sorry, no resources are posted yet.</h3>
 <?php } ?>
 <?php foreach($pages as $page) { ?>
-<h2><?= $this->Html->link($page["Page"]["name"], '/pages/'.$page["Page"]["id"]) ?></h2>
+<h3><?= $this->Html->link($page["Page"]["name"], '/pages/'.$page["Page"]["id"]) ?></h3>
 <?php
 }
 ?>
