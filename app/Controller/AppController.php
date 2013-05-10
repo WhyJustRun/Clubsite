@@ -71,8 +71,8 @@ class AppController extends Controller {
 
     function checkAuthorization($accessLevel) {
         if(!$this->isAuthorized($accessLevel)) {
-            $this->Session->setFlash('You are not authorized to access that page.');
-            $this->redirect('/users/login');
+            $this->Session->setFlash('You are not authorized to access that page. Please switch to a different account or ask your club webmaster for permissions');
+            $this->redirect('/');
         }
     }
 }
