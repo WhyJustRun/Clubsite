@@ -144,7 +144,7 @@ var finishLoadingOrganizers = function() {
                         <th>Name</th>
                         <th>Dist. (m)</th>
                         <th>Climb (m)</th>
-                        <th>Point Scoring</th>
+                        <th>Score O</th>
                         <th>Description</th>
                         <th></th>
                     </tr>
