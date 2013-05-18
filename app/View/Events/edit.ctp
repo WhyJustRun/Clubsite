@@ -47,8 +47,60 @@ echo $this->Form->input('name', array('data-validate' => 'validate(required)', '
 </div>
 
 <?php echo $this->Form->input('event_classification_id', array('empty' => 'Choose classification', 'required' => 'required', 'data-validate' => 'validate(required)'));
-echo $this->Form->input('custom_url', array('label' => 'Event URL', 'class' => 'input-xlarge', 'placeholder' => 'If on external website'));
 ?>
+
+<?php
+$urlFieldOptions = array('label' => false, 'div' => false, 'class' => 'input-xlarge', 'data-validate' => 'validate(url_or_empty)');
+?>
+<div class="control-group">
+    <label class="control-label">Redirect URL</label>
+    <div class="controls">
+        <?= $this->Form->input('custom_url', array_merge($urlFieldOptions, array('placeholder' => 'Only use if all info is on external website'))) ?>
+        <span class="add-on">
+            <a href="#" data-toggle="tooltip" class="wjr-help-tooltip" title="If you want to use a third party website for the event, enter the URL for the event page here. NOTE: People accessing your event may be automatically redirected to the other website, depending on where on WhyJustRun they come from.">
+                <i class="icon-question-sign"></i>
+            </a>
+        </span>
+    </div>
+</div>
+
+
+<div class="control-group">
+    <label class="control-label">Registration URL</label>
+    <div class="controls">
+        <?= $this->Form->input('registration_url', $urlFieldOptions) ?>
+        <span class="add-on">
+            <a href="#" data-toggle="tooltip" class="wjr-help-tooltip" title="If you want to use a third party registration system like Zone4, enter the URL to the registration page here.">
+                <i class="icon-question-sign"></i>
+            </a>
+        </span>
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label">Results URL</label>
+    <div class="controls">
+        <?= $this->Form->input('results_url', $urlFieldOptions) ?>
+        <span class="add-on">
+            <a href="#" data-toggle="tooltip" class="wjr-help-tooltip" title="If you post results on a third party website like WinSplits, enter the URL to the results page here after the event.">
+                <i class="icon-question-sign"></i>
+            </a>
+        </span>
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label">RouteGadget URL</label>
+    <div class="controls">
+        <?= $this->Form->input('routegadget_url', $urlFieldOptions) ?>
+        <span class="add-on">
+            <a href="#" data-toggle="tooltip" class="wjr-help-tooltip" title="If you have posted a RouteGadget for the event, enter the URL to the RouteGadget page here after the event.">
+                <i class="icon-question-sign"></i>
+            </a>
+        </span>
+    </div>
+</div>
+
 <fieldset class="control-group">
     <label for="EventDescription" class="control-label">Description</label>
     <div class="controls">

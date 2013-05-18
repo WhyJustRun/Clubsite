@@ -1,50 +1,53 @@
 !function( $ ) {
 
-  "use strict"
+    "use strict"
 
-  $.ketchup
+        $.ketchup
+        .validation('url_or_empty', 'Must be a valid URL (include http://)',
+                function (form, el, value) {
+                    return (!value || this.isUrl(value));
+                }, function (form, e1) {})
+        .createErrorContainer(function(form, el) {
+            var g = el.closest('.controls');
 
-  .createErrorContainer(function(form, el) {
-    var g = el.closest('.controls');
+            if (g) {
+                return $('<ul/>', {
+                    'class': 'help-block'
+                }).appendTo(g);
+            } else {
+                return $('<ul/>', {
+                    'class': 'help-inline'
+                }).insertAfter(g);
+            }
+        })
 
-    if (g) {
-      return $('<ul/>', {
-             'class': 'help-block'
-           }).appendTo(g);
-    } else {
-      return $('<ul/>', {
-             'class': 'help-inline'
-           }).insertAfter(g);
-    }
-  })
+    .addErrorMessages(function(form, el, container, messages) {
+        container.empty();
+        for(i = 0; i < messages.length; i++) {
+            $('<li/>', { text: messages[i] }).appendTo(container);
+        }
+    })
 
-  .addErrorMessages(function(form, el, container, messages) {
-    container.empty();
-    for(i = 0; i < messages.length; i++) {
-      $('<li/>', { text: messages[i] }).appendTo(container);
-    }
-  })
-
-  .showErrorContainer(function(form, el, container) {
-    container
-      .closest('.control-group').addClass('error');
+    .showErrorContainer(function(form, el, container) {
+        container
+        .closest('.control-group').addClass('error');
     container.show()
-  })
+    })
 
-  .hideErrorContainer(function(form, el, container) {
-    container
-      .closest('.control-group').removeClass('error')
-    container.hide()
-  })
+    .hideErrorContainer(function(form, el, container) {
+        container
+        .closest('.control-group').removeClass('error')
+        container.hide()
+    })
 
-  .helper('inputsWithNameNotSelf', function(form, el) {
-    return this.inputsWithName(form, el).filter(function() {
-      return ($(this) != el);
-    });
-  })
+    .helper('inputsWithNameNotSelf', function(form, el) {
+        return this.inputsWithName(form, el).filter(function() {
+            return ($(this) != el);
+        });
+    })
 
-  $(function () {
-    $('form[data-validate="ketchup"]').ketchup()
-  })
+    $(function () {
+        $('form[data-validate="ketchup"]').ketchup()
+    })
 
 }( window.jQuery );

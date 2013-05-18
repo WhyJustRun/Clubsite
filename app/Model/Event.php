@@ -5,48 +5,51 @@ class Event extends AppModel {
     var $actsAs = array('Containable');
 
     var $validate = array(
-            'lat' => array(
-                'numeric' => array(
-                    'rule' => array('numeric'),
-                    //'message' => 'Your custom message here',
-                    'allowEmpty' => true,
-                    //'required' => false,
-                    //'last' => false, // Stop validation after this rule
-                    //'on' => 'create', // Limit validation to 'create' or 'update' operations
-                    ),
-                ),
-            'lng' => array(
-                'numeric' => array(
-                    'rule' => array('numeric'),
-                    //'message' => 'Your custom message here',
-                    'allowEmpty' => true,
-                    //'required' => false,
-                    //'last' => false, // Stop validation after this rule
-                    //'on' => 'create', // Limit validation to 'create' or 'update' operations
-                    ),
-                ),
-            'is_ranked' => array(
-                    'boolean' => array(
-                        'rule' => array('boolean'),
-                        //'message' => 'Your custom message here',
-                        //'allowEmpty' => false,
-                        //'required' => false,
-                        //'last' => false, // Stop validation after this rule
-                        //'on' => 'create', // Limit validation to 'create' or 'update' operations
-                        ),
-                    ),
-            );
+        'lat' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'allowEmpty' => true,
+            ),
+        ),
+        'lng' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'allowEmpty' => true,
+            ),
+        ),
+        'is_ranked' => array(
+            'boolean' => array(
+                'rule' => array('boolean'),
+            ),
+        ),
+        'custom_url' => array(
+            'rule' => 'url',
+            'allowEmpty' => true,
+        ),
+        'registration_url' => array(
+            'rule' => 'url',
+            'allowEmpty' => true,
+        ),
+        'results_url' => array(
+            'rule' => 'url',
+            'allowEmpty' => true,
+        ),
+        'routegadget_url' => array(
+            'rule' => 'url',
+            'allowEmpty' => true,
+        ),
+    );
 
     var $virtualFields = array(
-            'url' => 'CONCAT("/events/view/", Event.id)'
-            );
+        'url' => 'CONCAT("/events/view/", Event.id)'
+    );
 
     var $belongsTo = array('Map', 'Series', 'EventClassification', 'Club');
 
     var $hasMany = array(
-            'Course' => array('className' => 'Course', 'dependent' => true),
-            'Organizer'=> array('className' => 'Organizer', 'dependent' => true)
-            );
+        'Course' => array('className' => 'Course', 'dependent' => true),
+        'Organizer'=> array('className' => 'Organizer', 'dependent' => true)
+    );
 
     function beforeSave(){
         parent::beforeSave();

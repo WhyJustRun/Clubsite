@@ -1,47 +1,27 @@
 $(function() {
     $("a.lightbox").fancybox();
-    
-    $.ketchup
-    .createErrorContainer(function(form, el) {
-      return $('<ul/>', {
-               'class': 'ketchup-custom'
-             }).insertAfter(el);
-    })
-    .addErrorMessages(function(form, el, container, messages) {
-      container.html('');
-    
-      for(i = 0; i < messages.length; i++) {
-        $('<li/>', {
-          text: messages[i]
-        }).appendTo(container);
-      }
-    })
-    .showErrorContainer(function(form, el, container) {
-      container.slideDown('fast');
-    })
-    .hideErrorContainer(function(form, el, container) {
-      container.slideUp('fast');
-    });
-    
+
     // Add required to the recaptcha field. This has to be done after page load as the element is created dynamically, and before ketchup parses the data-validate tags
     $('#recaptcha_response_field').attr('data-validate', 'validate(required)');
     jQuery.timeago.settings.allowFuture = true;
     $('time.timeago').timeago();
-    
+
     $('.date-picker').datepicker();
-    
+
     cakebootstrap();
     errorstrap();
     $('input, textarea').placeholder();
 
     // HiDPI resolution images
     swapHiDPIImages();
-    
+
     orienteerAppCheckKetchupFormsAreValidOnSubmit();
-    
+
     $('.oa-wysiwyg').each(function(idx, element) {
         orienteerAppWYSIWYG(element);
     });
+
+    $("[data-toggle='tooltip']").tooltip({ placement: 'right' });
 });
 
 function swapHiDPIImages() {
@@ -59,7 +39,7 @@ function swapHiDPIImages() {
                     setTimeout(load2xImage, 5);
                 }
             }
-            
+
             load2xImage();
         });
     }
@@ -99,7 +79,7 @@ function orienteerAppWYSIWYG(element) {
         })
         orienteerAppState.wysiwygWaitingElements = [];
     }
-    
+
     orienteerAppState.wysiwygWaitingElements.push(element);
     if (orienteerAppState.wysiwygScriptLoaded) {
         wysiwygInitializer();
@@ -116,34 +96,34 @@ function orienteerAppPersonPicker(selector, options, callback) {
     options['allowNew'] = options['allowNew'] || false;
     options['createNew'] = options['createNew'] || false;
     displayName = null;
-    
+
     $(selector).typeahead({
         source: function(typeahead, query) {
-            $.ajax({
-                url: "/users/index.json?term=" + query,
-                success: function(data) {
-                    if (options['createNew']) {
-                        data.push({
-                          position: "bottom",
-                          name: query,
-                          identifiableName: 'Create New User (' + query + ')'
-                        });
-                    }
-                    typeahead.process(data);
-                }
-            });
-        },
-        onselect: function(person) {
-            callback(person)
-            if(options['maintainInput']) {
-                displayName = person.name;
-                $(selector).val(displayName);
-            }
-            $(selector).blur();
-        },
-        property: "identifiableName"
+                    $.ajax({
+                        url: "/users/index.json?term=" + query,
+                        success: function(data) {
+                            if (options['createNew']) {
+                                data.push({
+                                    position: "bottom",
+                                    name: query,
+                                    identifiableName: 'Create New User (' + query + ')'
+                                        });
+                                    }
+                                    typeahead.process(data);
+                                    }
+                                    });
+                                },
+                                onselect: function(person) {
+                                              callback(person)
+                        if(options['maintainInput']) {
+                            displayName = person.name;
+                            $(selector).val(displayName);
+                        }
+                    $(selector).blur();
+                                          },
+                                property: "identifiableName"
     });
-    
+
     $(selector).blur(function() {
         if(!options['allowNew']) {
             if($(selector).val() == "") {

@@ -481,3 +481,14 @@ input.time-segment {
 input.millisecond-time-segment {
     width: 25px;
 }
+
+.wjr-help-tooltip:hover {
+    text-decoration: none;
+}
+
+.wjr-help-tooltip > i {
+    vertical-align: middle;
+    font-size: 20px;
+    color: #888888;
+    padding-left: 4px;
+}
