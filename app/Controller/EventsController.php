@@ -264,19 +264,12 @@ class EventsController extends AppController {
 
     function upcoming($limit)
     {
-        $time = new DateTime();
-        return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id', 'Series.name', 'EventClassification.name'), 'conditions' => array('Event.date >=' => $time->format("Y-m-d H:i:s")), 'order' => 'Event.date ASC'));
-    }
-    function major($limit)
-    {
-        $time = new DateTime();
-        return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id', 'Series.name', 'EventClassification.name'), 'conditions' => array('Event.date >=' => $time->format("Y-m-d H:i:s"), 'Event.event_classification_id <= ' => 4), 'order' => 'Event.date ASC'));
+        return $this->Event->findUpcoming($limit);
     }
 
     function past($limit)
     {
-        $time = new DateTime();
-        return $this->Event->find('all', array('limit' => $limit, 'contain' => array('Series.id', 'Series.name'), 'conditions' => array('Event.date <=' => $time->format("Y-m-d H:i:s")), 'order' => 'Event.date DESC'));
+        return $this->Event->findPast($limit);
     }
 
     function _isBeforeNow($dateTime) {

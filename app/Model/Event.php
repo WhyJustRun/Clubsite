@@ -60,13 +60,43 @@ class Event extends AppModel {
         }
         return true;
     }
+    
+    function findUpcoming($limit) {
+        return $this->findEventsNearNow('after', $limit);
+    }
+
+    function findPast($limit) {
+        return $this->findEventsNearNow('before', $limit);
+    }
+
+    private function findEventsNearNow($beforeOrAfterNow, $limit) {
+        $time = new DateTime();
+        $time = $time->format('Y-m-d H:i:s');
+        if ($beforeOrAfterNow === 'before') {
+            $conditions = array('Event.date <=' => $time);
+            $order = array('Event.date DESC');
+        } else if ($beforeOrAfterNow === 'after') {
+            $conditions = array('Event.date >=' => $time);
+            $order = array('Event.date ASC');
+        } else {
+            die("Event.findEventsNearNow: invalid parameter: $beforeOrAfterNow");
+        }
+
+        $options = array(
+            'limit' => $limit,
+            'contain' => array('Series.id', 'Series.name', 'EventClassification.name'),
+            'conditions' => $conditions,
+            'order' => $order,
+        );
+        return $this->find('all', $options);
+    }
 
     function findAllBetween($startTimestamp, $endTimestamp) {
         $startTime = date("Y-m-d H:i:s", $startTimestamp);
         $endTime = date("Y-m-d H:i:s", $endTimestamp);
         $conditions = array("Event.date >=" => $startTime, "Event.date <=" => $endTime);
 
-        return $this->find("all",array("conditions" => $conditions));
+        return $this->find("all", array("conditions" => $conditions));
     }
 
     // Finds all events prior to event with id
