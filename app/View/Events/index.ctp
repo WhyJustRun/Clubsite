@@ -17,6 +17,7 @@ $(function() {
         month: <?php echo(intval($month) - 1); // January = 0 ?>,
         date: <?= $day ?>,
         timeFormat: 'h:mmtt',
+        firstDay: 1,
         // From google code discussion
         viewDisplay : function(view) {
         // IE doesn't support replaceState..
