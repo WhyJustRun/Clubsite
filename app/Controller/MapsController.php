@@ -67,17 +67,13 @@ class MapsController extends AppController {
             $command = "svn cat " . $repoURL . $map["Map"]["repository_path"] . " > $file";
             $sys = system($command);
 
-            $params = array(
-                    'id' => $file,
-                    'name' => basename($map["Map"]["repository_path"], ".ocd"),
-                    'download' => true,
-                    'extension' => 'ocd',
-                    'mimeType' => array(
-                        'ocad' => 'application/octet-stream'
-                        ),
-                    'path' => '/'
-                    );
-            $this->set($params);
+            $name = basename($map['Map']['repository_path']);
+            $this->response->type('application/octet-stream');
+            $this->response->file($file, array(
+                'download' => true,
+                'name' => $name
+            ));
+            return $this->response;
         }
     }
 
