@@ -170,7 +170,7 @@
                         if(userName.indexOf(" ") != -1) {
                         if(confirm("This registration will create a new user in the system. Are you sure " + userName + " isn't already an OrienteerApp user?")) {
                         $.post('/users/add', { userName: userName }, function(data) {
-                            completeSubmit(courseId, data)
+                            completeSubmit(courseId, $.parseJSON(data))
                             });
                         } else {
                         alert("Thanks! Please re-enter the participant's name and choose the matching person from the dropdown.");
