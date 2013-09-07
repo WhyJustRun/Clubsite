@@ -35,7 +35,7 @@ class LeafletHelper extends AppHelper {
                 'url' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
                 'default' => true,
-                '2x' => false,
+//                '2x' => false,
             ),
 /*
                 'OpenOrienteeringMap' => array(
@@ -45,7 +45,6 @@ class LeafletHelper extends AppHelper {
                         'default' => false,
                         '2x' => false,
                 ),
- */
             'MapBox Streets' => array(
                 'attribution' => 'Map data &copy; 2012 OpenStreetMap contributors',
                 'url'  => 'http://{s}.tiles.mapbox.com/v3/russell.map-8bk5s5sh/{z}/{x}/{y}.png',
@@ -53,6 +52,7 @@ class LeafletHelper extends AppHelper {
                 'maxZoom' => 17,
                 '2x' => true,
             ),
+*/
         ),
         'markers' => array(
 
@@ -111,8 +111,8 @@ class LeafletHelper extends AppHelper {
                 }
 
 
-                $script .= "defaultLayer = (window.devicePixelRatio > 1) ? hidpiDefaultLayer : defaultLayer;
-                ";
+                //$script .= "defaultLayer = (window.devicePixelRatio > 1) ? hidpiDefaultLayer : defaultLayer;
+            //";
                 $script .= "map.${setView}.addLayer(defaultLayer);
                 ";
                 if ($options['pan-interaction']) {
