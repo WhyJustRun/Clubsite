@@ -2,7 +2,6 @@
 class MapsController extends AppController {
 
     var $name = 'Maps';
-
     var $components = array(
             'RequestHandler',
             'Media' => array(
@@ -35,7 +34,6 @@ class MapsController extends AppController {
         $this->set('map', $map);
         $this->set('map_standard', $this->Map->MapStandard->findById(1));
         $this->set('events', $this->Map->Event->findAllByMapId($id));
-        $this->set('view_ocad', 1);
         $this->set('edit', $this->isAuthorized(Configure::read('Privilege.Map.edit')));
     }
 
@@ -52,29 +50,33 @@ class MapsController extends AppController {
         }
 
         $map = $this->Map->findById($id);
-        $this->viewClass = 'Media';
+        
+        if(!empty($map['Map']['repository_path'])) {
+            $this->viewClass = 'Media';
 
-        // Get file from repository and store it in /tmp
-        $file = tempnam(CACHE, "map_download_");
-        $repoURL = Configure::read('Maps.repository.url');
-        $command = "svn list " . $repoURL . $map["Map"]["repository_path"] . " --depth empty";
-        $sys = system($command);
-        if(!$sys){
-            $this->Session->setFlash('File does not exist. Please contact webmaster.');
-            $this->redirect('/maps/view/'. $id);
-            return;
-        } else {
-            $command = "svn cat " . $repoURL . $map["Map"]["repository_path"] . " > $file";
-            $sys = system($command);
+            // Get file from repository and store it in /tmp
+            $file = tempnam(CACHE, "map_download_");
+            $repoURL = Configure::read('Maps.repository.url');
+            $command = "svn list " . $repoURL . $map["Map"]["repository_path"] . " --depth empty";
+            $hasFile = system($command);
+            if($hasFile) {
+                $command = "svn cat " . $repoURL . $map["Map"]["repository_path"] . " > $file";
+                system($command);
 
-            $name = basename($map['Map']['repository_path']);
-            $this->response->type('application/octet-stream');
-            $this->response->file($file, array(
-                'download' => true,
-                'name' => $name
-            ));
-            return $this->response;
+                $name = basename($map['Map']['repository_path']);
+                $this->response->type('application/octet-stream');
+                $this->response->file($file, array(
+                    'download' => true,
+                    'name' => $name
+                ));
+                return $this->response;
+            }
+        } else if (!empty($map['Map']['file_url'])) {
+            $this->redirect($map['Map']['file_url']);
         }
+
+        $this->Session->setFlash('File does not exist. Please contact webmaster.');
+        $this->redirect('/maps/view/'. $id);
     }
 
     // Displays a rendering of the OCAD file (manually uploaded)

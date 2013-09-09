@@ -2,10 +2,15 @@
     <h1><?= isset($map) ? "Edit" : "Add" ?> Map</h1>
 </div>
 <?= $this->Form->create('Map', array('class' => 'form-horizontal', 'action' => 'edit', 'enctype' => 'multipart/form-data')) ?>
-<?
+<?php
 echo $this->Form->input('name');
 echo $this->Form->input('map_standard_id', array('empty' => 'Choose the standard'));
-echo $this->Form->input('repository_path', array('label'=>'Repository Path', 'placeholder' => '/maps/vancouver/ubc/ubc.ocd'));
+$useURLs = Configure::read('Club.use_map_urls');
+if ($useURLs) {
+    echo $this->Form->input('file_url', array('label' => 'Map File URL'));
+} else {
+    echo $this->Form->input('repository_path', array('label'=>'Repository Path', 'placeholder' => '/maps/vancouver/ubc/ubc.ocd'));
+}
 echo $this->Form->input('scale', array('label' => 'Scale', 'placeholder' => '10000'));
 
 if(!empty($map)) { ?>

@@ -1,9 +1,11 @@
 <?php $this->set('title_for_layout', $map["Map"]["name"]); ?>
 <header class="page-header">
-    <?php $show_ocad = ($view_ocad && !empty($map["Map"]["repository_path"]));?>
-    <?php if($edit || $show_ocad) { ?>
+<?php
+$showFileDownload = (!empty($map["Map"]["repository_path"]) ||
+                     !empty($map['Map']['file_url']));
+if($edit || $showFileDownload) { ?>
     <div class="pull-right btn-toolbar">
-        <?php if($show_ocad) { ?>
+        <?php if($showFileDownload) { ?>
         <div class="btn-group">
             <a class="btn btn-info" href="/maps/download/<?= $map["Map"]["id"]?>"><i class="icon-download-alt icon-white"></i> Download</a>
         </div>
