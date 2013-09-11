@@ -12,18 +12,16 @@ if($event["Event"]["finish_date"] != NULL) {
     $dateFormatted = $startDate->format('F jS Y g:ia');
 }
 
-$dynamicText = $dateFormatted;
+$dynamicText = Configure::read('Club.name') . " orienteering event taking place: " . $dateFormatted . ". ";
 $seriesName = $event['Series']['name'];
 if (!empty($seriesName)) {
-    $dynamicText .= "
-Series: $seriesName";
+    $dynamicText .= "Event series: $seriesName. ";
 }
 
 
 $this->OpenGraph->addTag("og:type", "event");
 $this->OpenGraph->addTag("og:url", $this->Html->url($event['Event']['url'], true));
-$this->OpenGraph->addTag("og:description", "$dynamicText
-Orienteering is an exciting sport for all ages and fitness levels that involves reading a detailed map and using a compass to find checkpoints.");
+$this->OpenGraph->addTag("og:description", "$dynamicText Orienteering is an exciting sport for all ages and fitness levels that involves reading a detailed map and using a compass to find checkpoints.");
 $this->OpenGraph->addTag("og:title", $event['Event']['name']);
 $this->OpenGraph->addTag("og:image", $this->Html->url('/img/orienteering_symbol.png', true));
 $tz = Configure::read('Club.timezone');
