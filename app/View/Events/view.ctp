@@ -12,12 +12,7 @@ if($event["Event"]["finish_date"] != NULL) {
     $dateFormatted = $startDate->format('F jS Y g:ia');
 }
 
-$dynamicText = Configure::read('Club.name') . " orienteering event taking place: " . $dateFormatted . ". ";
-$seriesName = $event['Series']['name'];
-if (!empty($seriesName)) {
-    $dynamicText .= "Event series: $seriesName. ";
-}
-
+$dynamicText = "Orienteering event taking place: " . $dateFormatted . ".";
 
 $this->OpenGraph->addTag("og:type", "event");
 $this->OpenGraph->addTag("og:url", $this->Html->url($event['Event']['url'], true));
