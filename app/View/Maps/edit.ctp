@@ -14,9 +14,14 @@ if ($useURLs) {
 }
 ?>
 <fieldset class="control-group">
-    <label class="control-label">Image</label>
+    <label class="control-label">Map Image</label>
     <div class="controls">
         <?= $this->Form->file('image', array('label' => 'Add image')) ?>
+        <span class="add-on">
+            <a href="#" data-toggle="tooltip" class="wjr-help-tooltip" title="" data-original-title="Provide a high quality image version of the orienteering map, JPG or GIF recommended. This is displayed on the map page so people who don't have OCAD can still view it.">
+                <i class="icon-question-sign"></i>
+            </a>
+        </span>
         <?php
         if(isset($map) && $this->Media->exists('Map', $map["Map"]["id"])) {
         echo "<br/>".$this->Media->image("Map", $map["Map"]["id"], '400x600');
