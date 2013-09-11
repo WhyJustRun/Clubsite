@@ -1,12 +1,32 @@
 <?php
-$this->OpenGraph->addTag("og:type", "event");
-$this->OpenGraph->addTag("og:url", $this->Html->url($event['Event']['url'], true));
-$this->OpenGraph->addTag("og:description", "Orienteering is an exciting sport for all ages and fitness levels that involves reading a detailed map and using a compass to find checkpoints.");
-$this->OpenGraph->addTag("og:title", $event['Event']['name']);
-$this->OpenGraph->addTag("og:image", $this->Html->url('/img/orienteering_symbol.png', true));
 $tz = Configure::read('Club.timezone');
 $startDate = new DateTime($event["Event"]["date"], $tz);
 $finishDate = $event['Event']['finish_date'] ? new DateTime($event["Event"]["finish_date"], $tz) : null;
+if($event["Event"]["finish_date"] != NULL) {
+    if($startDate->format('D F jS') === $finishDate->format('D F jS')) {
+        $dateFormatted = $startDate->format('F jS Y g:ia') . " - " . $finishDate->format('g:ia');
+    } else {
+        $dateFormatted = $startDate->format('F jS Y g:ia') . " - " . $finishDate->format('F jS Y g:ia');
+    }
+} else {
+    $dateFormatted = $startDate->format('F jS Y g:ia');
+}
+
+$dynamicText = $dateFormatted;
+$seriesName = $event['Series']['name'];
+if (!empty($seriesName)) {
+    $dynamicText .= "
+Series: $seriesName";
+}
+
+
+$this->OpenGraph->addTag("og:type", "event");
+$this->OpenGraph->addTag("og:url", $this->Html->url($event['Event']['url'], true));
+$this->OpenGraph->addTag("og:description", "$dynamicText
+Orienteering is an exciting sport for all ages and fitness levels that involves reading a detailed map and using a compass to find checkpoints.");
+$this->OpenGraph->addTag("og:title", $event['Event']['name']);
+$this->OpenGraph->addTag("og:image", $this->Html->url('/img/orienteering_symbol.png', true));
+$tz = Configure::read('Club.timezone');
 $this->OpenGraph->addTag("event:start_time", $startDate->format(DateTime::ISO8601));
 if ($finishDate) {
     $this->OpenGraph->addTag('event:end_time', $finishDate->format(DateTime::ISO8601));
@@ -60,17 +80,6 @@ if (!empty($event['Event']['lng'])) {
 <h1 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Event"]["name"]; ?> <small class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Series"]["name"] ?></small></h1>
 
 <h2 class="event-header"><?php 
-    if($event["Event"]["finish_date"] != NULL) {
-    if($startDate->format('D F jS') === $finishDate->format('D F jS')) {
-    $dateFormatted = $startDate->format('F jS Y g:ia') . " - " . $finishDate->format('g:ia');
-    } else {
-    $dateFormatted = $startDate->format('F jS Y g:ia') . " - " . $finishDate->format('F jS Y g:ia');
-    }
-    }
-    else {
-    $dateFormatted = $startDate->format('F jS Y g:ia');
-    }
-
     echo $dateFormatted;
     ?></h2>
 <? if(!empty($event["Event"]["custom_url"])) {?>
