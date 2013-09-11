@@ -1,3 +1,24 @@
+<?php
+$this->OpenGraph->addTag("og:type", "event");
+$this->OpenGraph->addTag("og:url", $this->Html->url($event['Event']['url'], true));
+$this->OpenGraph->addTag("og:title", $event['Event']['name']);
+$this->OpenGraph->addTag("og:image", $this->Html->url('/img/orienteering_symbol.png', true));
+$tz = Configure::read('Club.timezone');
+$startDate = new DateTime($event["Event"]["date"], $tz);
+$finishDate = $event['Event']['finish_date'] ? new DateTime($event["Event"]["finish_date"], $tz) : null;
+$this->OpenGraph->addTag("event:start_time", $startDate->format(DateTime::ISO8601));
+if ($finishDate) {
+    $this->OpenGraph->addTag('event:end_time', $finishDate->format(DateTime::ISO8601));
+}
+if (!empty($event['Event']['lat'])) {
+    $this->OpenGraph->addTag("event:location:latitude", $event['Event']['lat']);
+}
+
+if (!empty($event['Event']['lng'])) {
+    $this->OpenGraph->addTag("event:location:longitude", $event['Event']['lng']);
+}
+?>
+
 <header class="page-header">
 <div class="pull-right btn-toolbar">
     <div class="btn-group">
@@ -38,8 +59,6 @@
 <h1 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Event"]["name"]; ?> <small class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Series"]["name"] ?></small></h1>
 
 <h2 class="event-header"><?php 
-    $startDate = new DateTime($event["Event"]["date"]);
-    $finishDate = new DateTime($event["Event"]["finish_date"]);    
     if($event["Event"]["finish_date"] != NULL) {
     if($startDate->format('D F jS') === $finishDate->format('D F jS')) {
     $dateFormatted = $startDate->format('F jS Y g:ia') . " - " . $finishDate->format('g:ia');

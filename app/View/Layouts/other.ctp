@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=en>
-    <head>
+    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# event: http://ogp.me/ns/event#">
         <?php echo $this->Html->charset(); ?>
         <title>
             <?php echo $title_for_layout; ?>

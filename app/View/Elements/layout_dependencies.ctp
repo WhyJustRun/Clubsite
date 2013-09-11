@@ -27,6 +27,8 @@ if($this->Session->read('Club.'.Configure::read('Club.id').'.Privilege.ContentBl
 }
 
 echo $this->Html->script('cakebootstrap');
+
+echo $this->fetch('open_graph');
 ?>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

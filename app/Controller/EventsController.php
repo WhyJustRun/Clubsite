@@ -11,7 +11,7 @@ class EventsController extends AppController {
                 'thumbnailSizes' => array('')
                 )
             );
-    var $helpers = array("Time", "Geocode", "Form", "TimePlus", 'Leaflet', 'Session', 'Media');
+    var $helpers = array("Time", "Geocode", "Form", "TimePlus", 'Leaflet', 'Session', 'Media', 'OpenGraph');
 
     function beforeFilter() {
         parent::beforeFilter();
