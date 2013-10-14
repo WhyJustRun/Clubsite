@@ -57,10 +57,10 @@ class MapsController extends AppController {
             // Get file from repository and store it in /tmp
             $file = tempnam(CACHE, "map_download_");
             $repoURL = Configure::read('Maps.repository.url');
-            $command = "svn list " . $repoURL . $map["Map"]["repository_path"] . " --depth empty";
+            $command = "svn list " . escapeshellarg($repoURL . $map["Map"]["repository_path"]) . " --depth empty";
             $hasFile = system($command);
             if($hasFile) {
-                $command = "svn cat " . $repoURL . $map["Map"]["repository_path"] . " > $file";
+                $command = "svn cat " . escapeshellarg($repoURL . $map["Map"]["repository_path"]) . " > $file";
                 system($command);
 
                 $name = basename($map['Map']['repository_path']);
