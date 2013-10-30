@@ -20,6 +20,7 @@ class SetupClubShell extends Shell {
         $club['club_category_id'] = $this->in('Club category id?');
         $club['facebook_page_id'] = $this->in('Facebook page id?');
 
+        $this->Club->create();
         $this->Club->save(array('Club' => $club));
         $club['id'] = $this->Club->id;
         
@@ -28,10 +29,13 @@ class SetupClubShell extends Shell {
         $adminEmail = $this->in('Email address?');
         
         $user = $this->User->findByEmail($adminEmail);
+        $this->Group->create();
         $this->Group->save(array('Group' => array('name' => 'Executive', 'description' => 'Add/modify maps, events, organizers, resources.', 'access_level' => 80, 'club_id' => $this->Club->id)));
+        $this->Group->create();
         $this->Group->save(array('Group' => array('name' => 'Webmaster', 'description' => 'Club webmasters can edit privileges', 'access_level' => 90, 'club_id' => $this->Club->id)));
         $groupId = $this->Group->id;
         if($user != null) {
+            $this->Privilege->create();
             $this->Privilege->save(array('Privilege' => array('group_id' =>  $groupId, 'user_id' => $user['User']['id'])));
         }
 
