@@ -43,6 +43,6 @@ if (!empty($_SERVER['HTTP_HOST'])) {
     clubFromHost($_SERVER['HTTP_HOST']);
 } else {
     // Allow command line scripts to still work
-    clubFromHost("gvoc.whyjustrun.ca");
+    clubFromHost("iof.whyjustrun.ca");
 }
 
