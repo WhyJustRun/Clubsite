@@ -71,7 +71,7 @@ Configure::write('Resource.Club.style.name', 'CSS Style');
 Configure::write('Resource.Club.style.description', 'You can override the default WhyJustRun CSS with your own style. Warning: this may break with updates to WhyJustRun.');
 
 // Specify content block defaults (so clubs upgrade cleanly)
-Configure::write('ContentBlock.default.general_information.1', '## Welcome!');
+Configure::write('ContentBlock.default.general_information.1', '<h2>Welcome!</h2>');
 Configure::write('ContentBlock.default.general_maps_information.1', 'No map information has been entered yet.');
 Configure::write('ContentBlock.default.contact.1', 'No contact information has been entered yet.');
 
