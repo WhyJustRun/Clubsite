@@ -25,16 +25,6 @@ class Group extends AppModel {
                     //'on' => 'create', // Limit validation to 'create' or 'update' operations
                     ),
                 ),
-            'description' => array(
-                    'alphanumeric' => array(
-                        'rule' => array('alphanumeric'),
-                        //'message' => 'Your custom message here',
-                        //'allowEmpty' => false,
-                        //'required' => false,
-                        //'last' => false, // Stop validation after this rule
-                        //'on' => 'create', // Limit validation to 'create' or 'update' operations
-                        ),
-                    ),
             );
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
