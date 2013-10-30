@@ -23,16 +23,18 @@ class SetupClubShell extends Shell {
         $this->Club->save(array('Club' => $club));
         $club['id'] = $this->Club->id;
         
-        $this->out('Club created! Add an administrator.');
+        $this->out('Club created! Add a webmaster:');
+        
         $adminEmail = $this->in('Email address?');
         
         $user = $this->User->findByEmail($adminEmail);
-        $this->Group->save(array('Group' => array('name' => 'Administrator', 'access_level' => 100, 'club_id' => $this->Club->id)));
+        $this->Group->save(array('Group' => array('name' => 'Executive', 'description' => 'Add/modify maps, events, organizers, resources.', 'access_level' => 80, 'club_id' => $this->Club->id)));
+        $this->Group->save(array('Group' => array('name' => 'Webmaster', 'description' => 'Club webmasters can edit privileges', 'access_level' => 90, 'club_id' => $this->Club->id)));
         $groupId = $this->Group->id;
         if($user != null) {
             $this->Privilege->save(array('Privilege' => array('group_id' =>  $groupId, 'user_id' => $user['User']['id'])));
         }
-        
+
         $this->out('All done. Head to '.$club['domain'].' and get the club up and running!');
     }
 }
