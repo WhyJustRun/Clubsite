@@ -4,8 +4,6 @@
  *
  * Tree test using UUIDs
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -17,12 +15,13 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model.Behavior
  * @since         CakePHP(tm) v 1.2.0.5330
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Model', 'Model');
 App::uses('AppModel', 'Model');
 App::uses('String', 'Utility');
+
 require_once dirname(dirname(__FILE__)) . DS . 'models.php';
 
 /**
@@ -35,7 +34,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 /**
  * Whether backup global state for each test method or not
  *
- * @var bool false
+ * @var boolean
  */
 	public $backupGlobals = false;
 
@@ -66,6 +65,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 	public function testAddWithPreSpecifiedId() {
 		extract($this->settings);
 		$this->Tree = new $modelClass();
+		$this->Tree->order = null;
 		$this->Tree->initialize(2, 2);
 
 		$data = $this->Tree->find('first', array(
@@ -97,6 +97,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 	public function testMovePromote() {
 		extract($this->settings);
 		$this->Tree = new $modelClass();
+		$this->Tree->order = null;
 		$this->Tree->initialize(2, 2);
 		$this->Tree->id = null;
 
@@ -112,7 +113,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 			array($modelClass => array('name' => '1.1.1', $leftField => 12, $rightField => 13)));
 		$this->assertEquals($direct, $expects);
 		$validTree = $this->Tree->verify();
-		$this->assertSame($validTree, true);
+		$this->assertTrue($validTree);
 	}
 
 /**
@@ -123,6 +124,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 	public function testMoveWithWhitelist() {
 		extract($this->settings);
 		$this->Tree = new $modelClass();
+		$this->Tree->order = null;
 		$this->Tree->initialize(2, 2);
 		$this->Tree->id = null;
 
@@ -150,6 +152,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 	public function testRemoveNoChildren() {
 		extract($this->settings);
 		$this->Tree = new $modelClass();
+		$this->Tree->order = null;
 		$this->Tree->initialize(2, 2);
 		$initialCount = $this->Tree->find('count');
 
@@ -173,7 +176,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 		$this->assertEquals(array_values($nodes), $expects);
 
 		$validTree = $this->Tree->verify();
-		$this->assertSame($validTree, true);
+		$this->assertTrue($validTree);
 	}
 
 /**
@@ -184,6 +187,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 	public function testRemoveAndDeleteNoChildren() {
 		extract($this->settings);
 		$this->Tree = new $modelClass();
+		$this->Tree->order = null;
 		$this->Tree->initialize(2, 2);
 		$initialCount = $this->Tree->find('count');
 
@@ -205,7 +209,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 		$this->assertEquals(array_values($nodes), $expects);
 
 		$validTree = $this->Tree->verify();
-		$this->assertSame($validTree, true);
+		$this->assertTrue($validTree);
 	}
 
 /**
@@ -216,6 +220,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 	public function testChildren() {
 		extract($this->settings);
 		$this->Tree = new $modelClass();
+		$this->Tree->order = null;
 		$this->Tree->initialize(2, 2);
 
 		$data = $this->Tree->find('first', array('conditions' => array($modelClass . '.name' => '1. Root')));
@@ -244,6 +249,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 	public function testNoAmbiguousColumn() {
 		extract($this->settings);
 		$this->Tree = new $modelClass();
+		$this->Tree->order = null;
 		$this->Tree->initialize(2, 2);
 
 		$this->Tree->bindModel(array('belongsTo' => array('Dummy' =>
@@ -280,6 +286,7 @@ class TreeBehaviorUuidTest extends CakeTestCase {
 	public function testGenerateTreeListWithSelfJoin() {
 		extract($this->settings);
 		$this->Tree = new $modelClass();
+		$this->Tree->order = null;
 		$this->Tree->bindModel(array('belongsTo' => array('Dummy' =>
 			array('className' => $modelClass, 'foreignKey' => $parentField, 'conditions' => array('Dummy.id' => null)))), false);
 		$this->Tree->initialize(2, 2);
