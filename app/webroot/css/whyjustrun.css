@@ -120,6 +120,10 @@ form.thin-form {
     font-size: 100%;
 }
 
+.content-block img {
+    max-width: 100%;
+}
+
 .content-block textarea {
     font-size: 100%;
 }
