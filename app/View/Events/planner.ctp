@@ -6,7 +6,7 @@
 </header>
 
 <div class="row">
-    <div class='span6'>
+    <div class='col-sm-6'>
         <h2>Which Map?</h2>
         <table class="table table-striped table-bordered table-condensed">
             <thead>
@@ -37,7 +37,7 @@
         </table>
     </div>
     
-    <div class='span6'>
+    <div class='col-sm-6'>
         <h2>Who's Next?</h2>
         <p>A list of people who have attended at least <?= Configure::read('Event.planner.attendanceThreshold') ?> events since <?= $this->TimePlus->ago(Configure::read('Event.planner.dateThreshold')); ?>, but haven't volunteered as an organizer.</p>
         <table class="table table-striped table-bordered table-condensed">

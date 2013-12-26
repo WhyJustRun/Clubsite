@@ -1,16 +1,14 @@
 <header class="page-header">
     <div class="pull-right">
-       <a href="/series/edit" class="btn btn-success"><i class="icon-plus icon-white"></i> Series</a>
+       <a href="/series/edit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Series</a>
     </div>
     <h1>Series</h1>
 </header>
-<table class="table table-striped table-bordered table-condensed">
+<table class="table table-striped table-bordered table-condensed" style="width: initial">
     <thead>
         <tr>
             <th>Acronym</th>
             <th>Name</th>
-            <th>Description</th>
-            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -20,13 +18,9 @@
         <tr>
             <td><?= $serie["Series"]["acronym"] ?></td>
             <td><?= $serie["Series"]["name"] ?></td>
-            <td><?= $serie["Series"]["description"] ?></td>
             <td>
-                <?= $this->Html->link('View', '/series/view/'.$serie["Series"]["id"], array('class' => 'btn btn-mini')); ?>
-            </td>
-            <td>
-                <a class="btn btn-mini btn-primary" href="/series/edit/<?= $serie["Series"]["id"] ?>">
-                    <i class="icon-cog icon-white"></i>
+                <a class="btn btn-xs btn-primary" href="/series/edit/<?= $serie["Series"]["id"] ?>">
+                    <span class="glyphicon glyphicon-cog"></span>
                 </a>
             </td>
         </tr>

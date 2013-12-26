@@ -1,12 +1,12 @@
 <?php $this->set('title_for_layout', Configure::read("Club.name")); ?>
 <div class="page-header">
     <header>
-    <h1>Orienteering Canada Database</h1>
+        <h1>Orienteering Canada Database</h1>
         Thank you for using the Orienteering Canada national database (OCNDB). This page allows your club to enter and edit information about your club's events, maps, and officials.
     </header>
 </div>
 <div class="three-column">
-    <div class="span4">
+    <div class="col-md-4">
         <h4>Events</h4>
             You can enter your club's events in the OCNDB quickly and easily. This allows you to:
             <ul>
@@ -26,7 +26,7 @@
         pre-requisites for official certification, and identifying qualified officials for major events.
 
     </div>
-    <div class="span4">
+    <div class="col-md-4">
         <h4>Export</h4>
         This page show how you can incorporate the information from the database into your club's website.
 
@@ -38,11 +38,9 @@
         Use this page to seet up other users who will be allowed to enter and make changes to your club's information.
         </ul>
     </div>
-    <div class="span4">
-        <?php
-            echo "<h3>Upcoming events</h3>";
-            echo $this->element('Events/box-list', array('filter' => 'upcoming', 'limit' => '7'));
-        ?>
+    <div class="col-md-4">
+        <h3>Upcoming events</h3>
+        <?= $this->element('Events/box-list', array('filter' => 'upcoming', 'limit' => '7')); ?>
    </div>
 </div>
 

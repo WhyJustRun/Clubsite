@@ -37,7 +37,7 @@ if (!empty($event['Event']['lng'])) {
 <div class="pull-right btn-toolbar">
     <div class="btn-group">
         <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="icon-download-alt icon-white"></i> Export
+            <span class="glyphicon glyphicon-download-alt"></span> Export
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
@@ -53,7 +53,7 @@ if (!empty($event['Event']['lng'])) {
     <?php if($edit) { ?>
     <div class="btn-group">
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="icon-cog icon-white"></i> Edit
+            <span class="glyphicon glyphicon-cog"></span> Edit
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
@@ -65,7 +65,7 @@ if (!empty($event['Event']['lng'])) {
     </div>
 
     <div class="btn-group">
-        <a class="btn btn-danger" href="/events/delete/<?= $event['Event']['id'] ?>" onclick='return confirm("Delete this event (including any defined organizers, courses and results)?");'><i class="icon-trash icon-white"></i></a>
+        <a class="btn btn-danger" href="/events/delete/<?= $event['Event']['id'] ?>" onclick='return confirm("Delete this event (including any defined organizers, courses and results)?");'><span class="glyphicon glyphicon-trash"></span></a>
     </div>
     <?php } ?>
 </div>
@@ -86,18 +86,18 @@ if (!empty($event['Event']['lng'])) {
     <?php if(!$event["Event"]["results_posted"] && !$event['Event']['results_url'] && !$event['Event']['routegadget_url']) { 
     // Show event information
     ?>
-    <div class="span8">
+    <div class="col-sm-8">
         <?php echo $this->element('Events/info', array('event' => $event)); ?>
     </div>
 
     <?php
     $registrationURL = $event['Event']['registration_url'];
     if($event["Event"]["completed"] === true) { ?>
-    <div class="results span4">
+    <div class="results col-sm-4">
         <?php echo $this->element('Courses/course_maps', array('courses' => $event["Course"])); ?>
     </div>
     <?php } else if($registrationURL) { ?>
-    <div class="results span4">
+    <div class="results col-sm-4">
         <header>
         <h2>Registration</h2>
         </header>
@@ -108,7 +108,7 @@ if (!empty($event['Event']['lng'])) {
         </div>
     </div>
     <?php } else if(count($event["Course"]) > 0) { ?>
-    <div class="results span4">
+    <div class="results col-sm-4">
         <header>
         <h2>Course Registration</h2>
         </header>
@@ -122,13 +122,13 @@ if (!empty($event['Event']['lng'])) {
                     <div class="pull-right">
                         <?php if($course["registered"] === false) { ?>
                         <div class="btn-group">
-                            <a class="btn btn-success" href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>"><i class="icon-plus icon-white"></i> Register</a>
+                            <a class="btn btn-success" href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>"><span class="glyphicon glyphicon-plus"></span> Register</a>
                             <a class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>/needsRide"><i class="icon-user"></i> Register (Need ride)</a></li>
-                                <li><a href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>/offeringRide"><i class="icon-road"></i> Register (Offer ride)</a></li>
+                                <li><a href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>/needsRide"><span class="glyphicon glyphicon-user"></span> Register (Need ride)</a></li>
+                                <li><a href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>/offeringRide"><span class="glyphicon glyphicon-road"></span> Register (Offer ride)</a></li>
                             </ul>
                         </div>
                         <?php } ?>
@@ -162,11 +162,13 @@ if (!empty($event['Event']['lng'])) {
         <?php } else { ?>
         <p>To register someone else, choose the course to register them on, then type their name, and pick the person from the drop down list.</p>
         <p><strong>Families</strong>: you don't need to register an account for every family member, just type the participating people's names below and an account will automatically be created for each person.</p>
-        <select id="RegisterOthersCourse">
-            <?php foreach($event['Course'] as $course) { ?>
-            <option value="<?= $course['id'] ?>"><?= $course['name'] ?></option>
-            <?php } ?>
-        </select>
+        <div class="form-group">
+            <select class="form-control" id="RegisterOthersCourse">
+                <?php foreach($event['Course'] as $course) { ?>
+                <option value="<?= $course['id'] ?>"><?= $course['name'] ?></option>
+                <?php } ?>
+            </select>
+        </div>
         <script type="text/javascript">
             $(function() {
                     $('#RegisterOthersUserId').val(null);
@@ -209,9 +211,11 @@ if (!empty($event['Event']['lng'])) {
                     });
             });
         </script>
-        <input type="hidden" id="RegisterOthersUserId" />
-        <input placeholder="Participant Name" type="text" id="RegisterOthersUserName" /><br/>
-        <button id="RegisterOthersSubmit" class="btn btn-success"><i class="icon-plus icon-white"></i> Register</button>
+        <div class="form-group">
+            <input type="hidden" id="RegisterOthersUserId" />
+            <input class="form-control" placeholder="Participant Name" type="text" id="RegisterOthersUserName" /><br/>
+        </div>
+        <button id="RegisterOthersSubmit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Register</button>
         <?php } ?>
         <?php } ?>
     </div>
@@ -219,7 +223,7 @@ if (!empty($event['Event']['lng'])) {
     <?php } else {
     // Show results page
     ?>
-    <div class="span6">
+    <div class="col-sm-6">
         <div class="results">
             <header>
             <h2>Results</h2>
@@ -275,7 +279,7 @@ if (!empty($event['Event']['lng'])) {
             <?= $this->element('Courses/course_maps', array('courses' => $event["Course"])); ?>
         </div>
     </div>
-    <div class="span6">
+    <div class="col-sm-6">
         <?php echo $this->element('Events/info', array('event' => $event)); ?>
     </div>
     <?php } ?>
@@ -286,8 +290,8 @@ if (!empty($event['Event']['lng'])) {
 <div id="flickr-photos-container" class="photos-grid">
     <h2>Photos</h2>
     <p>Photos are from Flickr. To add your photos to this section, tag your Flickr photos with: <span class="label label-success" style="vertical-align: baseline">orienteerapp<?= $event['Event']['id'] ?></span> (all one word)</p>
-    <ul id="flickr-photos" class="thumbnails" data-bind="foreach: photos">
-        <li class="span3">
+    <ul id="flickr-photos" class="list-unstyled" data-bind="foreach: photos">
+        <li class="col-sm-3">
         <a data-bind="attr: { href: '#flickrPhoto' + id, onclick: 'loadFlickrImage(\'' + id + '\',\'' + largeUrl + '\')' }" class="thumbnail">
             <div data-bind="style: { backgroundImage: 'url(' + thumbnailUrl + ')' }">
 
@@ -368,6 +372,3 @@ $(function() {
         });
 
 </script>
-
-<script src="" type="text/javascript"></script>
-

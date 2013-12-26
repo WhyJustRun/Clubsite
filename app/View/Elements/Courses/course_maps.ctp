@@ -7,11 +7,8 @@ if(!empty($courses)) { ?>
         if($this->Media->exists("Course", $course["id"])) { 
             $mapsPosted = true;
             ?>
-            <div class="column">
-                <h3><?= $course["name"] ?></h3><br>
-                <?= $this->Media->linkedImage("Course", $course["id"], '600x600') ?> 
-            </a>
-        </div>
+            <h3><?= $course["name"] ?></h3><br>
+            <?= $this->Media->linkedImage("Course", $course["id"], '600x600', array(), array('width' => '100%')) ?> 
         <?php
         }
     }

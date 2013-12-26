@@ -3,7 +3,7 @@
 </header>
 
 <div class="row">
-    <div class="span5">
+    <div class="col-sm-5">
         <h3>Types of privileges</h3>
         <dl class="dl-horizontal">
         <?php foreach($groupList as $group) { ?>
@@ -13,12 +13,14 @@
         </dl>
         Those users not listed here can only sign up for events and have no other privileges.
     </div>
-    <div class="span7">
+    <div class="col-sm-7">
         <h3>Add privilege</h3>
         <?= $this->Form->create('Privilege', array('class' => 'form-inline', 'action' => 'add')) ?>
         <?= $this->Form->hidden('user_id') ?>
         <?php $this->Form->unlockField('Privilege.user_id'); ?>
-        <input placeholder="Name" type="text" id="UserName" />
+        <div class="form-group">
+            <input placeholder="Name" type="text" id="UserName" class='form-control' />
+        </div>
         <script type="text/javascript">
         $(function() {
             orienteerAppPersonPicker('#UserName', { maintainInput: true }, function(person) {
@@ -28,9 +30,9 @@
             });
         });
         </script>
-        <?= $this->Form->input('group_id', array('class' => 'input-medium', 'label' => false, 'div' => false)) ?>
+        <?= $this->Form->input('group_id', array('class' => 'form-control', 'label' => false, 'div' => 'form-group')) ?>
         <button type="submit" class="btn btn-success">
-            <i class="icon-plus icon-white"></i>
+            <span class="glyphicon glyphicon-plus"></span>
         </button>
         <?= $this->Form->end(null) ?>
         
@@ -46,23 +48,23 @@
             <tbody>
             <?php foreach ($privileges as $privilege) { ?>
                 <tr>
-                    <td><?= $privilege["User"]["name"] ?></td>
+                    <td style="vertical-align: middle"><?= $privilege["User"]["name"] ?></td>
                     <td>
-                        <?= $this->Form->create('Privilege', array('class' => 'form-inline thin-form', 'action' => 'edit'));?>
+                        <?= $this->Form->create('Privilege', array('class' => 'form-inline', 'action' => 'edit'));?>
                         <?php
                         echo $this->Form->hidden('user_id', array('value'=> $privilege["User"]["id"]));
                         echo $this->Form->hidden('id', array('value'=> $privilege["Privilege"]["id"]));
-                        echo $this->Form->input('group_id', array('div' => false, 'class' => 'input-medium', 'value'=>$privilege["Group"]["id"], 'label'=>false));
+                        echo $this->Form->input('group_id', array('div' => 'form-group', 'class' => 'form-control input-sm', 'value' => $privilege["Group"]["id"], 'label' => false));
                         ?>
-                        <input type="submit" value="Save" class="btn btn-mini">
+                        <input type="submit" value="Save" class="btn btn-primary btn-sm">
                         <?= $this->Form->end() ?>
                     </td>
                     <td>
                         <?
                         echo $this->Form->create('Privilege', array('class' => 'thin-form', 'action' => 'delete'));
                         echo $this->Form->hidden('id', array('value'=> $privilege["Privilege"]["id"])); ?>
-                        <button type="submit" class="btn btn-mini btn-danger">
-                            <i class="icon-trash icon-white"></i>
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span>
                         </button>
                         <?= $this->Form->end(); ?>
                     </td>

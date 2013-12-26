@@ -1,7 +1,7 @@
 <header class="page-header">
     <div class="pull-right">
         <a class="btn btn-primary" href="/series/edit/<?= $series["Series"]["id"] ?>">
-            <i class="icon-cog icon-white"></i> Edit
+            <span class="glyphicon glyphicon-cog"></span> Edit
         </a>
     </div>
     <h1><?= $series["Series"]["name"] ?> <small><?= "Hosted by " . Configure::read("Club.acronym") ?></small></h1>

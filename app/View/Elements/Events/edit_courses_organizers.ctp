@@ -100,14 +100,14 @@ var finishLoadingOrganizers = function() {
             </select>
         </td>
         <td>
-            <button type="submit" class="btn btn-mini btn-danger pull-right" data-bind="click: remove"><i class="icon-trash icon-white"></i></button>
+            <button type="submit" class="btn btn-xs btn-danger pull-right" data-bind="click: remove"><span class="glyphicon glyphicon-trash"></span></button>
         </td>
     </tr>
     </script>
-    <fieldset class="control-group">
-        <label for="organizers" class="control-label">Event Organizers</label>
-        <div class="controls">
-            <input placeholder="Add an organizer" type="text" id="organizers" />
+    <fieldset class="form-group">
+        <label for="organizers" class="col-sm-2 control-label">Event Organizers</label>
+        <div class="col-sm-10">
+            <input class="form-control" placeholder="Add an organizer" type="text" id="organizers" />
             <br/><br/>
             
             <table class="table table-striped table-condensed" data-bind="visible: organizers().length > 0">
@@ -121,21 +121,25 @@ var finishLoadingOrganizers = function() {
 <div id='edit-courses'>
     <script type="text/html" id="courseTemplate">
     <tr>
-        <td class="span2"><input type="text" class="span2 thin-control" data-validate = "validate(required)" data-bind="value: name, uniqueName: true" required /></td>
-        <td class="span1"><input class="span1 thin-control" type="number" data-bind="value: distance" /></td>
-        <td class="span1"><input class="span1 thin-control" type="number" data-bind="value: climb" /></td>
-        <td class="span1"><input class="span1 thin-control" type="checkbox" data-bind="checked: isScoreO" /></td>
-        <td><input type="text" class="thin-control spanning-control" data-bind="value: description" /></td>
+        <td class="col-sm-2"><input type="text" class="form-control input-sm" data-validate = "validate(required)" data-bind="value: name, uniqueName: true" required /></td>
+        <td class="col-sm-1"><input class="form-control input-sm" type="number" data-bind="value: distance" /></td>
+        <td class="col-sm-1"><input class="form-control input-sm" type="number" data-bind="value: climb" /></td>
+        <td class="col-sm-1">
+            <div class="checkbox">
+                <input type="checkbox" data-bind="checked: isScoreO" />
+            </div>
+        </td>
+        <td><input type="text" class="form-control input-sm" data-bind="value: description" /></td>
         <td>
-            <button type="submit" class="btn btn-mini btn-danger pull-right" data-bind="click: remove"><i class="icon-trash icon-white"></i></button>
+            <button type="submit" class="btn btn-sm btn-danger pull-right" data-bind="click: remove"><span class="glyphicon glyphicon-trash"></span></button>
         </td>
     </tr>
     </script>
-    <fieldset class="control-group">
-        <label class="control-label">Courses</label>
-        <div class="controls">
+    <fieldset class="form-group">
+        <label class="col-sm-2 control-label">Courses</label>
+        <div class="col-sm-10">
             <button type="submit" class="btn btn-success" data-bind="click: addNewCourse">
-                <i class="icon-plus icon-white"></i> Course
+                <span class="glyphicon glyphicon-plus"></span> Course
             </button>
             <br/><br/>
             <table class="table table-striped table-condensed" data-bind="visible: courses().length > 0">

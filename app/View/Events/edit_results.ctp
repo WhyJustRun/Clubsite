@@ -164,46 +164,50 @@ $(document).ready(function() {
 
 <script type="text/html" id="resultTemplate">
     <tr>
-        <td class="span4" data-bind="text: user.name"></td>
-        <td data-bind="visible: is_score_o"><input type="number" class="thin-control spanning-control" data-bind="value: score_points"></td>
-        <td>
-            <div class="input-prepend input-append">
-                <input type="text" class="thin-control time-segment" maxlength="2" size="2" data-bind="value: hours" pattern="[0-9]{0,2}" />
-                <span class="add-on thin-control time-spacer">:</span>
-                <input type="text" class="thin-control time-segment" maxlength="2" size="2" data-bind="value: minutes" pattern="[0-9]{0,2}" />
-                <span class="add-on thin-control time-spacer">:</span>
-                <input type="text" class="thin-control time-segment" maxlength="2" size="2" data-bind="value: seconds" pattern="[0-9]{0,2}" />
-                <span class="add-on thin-control time-spacer">.</span>
-                <input type="text" class="thin-control millisecond-time-segment" maxlength="3" size="3" data-bind="value: milliseconds" pattern="[0-9]{0,3}"/>
+        <td data-bind="text: user.name" style="vertical-align: middle"><p></p></td>
+        <td data-bind="visible: is_score_o"><input type="number" class="form-control" data-bind="value: score_points"></td>
+        <td style="width: 160px">
+            <div class="input-group">
+                <input type="text" class="form-control time-segment" maxlength="2" size="2" data-bind="value: hours" pattern="[0-9]{0,2}" />
+                <span class="input-group-addon time-spacer">:</span>
+                <input type="text" class="form-control time-segment" maxlength="2" size="2" data-bind="value: minutes" pattern="[0-9]{0,2}" />
+                <span class="input-group-addon time-spacer">:</span>
+                <input type="text" class="form-control time-segment" maxlength="2" size="2" data-bind="value: seconds" pattern="[0-9]{0,2}" />
+                <span class="input-group-addon time-spacer">.</span>
+                <input type="text" class="form-control millisecond-time-segment" maxlength="3" size="3" data-bind="value: milliseconds" pattern="[0-9]{0,3}"/>
             </div>
         </td>
-        <td class="results-editing"><select class="input-medium thin-control" data-bind="options: statuses(), optionsText: 'name', optionsValue: 'id', value: status, optionsCaption: 'Choose...'"></select></td>
-        <td><button type="submit" class="btn btn-mini btn-danger" data-bind="click: remove"><i class="icon-trash icon-white"></i></button></td>
+        <td style="min-width: 130px" class="results-editing">
+            <select class="form-control" data-bind="options: statuses(), optionsText: 'name', optionsValue: 'id', value: status, optionsCaption: 'Choose...'"></select>
+        </td>
+        <td style="width: 45px"><button type="submit" class="btn btn-danger pull-right" data-bind="click: remove"><span class="glyphicon glyphicon-trash"></span></button></td>
     </tr>
 </script>
 
 <script type="text/html" id="courseTemplate">
     <h2 data-bind="text: name"></h2>
-    <table class="table table-striped table-condensed table-bordered">
-        <thead> 
-            <tr>
-                <th>Name</th>
-                <th data-bind="visible: is_score_o">Score Points</th>
-                <th>Time (hh:mm:ss)</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody data-bind="template: {name:'resultTemplate', foreach: results}">
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table style="min-width: 470px" class="table table-striped table-condensed table-bordered">
+            <thead> 
+                <tr>
+                    <th>Name</th>
+                    <th data-bind="visible: is_score_o">Score Points</th>
+                    <th>Time (hh:mm:ss)</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="template: {name:'resultTemplate', foreach: results}">
+            </tbody>
+        </table>
+    </div>
 </script>
 
 <header class="page-header">
-    <h1>Edit Results/Registrations <small data-bind="text: event() ? event().name : ''"></small></h1>
+    <h1>Edit Results <small data-bind="text: event() ? event().name : ''"></small></h1>
 </header>
 <div class="row">
-    <div class="span8">
+    <div class="col-sm-8">
         <div data-bind="template: {name:'courseTemplate', foreach: courses}">
         </div>
         <?php
@@ -211,25 +215,26 @@ $(document).ready(function() {
         echo $this->Form->hidden('courses', array('data-bind' => 'value: ko.toJSON(courses)'));
         $this->Form->unlockField('Event.courses');
         ?>
-        <fieldset class="control-group">
-           <div class="controls">
-               
-               <label for="EventResultsPosted" class="checkbox inline">
-               <?= $this->Form->checkbox('results_posted', array('checked' => 'checked')) ?>
-               Show Results?
+        <fieldset class="form-group">
+           <div class="checkbox">
+               <label for="EventResultsPosted">
+                   <?= $this->Form->checkbox('results_posted', array('checked' => 'checked')) ?>
+                   Show Results?
                </label>
            </div>
         </fieldset>
         <?php
-        echo $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'form-actions')));
+        echo $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary'));
         ?>
     </div>
     
-    <div class="span4">
-          <h2>Add Competitor</h2>
-          <p>Choose the course you would like to add a competitor. <br/>Type in the participant's name and choose the matching person. If they are not already in the system, choose the "Create New User" option.</p>
-          <select data-bind="options: courses, optionsText: 'name', value: selectedCourse, optionsCaption: 'Choose Course..'"></select>
-          <?php echo $this->Form->input('competitorResults', array('label' => '', 'placeholder' => 'Competitor Name')); ?>
+    <div class="col-sm-4">
+        <h2>Add Competitor</h2>
+        <p>Choose the course you would like to add a competitor. <br/>Type in the participant's name and choose the matching person. If they are not already in the system, choose the "Create New User" option.</p>
+        <div class="form-group">
+            <select class="form-control" data-bind="options: courses, optionsText: 'name', value: selectedCourse, optionsCaption: 'Choose Course..'"></select>
+        </div>
+        <?php echo $this->Form->input('competitorResults', array('label' => false, 'placeholder' => 'Competitor Name')); ?>
     </div>
 </div>
 

@@ -18,12 +18,12 @@ if($this->Session->check('Auth.User.id') && $this->Session->read("Club.".Configu
     <?php
     echo $this->Form->create('Page', array('action' => 'add', 'class' => 'form-horizontal'));
     echo $this->Form->input('name', array('data-validate' => 'validate(required)')); ?>
-    <fieldset class="control-group">
-        <label for="PageContent" class="control-label">Content</label>
-        <div class="controls">
-            <?= $this->Form->input('content', array('label' => false, 'class' => 'input-xxlarge oa-wysiwyg', 'rows' => 20, 'data-validate' => 'validate(required)', 'div' => false)); ?>
+    <fieldset class="form-group">
+        <label for="PageContent" class="control-label col-sm-2">Content</label>
+        <div class="col-sm-10">
+            <?= $this->Form->input('content', array('label' => false, 'class' => 'oa-wysiwyg', 'rows' => 20, 'data-validate' => 'validate(required)', 'div' => false)); ?>
         </div>
     </fieldset>
-    <?= $this->Form->end(array('label' => 'Add', 'class' => 'btn btn-primary', 'div' => array('class' => 'form-actions'))) ?>
+    <?= $this->Form->end(array('label' => 'Add', 'class' => 'btn btn-primary')) ?>
 <?php } ?>
 

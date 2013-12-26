@@ -30,13 +30,13 @@
 
     .showErrorContainer(function(form, el, container) {
         container
-        .closest('.control-group').addClass('error');
+        .closest('.form-group').addClass('error');
     container.show()
     })
 
     .hideErrorContainer(function(form, el, container) {
         container
-        .closest('.control-group').removeClass('error')
+        .closest('.form-group').removeClass('error')
         container.hide()
     })
 

@@ -10,63 +10,58 @@
         <?= $scripts_for_layout ?>
     </head>
     <body>
-        <header class="header">
-        <div>
-        </div>
-        </header>
         <?php
         if(!empty($this->Menu)) { ?>
-        <nav>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-                <? echo "<a class='brand' href='#'>" . Configure::read('Club.name') . "</a>";?>
-                <div class="nav-collapse collapse">
-                    <ul class="nav">
-                        <?php
-                        echo '<li class="divider-vertical"></li>';
-                        echo $this->Menu->item('Home', '/', '', true);
-                        echo $this->Menu->item('Events', '/events/index');
-                        echo $this->Menu->item('Maps', '/maps/');
-                        if($this->Session->check('Auth.User.id')) {
-                            echo $this->Menu->item('Officials', '/officials/');
-                            echo $this->Menu->item('Reports', '/pages/reports/');
-                            echo $this->Menu->item('Export', '/pages/export/');?>
-                            </ul>
-                            <ul class="nav pull-right">
-                            <li class="divider-vertical"></li><?
-                            echo $this->Menu->item('Admin', '/pages/admin/');
-                            echo $this->Menu->item('My Profile', Configure::read('Rails.profileURL').$this->Session->read('Auth.User.id'));
-                            echo $this->Menu->item('Logout', '/users/logout/', 'menu_login');
-                        } else {?>
-                            <?= $this->Menu->item('Export', '/pages/export/');?>
-                            </ul>
-                            <ul class="nav pull-right">
-                            <li class="divider-vertical"></li>
-                            <?= $this->Menu->item('Login/Register', '/users/login', 'menu_login');
-                        } ?>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button> 
+                    <a class='navbar-brand' href='/'><?= Configure::read('Club.name') ?></a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-navbar-collapse">
+                    <ul class="nav navbar-nav">
+<?php
+echo $this->Menu->item('Events', '/events/index');
+echo $this->Menu->item('Maps', '/maps/');
+echo $this->Menu->item('Export', '/pages/export/');
+// FIXME: This isn't a sufficient check.
+if($this->Session->check('Auth.User.id')) {
+    echo $this->Menu->item('Officials', '/officials/');
+}
+?>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="divider"></li>
+<?php
+if ($this->Session->check('Auth.User.id')) {
+    // FIXME: Insufficient check again.
+    echo $this->Menu->item('Admin', '/pages/admin/');
+    echo $this->Menu->item('My Profile', Configure::read('Rails.profileURL').$this->Session->read('Auth.User.id'));
+    echo $this->Menu->item('Logout', '/users/logout/', 'menu_login');
+} else {
+    echo $this->Menu->item('Login/Register', '/users/login', 'menu_login');
+}
+?>
                     </ul>
                 </div>
             </div>
-        </div>
         </nav>
         <?php } ?>
-        <div id="content">
+        <div class="container" id="content">
             <?php echo $this->Session->flash(); ?>
             <?php echo $this->Session->flash('auth'); ?>
             <?php echo $content_for_layout; ?>
         </div>
-        <footer>
-            <div class="navbar navbar-inverse brand">
+        <footer class="other-footer">
+            <div class="container">
                 &copy; <?= date('Y').' Orienteering Canada'?>
-                <div class="pull-right">
-                        By Thomas Nipen, <a href="http://www.russellporter.com">Russell Porter</a>
-                        and Adrian Zissos
-                </div>
+                <span class="pull-right">By Thomas Nipen, <a href="http://www.russellporter.com">Russell Porter</a>
+                and Adrian Zissos</span>
             </div>
         </footer>
         <?= $this->element('sql_dump') ?>

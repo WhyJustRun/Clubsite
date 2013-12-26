@@ -1,59 +1,23 @@
 /* Need this for the floating menu bar */
 body {
-   padding-top: 60px; 
+    padding-top: 60px; 
 }
 @media (max-width: 979px) {
-   body {
-   padding-top: 0px; 
+    body {
+        padding-top: 0px; 
   }
 }
 
 #content {
-   padding-left: 20px;
+    padding-left: 20px;
     padding-bottom: 15px;
     min-height: 0%;
     padding-top: 0;
     background-color: #fff;
 }
 
-/* Space menu items */
-.navbar .nav li a {
-    font-weight: bold;
-}
-
 .page-header {
     border-bottom: 1px solid #AAA;
     margin: 0px;
-}
-
-/* Highlight current menu */
-.navbar .nav .active>a,.navbar .nav .active>a:hover{
-   background-color:#111;
-   margin-bottom: -20px;
-   padding-bottom:20px;
-   border-bottom-right-radius: 25px;
-   border-bottom-left-radius: 25px;
-}
-
-nav ul li {
-    margin: 0px;
-}
-
-.navbar .brand {
-   margin-left: 0px;
-}
-
-footer {
-	background-color: #222;
-	color: #fff;
-   font-size: 16px;
-}
-footer .navbar {
-   padding-top: 10px;
-   padding-bottom: 0px;
-   margin-bottom: 10px;
-   padding-left: 20px;
-   padding-right: 20px;
-   vertical-align: bottom;
 }
 

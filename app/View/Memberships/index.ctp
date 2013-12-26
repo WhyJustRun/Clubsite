@@ -1,7 +1,7 @@
 <header>
     <h1>Memberships</h1>
 </header>
-    <div class="column span-8">
+    <div class="col-sm-4">
         <div class="column-box">
             <?php 
             $date = new DateTime();
@@ -26,7 +26,7 @@
 
     </script>
 
-    <div class="column span-16 last">
+    <div class="col-sm-8">
         <div class="results-list">
             <?php 
             // Ideally I would have an array of memberships for each year, but
@@ -47,7 +47,7 @@
                     <h3>Membership year: <?=$currYear?></h3>
             <table>
                 <thead>
-                    <tr> <th>Name</th><th></th><th></th></tr>
+                    <tr><th>Name</th><th></th><th></th></tr>
                 </thead>
                 <?} 
                 $prevYear = $currYear;?>

@@ -40,8 +40,6 @@ class OfficialsController extends AppController {
     function add() {
         $this->checkAuthorization(Configure::read('Privilege.Official.edit'));
         if(!empty($this->data)) {
-            if($this->data["Official"]["date"] == 2) {
-            }
             if($this->Official->save($this->data)){
                 $this->Session->setFlash('The official has been added.', "flash_success");
             } else {
@@ -56,12 +54,10 @@ class OfficialsController extends AppController {
         if(!empty($this->data)) {
             if($this->Official->delete($this->data["Official"]["id"])) {
                 $this->Session->setFlash('The official was deleted.', 'flash_success');
-            }
-            else {
+            } else {
                 $this->Session->setFlash('The official could not be deleted.');
             }
-        }
-        else {
+        } else {
             $this->Session->setFlash('No official id provided.');
         }
         $this->redirect("/officials/");

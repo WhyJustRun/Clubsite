@@ -1,10 +1,10 @@
 <div class="page-header">
     <div class="pull-right">
         <div class="btn-toolbar">
-            <div class="btn-group"><a href="/maps/report" class="btn btn-info"><i class="icon-list icon-white"></i> Maps</a></div>
+            <div class="btn-group"><a href="/maps/report" class="btn btn-info"><span class="glyphicon glyphicon-list"></span> Maps</a></div>
             <?php
             if($edit) {
-                echo '<div class="btn-group"><a href="/maps/edit" class="btn btn-success"><i class="icon-plus icon-white"></i> Map</a></div>';
+                echo '<div class="btn-group"><a href="/maps/edit" class="btn btn-success"><span class="glyphicon-plus"></span> Map</a></div>';
             }
             ?>
         </div>
@@ -13,10 +13,10 @@
     <h1>Maps</h1>
 </div>
 <div class="row">
-    <div class="column span4">
+    <div class="col-sm-4">
         <?= $this->ContentBlock->render('general_maps_information', null, '<hr class="divider" />') ?>
     </div>
-    <div class="column span8">
+    <div class="col-sm-8">
         <?php
         $minLat = 90;
         $maxLat = -90;

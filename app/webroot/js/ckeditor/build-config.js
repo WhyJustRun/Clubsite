@@ -1,6 +1,6 @@
 ﻿
 /**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -59,11 +59,12 @@ var CKBUILDER_CONFIG = {
 		'button' : 1,
 		'richcombo' : 1,
 		'listblock' : 1,
-		'fakeobjects' : 1
+		'fakeobjects' : 1,
+		'indentlist' : 1
 	},
 	languages : {
 		'en' : 1,
 		'en-ca' : 1,
-		'fr-ca' : 1,
+		'fr-ca' : 1
 	}
 };

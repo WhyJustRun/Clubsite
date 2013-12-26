@@ -27,21 +27,31 @@ $this->Form->unlockField('Event.organizers');
 echo $this->Form->hidden('courses', array('value' => $this->data["Event"]["courses"], 'data-bind' => 'value: ko.toJSON(courses)'));
 $this->Form->unlockField('Event.courses');
 echo $this->Form->input('name', array('data-validate' => 'validate(required)', 'required' => 'required')); ?>
-<div class="control-group">
-    <label class="control-label">Start Time</label>
-    <div class="controls">
-        <div>
-            <?= $this->Form->text('date', array('value' => $date, 'maxLength' => 10, 'data-validate' => 'validate(required)', 'placeholder' => 'yyyy-mm-dd', 'class' => 'input-small date-picker', 'data-date-format' => 'yyyy-mm-dd', 'div' => false, 'label' => false)) ?><span class="add-on"> <?= $this->Form->text('time', array('placeholder' => 'hh:mm:ss', 'data-validate' => 'validate(required)', 'maxLength' => 8, 'value' => $time, 'div' => false, 'class' => 'input-small', 'label' => false)) ?> (24 hour format)</span>
-            
+<div class="form-group">
+    <label class="control-label col-sm-2">Start Time</label>
+    <div class="col-sm-10">
+        <div class="form-inline">
+            <div class="form-group">
+                <?= $this->Form->text('date', array('value' => $date, 'size' => '10', 'maxLength' => 10, 'data-validate' => 'validate(required)', 'placeholder' => 'yyyy-mm-dd', 'class' => 'form-control date-picker', 'data-date-format' => 'yyyy-mm-dd', 'div' => false, 'label' => false)) ?>
+            </div>
+            <div class="form-group">
+                <?= $this->Form->text('time', array('placeholder' => 'hh:mm:ss', 'size' => '8', 'data-validate' => 'validate(required)', 'maxLength' => 8, 'value' => $time, 'div' => false, 'class' => 'form-control', 'label' => false)) ?>
+            </div>
+             (24 hour format)
         </div>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">End Time</label>
-    <div class="controls">
-        <div>
-            <?= $this->Form->text('finish_date', array('value' => $finishDate, 'maxLength' => 10, 'placeholder' => 'yyyy-mm-dd', 'class' => 'input-small date-picker', 'data-date-format' => 'yyyy-mm-dd', 'div' => false, 'label' => false)) ?><span class="add-on"> <?= $this->Form->text('finish_time', array('placeholder' => 'hh:mm:ss', 'maxLength' => 8, 'value' => $finishTime, 'div' => false, 'class' => 'input-small', 'label' => false)) ?> </span>
-            <span class="help-text">Optional</span>
+<div class="form-group">
+    <label class="control-label col-sm-2">End Time</label>
+    <div class="col-sm-10">
+        <div class="form-inline">
+            <div class="form-group">
+                <?= $this->Form->text('finish_date', array('size' => '10', 'value' => $finishDate, 'maxLength' => 10, 'placeholder' => 'yyyy-mm-dd', 'class' => 'form-control date-picker', 'data-date-format' => 'yyyy-mm-dd', 'div' => false, 'label' => false)) ?>
+            </div>
+            <div class="form-group">
+                <?= $this->Form->text('finish_time', array('size' => '8', 'placeholder' => 'hh:mm:ss', 'maxLength' => 8, 'value' => $finishTime, 'div' => false, 'class' => 'form-control', 'label' => false)) ?>
+            </div>
+             (optional)
         </div>
     </div>
 </div>
@@ -50,61 +60,57 @@ echo $this->Form->input('name', array('data-validate' => 'validate(required)', '
 ?>
 
 <?php
-$urlFieldOptions = array('label' => false, 'div' => false, 'class' => 'input-xlarge', 'data-validate' => 'validate(url_or_empty)');
+$urlFieldOptions = array('size' => '80', 'label' => false, 'div' => false, 'class' => 'form-control', 'data-validate' => 'validate(url_or_empty)');
 ?>
-<div class="control-group">
-    <label class="control-label">Redirect URL</label>
-    <div class="controls">
+<div class="form-group">
+    <label class="control-label col-sm-2">Redirect URL
+            <span data-toggle="tooltip" data-container="body" class="wjr-help-tooltip" title="If you want to use a third party website for the event, enter the URL for the event page here. NOTE: People accessing your event may be automatically redirected to the other website, depending on where on WhyJustRun they come from.">
+                <span class="glyphicon glyphicon-question-sign"></span>
+            </span>
+    </label>
+    <div class="col-sm-10">
         <?= $this->Form->input('custom_url', array_merge($urlFieldOptions, array('placeholder' => 'Only use if all info is on external website'))) ?>
-        <span class="add-on">
-            <a href="#" data-toggle="tooltip" class="wjr-help-tooltip" title="If you want to use a third party website for the event, enter the URL for the event page here. NOTE: People accessing your event may be automatically redirected to the other website, depending on where on WhyJustRun they come from.">
-                <i class="icon-question-sign"></i>
-            </a>
-        </span>
     </div>
 </div>
 
 
-<div class="control-group">
-    <label class="control-label">Registration URL</label>
-    <div class="controls">
+<div class="form-group">
+    <label class="control-label col-sm-2">Registration URL
+        <span data-toggle="tooltip" data-container="body" class="wjr-help-tooltip" title="If you want to use a third party registration system like Zone4, enter the URL to the registration page here.">
+            <span class="glyphicon glyphicon-question-sign"></span>
+        </span>
+    </label>
+    <div class="col-sm-10">
         <?= $this->Form->input('registration_url', $urlFieldOptions) ?>
-        <span class="add-on">
-            <a href="#" data-toggle="tooltip" class="wjr-help-tooltip" title="If you want to use a third party registration system like Zone4, enter the URL to the registration page here.">
-                <i class="icon-question-sign"></i>
-            </a>
-        </span>
     </div>
 </div>
 
-<div class="control-group">
-    <label class="control-label">Results URL</label>
-    <div class="controls">
+<div class="form-group">
+    <label class="control-label col-sm-2">Results URL
+        <span data-toggle="tooltip" data-container="body" class="wjr-help-tooltip" title="If you post results on a third party website like WinSplits, enter the URL to the results page here after the event.">
+            <span class="glyphicon glyphicon-question-sign"></span>
+        </span>
+    </label>
+    <div class="col-sm-10">
         <?= $this->Form->input('results_url', $urlFieldOptions) ?>
-        <span class="add-on">
-            <a href="#" data-toggle="tooltip" class="wjr-help-tooltip" title="If you post results on a third party website like WinSplits, enter the URL to the results page here after the event.">
-                <i class="icon-question-sign"></i>
-            </a>
-        </span>
     </div>
 </div>
 
-<div class="control-group">
-    <label class="control-label">RouteGadget URL</label>
-    <div class="controls">
+<div class="form-group">
+    <label class="control-label col-sm-2">RouteGadget URL
+        <span data-toggle="tooltip" data-container="body" class="wjr-help-tooltip" title="If you have posted a RouteGadget for the event, enter the URL to the RouteGadget page here after the event.">
+            <span class="glyphicon glyphicon-question-sign"></span>
+        </span>
+    </label>
+    <div class="col-sm-10">
         <?= $this->Form->input('routegadget_url', $urlFieldOptions) ?>
-        <span class="add-on">
-            <a href="#" data-toggle="tooltip" class="wjr-help-tooltip" title="If you have posted a RouteGadget for the event, enter the URL to the RouteGadget page here after the event.">
-                <i class="icon-question-sign"></i>
-            </a>
-        </span>
     </div>
 </div>
 
-<fieldset class="control-group">
-    <label for="EventDescription" class="control-label">Description</label>
-    <div class="controls">
-        <?= $this->Form->input('description', array('label' => false, 'class' => 'input-xxxlarge oa-wysiwyg', 'rows' => 12, 'div' => false)); ?>
+<fieldset class="form-group">
+    <label for="EventDescription" class="control-label col-sm-2">Description</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('description', array('label' => false, 'class' => 'form-control oa-wysiwyg', 'rows' => 12, 'div' => false)); ?>
     </div>
 </fieldset>
 <?php
@@ -119,35 +125,39 @@ $this->Form->unlockField('Event.lng');
 
 <?= $this->element('Events/edit_courses_organizers') ?>
 
-<div class="control-group">
-    <label class="control-label">Number of Participants</label>
-    <div class="controls">
-        <div>
-            <?= $this->Form->input('number_of_participants', array('type' => 'number', 'min' => '0', 'max' => '4294967295', 'style' => 'width: 120px', 'div' => false, 'label' => false)) ?>
-            <span class="help-text">(Optional: used for insurance purposes, overrides participant count from event results)</span>
+<div class="form-group">
+    <label class="control-label col-sm-2">Number of Participants</label>
+    <div class="col-sm-10">
+        <div class="form-inline">
+            <div class="form-group">
+                <?= $this->Form->input('number_of_participants', array('type' => 'number', 'min' => '0', 'max' => '4294967295', 'class' => 'form-control', 'div' => false, 'label' => false)) ?>
+            </div>
+            (Optional: used for insurance purposes, overrides participant count from event results)
         </div>
     </div>
 </div>
 
-<div class="control-group">
-    <label class="control-label">Ranked</label>
-    <div class="controls">
-        <div>
-            <?=$this->Form->input('is_ranked', array('type'=>'checkbox', 'style' => 'width: 30px', 'div' => false, 'label' => false, 'default'=> "1")); ?>
-            <span class="help-text">(should results be included in rankings?)</span>
+<div class="form-group">
+    <label class="control-label col-sm-2">Ranked</label>
+    <div class="col-sm-10">
+        <div class="checkbox">
+            <?=$this->Form->input('is_ranked', array('type'=>'checkbox', 'div' => false, 'label' => false, 'default'=> "1")); ?>
+            (should results be included in rankings?)
         </div>
     </div>
 </div>
 
-<fieldset class="control-group">
-    <label class="control-label">Meeting location</label>
-    <div class="controls">
-        <?= $this->Leaflet->draggableMarker('EventLat', 'EventLng', 10, array('div' => array('width' => '80%', 'height' => '400px'))); ?>
+<fieldset class="form-group">
+    <label class="control-label col-sm-2">Meeting location</label>
+    <div class="col-sm-10">
+        <?= $this->Leaflet->draggableMarker('EventLat', 'EventLng', 10, array('div' => array('width' => '100%', 'height' => '400px'))); ?>
         <p class="help-block">Drag the marker to the meeting location</p>
     </div>
 </fieldset>
 
-<?= $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'form-actions'))) ?>
+<div class="form-group">
+    <?= $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'col-sm-offset-2 col-sm-10'))) ?>
+</div>
 <script type="text/javascript">
 // Fix for CakePHP form security - exclude the knockout inputs
 $("#EventEditForm").submit(function() {

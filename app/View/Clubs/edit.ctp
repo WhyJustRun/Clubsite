@@ -2,82 +2,88 @@
     <h1>Edit Club Information</h1>
 </header>
 <?= $this->Form->create('Club', array('class' => 'form-horizontal', 'data-validate' => 'ketchup', 'action' => 'edit')); ?>
-<div class="control-group">
-    <label class="control-label">Name</label>
-    <div class="controls">
-        <?= $this->Form->input('name', array('div' => false, 'label' => false, 'class' => 'input-xlarge', 'data-validate' => 'validate(required)', 'required' => 'required')) ?>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Name</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('name', array('div' => false, 'label' => false, 'class' => 'form-control', 'data-validate' => 'validate(required)', 'required' => 'required')) ?>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">Acronym</label>
-    <div class="controls">
-        <?= $this->Form->input('acronym', array('div' => false, 'label' => false, 'data-validate' => 'validate(required)', 'required' => 'required')) ?>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Acronym</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('acronym', array('class' => 'form-control', 'div' => false, 'label' => false, 'data-validate' => 'validate(required)', 'required' => 'required')) ?>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">Location</label>
-    <div class="controls">
-        <?= $this->Form->input('location', array('div' => false, 'label' => false, 'data-validate' => 'validate(required)', 'required' => 'required')) ?>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Location</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('location', array('class' => 'form-control', 'div' => false, 'label' => false, 'data-validate' => 'validate(required)', 'required' => 'required')) ?>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">Description</label>
-    <div class="controls">
-        <?= $this->Form->input('description', array('type' => 'textarea', 'div' => false, 'label' => false, 'class' => 'input-xxlarge')) ?>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Description</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('description', array('class' => 'form-control', 'type' => 'textarea', 'div' => false, 'label' => false)) ?>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">Website URL</label>
-    <div class="controls">
-        <?= $this->Form->input('url', array('div' => false, 'label' => false, 'class' => 'input-xlarge', 'data-validate' => 'validate(required)', 'required' => 'required')) ?>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Website URL</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('url', array('div' => false, 'label' => false, 'class' => 'form-control', 'data-validate' => 'validate(required)', 'required' => 'required')) ?>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">Facebook Page URL</label>
-    <div class="controls">
-        <?= $this->Form->input('facebook_page_id', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'input-xlarge')) ?> Used on the home page for the news section
+<div class="form-group">
+    <label class="col-sm-2 control-label">Facebook Page URL</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('facebook_page_id', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'form-control')) ?>
+        <span class="help-block">Used on the home page for the news section</span>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">Page Layout</label>
-    <div class="controls">
-        <?= $this->Form->input('layout', array('type' => 'select', 'options' => array('default' => 'Active Club Layout', 'other' => 'Inactive Club Layout'), 'div' => false, 'label' => false, 'class' => 'input-xlarge')) ?>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Page Layout</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('layout', array('type' => 'select', 'options' => array('default' => 'Active Club Layout', 'other' => 'Inactive Club Layout'), 'div' => false, 'label' => false, 'class' => 'form-control')) ?>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">Timezone</label>
-    <div class="controls">
+<div class="form-group">
+    <label class="col-sm-2 control-label">Timezone</label>
+    <div class="col-sm-10">
         <?php
         $identifiers = array();
         foreach(DateTimeZone::listIdentifiers() as $identifier) {
         $identifiers[$identifier] = $identifier;
         }
         ?>
-        <?= $this->Form->input('timezone', array('type' => 'select', 'options' => $identifiers, 'div' => false, 'label' => false, 'class' => 'input-xlarge')) ?>
+        <?= $this->Form->input('timezone', array('type' => 'select', 'options' => $identifiers, 'div' => false, 'label' => false, 'class' => 'form-control')) ?>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">Parent Organization</label>
-    <div class="controls">
-        <?= $this->Form->input('parent_id', array('empty' => 'Choose the parent organisation of the club', 'type' => 'select', 'options' => $clubs, 'div' => false, 'label' => false, 'class' => 'input-xlarge')) ?>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Parent Organization</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('parent_id', array('empty' => 'Choose the parent organisation of the club', 'type' => 'select', 'options' => $clubs, 'div' => false, 'label' => false, 'class' => 'form-control')) ?>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">Type</label>
-    <div class="controls">
-        <?= $this->Form->input('club_category_id', array('options' => $clubCategories, 'div' => false, 'label' => false)) ?>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Type</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('club_category_id', array('options' => $clubCategories, 'div' => false, 'class' => 'form-control', 'label' => false)) ?>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">Visible</label>
-    <div class="controls">
-        <?= $this->Form->input('visible', array('type' => 'checkbox', 'div' => false, 'label' => false, 'class' => 'input-xlarge')) ?>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Visible</label>
+    <div class="col-sm-10">
+        <div class="checkbox">
+            <?= $this->Form->input('visible', array('type' => 'checkbox', 'div' => false, 'label' => false)) ?>
+        </div>
     </div>
 </div>
-<div class="control-group">
-    <label class="control-label">URLs for map files</label>
-    <div class="controls">
-        <?= $this->Form->input('use_map_urls', array('type' => 'checkbox', 'div' => false, 'label' => false, 'class' => 'input-xlarge')) ?> (only disable if you use the SVN repository for storing club maps)
+<div class="form-group">
+    <label class="col-sm-2 control-label">URLs for map files</label>
+    <div class="col-sm-10">
+        <span class="checkbox">
+            <?= $this->Form->input('use_map_urls', array('type' => 'checkbox', 'div' => false, 'label' => false)) ?>
+            (only disable if you use the SVN repository for storing club maps)
+        </span>
     </div>
 </div>
 <?php
@@ -86,13 +92,15 @@ echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng')))
 $this->Form->unlockField('Club.lat');
 $this->Form->unlockField('Club.lng');
 ?>
-<fieldset class="control-group">
-    <label class="control-label">Location</label>
-    <div class="controls">
-        <?= $this->Leaflet->draggableMarker('ClubLat', 'ClubLng', 10, array('div' => array('width' => '80%', 'height' => '400px'))); ?>
+<fieldset class="form-group">
+    <label class="col-sm-2 control-label">Location</label>
+    <div class="col-sm-10">
+        <?= $this->Leaflet->draggableMarker('ClubLat', 'ClubLng', 10, array('div' => array('height' => '400px'))); ?>
         <p class="help-block">Drag the marker to the approximate location of the club</p>
     </div>
 </fieldset>
-<?= $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'form-actions'))) ?>
+<div class="form-group">
+    <?= $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'col-sm-offset-2 col-sm-10'))) ?>
+</div>
 
 
