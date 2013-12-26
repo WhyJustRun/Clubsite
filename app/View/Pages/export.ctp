@@ -2,7 +2,7 @@
     <h1>Export</h1>
     The Orienteering Canada database allows you to ...
 </div>
-<div class="row three-columnw">
+<div class="row three-column">
     <div class="col-sm-4">
         <header>
             <h4>Display info on your club's website</h4>
