@@ -6,7 +6,7 @@
     </header>
 </div>
 <div class="three-column">
-    <div class="col-md-4">
+    <div class="col-sm-4">
         <h4>Events</h4>
             You can enter your club's events in the OCNDB quickly and easily. This allows you to:
             <ul>
@@ -26,7 +26,7 @@
         pre-requisites for official certification, and identifying qualified officials for major events.
 
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-4">
         <h4>Export</h4>
         This page show how you can incorporate the information from the database into your club's website.
 
@@ -38,7 +38,7 @@
         Use this page to seet up other users who will be allowed to enter and make changes to your club's information.
         </ul>
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-4">
         <h3>Upcoming events</h3>
         <?= $this->element('Events/box-list', array('filter' => 'upcoming', 'limit' => '7')); ?>
    </div>
