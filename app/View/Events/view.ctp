@@ -226,7 +226,7 @@ if (!empty($event['Event']['lng'])) {
     <div class="col-sm-6">
         <div class="results">
             <header>
-            <h2>Results</h2>
+                <h2>Results</h2>
             </header>
 
             <?php echo $this->element('Events/files', array('id' => $event["Event"]["id"])); ?>
@@ -284,8 +284,6 @@ if (!empty($event['Event']['lng'])) {
     </div>
     <?php } ?>
 </div>
-
-<hr>
 
 <div id="flickr-photos-container" class="photos-grid">
     <h2>Photos</h2>
