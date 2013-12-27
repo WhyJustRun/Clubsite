@@ -9,7 +9,7 @@ class SeriesController extends AppController {
     function beforeFilter()
     {
         parent::beforeFilter();
-        $this->Auth->allow('index', 'view');
+        $this->Auth->allow('index');
     }
 
     function index() 
@@ -22,14 +22,6 @@ class SeriesController extends AppController {
             $this->checkAuthorization(Configure::read('Privilege.Series.edit'));
             $this->set('series', $series);
         }
-    }
-
-    function view($id) {
-        $this->set('series', $this->Series->findById($id)); 
-        $this->set('events', $this->Series->Event->findAllBySeriesId($id)); 
-        $this->set('organizers', $this->Series->findOrganizers($id)); 
-        $this->set('start_date', $this->Series->startDate($id));
-        $this->set('end_date', $this->Series->endDate($id));
     }
 
     function edit($id = null) {
