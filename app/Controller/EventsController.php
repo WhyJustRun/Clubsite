@@ -151,6 +151,7 @@ class EventsController extends AppController {
             $eventXMLURL = Configure::read('Rails.domain').'/iof/3.0/events/'.$id.'/result_list.xml';
             $this->redirect($eventXMLURL, 301, true);
         }
+
         $contain = array(
                 'Series', 
                 'Map', 
@@ -174,11 +175,7 @@ class EventsController extends AppController {
         }
 
         $startTime = new DateTime($event["Event"]["utc_date"]);
-        if($this->_isBeforeNow($startTime)) {
-            $event["Event"]["completed"] = true;
-        } else {
-            $event["Event"]["completed"] = false;
-        }
+        $event["Event"]["completed"] = ($this->_isBeforeNow($startTime));
 
         foreach($event["Course"] as &$course) {
             $course["Result"] = @Set::sort($course["Result"], "{n}.User.name", 'asc');
