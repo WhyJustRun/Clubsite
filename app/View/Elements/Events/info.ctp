@@ -17,7 +17,7 @@ if(!empty($event["Event"]["description"])) {
 <hr class="divider" />
 
 <?php if(!$event["Event"]["completed"] && !empty($event["Series"]["information"])) { ?>
-    <h2><?= $event["Series"]["name"] ?> Series Info</h2>
+    <h2 class="series-<?= $event['Series']['id'] ?>"><?= $event["Series"]["name"] ?></h2>
     <?= $event["Series"]["information"] ?>
     <hr class="divider" />
 <?php } ?>
