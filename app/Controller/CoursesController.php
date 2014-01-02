@@ -4,13 +4,13 @@ class CoursesController extends AppController {
     var $name = 'Courses';
 
     var $components = array(
-            'RequestHandler',
-            'Media' => array(
-                'type' => 'Course',
-                'allowedExts' => array('jpg', 'jpeg', 'gif', 'png', 'pdf'),
-                'thumbnailSizes' => array('100x150', '600x600')
-                )
-            );
+        'RequestHandler',
+        'Media' => array(
+            'type' => 'Course',
+            'allowedExts' => array('jpg', 'jpeg', 'gif', 'png', 'pdf'),
+            'thumbnailSizes' => array('100x150', '600x600')
+        )
+    );
 
     function beforeFilter()
     {
@@ -100,18 +100,21 @@ class CoursesController extends AppController {
 
     function uploadMap($id) {
         $course = $this->Course->findById($id);
-        if(!$this->Course->Event->Organizer->isAuthorized($course['Event']['id'], AuthComponent::user('id'))) {
+        if (!$this->Course->Event->Organizer->isAuthorized($course['Event']['id'], AuthComponent::user('id'))) {
             $this->Session->setFlash("You aren't authorized to upload a map");
             $this->redirect('/events/view/'.$course['Event']['id']);
         }
 
-        if($this->request->is('post')) {
-            if($this->request->data['Course']['image']['name'] != "") {
-                $this->Media->create($this->request->data['Course']['image'], $id);
-            }
-            else {
+        if ($this->request->is('post')) {
+            $image = $this->request->data['Course']['image'];
+            if ($image['error'] != UPLOAD_ERR_OK) {
+                $this->Session->setFlash('Error uploading map: please email support@whyjustrun.ca');
+                $this->redirect('/events/uploadMaps/'.$course['Event']['id']);
+            } else if (empty($image['name'])) {
                 $this->Session->setFlash('No file selected!');
                 $this->redirect('/events/uploadMaps/'.$course['Event']['id']);
+            } else {
+                $this->Media->create($this->request->data['Course']['image'], $id);
             }
         }
 
