@@ -22,7 +22,13 @@ $(document).ready(function() {
             orienteerAppWYSIWYG($('textarea', this));
         }
     });
-    
+
+    var editableContent = $('.page-resource, .page-resource-title, .content-block');
+    editableContent.addClass('editable');
+    // Allow link clicks to pass through without opening editor. NOTE: doesn't fix the case when the content is edited.. seems like it would be really hacky to get that working because jeditable doesn't have enough callback hooks.
+    editableContent.find('a').click(function(e) {
+        e.stopPropagation();
+    });
     $('.content-block').editable('/contentBlocks/edit', { 
         type      : 'wysiwyg',
         cancel    : 'Cancel',
@@ -47,6 +53,4 @@ $(document).ready(function() {
         tooltip   : 'Click to edit…',
         onblur    : 'ignore',
     });
-    
-    $('.page-resource, .page-resource-title, .content-block').addClass('editable');
 });
