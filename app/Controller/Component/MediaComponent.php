@@ -138,7 +138,7 @@ class MediaComponent extends Component {
     	if (file_exists($destination)) {
     		unlink($destination);
     	}
-        shell_exec("convert '$source' -resize $size\> '$destination'");
+        shell_exec("convert -strip -interlace Plane -gaussian-blur 0.05 -quality 85% '$source' -resize $size\> '$destination'");
     }
 
     public function createCroppedThumbnail($id, $type, $size, $position = "random") {
@@ -167,7 +167,7 @@ class MediaComponent extends Component {
 		        $offsetY = $origSizeY / 2;
 	        }
 	        
-	        $resizeCommandFirstPart = "convert -crop ${doubledSize}+${offsetX}+${offsetY} -resize ";
+	        $resizeCommandFirstPart = "convert -strip -interlace Plane -gaussian-blur 0.05 -quality 85% -crop ${doubledSize}+${offsetX}+${offsetY} -resize ";
 	        shell_exec($resizeCommandFirstPart.$size." +repage $source $destination");
 	        shell_exec($resizeCommandFirstPart.$doubledSize." +repage $source $doubledDestination");
         }
