@@ -11,10 +11,10 @@ class TimePlusHelper extends AppHelper {
         assert($startDateTime != null);
 
         if($endDateTime != NULL) {
-            if($startDateTime->format('D F jS') === $finishDateTime->format('D F jS')) {
-                $formattedDate = $startDateTime->format('F jS Y g:ia') . " - " . $finishDateTime->format('g:ia');
+            if($startDateTime->format('D F jS') === $endDateTime->format('D F jS')) {
+                $formattedDate = $startDateTime->format('F jS Y g:ia') . " - " . $endDateTime->format('g:ia');
             } else {
-                $formattedDate = $startDateTime->format('F jS Y g:ia') . " - " . $finishDateTime->format('F jS Y g:ia');
+                $formattedDate = $startDateTime->format('F jS Y g:ia') . " - " . $endDateTime->format('F jS Y g:ia');
             }
         } else {
             $formattedDate = $startDateTime->format('F jS Y g:ia');
