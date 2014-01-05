@@ -8,7 +8,7 @@ if(!$event["Event"]["results_posted"] &&
    !$event['Event']['routegadget_url']) {
     // Show pre-event template
 ?>
-    <div class="col-sm-8">
+    <div class="col-sm-8" style="overflow: scroll">
         <?= $this->element('Events/info', array('event' => $event)); ?>
     </div>
 
