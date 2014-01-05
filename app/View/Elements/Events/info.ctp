@@ -38,6 +38,7 @@ if(!empty($event["Event"]["description"])) {
         <?= $linkHTML ?>
     </div>
     <?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px', array('pan-interaction' => false)); ?>
+    <?php $this->append('secondaryScripts') ?>
     <script type="text/javascript">
         var clickHandler = function(e) {
             // Leaflet doesn't seem to provide a way to test for clicks on controls, so we have this hack here to ignore interactions with the zoom buttons
@@ -59,6 +60,6 @@ if(!empty($event["Event"]["description"])) {
         };
         map.on('mousedown', clickHandler);
     </script>
-    
+    <?php $this->end(); ?> 
 <?php } ?>
 

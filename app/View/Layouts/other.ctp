@@ -64,8 +64,7 @@ if ($this->Session->check('Auth.User.id')) {
                 and Adrian Zissos</span>
             </div>
         </footer>
-        <?= $this->element('sql_dump') ?>
-        <?= $this->element('google_analytics') ?>
+        <?= $this->element('layout_bottom_dependencies'); ?>
     </body>
 </html>
 

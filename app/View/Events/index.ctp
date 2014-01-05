@@ -4,8 +4,9 @@
 </div>
     <h1>Calendar</h1>
 </div>
-<?php $this->Html->script("fullcalendar", array('inline' => false)); ?>
-<script>
+<?php $this->Html->script("fullcalendar", array('block' => 'secondaryScripts'));
+echo $this->Html->scriptStart(array('block' => 'secondaryScripts'));
+?>
 $(function() {
     var initialLoad = true;    
     var poppingState = false;
@@ -50,7 +51,9 @@ $(function() {
         }
     });
 });
-</script>
+<?php
+$this->Html->scriptEnd();
+?>
 <div id="calendar">
     
 </div>

@@ -10,7 +10,10 @@
     <?= $scripts_for_layout ?>
 </head>
 <body>
-    <?php echo $content_for_layout; ?>
+    <?php
+    echo $content_for_layout;
+    echo $this->element('layout_bottom_dependencies');
+    ?>
 </body>
 </html>
 

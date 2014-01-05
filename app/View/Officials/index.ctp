@@ -13,6 +13,7 @@
         <div class="form-group">
             <input class="form-control" placeholder="Name" type="text" id="UserName" />
         </div>
+        <?php $this->append('secondaryScripts'); ?>
         <script type="text/javascript">
         $(function() {
             orienteerAppPersonPicker('#UserName', { maintainInput: true }, function(person) {
@@ -22,6 +23,7 @@
             });
         });
         </script>
+        <?php $this->end(); ?>
         <div class="form-group">
             <?= $this->Form->input('official_classification_id', array('class' => 'form-control', 'label'=>false, 'div' => false));?>
         </div>

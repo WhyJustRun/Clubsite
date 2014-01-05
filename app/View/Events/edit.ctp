@@ -158,10 +158,13 @@ $this->Form->unlockField('Event.lng');
 <div class="form-group">
     <?= $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'col-sm-offset-2 col-sm-10'))) ?>
 </div>
+<?php
+$this->append('secondaryScripts');
+?>
 <script type="text/javascript">
 // Fix for CakePHP form security - exclude the knockout inputs
 $("#EventEditForm").submit(function() {
     $(this).find('[name ^= "ko_unique"]').attr("name", null);
 });
 </script>
-
+<?php $this->end(); ?>

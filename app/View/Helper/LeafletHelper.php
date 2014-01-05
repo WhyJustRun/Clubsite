@@ -63,7 +63,7 @@ class LeafletHelper extends AppHelper {
     );
 
     private function dependencies() {
-        $this->Html->script("leaflet/leaflet", array('inline' => false, 'once' => true));
+        $this->Html->script("leaflet/leaflet", array('block' => 'secondaryScripts', 'once' => true));
         }
 
         function map($options = array()) {
@@ -126,7 +126,7 @@ class LeafletHelper extends AppHelper {
                     ';
                 }
 
-                return $this->Html->scriptBlock($script);
+                return $this->Html->scriptBlock($script, array('block' => 'secondaryScripts'));
         }
 
         function simpleMarker($lat, $lng, $zoom, $height, $options = array()) {

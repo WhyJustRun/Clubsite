@@ -83,8 +83,7 @@
                 </span>
             </div>
         </footer>
-        <?= $this->element('sql_dump') ?>
-        <?= $this->element('google_analytics') ?>
+        <?= $this->element('layout_bottom_dependencies'); ?>
     </body>
 </html>
 

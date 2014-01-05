@@ -25,6 +25,7 @@
     </ul>
 </div>
 
+<?php $this->append('secondaryScripts'); ?>
 <script type="text/javascript">
     function loadFlickrImage(id, largeUrl) {
         if($("#flickrPhoto" + id + " img").attr('src') == "") {
@@ -86,3 +87,4 @@ $(function() {
         });
 
 </script>
+<?php $this->end(); ?>

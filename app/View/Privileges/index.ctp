@@ -21,6 +21,7 @@
         <div class="form-group">
             <input placeholder="Name" type="text" id="UserName" class='form-control' />
         </div>
+        <?php $this->append('secondaryScripts'); ?>
         <script type="text/javascript">
         $(function() {
             orienteerAppPersonPicker('#UserName', { maintainInput: true }, function(person) {
@@ -30,6 +31,7 @@
             });
         });
         </script>
+        <?php $this->end(); ?>
         <?= $this->Form->input('group_id', array('class' => 'form-control', 'label' => false, 'div' => 'form-group')) ?>
         <button type="submit" class="btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>

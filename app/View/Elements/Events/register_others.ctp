@@ -14,6 +14,7 @@
         <?php } ?>
     </select>
 </div>
+<?php $this->append('secondaryScripts'); ?>
 <script type="text/javascript">
     $(function() {
             $('#RegisterOthersUserId').val(null);
@@ -56,6 +57,7 @@
             });
     });
 </script>
+<?php $this->end(); ?>
 <div class="form-group">
     <input type="hidden" id="RegisterOthersUserId" />
     <input class="form-control" placeholder="Participant Name" type="text" id="RegisterOthersUserName" /><br/>

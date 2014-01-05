@@ -1,3 +1,4 @@
+<?php $this->append('secondaryScripts'); ?>
 <script type="text/javascript">
 var availableRoles = [];
 
@@ -91,6 +92,7 @@ var finishLoadingOrganizers = function() {
     ko.applyBindings(viewModel);
 }
 </script>
+<?php $this->end(); ?>
 <div id='edit-organizers'>
     <script type="text/html" id="organizerTemplate">
     <tr>

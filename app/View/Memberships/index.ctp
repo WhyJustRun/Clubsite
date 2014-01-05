@@ -16,6 +16,7 @@
             //echo $this->Form->end(array('label' => 'Add membership', 'div' => 'right submit padded'));?>
         </div>
     </div>
+    <?php $this->append('secondaryScripts'); ?>        
     <script type="text/javascript">
     $(function() {
         $('#MembershipCreated').datetimepicker({
@@ -23,9 +24,8 @@
             timeFormat: 'hh:mm:ss',
         });
     });
-
     </script>
-
+    <?php $this->end(); ?>
     <div class="col-sm-8">
         <div class="results-list">
             <?php 

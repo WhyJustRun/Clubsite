@@ -1,3 +1,4 @@
+<?php $this->append('secondaryScripts'); ?>
 <script type="text/javascript">
 
 function zeroFill(number, width) {
@@ -160,7 +161,7 @@ $(document).ready(function() {
     
 });
 </script>
-
+<?php $this->end(); ?>
 <script type="text/html" id="resultTemplate">
     <tr>
         <td data-bind="text: user.name" style="vertical-align: middle"><p></p></td>

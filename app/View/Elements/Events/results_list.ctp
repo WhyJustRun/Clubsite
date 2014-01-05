@@ -2,7 +2,7 @@
 // Params: $eventId
 ?>
 <div class="results-list">
-    <?= $this->Html->script('result_viewer'); ?>                  
+    <?php $this->Html->script('result_viewer', array('block' => 'secondaryScripts'); ?>
     <div id="list" class="result-list" data-result-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/events/<?= $eventId ?>/result_list.xml">
         <div data-bind="foreach: courses">
             <h3 data-bind="text: name"></h3>

@@ -20,12 +20,9 @@ $color = empty($this->data['Series']['color']) ? 'rgba(255,0,0,1)' : $this->data
 </div>
 <?php
 echo $this->Html->css('bootstrap-colorpicker.min');
-$this->Html->script('bootstrap-colorpicker.min', array('inline' => false));
+$this->Html->script('bootstrap-colorpicker.min', array('block' => 'secondaryScripts'));
+$this->Html->scriptBlock("$('.color-picker').colorpicker();", array('block' => 'secondaryScripts'));
 ?>
-<script type="text/javascript">
-$('.color-picker').colorpicker();
-</script>
-
 <div class="form-group">
     <label class="control-label col-sm-2" for="optionsCheckbox">Information</label>
     <div class="col-sm-10">
