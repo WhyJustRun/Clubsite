@@ -202,7 +202,12 @@ class EventsController extends AppController {
     function map($id) {
         $this->layout = 'embed';
         $event = $this->Event->findById($id);
-        $this->set('event', $event);
+        if ($event) {
+            $this->set('event', $event);
+        } else {
+            $this->Session->setFlash('The event could not be found.');
+            $this->redirect('/');
+        }
     }
 
     function editResults($id) {
