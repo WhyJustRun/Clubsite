@@ -21,7 +21,7 @@ $(function() {
         orienteerAppWYSIWYG(element);
     });
 
-    $("[data-toggle='tooltip']").tooltip({ placement: 'right' });
+    $("[data-toggle='tooltip']").tooltip();
 });
 
 function swapHiDPIImages() {

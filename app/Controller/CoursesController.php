@@ -36,7 +36,7 @@ class CoursesController extends AppController {
     }
 
     // Passing $userId = 0 will register the currently logged in user
-    function register($courseId, $userId = 0, $carpool = null) {
+    function register($courseId, $userId = 0) {
         $registrant = $this->Auth->user();
         if(empty($userId)) {
             $userId = $registrant['id'];
@@ -60,16 +60,12 @@ class CoursesController extends AppController {
         $registration["Result"]["registrant_id"] = $registrant['id'];
         $registration["Result"]["user_id"] = $user['User']["id"];
         $registration["Result"]["course_id"] = $course["Course"]["id"];
-        if($carpool === "needsRide") {
-            $registration["Result"]["needs_ride"] = 1;
-        } else if($carpool === "offeringRide") {
-            $registration["Result"]["offering_ride"] = 1;
-        }
         $this->Course->Result->save($registration);
 
         $this->Session->setFlash("Registration successful!", "flash_success");
         $this->redirect("/events/view/".$course["Event"]["id"]);
     }
+
 
 
     // Can only unregister people you registered.

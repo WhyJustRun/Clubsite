@@ -7,76 +7,66 @@ class Result extends AppModel {
     var $actsAs = array('Containable');
     var $clubSpecific = false;
     var $validate = array(
-            'id' => array(
-                'numeric' => array(
-                    'rule' => array('numeric'),
-                    ),
-                ),
-            'user_id' => array(
-                'numeric' => array(
-                    'rule' => array('numeric'),
-                    ),
-                ),
-            'course_id' => array(
-                'numeric' => array(
-                    'rule' => array('numeric'),
-                    ),
-                ),
-            'points' => array(
-                'numeric' => array(
-                    'rule' => array('numeric'),
-                    'allowEmpty' => true,
-                    ),
-                ),
-            'needs_ride' => array(
-                    'boolean' => array(
-                        'rule' => array('boolean'),
-                        ),
-                    ),
-            'offering_ride' => array(
-                    'boolean' => array(
-                        'rule' => array('boolean'),
-                        ),
-                    ),
-            // IOF Standard participant statuses
+        'id' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+            ),
+        ),
+        'user_id' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+            ),
+        ),
+        'course_id' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+            ),
+        ),
+        'points' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                'allowEmpty' => true,
+            ),
+        ),
+        // IOF Standard participant statuses
+        'status' => array(
             'status' => array(
-                    'status' => array(
-                        'rule' => array('inList', array('inactive', 'did_not_start', 'active', 'finished', 'ok', 'mis_punch', 'did_not_finish', 'disqualified', 'not_competing', 'sport_withdrawal', 'over_time', 'moved', 'moved_up', 'cancelled')),
-                        'required' => false, // Defaults to 'ok'
-                        ),
-                    ),
-            );
+                'rule' => array('inList', array('inactive', 'did_not_start', 'active', 'finished', 'ok', 'mis_punch', 'did_not_finish', 'disqualified', 'not_competing', 'sport_withdrawal', 'over_time', 'moved', 'moved_up', 'cancelled')),
+                'required' => false, // Defaults to 'ok'
+            ),
+        ),
+    );
 
     var $belongsTo = array(
-            'User' => array(
-                'className' => 'User',
-                'foreignKey' => 'user_id',
-                'conditions' => '',
-                'fields' => '',
-                'order' => ''
-                ),
-            'Registrant' => array(
-                'className' => 'User',
-                'foreignKey' => 'registrant_id',
-                'conditions' => '',
-                'fields' => '',
-                'order' => ''
-                ),
-            'Course' => array(
-                'className' => 'Course',
-                'foreignKey' => 'course_id',
-                'conditions' => '',
-                'fields' => '',
-                'order' => ''
-                ),
-            'Event' => array(
-                    'className' => 'Event',
-                    'foreignKey' => false,
-                    'conditions' => array('Course.event_id = Event.id'),
-                    'fields' => '',
-                    'order' => ''
-                    )
-                );
+        'User' => array(
+            'className' => 'User',
+            'foreignKey' => 'user_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
+        'Registrant' => array(
+            'className' => 'User',
+            'foreignKey' => 'registrant_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
+        'Course' => array(
+            'className' => 'Course',
+            'foreignKey' => 'course_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
+        'Event' => array(
+            'className' => 'Event',
+            'foreignKey' => false,
+            'conditions' => array('Course.event_id = Event.id'),
+            'fields' => '',
+            'order' => ''
+        )
+    );
 
     function calculatePoints($course_id) {
         $meanTime   = $this->invMeanInvTimeByCourse($course_id);

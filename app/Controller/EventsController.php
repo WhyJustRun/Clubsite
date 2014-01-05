@@ -229,15 +229,9 @@ class EventsController extends AppController {
                     $processedResult["course_id"] = $course->id;
                     $processedResult["time_seconds"] = $this->_timeFromParts($result->hours, $result->minutes, $result->seconds, $result->milliseconds);
                     $processedResult['status'] = empty($result->status) ? 'ok' : $result->status;
-                    $processedResult["needs_ride"] = empty($result->needs_ride) ? false : $result->needs_ride;
+                    $processedResult["comment"] = empty($result->comment) ? null : $result->comment;
                     if (!empty($result->score_points)) {
                         $processedResult["score_points"] = $result->score_points;
-                    }
-
-                    if(empty($result->offering_ride)) {
-                        $processedResult["offering_ride"] = false;
-                    } else {
-                        $processedResult["offering_ride"] = $result->offering_ride;
                     }
 
                     if(!empty($result->id)) {

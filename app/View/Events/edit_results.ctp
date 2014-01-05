@@ -50,7 +50,7 @@ $(document).ready(function() {
         this.is_score_o = ko.observable(is_score_o);
     }
 
-    wjr.Result = function(id, user, course_id, time_seconds, status, points, needs_ride, offering_ride, score_points, is_score_o) {
+    wjr.Result = function(id, user, course_id, time_seconds, status, points, comment, score_points, is_score_o) {
         this.id = id;
         this.user = user;
         this.course_id = course_id;
@@ -69,8 +69,7 @@ $(document).ready(function() {
         }
         this.status = ko.observable(status || 'ok');
         this.points = points;
-        this.needs_ride = needs_ride;
-        this.offering_ride = offering_ride;
+        this.comment = comment;
         this.is_score_o = ko.observable(is_score_o);
         this.score_points = ko.observable(score_points);
         
@@ -141,7 +140,7 @@ $(document).ready(function() {
                 for(var j = 0; j < results.length; j++) {
                     var result = results[j];
                     var user = new wjr.User(result.User.id, result.User.name);
-                    importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time_seconds, result.status, result.points, result.needs_ride, result.offering_ride, result.score_points, course.is_score_o));
+                    importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time_seconds, result.status, result.points, result.comment, result.score_points, course.is_score_o));
                 }
 
                 viewModel.courses.push(new wjr.Course(course.id, course.name, course.distance, course.climb, course.event_id, course.description, importedResults, course.is_score_o));

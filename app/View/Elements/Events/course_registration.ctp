@@ -17,13 +17,6 @@ assert(count($courses) > 0);
                 <?php if($course["registered"] === false) { ?>
                 <div class="btn-group">
                     <a class="btn btn-success" href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>"><span class="glyphicon glyphicon-plus"></span> Register</a>
-                    <a class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>/needsRide"><span class="glyphicon glyphicon-user"></span> Register (Need ride)</a></li>
-                        <li><a href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>/offeringRide"><span class="glyphicon glyphicon-road"></span> Register (Offer ride)</a></li>
-                    </ul>
                 </div>
                 <?php } ?>
             </div>
