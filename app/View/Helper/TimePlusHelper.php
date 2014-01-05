@@ -6,6 +6,22 @@
 class TimePlusHelper extends AppHelper {
     var $helpers = array("Time");
 
+    // Date format for event page header
+    function formattedEventDate($startDateTime, $endDateTime) {
+        assert($startDateTime != null);
+
+        if($endDateTime != NULL) {
+            if($startDateTime->format('D F jS') === $finishDateTime->format('D F jS')) {
+                $formattedDate = $startDateTime->format('F jS Y g:ia') . " - " . $finishDateTime->format('g:ia');
+            } else {
+                $formattedDate = $startDateTime->format('F jS Y g:ia') . " - " . $finishDateTime->format('F jS Y g:ia');
+            }
+        } else {
+            $formattedDate = $startDateTime->format('F jS Y g:ia');
+        }
+
+        return $formattedDate;
+    }
     function nice($date_string) {
         $offset = $this->_computeOffset(new DateTime($date_string));
         return $this->Time->nice($date_string, $offset);

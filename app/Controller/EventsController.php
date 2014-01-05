@@ -193,7 +193,7 @@ class EventsController extends AppController {
 
         $this->set('title_for_layout', $event["Event"]["name"]);
         $this->set('event', $event);
-        $this->set('edit', $this->Event->Organizer->isAuthorized($id, AuthComponent::user('id')));
+        $this->set('canEdit', $this->Event->Organizer->isAuthorized($id, AuthComponent::user('id')));
     }
     function results($id) {
         return $this->view($id);
