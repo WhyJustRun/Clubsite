@@ -2,7 +2,7 @@
 /*App::uses('CakeLogInterface', 'Log');
 App::import('Vendor', 'Airbrake');
 
-class AirbrakeLogger implements CakeLogInterface {
+class AirbrakeLog implements CakeLogInterface {
     var $airbrake;
     
     function __construct($options = array()) {

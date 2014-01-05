@@ -2,7 +2,7 @@
 App::uses('CakeLogInterface', 'Log');
 App::uses('CakeEmail', 'Network/Email');
 
-class EmailLogger implements CakeLogInterface {
+class EmailLog implements CakeLogInterface {
     function __construct($options = array()) {
         
     }
