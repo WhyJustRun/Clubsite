@@ -27,7 +27,7 @@ $entries = $entryCount == 1 ? "Entries" : "Entries ($entryCount)"; ?>
             if(!empty($userId) && (!empty($result['Registrant']['id']) && $result['Registrant']['id'] == $userId || $result['User']['id'] == $userId)) {
                 echo "<div class='btn-group'>";
                     $modalId = "change-comment-modal-" . $result['id'];
-                    echo '<button data-toggle="modal" data-target="#' . $modalId . '" class="btn btn-xs btn-default">' . (empty($result['comment']) ? 'Add' : 'Change') . ' Comment</button>';
+                    echo '<button data-toggle="modal" data-target="#' . $modalId . '" class="btn btn-xs btn-default">' . (empty($result['comment']) ? 'Add' : 'Edit') . ' Comment</button>';
                     echo $this->element('Results/change_comment_modal', array('result' => $result, 'modalId' => $modalId));
                 echo "</div>";
                 echo "<div class='btn-group'>";
