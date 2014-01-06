@@ -34,8 +34,10 @@ if(!empty($event["Event"]["description"])) {
         </div>
         <h2>Location</h2>
     </div>
-    <div class="btn-group visible-xs" style="margin-bottom: 12px;">
-        <?= $linkHTML ?>
+    <div class="visible-xs" style="margin-bottom: 12px;">
+        <div class="btn-group">
+            <?= $linkHTML ?>
+        </div>
     </div>
     <?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px', array('pan-interaction' => false)); ?>
     <?php $this->append('secondaryScripts') ?>

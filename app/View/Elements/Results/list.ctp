@@ -19,6 +19,7 @@ $entries = $entryCount == 1 ? "Entries" : "Entries ($entryCount)"; ?>
     <?
     $userId = $this->Session->read('Auth.User.id');
     foreach($results as $result) {
+        $modalId = null;
         echo "<tr>";
         echo "<td>";
         echo $this->Html->link($result["User"]["name"], Configure::read('Rails.profileURL').$result["User"]["id"]);
@@ -28,7 +29,6 @@ $entries = $entryCount == 1 ? "Entries" : "Entries ($entryCount)"; ?>
                 echo "<div class='btn-group'>";
                     $modalId = "change-comment-modal-" . $result['id'];
                     echo '<button data-toggle="modal" data-target="#' . $modalId . '" class="btn btn-xs btn-default">' . (empty($result['comment']) ? 'Add' : 'Edit') . ' Comment</button>';
-                    echo $this->element('Results/change_comment_modal', array('result' => $result, 'modalId' => $modalId));
                 echo "</div>";
                 echo "<div class='btn-group'>";
                     echo '<a class="btn btn-xs btn-danger" href="/courses/unregister/'.$course['id'].'/'.$result["User"]["id"].'"><span class="glyphicon glyphicon-minus"></span> Unregister</a>';
@@ -41,11 +41,14 @@ $entries = $entryCount == 1 ? "Entries" : "Entries ($entryCount)"; ?>
             }
             echo "</div>";
         echo "</span>";
-        echo "</td>";
-        echo "</tr>";
-    }
-    ?>
-    </tbody>
-    </table>
+        if ($modalId) {
+            echo $this->element('Results/change_comment_modal', array('result' => $result, 'modalId' => $modalId));
+        }
+    echo "</td>";
+    echo "</tr>";
+}
+?>
+</tbody>
+</table>
 <?php
 }

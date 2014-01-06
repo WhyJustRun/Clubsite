@@ -60,7 +60,7 @@
 <?php $this->end(); ?>
 <div class="form-group">
     <input type="hidden" id="RegisterOthersUserId" />
-    <input class="form-control" placeholder="Participant Name" type="text" id="RegisterOthersUserName" /><br/>
+    <input class="form-control" placeholder="Participant Name" type="text" id="RegisterOthersUserName" />
 </div>
 <button id="RegisterOthersSubmit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Register</button>
 <?php } ?>
