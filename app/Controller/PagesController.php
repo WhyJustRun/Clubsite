@@ -60,6 +60,9 @@ class PagesController extends AppController {
      */
     public function display() {
         $path = func_get_args();
+        if (count($path) == 0) {
+            $this->redirect('/');
+        }
         if ($path[0] === 'home' && Configure::read('Club.layout') === 'other') {
             $path[0] = 'other';
         }
