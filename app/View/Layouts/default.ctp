@@ -2,24 +2,20 @@
 <html lang=en>
     <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# event: http://ogp.me/ns/event#">
         <?php echo $this->Html->charset(); ?>
-        <title>
-            <?php echo $title_for_layout; ?>
-        </title>
+        <title><?= $title_for_layout ?></title>
 
         <?= $this->element('layout_dependencies') ?>
         <?= $scripts_for_layout ?>
     </head>
     <body>
-        <header class="header hidden-xs">
+        <header class="navbar-constrained-width hidden-xs">
             <?php if(!empty($clubResources['headerImage'])) { ?>
             <a href="/">
-                <img class="fitting-image center-block" width="1300px" src="<?= $clubResources['headerImage_1300']; ?>" data-2x-src="<?= $clubResources['headerImage_2600']; ?>" />
+                <img width="100%" src="<?= $clubResources['headerImage_1300']; ?>" data-2x-src="<?= $clubResources['headerImage_2600']; ?>" />
             </a>
             <? } else { ?>
             <h1><?= Configure::read('Club.name') ?></h1>
             <? } ?>
-        </header>
-        <div id="content">
             <?php
             // When the page doesn't exist, CakePHP can't find the controller and doesn't load the Menu helper.
             if(!empty($this->Menu)) { ?>
@@ -57,6 +53,8 @@
                 </div>
             </nav>
             <?php } ?>
+        </header>
+        <div id="content">
             <div class="container">
                 <?php echo $this->Session->flash(); ?>
                 <?php echo $this->Session->flash('auth'); ?>
