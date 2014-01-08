@@ -8,14 +8,16 @@
         <?= $scripts_for_layout ?>
     </head>
     <body>
-        <header class="navbar-constrained-width hidden-xs">
-            <?php if(!empty($clubResources['headerImage'])) { ?>
-            <a href="/">
-                <img width="100%" src="<?= $clubResources['headerImage_1300']; ?>" data-2x-src="<?= $clubResources['headerImage_2600']; ?>" />
-            </a>
-            <? } else { ?>
-            <h1><?= Configure::read('Club.name') ?></h1>
-            <? } ?>
+        <header class="navbar-constrained-width">
+            <div class="hidden-xs">
+                <?php if(!empty($clubResources['headerImage'])) { ?>
+                <a href="/">
+                    <img width="100%" src="<?= $clubResources['headerImage_1300']; ?>" data-2x-src="<?= $clubResources['headerImage_2600']; ?>" />
+                </a>
+                <? } else { ?>
+                <h1><?= Configure::read('Club.name') ?></h1>
+                <? } ?>
+            </div>
             <?php
             // When the page doesn't exist, CakePHP can't find the controller and doesn't load the Menu helper.
             if(!empty($this->Menu)) { ?>
