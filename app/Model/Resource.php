@@ -131,7 +131,7 @@ class Resource extends AppModel {
     private function pathForFile($name, $fileUpload, $allowedExtensions) {
         $ext = $this->extensionOf($fileUpload['name']);
         $this->checkExtension($ext, $allowedExtensions);
-        return $name.$thumbnail.'.'.$ext;
+        return $name.'.'.$ext;
     }
 
     private function ensureDirectoryExists($directory) {
