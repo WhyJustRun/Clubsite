@@ -103,7 +103,7 @@ class Resource extends AppModel {
 
     private function extensionOf($file) {
         $path = pathinfo($file);
-        return strtolower($path['extension']);
+        return empty($path['extension']) ? null : strtolower($path['extension']);
     }
 
     private function fileForUrl($url) {
