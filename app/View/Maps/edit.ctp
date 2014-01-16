@@ -14,6 +14,12 @@ if ($useURLs) {
 }
 ?>
 <fieldset class="form-group">
+    <label for="MapNotes" class="control-label col-sm-2">Notes</label>
+    <div class="col-sm-10">
+        <?= $this->Form->input('notes', array('label' => false, 'class' => 'form-control oa-wysiwyg', 'div' => false)); ?>
+    </div>
+</fieldset>
+<fieldset class="form-group">
     <label class="control-label col-sm-2">Map Image
         <span data-toggle="tooltip" data-container="body" class="wjr-help-tooltip" title="" data-original-title="Provide a high quality image version of the orienteering map, JPG or GIF recommended. This is displayed on the map page so people who don't have OCAD can still view it.">
             <span class="glyphicon glyphicon-question-sign"></span>

@@ -34,7 +34,12 @@ if($edit || $showFileDownload) { ?>
             <tr><th>Last modified</th><td><?= strftime("%b %Y",strtotime($map["Map"]["modified"]))?></td></tr>
             <tr><th>Events on map</th><td><?= count($events)?></td></tr>
         </table>
-        <hr>
+        <hr/>
+        <?php if (!empty($map['Map']['notes'])) { ?>
+        <h3>Notes</h3>
+        <?= $map['Map']['notes'] ?>
+        <hr/>
+        <?php } ?>
         <h3>Map image</h3>
         <?php
         if($this->Media->exists('Map', $map["Map"]["id"])) { ?>
