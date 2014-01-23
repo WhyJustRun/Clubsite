@@ -128,7 +128,6 @@ courses : ko.observableArray()
 
                       },
             error: function(jqXHR, textStatus, errorThrown) {
-                       alert("Loading results failed :(");
                    },
             success: function(xml)
         {
