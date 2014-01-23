@@ -18,9 +18,20 @@ class LinkHelper extends Helper {
         $id = $event['id'];
         $path = "/Events/view/$id";
         if($club['id'] === Configure::read('Club.id')) {
-            return 	$path;
+            return $path;
         }
 
         return "http://".$domain.$path;
+    }
+
+    // Builds the URL to pin some content
+    public function pinterestPinUrl($contentUrl, $mediaUrl, $description) {
+        $url = "//www.pinterest.com/pin/create/button/?url=";
+        $url .= urlencode($contentUrl);
+        $url .= "&media=";
+        $url .= urlencode($mediaUrl);
+        $url .= "&description=";
+        $url .= urlencode($description);
+        return $url;
     }
 }

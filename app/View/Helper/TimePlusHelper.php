@@ -6,8 +6,15 @@
 class TimePlusHelper extends AppHelper {
     var $helpers = array("Time");
 
+    function formattedEventDate($event) {
+        $tz = Configure::read('Club.timezone');
+        $startDate = new DateTime($event["Event"]["date"], $tz);
+        $finishDate = $event['Event']['finish_date'] ? new DateTime($event["Event"]["finish_date"], $tz) : null;
+        return $this->formattedEventDateFromDateTime($startDate, $finishDate);
+    }
+
     // Date format for event page header
-    function formattedEventDate($startDateTime, $endDateTime) {
+    private function formattedEventDateFromDateTime($startDateTime, $endDateTime) {
         assert($startDateTime != null);
 
         if($endDateTime != NULL) {

@@ -1,9 +1,6 @@
 <?php
 // Params: $event, $canEdit (boolean)
-$tz = Configure::read('Club.timezone');
-$startDate = new DateTime($event["Event"]["date"], $tz);
-$finishDate = $event['Event']['finish_date'] ? new DateTime($event["Event"]["finish_date"], $tz) : null;
-$formattedEventDate = $this->TimePlus->formattedEventDate($startDate, $finishDate);
+$formattedEventDate = $this->TimePlus->formattedEventDate($event);
 ?>
 <header class="page-header">
 <div class="pull-right btn-toolbar">

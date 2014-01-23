@@ -13,6 +13,6 @@
     }
 
     echo $this->element('Events/results_links', array('event' => $event));
-    echo $this->element('Courses/course_maps', array('courses' => $event["Course"]));
+    echo $this->element('Courses/course_maps', array('event' => $event));
     ?>
 </div>
