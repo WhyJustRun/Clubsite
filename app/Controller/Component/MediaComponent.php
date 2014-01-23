@@ -2,7 +2,6 @@
 class MediaComponent extends Component {
     private $defaultType;
     private $allowedExts;
-    private $thumbnailExtension = 'png';
     private $controller;
     public $thumbnailSizes;
 
@@ -11,7 +10,6 @@ class MediaComponent extends Component {
         $this->allowedExts = !empty($options['allowedExts']) ? $options['allowedExts'] : null;
         $this->thumbnailSizes = !empty($options['thumbnailSizes']) ? $options['thumbnailSizes'] : null;
         $this->addHiDPISizes();
-        $this->thumbnailExtension = !empty($options['thumbnailExt']) ? $options['thumbnailExt'] : $this->thumbnailExtension;
     }
 
     function initialize($controller) {
@@ -101,7 +99,7 @@ class MediaComponent extends Component {
         $file = $this->get($id, $thumbnail, $type);
         $path = '/';
         if(!$file) {
-            $file = "$type.".$this->thumbnailExtension;
+            $file = "$type.png";
             $path = 'webroot/img/defaults/';
         }
 
@@ -127,10 +125,10 @@ class MediaComponent extends Component {
     
     private function buildImagesForFile($file, $folder, $id) {
         assert(!empty($file));
-        $imagePath = $folder . $id . '_image.' . $this->thumbnailExtension;
+        $imagePath = $folder . $id . '_image.' . $this->thumbnailExtensionFor('image');
         $this->createImage($file, $imagePath, null);
         foreach($this->thumbnailSizes as $thumbnailSize) {
-            $thumbnailPath = $folder . $id . '_' . $thumbnailSize . '.' . $this->thumbnailExtension;
+            $thumbnailPath = $folder . $id . '_' . $thumbnailSize . '.' . $this->thumbnailExtensionFor($thumbnailSize);
             $this->createImage($imagePath, $thumbnailPath, $thumbnailSize);
         }
     }
@@ -169,8 +167,8 @@ class MediaComponent extends Component {
 	        $origSizeX = $d['width'];
 	        $origSizeY = $d['height']; 
 	
-	        $destination = $folder . $id . "_$size." . $this->thumbnailExtension;
-	        $doubledDestination = $folder . $id . "_$doubledSize." . $this->thumbnailExtension;
+	        $destination = $folder . $id . "_$size." . $this->thumbnailExtensionFor($size);
+	        $doubledDestination = $folder . $id . "_$doubledSize." . $this->thumbnailExtensionFor($size);
 	        $explodedDoubledSize = explode("x", $doubledSize);
 	        $doubledSizeWidth = $explodedDoubledSize[0];
 	        $doubledSizeHeight =  $explodedDoubledSize[1];
@@ -201,11 +199,19 @@ class MediaComponent extends Component {
     }
 
     private function findThumbnails($id, $folder) {
-        return glob($folder . $id . "_*." . $this->thumbnailExtension);
+        return glob($folder . $id . "_*.{jpg,png}");
+    }
+
+    private function thumbnailExtensionFor($thumbnail) {[
+        if ($thumbnail == 'image') {
+            return 'jpg';
+        } else {
+            return 'png';
+        }
     }
 
     private function findThumbnail($id, $folder, $thumbnail, $type) {
-        $matches = glob($folder . $id . "_$thumbnail." . $this->thumbnailExtension);
+        $matches = glob($folder . $id . "_$thumbnail." . $this->thumbnailExtensionFor($thumbnail));
         if(count($matches) > 1) {
             throw new Exception('Found more than one matching thumbnail');
         } else if(count($matches) == 0) {
@@ -213,7 +219,7 @@ class MediaComponent extends Component {
                 $this->buildImages($id, $type);
             }
 
-            $matches = glob($folder . $id . "_$thumbnail." . $this->thumbnailExtension);
+            $matches = glob($folder . $id . "_$thumbnail." . $this->thumbnailExtensionFor($thumbnail));
             if (count($matches) == 0) {
                 return false;
             }
