@@ -39,7 +39,7 @@ class MediaComponent extends Component {
             throw new Exception('The uploaded file format is not allowed. Please use one of ' . $exts);
         }
 
-        $this->buildThumbnailsForFile($filename, $folder, $id);
+        $this->buildImagesForFile($filename, $folder, $id);
     }
 
     public function delete($id, $type = null) {
@@ -116,29 +116,45 @@ class MediaComponent extends Component {
         $this->controller->set($params);
     }
     
-    public function buildThumbnails($id, $type = null) {
+    public function buildImages($id, $type = null) {
     	$this->loadType($type);
         $folder = $this->folder($type);
         $file = $this->findFile($id, $folder);
         
         if(!$file) return;
-        $this->buildThumbnailsForFile($file, $folder, $id);
+        $this->buildImagesForFile($file, $folder, $id);
     }
     
-    private function buildThumbnailsForFile($file, $folder, $id) {
-    	assert(!empty($file));
-    	
-	    foreach($this->thumbnailSizes as $thumbnailSize) {
+    private function buildImagesForFile($file, $folder, $id) {
+        assert(!empty($file));
+        $imagePath = $folder . $id . '_image.' . $this->thumbnailExtension;
+        $this->createImage($file, $imagePath, null);
+        foreach($this->thumbnailSizes as $thumbnailSize) {
             $thumbnailPath = $folder . $id . '_' . $thumbnailSize . '.' . $this->thumbnailExtension;
-            $this->createThumbnail($file, $thumbnailPath, $thumbnailSize);
+            $this->createImage($imagePath, $thumbnailPath, $thumbnailSize);
         }
     }
-    
-    private function createThumbnail($source, $destination, $size) {
+
+    // If size is null, will not do any resizing 
+    private function createImage($source, $destination, $size) {
     	if (file_exists($destination)) {
     		unlink($destination);
-    	}
-        shell_exec("convert -strip -interlace Plane -gaussian-blur 0.05 -quality 85% '$source' -resize $size\> '$destination'");
+        }
+        if ($size) {
+            $command = "convert -strip -interlace Plane -gaussian-blur 0.05";
+        } else if ($this->extensionOf($source) == 'pdf') {
+            // Use a higher DPI for converting PDFs
+            $command = "convert -density 288 -colorspace RGB";
+        } else {
+            $command = 'convert';
+        }
+
+        $command .= " -quality 85% '$source' ";
+        if ($size) {
+            $command .= "-resize $size\> ";
+        }
+        $command .= "'$destination'";
+        shell_exec($command);
     }
 
     public function createCroppedThumbnail($id, $type, $size, $position = "random") {
