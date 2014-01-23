@@ -214,7 +214,7 @@ class MediaComponent extends Component {
             }
 
             $matches = glob($folder . $id . "_$thumbnail." . $this->thumbnailExtension);
-            if (count($matches == 0)) {
+            if (count($matches) == 0) {
                 return false;
             }
         }
