@@ -13,18 +13,18 @@ if(!empty($courses)) { ?>
                 <?= $course["name"] ?>
                 <span class="pull-right">
                     <?php
-                    $mediaUrl = $this->Media->url('Course', $course['id']);
+                    $mediaUrl = Router::url($this->Media->url('Course', $course['id']), true);
                     // Current URL
                     $url = Router::url(null, true); 
                     $description = $this->TimePlus->formattedEventDate($event) . ' - ' . $event['Event']['name'] . ' - ' . $course['name'] . ' course';
                     ?>
                     <span data-toggle="tooltip" data-container="body" class="wjr-help-tooltip" title="Use Pinterest to collect all the orienteering maps you've run on!">
-                    <a href="<?= $this->Link->pinterestPinUrl($url, $mediaUrl, $description) ?>"
-                    data-pin-do="buttonPin"
-                    data-pin-config="none"
-                    data-pin-height="28">
-                        <img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" />
-                    </a>
+                        <a href="<?= $this->Link->pinterestPinUrl($url, $mediaUrl, $description) ?>"
+                        data-pin-do="buttonPin"
+                        data-pin-config="none"
+                        data-pin-height="28">
+                            <img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" />
+                        </a>
                     </span>
                 </span>
             </h3>
