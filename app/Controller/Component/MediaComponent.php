@@ -202,7 +202,7 @@ class MediaComponent extends Component {
         return glob($folder . $id . "_*.{jpg,png}");
     }
 
-    private function thumbnailExtensionFor($thumbnail) {[
+    private function thumbnailExtensionFor($thumbnail) {
         if ($thumbnail == 'image') {
             return 'jpg';
         } else {
