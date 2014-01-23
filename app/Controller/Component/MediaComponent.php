@@ -61,7 +61,7 @@ class MediaComponent extends Component {
         if(!$thumbnail) {
             return $this->findFile($id, $folder);
         } else {
-            return $this->findThumbnail($id, $folder, $thumbnail);
+            return $this->findThumbnail($id, $folder, $thumbnail, $type);
         }
     }
 
@@ -204,15 +204,37 @@ class MediaComponent extends Component {
         return glob($folder . $id . "_*." . $this->thumbnailExtension);
     }
 
-    private function findThumbnail($id, $folder, $thumbnail) {
+    private function findThumbnail($id, $folder, $thumbnail, $type) {
         $matches = glob($folder . $id . "_$thumbnail." . $this->thumbnailExtension);
         if(count($matches) > 1) {
             throw new Exception('Found more than one matching thumbnail');
         } else if(count($matches) == 0) {
-            return false;
+            if ($this->imageRequestIsValid($id, $folder, $thumbnail)) {
+                $this->buildImages($id, $type);
+            }
+
+            $matches = glob($folder . $id . "_$thumbnail." . $this->thumbnailExtension);
+            if (count($matches == 0)) {
+                return false;
+            }
         }
 
         return $matches[0];
+    }
+
+    private function imageRequestIsValid($id, $folder, $thumbnail) {
+        if ($this->findFile($id, $folder) === false) {
+            return false;
+        } 
+
+        if ($thumbnail != null) {
+            if ($thumbnail != 'image' &&
+                !in_array($thumbnail, $this->thumbnailSizes)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function folder($type) {

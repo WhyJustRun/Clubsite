@@ -1,8 +1,9 @@
 <?php
+// NOTE: Unless you figure out a way to run this for each club environment, it can't really be used anymore )=
 class RebuildDerivedImagesShell extends Shell {
 	var $uses = array("Map", "Course", "Result", 'Resource');
 
-	function main() {
+        function main() {
 		//$this->mediaImages();
 		
 		// Special cases
@@ -28,7 +29,7 @@ class RebuildDerivedImagesShell extends Shell {
 			$count = count($objects);
 			$i = 0;
 			foreach($objects as $object) {
-				$mediaComponent->buildThumbnails($object[$modelName]['id']);
+				$mediaComponent->buildImages($object[$modelName]['id']);
 				$i++;
 				$percentage = round($i/$count * 100);
 				echo "Regenerating $modelName derived images completed $percentage%\n";
