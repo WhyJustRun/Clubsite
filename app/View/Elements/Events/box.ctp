@@ -11,10 +11,8 @@ $hasPicture = $this->Media->exists("Map", $mapId, "60x60");
             </div>
             <?php } ?>
             <div class="event-box-left">
-                <div class="location series-<?= $style ?>"><?= $location ?>
-                <?php if(!empty($classification) && !in_array($classification, $hiddenClassifications)) { ?>
-                    <span class="label label-info event-box-classification"><?= $classification ?></span>
-                <?php } ?>
+                <div class="location series-<?= $style ?>">
+                    <?= $location ?>
                 </div>
                 
                 <div class="date date-text"><?= $date ?></div>
