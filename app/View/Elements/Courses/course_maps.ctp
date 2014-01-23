@@ -13,7 +13,7 @@ if(!empty($courses)) { ?>
                 <?= $course["name"] ?>
                 <span class="pull-right">
                     <?php
-                    $mediaUrl = Router::url($this->Media->url('Course', $course['id']), true);
+                    $mediaUrl = Router::url($this->Media->url('Course', $course['id'], 'image'), true);
                     // Current URL
                     $url = Router::url(null, true); 
                     $description = $this->TimePlus->formattedEventDate($event) . ' - ' . $event['Event']['name'] . ' - ' . $course['name'] . ' course';
