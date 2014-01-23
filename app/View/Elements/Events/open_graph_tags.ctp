@@ -16,9 +16,6 @@ if ($finishDate) {
 }
 if (!empty($event['Event']['lat'])) {
     $this->OpenGraph->addTag("event:location:latitude", $event['Event']['lat']);
-}
-
-if (!empty($event['Event']['lng'])) {
     $this->OpenGraph->addTag("event:location:longitude", $event['Event']['lng']);
 }
 ?>
