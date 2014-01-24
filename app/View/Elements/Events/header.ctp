@@ -49,9 +49,4 @@ $formattedEventDate = $this->TimePlus->formattedEventDate($event);
     <h1 class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Event"]["name"]; ?> <small class="series-<?= $event["Series"]["id"]; ?> event-header"><?= $event["Series"]["name"] ?></small></h1>
 
     <h2 class="event-header"><?= $formattedEventDate ?></h2>
-    <? if(!empty($event["Event"]["custom_url"])) {?>
-    <div class="danger alert alert-danger">
-        <h3 class="event-header">This event has an external website: <?= $this->Html->link($event["Event"]["custom_url"])?></h3>
-    </div>
-    <? } ?>
 </header>

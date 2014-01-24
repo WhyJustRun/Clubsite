@@ -167,12 +167,19 @@ class EventsController extends AppController {
                 );
         $event = $this->Event->find('first', array('conditions' => array('Event.id' => $id), 'contain' => $contain));
         $user = AuthComponent::user();
-
+        
         if(!$event) {
             $this->Session->setFlash("The event requested couldn't be found.");
             $this->redirect('/');
             return;
         }
+
+        $canEdit = $this->Event->Organizer->isAuthorized($id, AuthComponent::user('id'));
+        // If the user is not authorized to edit the event, redirect them automatically.
+        if (!empty($event['Event']['custom_url']) && !$canEdit) {
+            $this->redirect($event['Event']['custom_url']);
+            return;
+        } 
 
         $startTime = new DateTime($event["Event"]["utc_date"]);
         $event["Event"]["completed"] = ($this->_isBeforeNow($startTime));
@@ -193,7 +200,8 @@ class EventsController extends AppController {
 
         $this->set('title_for_layout', $event["Event"]["name"]);
         $this->set('event', $event);
-        $this->set('canEdit', $this->Event->Organizer->isAuthorized($id, AuthComponent::user('id')));
+        $this->set('canEdit', $canEdit);
+
     }
     function results($id) {
         return $this->view($id);
