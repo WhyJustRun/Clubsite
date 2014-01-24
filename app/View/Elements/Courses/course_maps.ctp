@@ -28,7 +28,7 @@ if(!empty($courses)) { ?>
                     </span>
                 </span>
             </h3>
-            <?= $this->Media->linkedImage("Course", $course["id"], '600x600', array(), array('width' => '100%', 'data-pin-hover' => true)) ?> 
+            <?= $this->Media->linkedImage("Course", $course["id"], '600x600', array(), array('style' => 'max-width: 100%', 'data-pin-hover' => true)) ?> 
         <?php
         }
     }

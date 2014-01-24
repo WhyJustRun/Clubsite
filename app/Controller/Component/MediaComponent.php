@@ -140,17 +140,26 @@ class MediaComponent extends Component {
         }
 
         $command = "convert -strip -interlace Plane -gaussian-blur 0.05";
+        // For PDFs, create a composite image with all the pages 
         if ($this->extensionOf($source) == 'pdf') {
             // Use a higher DPI for converting PDFs
             $command .= " -density 288 -colorspace RGB";
+            $command .= " -quality 85% '$source'";
+            $command .= " '$destination.%04d.tmp.jpg'";
+            shell_exec($command);
+            $command = "convert -quality 85% '$destination.*.tmp.jpg' -append '$destination'";
+            shell_exec($command);
+            $command = "rm -f $destination.*.tmp.jpg";
+            die($command);
+            shell_exec($command);
+        } else {
+            $command .= " -quality 85% '$source'";
+            if ($size) {
+                $command .= " -resize $size\>";
+            }
+            $command .= " '$destination'";
+            shell_exec($command);
         }
-
-        $command .= " -quality 85% '$source'[0]";
-        if ($size) {
-            $command .= " -resize $size\>";
-        }
-        $command .= " '$destination'";
-        shell_exec($command);
     }
 
     public function createCroppedThumbnail($id, $type, $size, $position = "random") {
