@@ -113,16 +113,16 @@ class MediaComponent extends Component {
         );
         $this->controller->set($params);
     }
-    
+
     public function buildImages($id, $type = null) {
-    	$this->loadType($type);
+        $this->loadType($type);
         $folder = $this->folder($type);
         $file = $this->findFile($id, $folder);
-        
+
         if(!$file) return;
         $this->buildImagesForFile($file, $folder, $id);
     }
-    
+
     private function buildImagesForFile($file, $folder, $id) {
         assert(!empty($file));
         $imagePath = $folder . $id . '_image.' . $this->thumbnailExtensionFor('image');
@@ -135,23 +135,21 @@ class MediaComponent extends Component {
 
     // If size is null, will not do any resizing 
     private function createImage($source, $destination, $size) {
-    	if (file_exists($destination)) {
-    		unlink($destination);
-        }
-        if ($size) {
-            $command = "convert -strip -interlace Plane -gaussian-blur 0.05";
-        } else if ($this->extensionOf($source) == 'pdf') {
-            // Use a higher DPI for converting PDFs
-            $command = "convert -density 288 -colorspace RGB";
-        } else {
-            $command = 'convert';
+        if (file_exists($destination)) {
+            unlink($destination);
         }
 
-        $command .= " -quality 85% '$source' ";
-        if ($size) {
-            $command .= "-resize $size\> ";
+        $command = "convert -strip -interlace Plane -gaussian-blur 0.05";
+        if ($this->extensionOf($source) == 'pdf') {
+            // Use a higher DPI for converting PDFs
+            $command .= " -density 288 -colorspace RGB";
         }
-        $command .= "'$destination'";
+
+        $command .= " -quality 85% '$source'";
+        if ($size) {
+            $command .= " -resize $size\>";
+        }
+        $command .= " '$destination'";
         shell_exec($command);
     }
 
@@ -159,31 +157,31 @@ class MediaComponent extends Component {
         $this->loadType($type);
         $folder = $this->folder($type);
         $source = $this->findFile($id, $folder);
-        
+
         if($source) {
-        	$doubledSize = $this->doubledSize($size);
-	        $image = new Imagick($source);
-	        $d = $image->getImageGeometry();
-	        $origSizeX = $d['width'];
-	        $origSizeY = $d['height']; 
-	
-	        $destination = $folder . $id . "_$size." . $this->thumbnailExtensionFor($size);
-	        $doubledDestination = $folder . $id . "_$doubledSize." . $this->thumbnailExtensionFor($size);
-	        $explodedDoubledSize = explode("x", $doubledSize);
-	        $doubledSizeWidth = $explodedDoubledSize[0];
-	        $doubledSizeHeight =  $explodedDoubledSize[1];
-	        
-	        if ($position == "random") {
-		        $offsetX = rand(0,$origSizeX - $doubledSizeWidth);
-		        $offsetY = rand(0,$origSizeY - $doubledSizeHeight);
-	        } else {
-		        $offsetX = $origSizeX / 2;
-		        $offsetY = $origSizeY / 2;
-	        }
-	        
-	        $resizeCommandFirstPart = "convert -strip -interlace Plane -gaussian-blur 0.05 -quality 85% -crop ${doubledSize}+${offsetX}+${offsetY} -resize ";
-	        shell_exec($resizeCommandFirstPart.$size." +repage $source $destination");
-	        shell_exec($resizeCommandFirstPart.$doubledSize." +repage $source $doubledDestination");
+            $doubledSize = $this->doubledSize($size);
+            $image = new Imagick($source);
+            $d = $image->getImageGeometry();
+            $origSizeX = $d['width'];
+            $origSizeY = $d['height']; 
+
+            $destination = $folder . $id . "_$size." . $this->thumbnailExtensionFor($size);
+            $doubledDestination = $folder . $id . "_$doubledSize." . $this->thumbnailExtensionFor($size);
+            $explodedDoubledSize = explode("x", $doubledSize);
+            $doubledSizeWidth = $explodedDoubledSize[0];
+            $doubledSizeHeight =  $explodedDoubledSize[1];
+
+            if ($position == "random") {
+                $offsetX = rand(0,$origSizeX - $doubledSizeWidth);
+                $offsetY = rand(0,$origSizeY - $doubledSizeHeight);
+            } else {
+                $offsetX = $origSizeX / 2;
+                $offsetY = $origSizeY / 2;
+            }
+
+            $resizeCommandFirstPart = "convert -strip -interlace Plane -gaussian-blur 0.05 -quality 85% -crop ${doubledSize}+${offsetX}+${offsetY} -resize ";
+            shell_exec($resizeCommandFirstPart.$size." +repage $source $destination");
+            shell_exec($resizeCommandFirstPart.$doubledSize." +repage $source $doubledDestination");
         }
     }
 
@@ -236,8 +234,8 @@ class MediaComponent extends Component {
         if ($thumbnail != null) {
             if ($thumbnail != 'image' &&
                 !in_array($thumbnail, $this->thumbnailSizes)) {
-                return false;
-            }
+                    return false;
+                }
         }
 
         return true;
@@ -272,26 +270,26 @@ class MediaComponent extends Component {
             throw new Exception("Failed loading media type.");
         }
     }
-    
-    private function doubledSize($size) {
-    	$glue = "x";
-	    $components = explode($glue, $size);
-	    $newComponents = array();
-	    foreach($components as $component) {
-		    $newComponents[] = intval($component) * 2;
-	    }
-	    
-	    return implode($glue, $newComponents);
-    }
-    
-    private function addHiDPISizes() {
-    	$newSizes = array();
 
-	    foreach($this->thumbnailSizes as $size) {
-		    $newSizes[] = $this->doubledSize($size);
-	    }
-	    
-	    $this->thumbnailSizes = array_merge($this->thumbnailSizes, $newSizes);
+    private function doubledSize($size) {
+        $glue = "x";
+        $components = explode($glue, $size);
+        $newComponents = array();
+        foreach($components as $component) {
+            $newComponents[] = intval($component) * 2;
+        }
+
+        return implode($glue, $newComponents);
+    }
+
+    private function addHiDPISizes() {
+        $newSizes = array();
+
+        foreach($this->thumbnailSizes as $size) {
+            $newSizes[] = $this->doubledSize($size);
+        }
+
+        $this->thumbnailSizes = array_merge($this->thumbnailSizes, $newSizes);
     }
 
 }

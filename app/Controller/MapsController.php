@@ -8,7 +8,6 @@ class MapsController extends AppController {
                 'type' => 'Map',
                 'allowedExts' => array('jpg', 'jpeg', 'gif', 'png'),
                 'thumbnailSizes' => array('400x600', '50x50'),
-                'thumbnailExt' => 'gif'
                 )
             );
 
