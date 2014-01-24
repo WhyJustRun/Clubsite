@@ -150,7 +150,6 @@ class MediaComponent extends Component {
             $command = "convert -quality 85% '$destination.*.tmp.jpg' -append '$destination'";
             shell_exec($command);
             $command = "rm -f $destination.*.tmp.jpg";
-            die($command);
             shell_exec($command);
         } else {
             $command .= " -quality 85% '$source'";
