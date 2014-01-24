@@ -145,7 +145,7 @@ class MediaComponent extends Component {
             $command .= " -density 288 -colorspace RGB";
         }
 
-        $command .= " -quality 85% '$source'";
+        $command .= " -quality 85% '$source'[0]";
         if ($size) {
             $command .= " -resize $size\>";
         }
