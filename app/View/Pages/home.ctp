@@ -54,18 +54,23 @@
         </header>
         
         <?php
-        $fbPageID = Configure::read('Club.facebook_page_id');
-        if (!$fbPageID) {
+        $wjrPageId = Configure::read('Facebook.appPageId');
+        $fbPageId = Configure::read('Club.facebook_page_id');
+        if (!$fbPageId) {
             if($this->Session->check('Auth.User.id') && $this->Session->read("Club.".Configure::read('Club.id').'.Privilege.Club.edit') === true) { ?>
             <a class="btn" href="/clubs/edit">Customize Facebook Page source</a>
             <?php }
-            $fbPageID = Configure::read('Facebook.defaultPageID');
+            $fbPageId = Configure::read('Facebook.defaultPageID');
         }
         
-        echo $this->FacebookGraph->feed($fbPageID, array('limit' => 5));
+        echo $this->FacebookGraph->feed($fbPageId, array('limit' => 5));
+        $facebookDomain = "http://www.facebook.com/";
+        if ($fbPageId) {
+            echo $this->FacebookGraph->like($facebookDomain.$fbPageId);
+        }
 
-        if ($fbPageID) {
-            echo $this->FacebookGraph->like("http://www.facebook.com/".$fbPageID);
+        if ($wjrPageId != $fbPageId) {
+            echo $this->FacebookGraph->like($facebookDomain.$wjrPageId);
         }
         ?>
     </article>
