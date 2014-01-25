@@ -2,6 +2,7 @@
 // Params: $event
 $dynamicText = "Orienteering event taking place: " . $this->TimePlus->formattedEventDate($event) . ".";
 
+$this->OpenGraph->addTag('og:site_name', 'WhyJustRun');
 $this->OpenGraph->addTag("og:type", "event");
 $this->OpenGraph->addTag("og:url", $this->Html->url($event['Event']['url'], true));
 $this->OpenGraph->addTag("og:description", "$dynamicText Orienteering is an exciting sport for all ages and fitness levels that involves reading a detailed map and using a compass to find checkpoints.");
