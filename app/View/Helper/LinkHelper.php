@@ -27,11 +27,11 @@ class LinkHelper extends Helper {
     // Builds the URL to pin some content
     public function pinterestPinUrl($contentUrl, $mediaUrl, $description) {
         $url = "//www.pinterest.com/pin/create/button/?url=";
-        $url .= urlencode($contentUrl);
+        $url .= rawurlencode($contentUrl);
         $url .= "&media=";
-        $url .= urlencode($mediaUrl);
+        $url .= rawurlencode($mediaUrl);
         $url .= "&description=";
-        $url .= urlencode($description);
+        $url .= rawurlencode($description);
         return $url;
     }
 }
