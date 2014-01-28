@@ -13,7 +13,6 @@ class MenuHelper extends Helper {
  * Highlight a menu option based on path
  *
  * A menu path gets passed and it compares to requested path and sets the call to be highlighted.
- * Use regular expressions in the pattern matching.
  *
  * @param path for which the nav item should be highlighted
  * @param optional normal class to be returned, default ''
@@ -28,7 +27,7 @@ class MenuHelper extends Helper {
             if($home) {
                 if($currentPath === '' || $currentPath === '/pages/home' || $currentPath === '/')
                     $class = $selected;
-                } else if (!$home && ereg($path,$currentPath,$regs)){
+                } else if (!$home && $path == $currentPath){
                     $class = $selected;
                 }
 
