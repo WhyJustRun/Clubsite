@@ -1,11 +1,6 @@
 <?php
 class LinkHelper extends Helper {
     public $helpers = array('Html');
-    private $endpoints = array(
-        'Course' => '/courses/map/',
-        'Map' => '/maps/rendering/',
-        'Result' => '/events/rendering/',
-    );
 
     // Build the URL to an event (may not be at the same club)
     // requires Club.id, and Club.domain, as well as Event.id

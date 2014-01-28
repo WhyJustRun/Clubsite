@@ -31,6 +31,9 @@ class MediaHelper extends Helper {
     }
 
     public function url($type, $id, $thumbnail = false, $hiDPI = false) {
+        if (empty($id)) {
+            throw new Exception("No media resource ID provided to build URL.");
+        }
         if ($hiDPI && $thumbnail) {
             $glue = "x";
             $components = explode($glue, $thumbnail);
