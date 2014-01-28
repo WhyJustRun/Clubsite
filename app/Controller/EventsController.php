@@ -42,7 +42,10 @@ class EventsController extends AppController {
     }
 
     // Displays a rendering of the results (manually uploaded)
-    function rendering($id) {
+    function rendering($id = null) {
+        if (empty($id)) {
+            $this->redirect('/');
+        }
         $this->Media->display($id);
     }
 
