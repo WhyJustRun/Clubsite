@@ -12,7 +12,7 @@
             <div class="hidden-xs">
                 <?php if(!empty($clubResources['headerImage'])) { ?>
                 <a href="/">
-                    <img width="100%" src="<?= $clubResources['headerImage_1300']; ?>" data-2x-src="<?= $clubResources['headerImage_2600']; ?>" />
+                    <img src="<?= $clubResources['headerImage_1300']; ?>" srcset="<?= $clubResources['headerImage_2600']; ?> 2x" style="width: 100%; height: intrinsic" />
                 </a>
                 <? } else { ?>
                 <h1><?= Configure::read('Club.name') ?></h1>

@@ -14,9 +14,6 @@ $(function() {
     errorstrap();
     $('input, textarea').placeholder();
 
-    // HiDPI resolution images
-    swapHiDPIImages();
-
     orienteerAppCheckKetchupFormsAreValidOnSubmit();
 
     $('.oa-wysiwyg').each(function(idx, element) {
@@ -25,27 +22,6 @@ $(function() {
 
     $("[data-toggle='tooltip']").tooltip();
 });
-
-function swapHiDPIImages() {
-    if(window.devicePixelRatio > 1) {
-        $('img[data-2x-src]').each(function (index, img) {
-            function load2xImage() {
-                if(img.getAttribute('width') != undefined || img.getAttribute('height') != undefined) {
-                    img.setAttribute('src', img.getAttribute('data-2x-src'));
-                    img.removeAttribute('data-2x-src');
-                } else if(img.complete) {
-                    img.setAttribute('width', img.offsetWidth);
-                    img.setAttribute('src', img.getAttribute('data-2x-src'));
-                    img.removeAttribute('data-2x-src');
-                } else {
-                    setTimeout(load2xImage, 5);
-                }
-            }
-
-            load2xImage();
-        });
-    }
-}
 
 var orienteerAppState = {
     wysiwygScriptLoaded: false,
