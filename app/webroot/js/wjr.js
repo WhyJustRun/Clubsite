@@ -3,8 +3,10 @@ $(function() {
 
     // Add required to the recaptcha field. This has to be done after page load as the element is created dynamically, and before ketchup parses the data-validate tags
     $('#recaptcha_response_field').attr('data-validate', 'validate(required)');
-    jQuery.timeago.settings.allowFuture = true;
-    $('time.timeago').timeago();
+    $('time.timeago').each(function(i, e) {
+        var time = moment($(e).attr('datetime'));
+        $(e).html(time.fromNow());
+    });
 
     $('.date-picker').datepicker();
 
