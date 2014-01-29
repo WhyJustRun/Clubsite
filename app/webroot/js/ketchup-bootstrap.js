@@ -18,12 +18,12 @@
                 }
             }, function (form, e1) {}
         )
-        .validation('time', 'Must be a valid 24 hour time (format: hh:mm:ss)',
+        .validation('time', 'Must be a valid 24 hour time (format: hh:mm)',
             function (form, el, value) {
                 if (value === "") {
                     return true;
                 } else {
-                   var regex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+                   var regex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
                    return regex.test(value);
                 }
             }, function (form, e1) {}

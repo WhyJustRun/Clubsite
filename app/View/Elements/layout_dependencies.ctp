@@ -17,7 +17,7 @@ if(!empty($clubResources['style'])) {
 <![endif]-->
 <?php
 echo $this->Html->script("/cjs/jquery-1.8.2.min.js,jquery.mousewheel-3.0.6.pack.js,jquery.ketchup.all.min.js,ketchup-bootstrap.js,jquery.fancybox.pack.js,jquery.placeholder.min.js,underscore-min.js,knockout.js,jquery.jeditable.mini.js,jquery.iecors.js,xdate.js,moment.min.js,img.srcset.polyfill.js,browserdetect.js", array('block' => 'primaryScripts'));
-echo $this->Html->script('/cjs/bootstrap.min.js,bootstrap-datepicker.js,bootstrap-typeahead.js', array('block' => 'primaryScripts'));
+echo $this->Html->script('/cjs/bootstrap.min.js,bootstrap-datetimepicker.min.js,bootstrap-typeahead.js', array('block' => 'primaryScripts'));
 echo $this->Html->script('wjr', array('block' => 'primaryScripts'));
 
 // Easy editable content blocks

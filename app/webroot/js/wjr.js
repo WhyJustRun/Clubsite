@@ -8,8 +8,7 @@ $(function() {
         $(e).html(time.fromNow());
     });
 
-    $('.date-picker').datepicker();
-
+    $('.date-picker').datetimepicker({ pickTime: false });
     cakebootstrap();
     errorstrap();
     $('input, textarea').placeholder();

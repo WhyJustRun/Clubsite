@@ -26,6 +26,9 @@
     vertical-align: top;
 }
 
+.inline-validated-help {
+    vertical-align: -webkit-baseline-middle;
+}
 /* Fix for nesting of inline form inside horizontal form (http://stackoverflow.com/questions/18429121/inline-form-nested-within-horizontal-form-in-bootstrap-3) */
 .form-inline .form-group {
     margin-left: 0;

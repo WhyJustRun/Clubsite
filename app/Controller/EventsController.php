@@ -70,11 +70,11 @@ class EventsController extends AppController {
             // Organizer data from JSON
             $this->_parseJson();
 
-            $this->request->data['Event']['date'] = $this->request->data['Event']['date']." ".$this->request->data['Event']['time'];
+            $this->request->data['Event']['date'] = $this->request->data['Event']['date']." ".$this->request->data['Event']['time'] . ":00";
             unset($this->request->data['Event']['time']);
 
             if(!empty($this->request->data['Event']['finish_date'])) {
-                $this->request->data['Event']['finish_date'] = $this->request->data['Event']['finish_date']." ".$this->request->data['Event']['finish_time'];
+                $this->request->data['Event']['finish_date'] = $this->request->data['Event']['finish_date']." ".$this->request->data['Event']['finish_time'] . ":00";
                 unset($this->request->data['Event']['finish_time']);
             }
 
