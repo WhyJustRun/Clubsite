@@ -82,7 +82,7 @@ var finishLoadingOrganizers = function() {
         viewModel.addCourse(originalCourse["id"], originalCourse["name"], originalCourse["distance"], originalCourse["climb"], originalCourse['isScoreO'],  originalCourse["description"]);
     }
     $(function() {
-        orienteerAppPersonPicker('#organizers', { maintainInput: false }, function(person) {
+        orienteerAppPersonPicker('#organizers', { maintainInput: false, allowFake: false }, function(person) {
             if(person != null) {
                 $('#organizers').val(null);
                 viewModel.addOrganizer(person.id, person.name);

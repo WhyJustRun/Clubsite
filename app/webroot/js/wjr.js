@@ -70,15 +70,19 @@ function orienteerAppWYSIWYG(element) {
 // Callback should take a person object with id, name. Callback can also be called with null (no person selected)
 // Maintain input will keep the selected user's name in the input after the input loses focus. "allowNew" will keep the input populated even if there is no user in the system with the given name. "createNew" will add an option to create a new user with the given name.
 function orienteerAppPersonPicker(selector, options, callback) {
+    var defaults = {
+        'allowNew': false,
+        'allowFake': true,
+        'createNew': false,
+    };
     options = options || {};
-    options['allowNew'] = options['allowNew'] || false;
-    options['createNew'] = options['createNew'] || false;
+    options = $.extend({}, defaults, options);
     displayName = null;
 
     $(selector).typeahead({
         source: function(typeahead, query) {
                     $.ajax({
-                        url: "/users/index.json?term=" + query,
+                        url: "/users/index.json?term=" + query + "&allowFake=" + (options['allowFake'] ? 'true' : 'false'),
                         success: function(data) {
                             if (options['createNew']) {
                                 data.push({

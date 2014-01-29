@@ -29,8 +29,11 @@ class UsersController extends AppController
     function index() {
         // Autocomplete
         if(!empty($_GET["term"])) {
-            $conditions = array('User.name' => $_GET["term"]);
-            $this->set("users", $this->User->findByName($_GET["term"], 8));
+            $allowFake = true;
+            if (!empty($_GET['allowFake']) && $_GET['allowFake'] === 'false') {
+                $allowFake = false;
+            }
+            $this->set("users", $this->User->findByName($_GET["term"], 8, $allowFake));
         } else {
             $this->set("users", array());
         }

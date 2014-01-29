@@ -16,7 +16,7 @@
         <?php $this->append('secondaryScripts'); ?>
         <script type="text/javascript">
         $(function() {
-            orienteerAppPersonPicker('#UserName', { maintainInput: true }, function(person) {
+            orienteerAppPersonPicker('#UserName', { maintainInput: true, allowFake: false }, function(person) {
                 if(person != null) {
                     $("#OfficialUserId").val(person.id);
                 }

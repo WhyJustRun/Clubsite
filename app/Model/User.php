@@ -131,8 +131,12 @@ class User extends AppModel {
         }
     }
 
-    function findByName($name, $limit = -1) {
-        $options = array('recursive' => -1, 'conditions' => array('User.name LIKE' => '%'.$name.'%'));
+    function findByName($name, $limit = -1, $allowFake = true) {
+        $conditions = array('User.name LIKE' => '%'.$name.'%');
+        if ($allowFake === false) {
+            $conditions['NOT'] = array('User.email' => null);
+        }
+        $options = array('recursive' => -1, 'conditions' => $conditions);
         if ($limit > -1) {
             $options['limit'] = $limit;
         }
