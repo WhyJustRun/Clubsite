@@ -31,11 +31,11 @@ echo $this->Form->input('name', array('data-validate' => 'validate(required)', '
     <label class="control-label col-sm-2">Start Time</label>
     <div class="col-sm-10">
         <div class="form-inline">
-            <div class="form-group">
-                <?= $this->Form->text('date', array('value' => $date, 'size' => '10', 'maxLength' => 10, 'data-validate' => 'validate(required)', 'placeholder' => 'yyyy-mm-dd', 'class' => 'form-control date-picker', 'data-date-format' => 'yyyy-mm-dd', 'div' => false, 'label' => false)) ?>
+            <div class="form-group inline-validated">
+                <?= $this->Form->text('date', array('value' => $date, 'size' => '10', 'maxLength' => 10, 'data-validate' => 'validate(date, required)', 'placeholder' => 'yyyy-mm-dd', 'class' => 'form-control date-picker', 'data-date-format' => 'yyyy-mm-dd', 'div' => false, 'label' => false)) ?>
             </div>
-            <div class="form-group">
-                <?= $this->Form->text('time', array('placeholder' => 'hh:mm:ss', 'size' => '8', 'data-validate' => 'validate(required)', 'maxLength' => 8, 'value' => $time, 'div' => false, 'class' => 'form-control', 'label' => false)) ?>
+            <div class="form-group inline-validated">
+                <?= $this->Form->text('time', array('placeholder' => 'hh:mm:ss', 'size' => '8', 'data-validate' => 'validate(required, time)', 'maxLength' => 8, 'value' => $time, 'div' => false, 'class' => 'form-control', 'label' => false)) ?>
             </div>
              (24 hour format)
         </div>
@@ -45,11 +45,11 @@ echo $this->Form->input('name', array('data-validate' => 'validate(required)', '
     <label class="control-label col-sm-2">End Time</label>
     <div class="col-sm-10">
         <div class="form-inline">
-            <div class="form-group">
-                <?= $this->Form->text('finish_date', array('size' => '10', 'value' => $finishDate, 'maxLength' => 10, 'placeholder' => 'yyyy-mm-dd', 'class' => 'form-control date-picker', 'data-date-format' => 'yyyy-mm-dd', 'div' => false, 'label' => false)) ?>
+            <div class="form-group inline-validated">
+                <?= $this->Form->text('finish_date', array('size' => '10', 'value' => $finishDate, 'maxLength' => 10, 'placeholder' => 'yyyy-mm-dd', 'data-validate' => 'validate(date)', 'class' => 'form-control date-picker', 'data-date-format' => 'yyyy-mm-dd', 'div' => false, 'label' => false)) ?>
             </div>
-            <div class="form-group">
-                <?= $this->Form->text('finish_time', array('size' => '8', 'placeholder' => 'hh:mm:ss', 'maxLength' => 8, 'value' => $finishTime, 'div' => false, 'class' => 'form-control', 'label' => false)) ?>
+            <div class="form-group inline-validated">
+                <?= $this->Form->text('finish_time', array('size' => '8', 'placeholder' => 'hh:mm:ss', 'maxLength' => 8, 'value' => $finishTime, 'data-validate' => 'validate(time)', 'div' => false, 'class' => 'form-control', 'label' => false)) ?>
             </div>
              (optional)
         </div>
@@ -60,7 +60,7 @@ echo $this->Form->input('name', array('data-validate' => 'validate(required)', '
 ?>
 
 <?php
-$urlFieldOptions = array('size' => '80', 'label' => false, 'div' => false, 'class' => 'form-control', 'data-validate' => 'validate(url_or_empty)');
+$urlFieldOptions = array('size' => '80', 'label' => false, 'div' => false, 'class' => 'form-control', 'data-validate' => 'validate(url_or_empty)', 'type' => 'url');
 ?>
 <div class="form-group">
     <label class="control-label col-sm-2">Redirect URL

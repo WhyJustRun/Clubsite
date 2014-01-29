@@ -4,21 +4,36 @@
 
         $.ketchup
         .validation('url_or_empty', 'Must be a valid URL (include http://)',
-                function (form, el, value) {
-                    return (!value || this.isUrl(value));
-                }, function (form, e1) {})
+            function (form, el, value) {
+                return (!value || this.isUrl(value));
+            }, function (form, e1) {}
+        )
+        .validation('date', 'Must be a valid date (format: yyyy-mm-dd)',
+            function (form, el, value) {
+                if (value === "") {
+                    return true;
+                } else {
+                    var regex = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+                    return regex.test(value);
+                }
+            }, function (form, e1) {}
+        )
+        .validation('time', 'Must be a valid 24 hour time (format: hh:mm:ss)',
+            function (form, el, value) {
+                if (value === "") {
+                    return true;
+                } else {
+                   var regex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
+                   return regex.test(value);
+                }
+            }, function (form, e1) {}
+        )
         .createErrorContainer(function(form, el) {
-            var g = el.closest('.controls');
+            var g = el.parent();
 
-            if (g) {
-                return $('<ul/>', {
-                    'class': 'help-block'
-                }).appendTo(g);
-            } else {
-                return $('<ul/>', {
-                    'class': 'help-inline'
-                }).insertAfter(g);
-            }
+            return $('<ul/>', {
+                'class': 'help-block'
+            }).appendTo(g);
         })
 
     .addErrorMessages(function(form, el, container, messages) {
@@ -30,13 +45,13 @@
 
     .showErrorContainer(function(form, el, container) {
         container
-        .closest('.form-group').addClass('error');
+        .closest('.form-group').addClass('has-error');
     container.show()
     })
 
     .hideErrorContainer(function(form, el, container) {
         container
-        .closest('.form-group').removeClass('error')
+        .closest('.form-group').removeClass('has-error')
         container.hide()
     })
 

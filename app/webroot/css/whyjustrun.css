@@ -21,6 +21,11 @@
     max-width: 100%;
 }
 
+/* inputs that are ketchup validated will not be aligned properly if there is a validation error. This works around that issue. */
+.form-group.inline-validated {
+    vertical-align: top;
+}
+
 /* Fix for nesting of inline form inside horizontal form (http://stackoverflow.com/questions/18429121/inline-form-nested-within-horizontal-form-in-bootstrap-3) */
 .form-inline .form-group {
     margin-left: 0;
