@@ -8,7 +8,7 @@ class MediaHelper extends Helper {
     );
 
     public function image($type, $id, $thumbnail = false, $options = array()) {
-        $options['srcset'] = $this->url($type, $id, $thumbnail, true) . " 2x";
+        $options['srcset'] = $this->url($type, $id, $thumbnail) . ' 1x, ' . $this->url($type, $id, $thumbnail, true) . " 2x";
         return $this->Html->image($this->url($type, $id, $thumbnail), $options);
     }
 
