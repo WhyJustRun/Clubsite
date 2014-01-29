@@ -2,10 +2,6 @@
 echo $this->Html->meta('icon');
 echo $this->Html->css('/ccss/bootstrap.min.css,whyjustrun.css');
 
-echo "<!--[if lte IE 8]>";
-echo $this->Html->css('leaflet.ie');
-echo "<![endif]-->";
-
 echo $this->element('Series/css', array(), array('cache' => array('key' => 'series_css_club_'.Configure::read('Club.id'), 'config' => 'view_short')));
 
 // Custom club CSS uploaded through the admin interface
