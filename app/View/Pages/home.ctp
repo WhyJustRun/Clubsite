@@ -22,26 +22,13 @@
         $this->Html->script('event_viewer', array('block' => 'secondaryScripts'));
         ?>
         <div class="event-list" data-event-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/clubs/<?= Configure::read('Club.id') ?>/event_list/significant.xml?start=<?= time() ?>">
-        <h3 data-bind="visible: events().length > 0">Highlights</h3>
-        <div data-bind="foreach: events">
-            <div class="event-box">
-                <a data-bind="attr: { href: url }">
-                    <div class="event-box-inner">
-                        <div class="event-box-left">
-                            <div class="location" data-bind="style: { color: series.color }, text: name">
-                            </div>
-                            <span class="date">
-                                <span class="date-text" data-bind="text: date"></span>
-                                <span class="hidden-sm pull-right">
-                                    <span class="label label-info event-box-classification" data-bind="text: classification"></span>
-                                    <span class="label label-success event-box-club-acronym" data-bind="text: clubAcronym"></span>
-                                </span>
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
+            <h3 data-bind="visible: events().length > 0">Highlights</h3>
+            <?php
+            $templateName = 'event-box-template';
+            ?>
+            <div data-bind="template: { name: '<?= $templateName ?>', foreach: events }"></div>
         </div>
+        <?= $this->element('Events/knockout_box', compact('templateName')) ?>
         
         <div style="text-align: center">
             <?= $this->element('Events/add_link'); ?>

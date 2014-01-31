@@ -36,7 +36,8 @@
                     <ul class="nav navbar-nav navbar-nav-main-text">
                         <?php 
                         echo $this->Menu->item('Home', '/', '', true);
-                        echo $this->Menu->item('Calendar', '/events/index'); 
+                        echo $this->Menu->item('Events', '/events/listing', 'visible-xs'); 
+                        echo $this->Menu->item('Calendar', '/events/index', 'hidden-xs'); 
                         echo $this->Menu->item('Maps', '/maps/');
                         echo $this->Menu->item('Resources', '/pages/resources');
                         echo $this->Menu->item('Contact', '/pages/contact');

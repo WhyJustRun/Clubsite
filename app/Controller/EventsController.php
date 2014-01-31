@@ -41,6 +41,10 @@ class EventsController extends AppController {
         $this->set('series', $this->Event->Series->findAllByIsCurrent(1));
     }
 
+    function listing() {
+        
+    }
+
     // Displays a rendering of the results (manually uploaded)
     function rendering($id = null) {
         if (empty($id)) {
