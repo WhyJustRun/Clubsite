@@ -106,7 +106,8 @@ form.thin-form {
 }
 
 .social-event-text {
-    padding-left: 5px;
+    padding-left: 3px;
+    vertical-align: bottom;
 }
 
 .event-header {
