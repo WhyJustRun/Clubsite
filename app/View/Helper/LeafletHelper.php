@@ -123,7 +123,7 @@ class LeafletHelper extends AppHelper {
                     // disable interaction handlers that impact scrolling
                     $script .= 'map.dragging.disable();
                     map.scrollWheelZoom.disable();
-                    map.tap.disable();
+                    if (map.tap) map.tap.disable();
                     ';
                 }
 
