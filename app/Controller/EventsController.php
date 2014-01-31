@@ -15,7 +15,7 @@ class EventsController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('index', 'upcoming', 'past', 'major', 'view', 'rendering', 'planner', 'embed', 'map');
+        $this->Auth->allow('index', 'upcoming', 'past', 'major', 'view', 'rendering', 'planner', 'embed', 'map', 'listing');
     }
 
     // TODO-RWP Move ajax request $starTimestamp, $endTimestamp to separate call
