@@ -27,7 +27,7 @@
     <div class="col-sm-4">
         <h4>Roll-your-own widgets</h4>
         <p>A lot of the information in the OCNDB is available via the API, which generally provides data in IOF XML format.</p>
-        <p>Experienced web developers can create widgets to display this information. For more information check out the <a href="https://github.com/OrienteerApp/OrienteerApp/wiki/API">API</a>.</p>
+        <p>Experienced web developers can create widgets to display this information. For more information check out the <a href="https://github.com/WhyJustRun/Core/wiki/API">API</a>.</p>
     </div>
     <div class="col-sm-4">
         <header>

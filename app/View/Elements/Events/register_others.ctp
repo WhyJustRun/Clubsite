@@ -38,7 +38,7 @@
                 var userName = $('#RegisterOthersUserName').val();
                 if (userName) {
                 if (userName.indexOf(" ") != -1) {
-                if (confirm("This registration will create a new user in the system. Are you sure " + userName + " isn't already an OrienteerApp user?")) {
+                if (confirm("This registration will create a new user in the system. Are you sure " + userName + " isn't already an WhyJustRun user?")) {
                 $.post('/users/add', { userName: userName }, function(data) {
                     completeSubmit(courseId, $.parseJSON(data))
                     });

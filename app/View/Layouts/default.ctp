@@ -71,8 +71,8 @@
                     <?= $this->element('privileged_link', array('name' => 'Event Planner', 'url' => '/events/planner', 'privilege' => 'Privilege.Event.planning', 'suffix' => ' |')) ?>
                     <?= $this->element('privileged_link', array('name' => 'Admin', 'url' => '/pages/admin', 'privilege' => 'Privilege.Admin.page', 'suffix' => ' |')) ?> 
 
-                    <?= $this->Html->link('API', 'https://github.com/OrienteerApp/OrienteerApp/wiki/API') ?> | 
-                    <?= $this->Html->link('Get this website for your club', 'https://github.com/OrienteerApp/OrienteerApp/wiki/Get-OrienteerApp-for-your-club!') ?>
+                    <?= $this->Html->link('API', 'https://github.com/WhyJustRun/Core/wiki/API') ?> | 
+                    <?= $this->Html->link('Get this website for your club', 'https://github.com/WhyJustRun/Core/wiki/Get-WhyJustRun-for-your-club!') ?>
                 </span>
             </div>
             <div class="container">
