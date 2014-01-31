@@ -60,6 +60,10 @@ class Event extends AppModel {
         }
         return true;
     }
+
+    function findOngoing($limit) {
+        return $this->findEventsNearNow('ongoing', $limit);
+    }
     
     function findUpcoming($limit) {
         return $this->findEventsNearNow('after', $limit);
@@ -73,7 +77,26 @@ class Event extends AppModel {
         $time = new DateTime();
         $time = $time->format('Y-m-d H:i:s');
         if ($beforeOrAfterNow === 'before') {
-            $conditions = array('Event.date <=' => $time);
+            $conditions = array(
+                'AND' => array(
+                    'Event.date <=' => $time,
+                    'NOT' => array(
+                        'AND' => array(
+                            'NOT' => array('Event.finish_date' => null),
+                            'Event.finish_date >=' => $time,
+                        )
+                    )
+                )
+            );
+            $order = array('Event.date DESC');
+        } else if ($beforeOrAfterNow === 'ongoing') {
+            $conditions = array(
+                'AND' => array(
+                    'Event.date <=' => $time,
+                    'NOT' => array('Event.finish_date' => null),
+                    'Event.finish_date >=' => $time,
+                )
+            );
             $order = array('Event.date DESC');
         } else if ($beforeOrAfterNow === 'after') {
             $conditions = array('Event.date >=' => $time);

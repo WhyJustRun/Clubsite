@@ -15,7 +15,7 @@ class EventsController extends AppController {
 
     function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('index', 'upcoming', 'past', 'major', 'view', 'rendering', 'planner', 'embed', 'map', 'listing');
+        $this->Auth->allow('index', 'upcoming', 'past', 'ongoing', 'view', 'rendering', 'planner', 'embed', 'map', 'listing');
     }
 
     // TODO-RWP Move ajax request $starTimestamp, $endTimestamp to separate call
@@ -281,6 +281,11 @@ class EventsController extends AppController {
     function past($limit)
     {
         return $this->Event->findPast($limit);
+    }
+
+    function ongoing($limit)
+    {
+        return $this->Event->findOngoing($limit);
     }
 
     function _isBeforeNow($dateTime) {
