@@ -4,7 +4,7 @@ $socialText = "Check out this event on";
 if (!empty($event['Event']['facebook_url'])) {
 ?>
 <a href="<?= $event['Event']['facebook_url'] ?>" class="btn btn-default social-event-button">
-    <img src="/img/social/facebook-logo.png" srcset="/img/social/facebook-logo.png 1x, /img/social/facebook-logo@2x.png 2x" />
+    <img width="20px" src="/img/social/facebook-logo.png" srcset="/img/social/facebook-logo.png 1x, /img/social/facebook-logo@2x.png 2x" />
     <span class="social-event-text"><?= $socialText ?> Facebook</span>
 </a>
 <?php
@@ -13,7 +13,7 @@ if (!empty($event['Event']['facebook_url'])) {
 if (!empty($event['Event']['attackpoint_url'])) {
 ?>
 <a href="<?= $event['Event']['attackpoint_url'] ?>" class="btn btn-default social-event-button">
-    <img src="/img/social/attackpoint-logo.png" srcset="/img/social/attackpoint-logo.png 1x, /img/social/attackpoint-logo@2x.png 2x" />
+    <img width="20px" src="/img/social/attackpoint-logo.png" srcset="/img/social/attackpoint-logo.png 1x, /img/social/attackpoint-logo@2x.png 2x" />
     <span class="social-event-text"><?= $socialText ?> Attackpoint</span>
 </a>
 <?php
