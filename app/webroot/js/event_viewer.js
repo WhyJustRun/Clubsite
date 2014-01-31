@@ -130,7 +130,9 @@ $(function() {
                 startTime = fetchStartTime;
             }
 
+            var fetchingNewer = false;
             if (endTime == null || fetchEndTime.isAfter(endTime)) {
+                fetchingNewer = true;
                 endTime = fetchEndTime;
             }
 
@@ -149,7 +151,7 @@ $(function() {
                 success: function (json) {
                     var events = wjr.eventViewer.fullCalendar.convertEvents(json);
                     var index = 0; 
-                    if (endTime != null && fetchEndTime.isAfter(endTime)) {
+                    if (fetchingNewer) {
                         index = -1;
                     }
                     // This adds the new events to the view model.
