@@ -152,7 +152,7 @@ $(function() {
                     var events = wjr.eventViewer.fullCalendar.convertEvents(json);
                     var index = 0; 
                     if (fetchingNewer) {
-                        index = -1;
+                        index = viewModel.events().length;
                     }
                     // This adds the new events to the view model.
                     viewModel.events.splice.apply(viewModel.events, [index, 0].concat(events));
