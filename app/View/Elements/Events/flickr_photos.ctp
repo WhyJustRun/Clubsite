@@ -3,7 +3,7 @@
 ?>
 <div id="flickr-photos-container" class="photos-grid">
     <h2>Photos</h2>
-    <p>Photos are from Flickr. To add your photos to this section, tag your Flickr photos with: <span class="label label-success" style="vertical-align: baseline">orienteerapp<?= $eventId ?></span> (all one word)</p>
+    <p>Photos are from Flickr. To add your photos to this section, tag your Flickr photos with: <span class="label label-success" style="vertical-align: baseline">whyjustrun<?= $eventId ?></span> (all one word)</p>
     <ul id="flickr-photos" class="list-unstyled" data-bind="foreach: photos">
         <li class="col-sm-3">
         <a data-bind="attr: { href: '#flickrPhoto' + id, onclick: 'loadFlickrImage(\'' + id + '\',\'' + largeUrl + '\')' }" class="thumbnail">
@@ -76,7 +76,7 @@ $(function() {
 
         function loadMorePhotos(page) {
         var script = document.createElement('script');
-        var url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=<?= Configure::read('Flickr.apiKey') ?>&tags=<?= urlencode("orienteerapp".$eventId) ?>&format=json&extras=date_taken,description,owner_name&per_page=30&page=" + page;
+        var url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=<?= Configure::read('Flickr.apiKey') ?>&tags=<?= urlencode("whyjustrun".$eventId) ?>,<?= urlencode("orienteerapp".$eventId) ?>&format=json&extras=date_taken,description,owner_name&per_page=30&page=" + page;
         script.type = 'text/javascript';
         script.src = url;
         $("#flickr-photos-container").append(script);
