@@ -216,12 +216,25 @@ class MediaComponent extends Component {
         }
     }
 
+    // Simple protection against running multiple conversions at a time if the page gets a request and the file is uploaded but the thumbnails haven't been generated yet.
+    private function imageIsBrandNew($id, $folder) {
+        $file = $this->findFile($id, $folder);
+        if (!$file) {
+            // This shouldn't ever happen
+            return true;
+        } else if ((time() - filemtime($file)) < 10 * 60) {
+            return true;
+        }
+
+        return false;
+    }
+
     private function findThumbnail($id, $folder, $thumbnail, $type) {
         $matches = glob($folder . $id . "_$thumbnail." . $this->thumbnailExtensionFor($thumbnail));
         if(count($matches) > 1) {
             throw new Exception('Found more than one matching thumbnail');
         } else if(count($matches) == 0) {
-            if ($this->imageRequestIsValid($id, $folder, $thumbnail)) {
+            if ($this->imageRequestIsValid($id, $folder, $thumbnail) && !$this->imageIsBrandNew($id, $folder)) {
                 $this->buildImages($id, $type);
             }
 
