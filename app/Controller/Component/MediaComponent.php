@@ -222,7 +222,7 @@ class MediaComponent extends Component {
         if (!$file) {
             // This shouldn't ever happen
             return true;
-        } else if ((time() - filemtime($file)) < 10 * 60) {
+        } else if ((time() - filemtime($file)) < 2 * 60 * 60) {
             return true;
         }
 
