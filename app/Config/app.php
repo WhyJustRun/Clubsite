@@ -83,6 +83,8 @@ Configure::write("Course.dir", Configure::read('Club.dir') . "courses/");
 Configure::write("Event.dir", Configure::read('Club.dir') . "events/");
 
 Configure::write('Facebook.appPageId', 'WhyJustRunApp');
+
+// We can't include redactor.js in the open source WhyJustRun because it is licensed. We will fall back to ckeditor if Redactor isn't installed.
 $textEditorJS = 'js/redactor/redactor.min.js';
 $textEditorCSS = 'js/redactor/redactor.css';
 $textEditorWJRJS = 'js/wjr-text-editor.redactor.js';
