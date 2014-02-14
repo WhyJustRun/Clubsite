@@ -19,7 +19,11 @@ $(document).ready(function() {
             orienteerAppWYSIWYGUpdateTextareas();
         },
         plugin : function(settings, original) {
-            orienteerAppWYSIWYG($('textarea', this));
+            // Hacktastic. This fixes an issue with the scroll position jumping on chrome when opening the textarea..
+            var textarea = $('textarea', this);
+            setTimeout(function() {
+                orienteerAppWYSIWYG(textarea);
+            }, 1);
         }
     });
 
