@@ -25,6 +25,15 @@ if($this->Session->read('Club.'.Configure::read('Club.id').'.Privilege.ContentBl
     echo $this->Html->script("/cjs/jquery.jeditable.mini.js,wjr-logged-in.js", array('block' => 'primaryScripts'));
 }
 
+if (!empty($needsTextEditor) && $needsTextEditor === true) {
+    echo $this->Html->script(Configure::read('TextEditor.js'), array('block' => 'primaryScripts'));
+    echo $this->Html->script(Configure::read('TextEditor.wjrJs'), array('block' => 'primaryScripts'));
+    $css = Configure::read('TextEditor.css');
+    if (!empty($css)) {
+        echo $this->Html->css($css);
+    }
+}
+
 echo $this->Html->script('cakebootstrap', array('block' => 'primaryScripts'));
 
 echo $this->fetch('open_graph');

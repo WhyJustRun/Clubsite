@@ -16,55 +16,12 @@ $(function() {
     orienteerAppCheckKetchupFormsAreValidOnSubmit();
 
     $('.oa-wysiwyg').each(function(idx, element) {
+        // defined in wjr-text-editor.TEXT_EDITOR.js
         orienteerAppWYSIWYG(element);
     });
 
     $("[data-toggle='tooltip']").tooltip();
 });
-
-var orienteerAppState = {
-    wysiwygScriptLoaded: false,
-    wysiwygScriptLoading: false,
-    wysiwygWaitingElements: []
-};
-
-function loadScriptAsynchronously(scriptSrc, lookFor, procedure) {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = scriptSrc;
-    document.body.appendChild(script);
-    var timer = setInterval( function(){ 
-        if (window[lookFor] !== undefined) {
-            clearInterval(timer);
-            procedure();
-        }
-    }, 100);
-}
-
-// hack. updates the textarea before submitting the form via ajax
-function orienteerAppWYSIWYGUpdateTextareas() {
-    _.invoke(CKEDITOR.instances, 'updateElement');
-}
-
-// hack. does async loading of the wysiwyg editor
-function orienteerAppWYSIWYG(element) {
-    var wysiwygInitializer = function() {
-        orienteerAppState.wysiwygScriptLoading = false;
-        orienteerAppState.wysiwygScriptLoaded = true;
-        _.each(orienteerAppState.wysiwygWaitingElements, function (element) {
-            CKEDITOR.replace($(element).attr('name'));
-        })
-        orienteerAppState.wysiwygWaitingElements = [];
-    }
-
-    orienteerAppState.wysiwygWaitingElements.push(element);
-    if (orienteerAppState.wysiwygScriptLoaded) {
-        wysiwygInitializer();
-    } else if (!orienteerAppState.wysiwygScriptLoading) {
-        orienteerAppState.wysiwygScriptLoading = true;
-        loadScriptAsynchronously("/js/ckeditor/ckeditor.js", 'CKEDITOR', wysiwygInitializer);
-    }
-}
 
 // Callback should take a person object with id, name. Callback can also be called with null (no person selected)
 // Maintain input will keep the selected user's name in the input after the input loses focus. "allowNew" will keep the input populated even if there is no user in the system with the given name. "createNew" will add an option to create a new user with the given name.

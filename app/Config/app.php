@@ -83,3 +83,15 @@ Configure::write("Course.dir", Configure::read('Club.dir') . "courses/");
 Configure::write("Event.dir", Configure::read('Club.dir') . "events/");
 
 Configure::write('Facebook.appPageId', 'WhyJustRunApp');
+$textEditorJS = 'js/redactor/redactor.min.js';
+$textEditorCSS = 'js/redactor/redactor.css';
+$textEditorWJRJS = 'js/wjr-text-editor.redactor.js';
+$redactorPath = WWW_ROOT . $textEditorJS;
+if (!file_exists($redactorPath)) {
+    $textEditorJS = 'js/ckeditor/ckeditor.js';
+    $textEditorWJRJS = 'js/wjr-text-editor.ckeditor.js';
+    $textEditorCSS = null;
+}
+Configure::write('TextEditor.js', "/" . $textEditorJS);
+Configure::write('TextEditor.wjrJs', '/' . $textEditorWJRJS);
+Configure::write('TextEditor.css', '/' . $textEditorCSS);

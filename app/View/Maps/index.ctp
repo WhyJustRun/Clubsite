@@ -14,6 +14,9 @@
 </div>
 <div class="row">
     <div class="col-sm-4">
+        <?php
+        $this->set('needsTextEditor', true);
+        ?>
         <?= $this->ContentBlock->render('general_maps_information', null, '<hr class="divider" />') ?>
     </div>
     <div class="col-sm-8">

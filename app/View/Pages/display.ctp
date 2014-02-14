@@ -9,6 +9,9 @@
     <h1 id="page-resource-title-<?= $page['Page']['id'] ?>" class="page-resource-title"><?= $page['Page']['name']; ?></h1>
 </header>
 
+<?php
+$this->set('needsTextEditor', true);
+?>
 <div id="page-resource-<?= $page['Page']['id'] ?>" class="page-resource">
 <?= $page["Page"]["content"] ?>
 </div>

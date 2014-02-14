@@ -154,6 +154,10 @@ form.thin-form {
     border-radius: 10px;
 }
 
+.editable:hover > form {
+    cursor: initial;
+}
+
 .editable .btn {
     margin-right: 7px;
 }

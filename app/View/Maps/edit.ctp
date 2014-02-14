@@ -16,6 +16,9 @@ if ($useURLs) {
 <fieldset class="form-group">
     <label for="MapNotes" class="control-label col-sm-2">Notes</label>
     <div class="col-sm-10">
+        <?php
+        $this->set('needsTextEditor', true);
+        ?>
         <?= $this->Form->input('notes', array('label' => false, 'class' => 'form-control oa-wysiwyg', 'div' => false)); ?>
     </div>
 </fieldset>

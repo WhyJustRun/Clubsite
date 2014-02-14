@@ -63,6 +63,9 @@
         ?>
     </article>
     <article class="col-sm-4 col-sm-pull-8">
+        <?php
+        $this->set('needsTextEditor', true);
+        ?>
         <?= $this->ContentBlock->render('general_information'); ?>
     </article>
 </div>
