@@ -1,4 +1,6 @@
 <?php
+App::uses('TimeLib', 'Utility');
+
 class EventsController extends AppController {
 
     var $name = 'Events';
@@ -74,11 +76,11 @@ class EventsController extends AppController {
             // Organizer data from JSON
             $this->_parseJson();
 
-            $this->request->data['Event']['date'] = $this->request->data['Event']['date']." ".$this->request->data['Event']['time'] . ":00";
+            $this->request->data['Event']['date'] = TimeLib::mysqlDateTimeFormat($this->request->data['Event']['date'], $this->request->data['Event']['time']);
             unset($this->request->data['Event']['time']);
 
             if(!empty($this->request->data['Event']['finish_date'])) {
-                $this->request->data['Event']['finish_date'] = $this->request->data['Event']['finish_date']." ".$this->request->data['Event']['finish_time'] . ":00";
+                $this->request->data['Event']['finish_date'] = TimeLib::mysqlDateTimeFormat($this->request->data['Event']['finish_date'], $this->request->data['Event']['finish_time']);
                 unset($this->request->data['Event']['finish_time']);
             }
 

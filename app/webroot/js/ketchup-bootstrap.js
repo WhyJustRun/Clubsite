@@ -1,7 +1,7 @@
 !function( $ ) {
 
     "use strict"
-
+    
         $.ketchup
         .validation('url_or_empty', 'Must be a valid URL (include http://)',
             function (form, el, value) {
@@ -26,6 +26,24 @@
                    var regex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
                    return regex.test(value);
                 }
+            }, function (form, e1) {}
+        )
+        .validation('date_after', 'End time must be after the start time',
+            function (form, el, value, startDateEl, startTimeEl, endDateEl, endTimeEl) {
+                var startDate = $("#" + startDateEl).val();
+                var startTime = $("#" + startTimeEl).val();
+                var endDate = $("#" + endDateEl).val();
+                var endTime = $("#" + endTimeEl).val();
+                if (endDate == "") {
+                    return true;
+                }
+                return moment(startDate + " " + startTime).isBefore(endDate + " " + endTime);
+            }, function (form, e1) {
+            }
+        )
+        .validation('requires', 'Requires {arg2} to be entered as well',
+            function (form, el, value, requiredEl, text) {
+                return value == "" || ($("#" + requiredEl).val() != "");
             }, function (form, e1) {}
         )
         .createErrorContainer(function(form, el) {

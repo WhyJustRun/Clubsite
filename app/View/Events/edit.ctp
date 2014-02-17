@@ -46,10 +46,10 @@ echo $this->Form->input('name', array('data-validate' => 'validate(required)', '
     <div class="col-sm-10">
         <div class="form-inline">
             <div class="form-group inline-validated">
-                <?= $this->Form->text('finish_date', array('size' => '10', 'value' => $finishDate, 'maxLength' => 10, 'placeholder' => 'yyyy-mm-dd', 'data-validate' => 'validate(date)', 'class' => 'form-control date-picker', 'data-format' => 'YYYY-MM-DD', 'div' => false, 'label' => false)) ?>
+                <?= $this->Form->text('finish_date', array('size' => '10', 'value' => $finishDate, 'maxLength' => 10, 'placeholder' => 'yyyy-mm-dd', 'data-validate' => 'validate(date, date_after(EventDate, EventTime, EventFinishDate, EventFinishTime))', 'class' => 'form-control date-picker', 'data-format' => 'YYYY-MM-DD', 'div' => false, 'label' => false)) ?>
             </div>
             <div class="form-group inline-validated">
-                <?= $this->Form->text('finish_time', array('size' => '5', 'placeholder' => 'hh:mm', 'maxLength' => 5, 'value' => $finishTime, 'data-validate' => 'validate(time)', 'data-format' => 'HH:mm', 'div' => false, 'class' => 'form-control time-picker', 'label' => false)) ?>
+                <?= $this->Form->text('finish_time', array('size' => '5', 'placeholder' => 'hh:mm', 'maxLength' => 5, 'value' => $finishTime, 'data-validate' => 'validate(time, requires(EventFinishDate, finish date))', 'data-format' => 'HH:mm', 'div' => false, 'class' => 'form-control time-picker', 'label' => false)) ?>
             </div>
             <span class="inline-validated-help"> (optional)</span>
         </div>
