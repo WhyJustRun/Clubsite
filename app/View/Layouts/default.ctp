@@ -45,11 +45,14 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-nav-main-text navbar-right">
                         <?php
-                        if($this->Session->check('Auth.User.id')) {
-                            echo $this->Menu->item('My Profile', Configure::read('Rails.profileURL').$this->Session->read('Auth.User.id'), 'menu_login');
-                            echo $this->Menu->item('Sign out', '/users/logout/', 'menu_login');
+                        if($this->User->isSignedIn()) {
+                            if ($this->User->hasAdminAccess()) {
+                                echo $this->Menu->item('Admin', '/pages/admin');
+                            }
+                            echo $this->Menu->item('My Profile', $this->User->profileURL());
+                            echo $this->Menu->item('Sign out', '/users/logout/');
                         } else {
-                            echo $this->Menu->item('Sign in/Sign up', '/users/login/', 'menu_login');
+                            echo $this->Menu->item('Sign in/Sign up', '/users/login/');
                         }
                         ?>
                     </ul>
@@ -68,9 +71,6 @@
             <div class="container">
                 <a href="<?= Configure::read("Rails.domain") ?>">whyjustrun.ca</a>
                 <span class="pull-right">
-                    <?= $this->element('privileged_link', array('name' => 'Event Planner', 'url' => '/events/planner', 'privilege' => 'Privilege.Event.planning', 'suffix' => ' |')) ?>
-                    <?= $this->element('privileged_link', array('name' => 'Admin', 'url' => '/pages/admin', 'privilege' => 'Privilege.Admin.page', 'suffix' => ' |')) ?> 
-
                     <?= $this->Html->link('API', 'https://github.com/WhyJustRun/Core/wiki/API') ?> | 
                     <?= $this->Html->link('Get this website for your club', 'https://github.com/WhyJustRun/Core/wiki/Get-WhyJustRun-for-your-club!') ?>
                 </span>

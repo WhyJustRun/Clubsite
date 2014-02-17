@@ -8,7 +8,7 @@ assert(count($courses) > 0);
 </header>
 <div class="courses">
     <?php 
-    $userId = $this->Session->read('Auth.User.id');
+    $userId = $this->User->id();
     $userId = empty($userId) ? 0 : $userId;
     foreach($courses as $course) { ?>
     <div class="course">

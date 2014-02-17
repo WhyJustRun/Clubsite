@@ -29,8 +29,7 @@
 echo $this->Menu->item('Events', '/events/index');
 echo $this->Menu->item('Maps', '/maps/');
 echo $this->Menu->item('Export', '/pages/export/');
-// FIXME: This isn't a sufficient check.
-if($this->Session->check('Auth.User.id')) {
+if($this->User->hasOfficialsAccess()) {
     echo $this->Menu->item('Officials', '/officials/');
 }
 ?>
@@ -38,13 +37,14 @@ if($this->Session->check('Auth.User.id')) {
                     <ul class="nav navbar-nav navbar-right">
                         <li class="divider"></li>
 <?php
-if ($this->Session->check('Auth.User.id')) {
-    // FIXME: Insufficient check again.
-    echo $this->Menu->item('Admin', '/pages/admin/');
-    echo $this->Menu->item('My Profile', Configure::read('Rails.profileURL').$this->Session->read('Auth.User.id'));
-    echo $this->Menu->item('Logout', '/users/logout/', 'menu_login');
+if ($this->User->isSignedIn()) {
+    if ($this->User->hasAdminAccess()) {
+        echo $this->Menu->item('Admin', '/pages/admin/');
+    }
+    echo $this->Menu->item('My Profile', $this->User->profileURL());
+    echo $this->Menu->item('Sign out', '/users/logout/');
 } else {
-    echo $this->Menu->item('Login/Register', '/users/login', 'menu_login');
+    echo $this->Menu->item('Sign in/Sign up', '/users/login');
 }
 ?>
                     </ul>

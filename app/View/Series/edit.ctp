@@ -26,9 +26,6 @@ $this->Html->scriptBlock("$('.color-picker').colorpicker();", array('block' => '
 <div class="form-group">
     <label class="control-label col-sm-2" for="optionsCheckbox">Information</label>
     <div class="col-sm-10">
-        <?php
-        $this->set('needsTextEditor', true);
-        ?>
         <?= $this->Form->input('information', array('div' => false, 'class' => 'oa-wysiwyg', 'label' => false)) ?>
         <div class="help-block">
             <p>Information specific to the series is shown on event pages.</p>

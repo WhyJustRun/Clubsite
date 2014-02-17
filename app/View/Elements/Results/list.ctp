@@ -17,7 +17,7 @@ $entries = $entryCount == 1 ? "Entries" : "Entries ($entryCount)"; ?>
     </thead>
     <tbody>
     <?
-    $userId = $this->Session->read('Auth.User.id');
+    $userId = $this->User->id();
     foreach($results as $result) {
         $modalId = null;
         echo "<tr>";

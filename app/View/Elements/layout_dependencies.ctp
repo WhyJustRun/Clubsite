@@ -17,15 +17,12 @@ if(!empty($clubResources['style'])) {
 <![endif]-->
 <?php
 echo $this->Html->script("/cjs/jquery-1.8.2.min.js,jquery.mousewheel-3.0.6.pack.js,jquery.ketchup.all.min.js,ketchup-bootstrap.js,jquery.fancybox.pack.js,jquery.placeholder.min.js,underscore-min.js,knockout.js,jquery.jeditable.mini.js,jquery.iecors.js,moment.min.js,img.srcset.polyfill.js,spin.min.js,browserdetect.js", array('block' => 'primaryScripts'));
-echo $this->Html->script('/cjs/bootstrap.min.js,bootstrap-datetimepicker.min.js,bootstrap-typeahead.js,ladda.min.js', array('block' => 'primaryScripts'));
+echo $this->Html->script('/cjs/bootstrap.min.js,bootstrap-datetimepicker.min.js,bootstrap-typeahead.js,ladda.min.js,cakebootstrap.js', array('block' => 'primaryScripts'));
 echo $this->Html->script('wjr', array('block' => 'primaryScripts'));
 
 // Easy editable content blocks
-if($this->Session->read('Club.'.Configure::read('Club.id').'.Privilege.ContentBlock.edit')) {
-    echo $this->Html->script("/cjs/jquery.jeditable.mini.js,wjr-logged-in.js", array('block' => 'primaryScripts'));
-}
-
-if (!empty($needsTextEditor) && $needsTextEditor === true) {
+if($this->User->isSignedIn()) {
+    echo $this->Html->script("/cjs/jquery.jeditable.mini.js,wjr-jeditable.js", array('block' => 'primaryScripts'));
     echo $this->Html->script(Configure::read('TextEditor.js'), array('block' => 'primaryScripts'));
     echo $this->Html->script(Configure::read('TextEditor.wjrJs'), array('block' => 'primaryScripts'));
     $css = Configure::read('TextEditor.css');
@@ -33,8 +30,6 @@ if (!empty($needsTextEditor) && $needsTextEditor === true) {
         echo $this->Html->css($css);
     }
 }
-
-echo $this->Html->script('cakebootstrap', array('block' => 'primaryScripts'));
 
 echo $this->fetch('open_graph');
 ?>

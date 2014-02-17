@@ -45,9 +45,10 @@
         $wjrPageId = Configure::read('Facebook.appPageId');
         $fbPageId = Configure::read('Club.facebook_page_id');
         if (!$fbPageId) {
-            if($this->Session->check('Auth.User.id') && $this->Session->read("Club.".Configure::read('Club.id').'.Privilege.Club.edit') === true) { ?>
+            if ($this->User->canEditClub()) { ?>
             <a class="btn" href="/clubs/edit">Customize Facebook Page source</a>
-            <?php }
+            <?php
+            }
             $fbPageId = Configure::read('Facebook.defaultPageID');
         }
         
@@ -63,9 +64,6 @@
         ?>
     </article>
     <article class="col-sm-4 col-sm-pull-8">
-        <?php
-        $this->set('needsTextEditor', true);
-        ?>
         <?= $this->ContentBlock->render('general_information'); ?>
     </article>
 </div>

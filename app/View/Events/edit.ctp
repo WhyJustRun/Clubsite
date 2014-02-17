@@ -119,9 +119,6 @@ foreach ($urlFields as $urlField) {
 <fieldset class="form-group">
     <label for="EventDescription" class="control-label col-sm-2">Description</label>
     <div class="col-sm-10">
-        <?php
-        $this->set('needsTextEditor', true);
-        ?>
         <?= $this->Form->input('description', array('label' => false, 'class' => 'form-control oa-wysiwyg', 'rows' => 12, 'div' => false)); ?>
     </div>
 </fieldset>

@@ -11,7 +11,7 @@
 }
 ?>
 <?php
-if($this->Session->check('Auth.User.id') && $this->Session->read("Club.".Configure::read('Club.id').'.Privilege.Page.edit') === true) {
+if($this->User->canEditPages()) {
 ?>
     <hr>
     <h2>Add page</h2>
@@ -21,9 +21,6 @@ if($this->Session->check('Auth.User.id') && $this->Session->read("Club.".Configu
     <fieldset class="form-group">
         <label for="PageContent" class="control-label col-sm-2">Content</label>
         <div class="col-sm-10">
-            <?php
-            $this->set('needsTextEditor', true);
-            ?>
             <?= $this->Form->input('content', array('label' => false, 'class' => 'oa-wysiwyg', 'rows' => 20, 'data-validate' => 'validate(required)', 'div' => false)); ?>
         </div>
     </fieldset>

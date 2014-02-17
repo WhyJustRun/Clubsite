@@ -14,7 +14,7 @@ class AppController extends Controller {
                 'csrfUseOnce' => false,
                 'unlockedFields' => array('leaflet-base-layers'), // Leaflet includes a radio input in IE in POST requests if it is within the form.
                 ));
-    var $helpers = array('Session', 'Html', 'Menu', 'ContentBlock');
+    var $helpers = array('Session', 'User', 'Html', 'Menu', 'ContentBlock');
 
 
     function beforeFilter() {
