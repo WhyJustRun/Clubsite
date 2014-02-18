@@ -27,6 +27,8 @@
  * to use (in this case, /app/views/pages/home.ctp)...
  */
 
+Router::connect('/robots.txt', array('controller' => 'robots', 'action' => 'view'));
+
 Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 
 /**
