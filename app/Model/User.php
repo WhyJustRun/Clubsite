@@ -25,15 +25,8 @@ class User extends AppModel {
                 'required' => array(
                     'rule' => array('notEmpty'),
                     'required' => true,
-                    ),
                 ),
-            'username' => array(
-                'unique' => array(
-                    'rule' => array('isUnique'),
-                    'message' => 'Username already in use',
-                    'required' => true
-                    )
-                ),
+            ),
             'email' => array(
                 'unique' => array(
                     'message' => 'That email address is being used by another account.',
@@ -44,18 +37,18 @@ class User extends AppModel {
                     'rule' => array('email'),
                     'message' => 'Must be a valid e-mail address',
                     'required' => true,
-                    ),
                 ),
-                'year_of_birth' => array(
-                    'numeric' => array(
-                        'rule' => array('numeric'),
-                        'message' => 'Must be a valid year',
-                        'allowEmpty' => true,
-                        //'required' => false,
-                        //'last' => false, // Stop validation after this rule
-                        //'on' => 'create', // Limit validation to 'create' or 'update' operations
-                        ),
-                    ),
+            ),
+            'year_of_birth' => array(
+                'numeric' => array(
+                    'rule' => array('numeric'),
+                    'message' => 'Must be a valid year',
+                    'allowEmpty' => true,
+                    //'required' => false,
+                    //'last' => false, // Stop validation after this rule
+                    //'on' => 'create', // Limit validation to 'create' or 'update' operations
+                ),
+            ),
             'si_number' => array(
                     'numeric' => array(
                         'rule' => array('numeric'),
@@ -142,16 +135,6 @@ class User extends AppModel {
         }
         return $this->find('all', $options);
     }
-
-    /**
-     * Finds any temporary user accounts (those without a username, e.g. those that have been created 
-     * in the results section)
-     */
-    function findTemporaryByName($name) {
-        $conditions = array('User.name LIKE' => '%'.$name.'%' , 'User.username' => '');
-        return $this->find('first', array('recursive' => -1, 'conditions' => $conditions));
-    }
-
 
     function getMostRecentEvent($user_id) {
         $data = $this->query("SELECT MAX(events.date) AS date FROM events,courses,results WHERE events.id = courses.event_id AND courses.id = results.course_id AND results.user_id = $user_id LIMIT 1");

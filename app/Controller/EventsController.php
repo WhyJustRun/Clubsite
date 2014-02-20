@@ -129,7 +129,7 @@ class EventsController extends AppController {
         $contain = array(
                 'Series', 
                 'Course' => array(
-                    'Result' => array('User.name', 'User.id', 'User.username', 'User.si_number', 'User.is_member')
+                    'Result' => array('User.name', 'User.id', 'User.si_number', 'User.is_member')
                     )
                 );
         $event = $this->Event->find('first', array('conditions' => array('Event.id' => $id), 'contain' => $contain));
@@ -167,11 +167,11 @@ class EventsController extends AppController {
                 'EventClassification',
                 'Organizer' => array(
                     'User' => array(
-                        'fields' => array('id', 'name', 'username')
+                        'fields' => array('id', 'name')
                         ), 'Role'
                     ), 
                 'Course' => array(
-                    'Result' => array('Registrant.id', 'User.name', 'User.id', 'User.username', 'User.si_number')
+                    'Result' => array('Registrant.id', 'User.name', 'User.id', 'User.si_number')
                     )
                 );
         $event = $this->Event->find('first', array('conditions' => array('Event.id' => $id), 'contain' => $contain));
