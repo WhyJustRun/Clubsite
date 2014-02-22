@@ -29,7 +29,7 @@ if ($useURLs) {
         <?= $this->Form->file('image', array('label' => 'Add image')) ?>
         <?php
         if(isset($map) && $this->Media->exists('Map', $map["Map"]["id"])) {
-        echo "<br/>".$this->Media->image("Map", $map["Map"]["id"], '400x600', array('class' => 'fitting-image'));
+        echo "<br/>".$this->Media->image("Map", $map["Map"]["id"], '400x600', array('width' => '400px', 'class' => 'fitting-image'));
         } ?>
     </div>
 </fieldset>
@@ -40,7 +40,7 @@ if(!empty($map)) {
     <label class="control-label col-sm-2">Banner image</label>
     <div class="col-sm-10">
         <?= $this->Html->link('Generate', '/maps/generateBanner/'.$map["Map"]["id"], array('class' => 'btn btn-primary')) ?><br/><br/>
-        <?= $this->Media->image("Map", $map["Map"]["id"], '60x60') ?>
+        <?= $this->Media->image("Map", $map["Map"]["id"], '60x60', array('width' => '60px')) ?>
     </div>
 </fieldset>
 
