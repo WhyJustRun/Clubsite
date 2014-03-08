@@ -8,7 +8,7 @@ $(function() {
     var poppingState = false;
     
     $('#calendar').fullCalendar({
-        eventSources: ['<?= Configure::read('Rails.domain') ?>/club/<?= Configure::read('Club.id') ?>/events.json?list_type=significant&prefix_club_acronym=1&all_club_events=1'],
+        eventSources: ['<?= Configure::read('Rails.domain') ?>/club/<?= Configure::read('Club.id') ?>/events.json?external_significant_events=all&prefix_club_acronym=external_only'],
         year: <?= $year ?>,
         month: <?php echo(intval($month) - 1); // January = 0 ?>,
         date: <?= $day ?>,
@@ -50,7 +50,6 @@ $(function() {
 $this->Html->scriptEnd();
 ?>
 <div id="calendar">
-    
 </div>
 <?
 $icalUrl = Configure::read('Rails.domain') . "/club/" . Configure::read('Club.id') . "/events.ics";

@@ -9,7 +9,7 @@ $this->Html->script('event_viewer', array('block' => 'secondaryScripts'));
                  Older
             </span>
         </button>
-        <div class="event-list" data-event-list-type="fullcalendar" data-event-list-older-button="#older-button" data-event-list-newer-button="#newer-button" data-event-list-url="<?= Configure::read('Rails.domain') ?>/club/<?= Configure::read('Club.id') ?>/events.json?list_type=significant&all_club_events=1">
+        <div class="event-list" data-event-list-type="fullcalendar" data-event-list-older-button="#older-button" data-event-list-newer-button="#newer-button" data-event-list-url="<?= Configure::read('Rails.domain') ?>/club/<?= Configure::read('Club.id') ?>/events.json?external_significant_events=all">
             <h4 style="text-align: center" data-bind="visible: startTime">Showing events after <span data-bind="text: formattedStartTime"></span></h4>
             <?php
             $templateName = 'event-box-template';

@@ -22,7 +22,7 @@
         <?php
         $this->Html->script('event_viewer', array('block' => 'secondaryScripts'));
         ?>
-        <div class="event-list" data-event-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/clubs/<?= Configure::read('Club.id') ?>/event_list/significant.xml?start=<?= time() ?>">
+        <div class="event-list" data-event-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/clubs/<?= Configure::read('Club.id') ?>/event_list.xml?start=<?= time() ?>&club_events=none&external_significant_events=all">
             <h3 data-bind="visible: events().length > 0">Highlights</h3>
             <?php
             $templateName = 'event-box-template';
