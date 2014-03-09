@@ -17,6 +17,7 @@ Configure::write("Result.statuses", array(
             'active' => 'In Progress',
             'finished' => 'Unofficial',
             'mis_punch' => 'MP',
+            'did_not_enter' => 'DNE',
             'did_not_finish' => 'DNF',
             'disqualified' => 'DSQ',
             'not_competing' => 'NC',
