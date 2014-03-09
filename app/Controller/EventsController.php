@@ -165,6 +165,7 @@ class EventsController extends AppController {
                 'Series', 
                 'Map', 
                 'EventClassification',
+                'LiveResult',
                 'Organizer' => array(
                     'User' => array(
                         'fields' => array('id', 'name')
@@ -207,11 +208,28 @@ class EventsController extends AppController {
             }
         }
 
+        $event['Event']['has_results'] = (
+            $event['Event']['results_posted'] ||
+            $event['Event']['results_url'] ||
+            $event['Event']['routegadget_url'] ||
+            $event['LiveResult']['visible']
+        );
+
         $this->set('title_for_layout', $event["Event"]["name"]);
         $this->set('event', $event);
         $this->set('canEdit', $canEdit);
-
     }
+
+    function toggle_live_results_visibility($id, $visible) {
+        $this->_checkEditAuthorization($id);
+        $liveResult = $this->Event->LiveResult->findByEventId($id);
+        if (!empty($liveResult)) {
+            $liveResult['LiveResult']['visible'] = ($visible == 'true') ? 1 : 0; 
+            $this->Event->LiveResult->save($liveResult);
+        }
+        $this->redirect('/events/view/' . $id);
+    }
+
     function results($id) {
         return $this->view($id);
     }

@@ -5,10 +5,8 @@ if (empty($event['Event']['custom_url'])) {
     <?= $this->element('Events/header', array('event' => $event, 'canEdit' => $canEdit)) ?>
 
     <div class="row">
-    <?php
-    if(!$event["Event"]["results_posted"] &&
-       !$event['Event']['results_url'] &&
-       !$event['Event']['routegadget_url']) {
+<?php
+    if(!$event['Event']['has_results']) {
         // Show pre-event template
     ?>
         <div class="col-sm-8">
@@ -16,14 +14,14 @@ if (empty($event['Event']['custom_url'])) {
         </div>
 
         <div class="col-sm-4">
-            <?= $this->element('Events/registration_section', array('event' => $event)); ?>
+            <?= $this->element('Events/registration_section', array('event' => $event, 'canEdit' => $canEdit)); ?>
         </div>
     <?php 
     } else {
         // Show post-event template
     ?>
         <div class="col-sm-6">
-            <?= $this->element('Events/results_section', array('event' => $event)); ?> 
+            <?= $this->element('Events/results_section', array('event' => $event, 'canEdit' => $canEdit)); ?> 
         </div>
         <div class="col-sm-6">
             <?= $this->element('Events/info', array('event' => $event)); ?>

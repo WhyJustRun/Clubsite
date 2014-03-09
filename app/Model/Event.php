@@ -50,6 +50,7 @@ class Event extends AppModel {
         'Course' => array('className' => 'Course', 'dependent' => true),
         'Organizer'=> array('className' => 'Organizer', 'dependent' => true)
     );
+    var $hasOne = array('LiveResult' => array('dependent' => true));
 
     function beforeSave(){
         parent::beforeSave();

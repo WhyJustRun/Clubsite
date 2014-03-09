@@ -1,0 +1,15 @@
+<?php
+// Param: event - the event which live results are being displayed for
+?>
+<p>
+    <b>Live results - these are not finalized!</b>
+    <br/>
+    Results will automatically update, you don't need to refresh your browser.
+</p>
+
+<div class="results-list">
+    <?php $this->Html->script('result_viewer', array('block' => 'secondaryScripts')); ?>
+    <div class="result-list" data-result-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/events/<?= $event['Event']['id'] ?>/live_result_list.xml" data-result-list-mode="live">
+        <?= $this->element('Events/knockout_result_list', array('mode' => 'live')) ?>
+    </div>
+</div>

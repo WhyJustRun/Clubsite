@@ -31,11 +31,12 @@ wjr.IOF.friendlyStatuses = {
     'DidNotStart': 'DNS',
     'Active': 'In Progress',
     'Finished': 'Unofficial',
-    'MisPunch': 'MP',
+    'MissingPunch': 'MP',
     'DidNotFinish': 'DNF',
+    'DidNotEnter': 'DNE',
     'Disqualified': 'DSQ',
     'NotCompeting': 'NC',
-    'SportWithdr': 'Sport Withdrawal',
+    'SportWithdrawal': 'Sport Withdrawal',
     'OverTime': 'Over Time',
     'Moved': 'Moved',
     'MovedUp': 'Moved Up',
@@ -69,6 +70,8 @@ wjr.IOF.Person = function(id, givenName, familyName, profileUrl) {
 
 wjr.IOF.loadResultsList = function(xml) {
     var resultList = $(xml.documentElement);
+   
+    var date = moment(resultList.attr('createTime'));
     var event = resultList.children("Event").first();
     var courses = [];
     resultList.children('ClassResult').each(function(index, element) {
@@ -102,44 +105,50 @@ wjr.IOF.loadResultsList = function(xml) {
         courses.push(new wjr.IOF.Course(courseId, courseName, results, scoringType, millisecondTiming));
     })
     // TODO-RWP startTime
-    return [new wjr.IOF.Event(event.children("Id").text(), event.children("Name").text(), null), courses];
+    return [new wjr.IOF.Event(event.children("Id").text(), event.children("Name").text(), null), courses, date];
 }
 
 $(function() {
-    var createResultList = function(element, url) {
+    var createResultList = function(element, url, mode) {
         var viewModel = {
-            event : ko.observable(),
-courses : ko.observableArray()
+            event: ko.observable(),
+            courses: ko.observableArray(),
+            creationDate: ko.observable(),
         };
 
         ko.applyBindings(viewModel, element);
 
-        $.ajax({
-            type: "GET",
-            url: url,
-            dataType: "xml",
-            cache: false,
-            data: {
-            },
-            beforeSend: function() {
-
-                        },
-            complete: function(jqXHR, textStatus) {
-
-                      },
-            error: function(jqXHR, textStatus, errorThrown) {
-                   },
-            success: function(xml)
-        {
-            result = wjr.IOF.loadResultsList(xml);
-            viewModel.event(result[0]);
-            viewModel.courses(result[1])
+        var fetchResults = function() {
+            $.ajax({
+                type: "GET",
+                url: url,
+                dataType: "xml",
+                cache: false,
+                data: {},
+                beforeSend: function() {},
+                complete: function(jqXHR, textStatus) {},
+                error: function(jqXHR, textStatus, errorThrown) {},
+                success: function(xml)
+                {
+                    result = wjr.IOF.loadResultsList(xml);
+                    viewModel.event(result[0]);
+                    viewModel.courses(result[1])
+                    viewModel.creationDate(result[2].format("dddd, MMMM Do YYYY [at] h:mm:ss a"))
+                }
+            });
         }
-        });
+       
+        fetchResults();
+
+        if (mode == 'live') {
+            window.setInterval(fetchResults, 5000);
+        }
     }
 
     function loadResultList(index, element) {
-        createResultList(element, this.getAttribute("data-result-list-url"));
+        var modeAttr = 'data-result-list-mode';
+        var mode = this.hasAttribute(modeAttr) ? this.getAttribute(modeAttr) : 'normal';
+        createResultList(element, this.getAttribute("data-result-list-url"), mode);
     }
 
     $(".result-list").each(loadResultList);

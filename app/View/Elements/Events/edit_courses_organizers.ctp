@@ -30,7 +30,10 @@ var finishLoadingOrganizers = function() {
         this.name = ko.observable(name);
         this.distance = ko.observable(distance);
         this.climb = ko.observable(climb);
-        this.isScoreO = ko.observable(isScoreO);
+        this.rankBy = ko.observable(isScoreO ? "points" : "time");
+        this.isScoreO = ko.computed(function() {
+            return (this.rankBy() === "points");
+        }, this);
         this.description = ko.observable(description);
         this.remove = function() {
             // Only need to confirm for deletion if the course hasn't been created locally
@@ -127,9 +130,10 @@ var finishLoadingOrganizers = function() {
         <td class="col-sm-1"><input class="form-control input-sm" type="number" data-bind="value: distance" /></td>
         <td class="col-sm-1"><input class="form-control input-sm" type="number" data-bind="value: climb" /></td>
         <td class="col-sm-1">
-            <div class="checkbox">
-                <input type="checkbox" data-bind="checked: isScoreO" />
-            </div>
+            <select class="form-control input-sm" data-bind="value: rankBy">
+                <option value="time">Time</option>
+                <option value="points">Score-O Points</option>
+            </select>
         </td>
         <td><input type="text" class="form-control input-sm" data-bind="value: description" /></td>
         <td>
@@ -150,7 +154,7 @@ var finishLoadingOrganizers = function() {
                         <th>Name</th>
                         <th>Dist. (m)</th>
                         <th>Climb (m)</th>
-                        <th>Score O</th>
+                        <th>Rank by</th>
                         <th>Description</th>
                         <th></th>
                     </tr>

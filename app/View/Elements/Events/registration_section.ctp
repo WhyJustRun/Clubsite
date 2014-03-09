@@ -1,6 +1,12 @@
 <?php
-// Params: $event
+// Params: $event, $canEdit
 $registrationURL = $event['Event']['registration_url'];
+
+if (!empty($event['LiveResult']) && $canEdit) {
+    echo "<h2>Live Results</h2>";
+    echo $this->element('LiveResults/visibility_button', array('event' => $event));
+}
+
 if($event["Event"]["completed"] === true) {
     echo $this->element('Courses/course_maps', array('courses' => $event["Course"]));
 } else if($registrationURL) { ?>
