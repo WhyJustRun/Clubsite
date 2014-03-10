@@ -9,7 +9,7 @@
     <?php
     if ($event['Event']['results_posted']) {
         echo $this->element('Events/results_list', array('eventId' => $event['Event']['id']));
-    } else if (!empty($event['LiveResult'])) {
+    } else if (!empty($event['LiveResult']['id'])) {
         if ($canEdit) {
             echo $this->element('LiveResults/visibility_button', array('event' => $event));
         }
