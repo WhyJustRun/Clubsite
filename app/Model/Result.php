@@ -91,12 +91,12 @@ class Result extends AppModel {
             $this->saveField('points', $result["Result"]["points"]);
         }
     }
-    function isValidCourse($course_id) {
-        if($this->numValidRunners($course_id) < 3)
-            return false;
-        else
-            return true;
+
+    function isValidCourse($courseId) {
+        $course = $this->Course->findById($courseId);
+        return $this->numValidRunners($courseId) >= 3 && !$course['Course']['is_score_o'];
     }
+
     // Compute inverse mean inverse time
     function invMeanInvTimeByCourse($course_id) {
         $conditions = array("course_id = " => $course_id);
@@ -190,7 +190,7 @@ class Result extends AppModel {
         // Need 3 races to count as a valid user
         if($counter < 3)
             return NULL;
-        else 
+        else
             return $meanPoints / $counter;
     }
 

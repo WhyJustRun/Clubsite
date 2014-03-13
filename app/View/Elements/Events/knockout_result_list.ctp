@@ -18,21 +18,33 @@
                     <th data-bind="visible: isScore">Score Points</th>
                     <th>Time</th>
                     <th data-bind="visible: isTimed">Points</th>
+                    <th data-bind="visible: hasComments" style="width: 35px"></th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: results">
                 <tr>
-                    <td data-bind="text: position || friendlyStatus"></td>
+                    <td>
+                        <span data-bind="text: position || friendlyStatus"></span>
+                    </td>
                     <td>
                         <span data-bind="visible: person.profileUrl">
                         <a data-bind="attr: { href: person.profileUrl }"><span data-bind="text: person.givenName + ' ' + person.familyName"></span></a>
                         </span>
-                        
+
                         <span data-bind="visible: !person.profileUrl, text: person.givenName + ' ' + person.familyName"></span>
                     </td>
                     <td data-bind="visible: $parent.isScore, text: scores['Points']"></td>
-                    <td data-bind="text: time != null ? hours + ':' + minutes + ':' + seconds + ($parent.millisecondTiming ? '.' + milliseconds : '' ) : ''"></td>
+                    <td>
+                        <span data-bind="text: time != null ? hours + ':' + minutes + ':' + seconds + ($parent.millisecondTiming ? '.' + milliseconds : '' ) : ''"></span>
+                    </td>
                     <td data-bind="visible: $parent.isTimed, text: scores['WhyJustRun']"></td>
+                    <td data-bind="visible: $parent.hasComments">
+                        <div class="btn-group" data-bind="visible: officialComment">
+                            <button class="btn btn-xs btn-default" data-bind="tooltip: { title: officialComment, trigger: 'hover' }">
+                              <span class="glyphicon glyphicon-comment"></span>
+                            </button>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>

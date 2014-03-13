@@ -25,10 +25,10 @@ $(document).ready(function() {
                 wjr._statuses[k] = new wjr.ResultStatus(v, k);
             });
         }
-       
+
        return wjr._statuses;
     }
-    
+
     wjr.sorted_statuses = function() {
        return _.values(wjr.statuses()).sort(function (a, b) { return a.name.localeCompare(b.name); });
     }
@@ -49,18 +49,27 @@ $(document).ready(function() {
         this.description = description;
         this.results = ko.observableArray(results);
         this.is_score_o = ko.observable(is_score_o);
+        this.rankBy = ko.computed({
+            read: function () {
+                return this.is_score_o() ? "points" : "time";
+            },
+            write: function(value) {
+                this.is_score_o((value == "points"));
+            },
+            owner: this
+        });
     }
 
-    wjr.Result = function(id, user, course_id, time_seconds, status, points, comment, score_points, is_score_o) {
+    wjr.Result = function(id, user, course_id, time_seconds, status, points, registrant_comment, official_comment, score_points) {
         this.id = id;
         this.user = user;
         this.course_id = course_id;
-        
+
         var hoursCount = Math.floor(time_seconds / 3600);
         var minutesCount = Math.floor((time_seconds - hoursCount * 3600) / 60);
         var secondsCount = time_seconds - hoursCount * 3600 - minutesCount * 60;
         var millisecondsCount = Math.round((secondsCount % 1) * 1000);
-        
+
         this.hours = ko.observable(time_seconds ? zeroFill(hoursCount, 2) : '00');
         this.minutes = ko.observable(time_seconds ? zeroFill(minutesCount, 2) : '00');
         this.seconds = ko.observable(time_seconds ? zeroFill(Math.floor(secondsCount), 2) : '00');
@@ -70,10 +79,10 @@ $(document).ready(function() {
         }
         this.status = ko.observable(status || 'ok');
         this.points = points;
-        this.comment = comment;
-        this.is_score_o = ko.observable(is_score_o);
+        this.registrant_comment = ko.observable(registrant_comment);
+        this.official_comment = ko.observable(official_comment);
         this.score_points = ko.observable(score_points);
-        
+
         this.remove = function() {
             if(this.id) {
                 if(!confirm("Are you sure you want to delete this competitor? The entry be deleted from the server immediately.")) {
@@ -105,12 +114,12 @@ $(document).ready(function() {
         event : ko.observable(),
         userName: ko.observable(),
         selectedCourse: ko.observable(),
-        addCompetitorToCourse: function(id, name) {            
+        addCompetitorToCourse: function(id, name) {
             if (!viewModel.selectedCourse()) {
                 alert("Adding competitor failed, because a course wasn't selected.");
                 return;
             }
-            
+
             if (id === undefined) {
                 // create user asynchronously, then add to the UI once we've go the user ID.
                 var options = {
@@ -123,7 +132,7 @@ $(document).ready(function() {
                 $.post("/Users/add", options, successHandler);
             } else {
                 var user = new wjr.User(id, name);
-                viewModel.selectedCourse().results.push(new wjr.Result(undefined, user, viewModel.selectedCourse().id, undefined, undefined, undefined, undefined, undefined, undefined, viewModel.selectedCourse().is_score_o()));
+                viewModel.selectedCourse().results.push(new wjr.Result(undefined, user, viewModel.selectedCourse().id, undefined, undefined, undefined, undefined, undefined, undefined));
             }
         }
     };
@@ -141,7 +150,7 @@ $(document).ready(function() {
                 for(var j = 0; j < results.length; j++) {
                     var result = results[j];
                     var user = new wjr.User(result.User.id, result.User.name);
-                    importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time_seconds, result.status, result.points, result.comment, result.score_points, course.is_score_o));
+                    importedResults.push(new wjr.Result(result.id, user, result.course_id, result.time_seconds, result.status, result.points, result.registrant_comment, result.official_comment, result.score_points));
                 }
 
                 viewModel.courses.push(new wjr.Course(course.id, course.name, course.distance, course.climb, course.event_id, course.description, importedResults, course.is_score_o));
@@ -157,15 +166,15 @@ $(document).ready(function() {
             viewModel.addCompetitorToCourse(person.id, person.name);
         }
     });
-    
-    
+
+
 });
 </script>
 <?php $this->end(); ?>
 <script type="text/html" id="resultTemplate">
     <tr>
         <td data-bind="text: user.name" style="vertical-align: middle"><p></p></td>
-        <td data-bind="visible: is_score_o"><input type="number" class="form-control" data-bind="value: score_points"></td>
+        <td data-bind="visible: $parent.is_score_o"><input type="number" class="form-control" data-bind="value: score_points" /></td>
         <td style="width: 160px">
             <div class="input-group">
                 <input type="text" class="form-control time-segment" maxlength="2" size="2" data-bind="value: hours" pattern="[0-9]{0,2}" />
@@ -180,20 +189,37 @@ $(document).ready(function() {
         <td style="min-width: 130px" class="results-editing">
             <select class="form-control" data-bind="options: statuses(), optionsText: 'name', optionsValue: 'id', value: status, optionsCaption: 'Choose...'"></select>
         </td>
+        <td>
+            <input type="text" class="form-control" maxlength="255" data-bind="value: official_comment" />
+        </td>
         <td style="width: 45px"><button type="submit" class="btn btn-danger pull-right" data-bind="click: remove"><span class="glyphicon glyphicon-trash"></span></button></td>
     </tr>
 </script>
 
 <script type="text/html" id="courseTemplate">
-    <h2 data-bind="text: name"></h2>
+    <div>
+        <div class="pull-right">
+            <div class="form-inline form-group">
+            <label>
+                Rank by:
+                <select style="max-width: 200px" class="form-control" data-bind="value: rankBy">
+                    <option value="time">Time</option>
+                    <option value="points">Score-O Points</option>
+                </select>
+            </label>
+            </div>
+        </div>
+        <h2 data-bind="text: name"></h2>
+    </div>
     <div class="table-responsive">
         <table style="min-width: 470px" class="table table-striped table-condensed table-bordered">
-            <thead> 
+            <thead>
                 <tr>
                     <th>Name</th>
                     <th data-bind="visible: is_score_o">Score Points</th>
                     <th>Time (hh:mm:ss)</th>
                     <th>Status</th>
+                    <th>Comment</th>
                     <th></th>
                 </tr>
             </thead>
@@ -227,7 +253,7 @@ $(document).ready(function() {
         echo $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary'));
         ?>
     </div>
-    
+
     <div class="col-sm-4">
         <h2>Add Competitor</h2>
         <p>Choose the course you would like to add a competitor. <br/>Type in the participant's name and choose the matching person. If they are not already in the system, choose the "Create New User" option.</p>
@@ -237,4 +263,3 @@ $(document).ready(function() {
         <?php echo $this->Form->input('competitorResults', array('label' => false, 'placeholder' => 'Competitor Name')); ?>
     </div>
 </div>
-

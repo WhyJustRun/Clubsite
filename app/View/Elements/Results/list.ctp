@@ -9,7 +9,7 @@ if(!empty($results)) { ?>
     <table class="table table-striped table-bordered table-condensed">
     <thead>
         <tr>
-<?php 
+<?php
     $entryCount = count($results);
 $entries = $entryCount == 1 ? "Entries" : "Entries ($entryCount)"; ?>
             <th width='100%'><?= $entries ?></th>
@@ -28,15 +28,15 @@ $entries = $entryCount == 1 ? "Entries" : "Entries ($entryCount)"; ?>
             if(!empty($userId) && (!empty($result['Registrant']['id']) && $result['Registrant']['id'] == $userId || $result['User']['id'] == $userId)) {
                 echo "<div class='btn-group'>";
                     $modalId = "change-comment-modal-" . $result['id'];
-                    echo '<button data-toggle="modal" data-target="#' . $modalId . '" class="btn btn-xs btn-default">' . (empty($result['comment']) ? 'Add' : 'Edit') . ' Comment</button>';
+                    echo '<button data-toggle="modal" data-target="#' . $modalId . '" class="btn btn-xs btn-default">' . (empty($result['registrant_comment']) ? 'Add' : 'Edit') . ' Comment</button>';
                 echo "</div>";
                 echo "<div class='btn-group'>";
                     echo '<a class="btn btn-xs btn-danger" href="/courses/unregister/'.$course['id'].'/'.$result["User"]["id"].'"><span class="glyphicon glyphicon-minus"></span> Unregister</a>';
                 echo "</div>";
             }
-            if (!empty($result['comment'])) {
+            if (!empty($result['registrant_comment'])) {
                 echo '<div class="btn-group">';
-                    echo '<button class="btn btn-xs btn-default" data-container="body" data-placement="auto" data-toggle="tooltip" title="' . htmlentities($result['comment']) . '"><span class="glyphicon glyphicon-comment"></span></button>';
+                    echo '<button class="btn btn-xs btn-default" data-container="body" data-placement="auto" data-toggle="tooltip" title="' . htmlentities($result['registrant_comment']) . '"><span class="glyphicon glyphicon-comment"></span></button>';
                 echo '</div>';
             }
             echo "</div>";

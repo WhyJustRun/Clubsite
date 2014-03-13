@@ -44,7 +44,7 @@ class EventsController extends AppController {
     }
 
     function listing() {
-        
+
     }
 
     // Displays a rendering of the results (manually uploaded)
@@ -127,7 +127,7 @@ class EventsController extends AppController {
 
     function printableEntries($id) {
         $contain = array(
-                'Series', 
+                'Series',
                 'Course' => array(
                     'Result' => array('User.name', 'User.id', 'User.si_number', 'User.is_member')
                     )
@@ -162,22 +162,22 @@ class EventsController extends AppController {
         }
 
         $contain = array(
-                'Series', 
-                'Map', 
+                'Series',
+                'Map',
                 'EventClassification',
                 'LiveResult',
                 'Organizer' => array(
                     'User' => array(
                         'fields' => array('id', 'name')
                         ), 'Role'
-                    ), 
+                    ),
                 'Course' => array(
                     'Result' => array('Registrant.id', 'User.name', 'User.id', 'User.si_number')
                     )
                 );
         $event = $this->Event->find('first', array('conditions' => array('Event.id' => $id), 'contain' => $contain));
         $user = AuthComponent::user();
-        
+
         if(!$event) {
             $this->Session->setFlash("The event requested couldn't be found.");
             $this->redirect('/');
@@ -189,7 +189,7 @@ class EventsController extends AppController {
         if (!empty($event['Event']['custom_url']) && !$canEdit) {
             $this->redirect($event['Event']['custom_url']);
             return;
-        } 
+        }
 
         $startTime = new DateTime($event["Event"]["utc_date"]);
         $event["Event"]["completed"] = ($this->_isBeforeNow($startTime));
@@ -224,7 +224,7 @@ class EventsController extends AppController {
         $this->_checkEditAuthorization($id);
         $liveResult = $this->Event->LiveResult->findByEventId($id);
         if (!empty($liveResult)) {
-            $liveResult['LiveResult']['visible'] = ($visible == 'true') ? 1 : 0; 
+            $liveResult['LiveResult']['visible'] = ($visible == 'true') ? 1 : 0;
             $this->Event->LiveResult->save($liveResult);
         }
         $this->redirect('/events/view/' . $id);
@@ -269,7 +269,8 @@ class EventsController extends AppController {
                     $processedResult["course_id"] = $course->id;
                     $processedResult["time_seconds"] = $this->_timeFromParts($result->hours, $result->minutes, $result->seconds, $result->milliseconds);
                     $processedResult['status'] = empty($result->status) ? 'ok' : $result->status;
-                    $processedResult["comment"] = empty($result->comment) ? null : $result->comment;
+                    $processedResult["registrant_comment"] = empty($result->registrant_comment) ? null : $result->registrant_comment;
+                    $processedResult["official_comment"] = empty($result->official_comment) ? null : $result->official_comment;
                     if (!empty($result->score_points)) {
                         $processedResult["score_points"] = $result->score_points;
                     }
@@ -277,12 +278,14 @@ class EventsController extends AppController {
                     if(!empty($result->id)) {
                         $processedResult["id"] = $result->id;
                     }
-                    array_push($updatedResults, $processedResult);					
+                    array_push($updatedResults, $processedResult);
                 }
 
                 if(empty($updatedResults) || $this->Event->Course->Result->saveAll($updatedResults)) {
                     $courseFromDatabase = $this->Event->Course->findById($course->id);
-                    if ($courseFromDatabase['Event']['is_ranked'] && !($courseFromDatabase['Course']['is_score_o'])) {
+                    $courseFromDatabase['Course']['is_score_o'] = $course->is_score_o;
+                    $this->Event->Course->save($courseFromDatabase);
+                    if ($courseFromDatabase['Event']['is_ranked']) {
                         $this->Event->Course->Result->calculatePoints($course->id);
                     }
                     $this->Event->saveField('results_posted', $this->request->data["Event"]["results_posted"]);
@@ -387,7 +390,7 @@ class EventsController extends AppController {
 
         $this->request->data["Event"]["organizers"] = json_encode($organizers);
         $this->request->data["Event"]["courses"] = json_encode($courses);
-    }  
+    }
 
     function _timeFromParts($hours, $minutes, $seconds, $milliseconds) {
         $hours = intval($hours);

@@ -10,7 +10,7 @@ class ResultsController extends AppController {
         $this->Security->unlockedActions = array('editComment');
     }
 
-    function index() 
+    function index()
     {
         $results = $this->paginate();
 
@@ -21,11 +21,11 @@ class ResultsController extends AppController {
         }
     }
 
-    function editComment() {
+    function editRegistrantComment() {
         if ($this->request->is('post') && !empty($this->request->data)) {
             $resultData = $this->request->data['Result'];
             $resultId = $resultData['id'];
-            $resultComment = $resultData['comment'];
+            $resultComment = $resultData['registrant_comment'];
 
             if (empty($resultId)) {
                 die("Must provide result id");
@@ -40,7 +40,7 @@ class ResultsController extends AppController {
                     die("You are not allowed to change the comment for that result.");
                 }
 
-                $result['Result']['comment'] = $resultComment;
+                $result['Result']['registrant_comment'] = $resultComment;
                 $this->Result->save($result['Result']);
                 $this->redirect('/events/view/' . $result['Course']['Event']['id']);
 

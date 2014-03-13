@@ -7,12 +7,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="<?= $modalId ?>-label"><?php echo (empty($result['comment']) ? 'Add' : 'Change'); ?> Comment</h4>
+                <h4 class="modal-title" id="<?= $modalId ?>-label"><?php echo (empty($result['registrant_comment']) ? 'Add' : 'Change'); ?> Comment</h4>
             </div>
-            <form method="post" action="/results/editComment">
+            <form method="post" action="/results/editRegistrantComment">
                 <div class="modal-body">
                     <input type="hidden" name="data[Result][id]" value="<?= $result['id'] ?>" />
-                    <textarea class="form-control" name="data[Result][comment]" rows="3" maxlength="255"><?= $result['comment'] ?></textarea> 
+                    <textarea class="form-control" name="data[Result][registrant_comment]" rows="3" maxlength="255"><?= $result['registrant_comment'] ?></textarea>
                     <p class="help-block" style="margin-bottom: 0px">Use comments to share information with other participants and the event organizers. For example, you can use this to find/offer a ride to the event. All information shared will be public.</p>
                 </div>
                 <div class="modal-footer">

@@ -19,7 +19,7 @@ if(count($courses) > 0) {
             <td><nobr><?= $user["User"]["name"]?></nobr></td>
             <td><?= $user["User"]["is_member"] ? '✓': null ?></td>
             <td><?= $user["User"]["si_number"]?></td>
-            <td style="font-size:x-small"><?= $user['comment'] ?></td>
+            <td style="font-size:x-small"><?= $user['registrant_comment'] ?></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
@@ -47,6 +47,5 @@ if(count($courses) > 0) {
 }
 else {?>
 No courses defined
-    
-<?}?>
 
+<?}?>
