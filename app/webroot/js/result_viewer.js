@@ -21,7 +21,7 @@ wjr.IOF.Course = function(id, name, results, scoringType, millisecondTiming) {
     this.results = ko.observableArray(results);
     this.hasComments = ko.computed(function () {
         return _.some(this.results(), function (result) {
-          return (result.officialComment != null);
+          return (result.officialComment != "");
         });
     }, this);
     this.scoringType = scoringType;
