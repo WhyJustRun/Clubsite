@@ -25,7 +25,7 @@ $(function() {
     ko.bindingHandlers.tooltip = {
         init: function(element, valueAccessor) {
             var local = ko.utils.unwrapObservable(valueAccessor()),
-                options = {};
+                options = { container: 'body' };
 
             ko.utils.extend(options, ko.bindingHandlers.tooltip.options);
             ko.utils.extend(options, local);
