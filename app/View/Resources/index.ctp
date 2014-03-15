@@ -19,21 +19,18 @@
                 <thead>
                     <tr>
                         <th>Type</th>
-                        <th>URL</th>
                         <th></th>
-                  </tr>
+                    </tr>
                 </thead>
                 <tbody>
-            <?php foreach ($resources as $resource) { ?>
+                    <?php foreach ($resources as $resource) { ?>
                     <tr>
                         <td><?= Configure::read('Resource.Club.'.$resource['Resource']['key'].'.name') ?></td>
-                        <td><a href="<?= $resource['Resource']['url'] ?>"><?= $resource['Resource']['url'] ?></a></td>
                         <td><a href="/resources/delete/<?= $resource['Resource']['id'] ?>" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a></td>
                     </tr>
-            <? } ?>
+                    <? } ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-

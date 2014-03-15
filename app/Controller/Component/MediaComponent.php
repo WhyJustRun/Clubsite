@@ -21,7 +21,7 @@ class MediaComponent extends Component {
      */
     public function create($file, $id, $type = null) {
         if(empty($file['name']) || empty($file['tmp_name'])) {
-            throw new Exception('No file to create was provided.');
+            throw new BadRequestException('No file to create was provided.');
         }
 
         $this->loadType($type);
@@ -34,7 +34,7 @@ class MediaComponent extends Component {
             move_uploaded_file($file['tmp_name'], $filename);
         } else {
             $exts = implode(',', $this->allowedExts);
-            throw new Exception('The uploaded file format is not allowed. Please use one of ' . $exts);
+            throw new BadRequestException('The uploaded file format is not allowed. Please use one of ' . $exts);
         }
 
         $this->buildImagesForFile($filename, $folder, $id);
@@ -42,7 +42,7 @@ class MediaComponent extends Component {
 
     public function delete($id, $type = null) {
         $this->loadType($type);
-        $folder = $this->folder($type);        
+        $folder = $this->folder($type);
         $file = $this->findFile($id, $folder);
         if($file) {
             $this->deleteFile($file);
@@ -133,14 +133,14 @@ class MediaComponent extends Component {
         }
     }
 
-    // If size is null, will not do any resizing 
+    // If size is null, will not do any resizing
     private function createImage($source, $destination, $size) {
         if (file_exists($destination)) {
             unlink($destination);
         }
 
         $command = "convert -strip -interlace Plane -gaussian-blur 0.05";
-        // For PDFs, create a composite image with all the pages 
+        // For PDFs, create a composite image with all the pages
         if ($this->extensionOf($source) == 'pdf') {
             // Use a higher DPI for converting PDFs
             $command .= " -density 288 -colorspace RGB";
@@ -171,7 +171,7 @@ class MediaComponent extends Component {
             $image = new Imagick($source);
             $d = $image->getImageGeometry();
             $origSizeX = $d['width'];
-            $origSizeY = $d['height']; 
+            $origSizeY = $d['height'];
 
             $destination = $folder . $id . "_$size." . $this->thumbnailExtensionFor($size);
             $doubledDestination = $folder . $id . "_$doubledSize." . $this->thumbnailExtensionFor($size);
@@ -196,7 +196,7 @@ class MediaComponent extends Component {
     private function findFile($id, $folder) {
         $matches = glob($folder . $id . ".*");
         if(count($matches) > 1) {
-            throw new Exception('Found more than one matching file');
+            throw new InternalErrorException('Found more than one matching file');
         } else if(count($matches) == 0) {
             return false;
         }
@@ -232,7 +232,7 @@ class MediaComponent extends Component {
     private function findThumbnail($id, $folder, $thumbnail, $type) {
         $matches = glob($folder . $id . "_$thumbnail." . $this->thumbnailExtensionFor($thumbnail));
         if(count($matches) > 1) {
-            throw new Exception('Found more than one matching thumbnail');
+            throw new InternalErrorException('Found more than one matching thumbnail');
         } else if(count($matches) == 0) {
             if ($this->imageRequestIsValid($id, $folder, $thumbnail) && !$this->imageIsBrandNew($id, $folder)) {
                 $this->buildImages($id, $type);
@@ -250,7 +250,7 @@ class MediaComponent extends Component {
     private function imageRequestIsValid($id, $folder, $thumbnail) {
         if ($this->findFile($id, $folder) === false) {
             return false;
-        } 
+        }
 
         if ($thumbnail != null) {
             if ($thumbnail != 'image' &&
@@ -265,7 +265,7 @@ class MediaComponent extends Component {
     private function folder($type) {
         $folder = Configure::read("$type.dir");
         if(!$folder) {
-            throw new Exception("Couldn't find the media folder for type: $type");
+            throw new InternalErrorException("Couldn't find the media folder for type: $type");
         }
         return $folder;
     }
@@ -288,7 +288,7 @@ class MediaComponent extends Component {
     private function loadType(&$type) {
         $type = $type ? $type : $this->defaultType;
         if(!$type) {
-            throw new Exception("Failed loading media type.");
+            throw new InternalErrorException("Failed loading media type.");
         }
     }
 

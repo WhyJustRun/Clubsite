@@ -31,7 +31,7 @@ class User extends AppModel {
                 'unique' => array(
                     'message' => 'That email address is being used by another account.',
                     'rule' => 'isUnique',
-                    'required' => true 
+                    'required' => true
                 ),
                 'email' => array(
                     'rule' => array('email'),
@@ -93,7 +93,7 @@ class User extends AppModel {
         $q = $this->findAllByName($data['User']['name']);
         if(count($q) > 0)
             return true;
-        else 
+        else
             return false;
     }
 
@@ -101,25 +101,22 @@ class User extends AppModel {
      * Checks if a user is authorized to access a page based on their privileges
      */
     function isAuthorized($userId, $minimumPrivilege) {
-        if($minimumPrivilege == 0) {
+        if ($minimumPrivilege == 0) {
             return true;
         }
 
         // This shouldn't really be necessary, but if there is a bug that causes a null privilege to be inserted, we won't give site access to everyone.
-        if(empty($userId)) return false;
+        if (empty($userId)) return false;
 
         $privilege = $this->Privilege->find('count', array('conditions' => array('Privilege.user_id' => $userId, 'Group.access_level >=' => $minimumPrivilege, 'Group.club_id' => Configure::read('Club.id'))));
-        if($privilege > 0) {
-            return true;
-        } else return false;
+        return ($privilege > 0);
     }
 
     function getLevel($userId) {
         $level = $this->Privilege->find('first', array('fields' => array('MAX(Group.access_level) as level'), 'conditions' => array('Privilege.user_id' => $userId, 'Group.club_id' => Configure::read('Club.id'))));
-        if(!empty($level) && !empty($level[0])) {
+        if (!empty($level) && !empty($level[0])) {
             return $level[0]['level'];
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -184,7 +181,7 @@ class User extends AppModel {
                     !empty($user2["User"]["last_sign_in_at"])) {
                 if($user1["User"]["last_sign_in_at"] > $user2["User"]["last_sign_in_at"]) {
                     // User1 logged in most recently
-                    $primaryIndex = 1; 
+                    $primaryIndex = 1;
                 }
                 else {
                     // User2 logged in most recently

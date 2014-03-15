@@ -31,6 +31,7 @@ Configure::write("Result.statuses", array(
 Configure::write('Club.nearby.max', 3);
 
 // Minimum access level for adding/editing an event without being an organizer
+// IMPORTANT: If you add/change any privilege, make sure you update the corresponding privilege in rails (config/settings.yml)
 Configure::write('Privilege.Admin.page', 90);
 Configure::write('Privilege.Club.edit', 90);
 Configure::write('Privilege.ContentBlock.edit', 80);

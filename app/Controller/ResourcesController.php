@@ -33,7 +33,7 @@ class ResourcesController extends AppController {
     public function add() {
         $this->checkAuthorization(Configure::read('Privilege.Resource.edit'));
         if(!$this->Resource->saveForClub(Configure::read('Club.id'), $this->request->data['Resource']['key'], $this->request->data['Resource']['file'], $this->request->data['Resource']['caption'])) {
-            $this->Session->setFlash('Failed uploading resource.');    
+            $this->Session->setFlash('Failed uploading resource.');
         }
         $this->redirect('/resources/index');
     }

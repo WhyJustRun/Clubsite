@@ -34,10 +34,10 @@
 
                 <div class="collapse navbar-collapse" id="main-navbar-collapse">
                     <ul class="nav navbar-nav navbar-nav-main-text">
-                        <?php 
+                        <?php
                         echo $this->Menu->item('Home', '/', '', true);
-                        echo $this->Menu->item('Events', '/events/listing', 'visible-xs'); 
-                        echo $this->Menu->item('Calendar', '/events/index', 'hidden-xs'); 
+                        echo $this->Menu->item('Events', '/events/listing', 'visible-xs');
+                        echo $this->Menu->item('Calendar', '/events/index', 'hidden-xs');
                         echo $this->Menu->item('Maps', '/maps/');
                         echo $this->Menu->item('Resources', '/pages/resources');
                         echo $this->Menu->item('Contact', '/pages/contact');
@@ -65,13 +65,15 @@
                 <?php echo $this->Session->flash(); ?>
                 <?php echo $this->Session->flash('auth'); ?>
                 <?php echo $content_for_layout; ?>
+
+                <?php echo $this->element('sql_dump'); ?>
             </div>
         </div>
         <footer class="main-footer">
             <div class="container">
                 <a href="<?= Configure::read("Rails.domain") ?>">whyjustrun.ca</a>
                 <span class="pull-right">
-                    <?= $this->Html->link('API', 'https://github.com/WhyJustRun/Core/wiki/API') ?> | 
+                    <?= $this->Html->link('API', 'https://github.com/WhyJustRun/Core/wiki/API') ?> |
                     <?= $this->Html->link('Get this website for your club', 'https://github.com/WhyJustRun/Core/wiki/Get-WhyJustRun-for-your-club!') ?>
                 </span>
             </div>
@@ -87,4 +89,3 @@
         <?= $this->element('layout_bottom_dependencies'); ?>
     </body>
 </html>
-
