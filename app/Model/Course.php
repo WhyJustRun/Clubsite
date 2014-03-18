@@ -4,7 +4,6 @@ class Course extends AppModel {
     var $displayField = 'name';
     var $actsAs = array('Containable');
     var $clubSpecific = false; // event is club specific
-    var $hasOne = array('Resource');
 
     var $belongsTo = array(
             'Event' => array(

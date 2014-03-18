@@ -6,7 +6,6 @@ class Map extends AppModel {
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
     var $belongsTo = array('MapStandard');
-    var $hasOne = array('Resource');
     var $hasMany = array(
             'Event' => array(
                 'className' => 'Event',

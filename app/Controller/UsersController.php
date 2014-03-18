@@ -1,5 +1,5 @@
 <?php
-class UsersController extends AppController 
+class UsersController extends AppController
 {
     var $name = 'Users';
     var $helpers = array("Form", 'Recaptcha.Recaptcha', 'Link');
@@ -58,7 +58,7 @@ class UsersController extends AppController
         }
     }
 
-    function login() 
+    function login()
     {
         // Set the redirect if it is available and it is a redirect from the current domain, otherwise use the default
         if(!empty($_SERVER['HTTP_REFERER']) && strstr($_SERVER['HTTP_REFERER'], $_SERVER['SERVER_NAME']) && !strstr(strtolower($_SERVER['HTTP_REFERER']), 'users/login')) {
