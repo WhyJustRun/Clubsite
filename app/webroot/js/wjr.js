@@ -33,7 +33,7 @@ $(function() {
             safari2: true, safari3: true
         },
         imagePath: '/img/jreject/',
-        display: ["chrome", "firefox", "safari", "gcf"],
+        display: ["chrome", "firefox", "safari", "opera"],
         header: 'Did you know your web browser is out of date?',
         paragraph1: 'Your browser is not supported by this website. We recommend you upgrade your browser.'
     });
