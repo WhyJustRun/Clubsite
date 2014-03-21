@@ -30,7 +30,7 @@ $(function() {
             firefox1: true, firefox2: true, firefox3: true,
             opera7: true, opera8: true, opera9: true,
             opera10: true, opera11: true,
-            safari2: true, safari3: true, chrome: true
+            safari2: true, safari3: true
         },
         imagePath: '/img/jreject/',
         display: ["chrome", "firefox", "safari", "gcf"],
