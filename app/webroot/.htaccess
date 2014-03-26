@@ -3,10 +3,7 @@ php_value post_max_size 100M
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-    RewriteRule ^ccss/(.*\.css) combine.php?type=css&files=$1
-    RewriteRule ^cjs/(.*\.js) combine.php?type=javascript&files=$1
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
-

@@ -3,13 +3,14 @@ echo $this->Html->meta('icon');
 echo $this->Html->meta(array('name' => 'wjr.core.domain', 'content' => Configure::read('Rails.domain')));
 echo $this->Html->meta(array('name' => 'wjr.clubsite.club.id', 'content' => Configure::read('Club.id')));
 
-$cssFile = '/ccss/bootstrap.min.css,whyjustrun.css';
 if (Configure::read('Clubsite.isProduction')) {
   $cacheKey = '?build-cached=' . Configure::read('Build.hash');
-  $cssFile .= $cacheKey;
+  echo $this->Html->css('main-build.css' . $cacheKey);
+} else {
+  echo $this->Html->css('bootstrap.min');
+  echo $this->Html->css('whyjustrun');
+  echo $this->Html->css('jquery.reject');
 }
-
-echo $this->Html->css($cssFile);
 
 echo $this->element('Series/css', array(), array('cache' => array('key' => 'series_css_club_'.Configure::read('Club.id'), 'config' => 'view_short')));
 

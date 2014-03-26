@@ -2,7 +2,7 @@
 /*global define, requirejs */
 // Set browser support (we require browsers to completely support CORS)
 
-define(['jquery', 'jquery.reject', 'css!/css/jquery.reject.css'], function ($) {
+define(['jquery', 'jquery.reject'], function ($) {
   'use strict';
   var support = {};
   support.rejectUnsupportedBrowsers = function () {
