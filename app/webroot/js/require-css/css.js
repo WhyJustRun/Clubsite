@@ -17,12 +17,12 @@
  * Chome 3 - 26
  * Firefox 3.5 - 19
  * Opera 10 - 12
- * 
+ *
  * browserling.com used for virtual testing environment
  *
  * Credit to B Cavalier & J Hann for the IE 6 - 9 method,
  * refined with help from Martin Cermak
- * 
+ *
  * Sources that helped along the way:
  * - https://developer.mozilla.org/en-US/docs/Browser_detection_using_the_user_agent
  * - http://www.phpied.com/when-is-a-stylesheet-really-loaded/
@@ -40,7 +40,7 @@ define(function() {
 
   // use <style> @import load method (IE < 9, Firefox < 18)
   var useImportLoad = false;
-  
+
   // set to false for explicit <link> load checking when onload doesn't work perfectly (webkit)
   var useOnload = true;
 
@@ -53,10 +53,10 @@ define(function() {
   // gecko
   else if (engine[4])
     useImportLoad = parseInt(engine[4]) < 18;
-  
+
   //main api object
   var cssAPI = {};
-  
+
   cssAPI.pluginBuilder = './css-builder';
 
   // <style> @import load method
@@ -69,7 +69,7 @@ define(function() {
   var ieCnt = 0;
   var ieLoads = [];
   var ieCurCallback;
-  
+
   var createIeLoad = function(url) {
     ieCnt++;
     if (ieCnt == 32) {
@@ -81,14 +81,14 @@ define(function() {
   }
   var processIeLoad = function() {
     ieCurCallback();
- 
+
     var nextLoad = ieLoads.shift();
- 
+
     if (!nextLoad) {
       ieCurCallback = null;
       return;
     }
- 
+
     ieCurCallback = nextLoad[1];
     createIeLoad(nextLoad[0]);
   }
@@ -148,10 +148,10 @@ define(function() {
   cssAPI.normalize = function(name, normalize) {
     if (name.substr(name.length - 4, 4) == '.css')
       name = name.substr(0, name.length - 4);
-    
+
     return normalize(name);
   }
-  
+
   cssAPI.load = function(cssId, req, load, config) {
 
     (useImportLoad ? importLoad : linkLoad)(req.toUrl(cssId + '.css'), load);

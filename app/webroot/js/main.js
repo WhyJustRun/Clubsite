@@ -2,6 +2,7 @@
 /*global requirejs*/
 
 requirejs.config({
+  waitSeconds: 60,
   baseUrl: '/js',
   map: {
     '*': {
