@@ -21,11 +21,13 @@ if(!empty($clubResources['style'])) {
 // echo $this->Html->script("/cjs/jquery-1.8.2.min.js,jquery.mousewheel-3.0.6.pack.js,jquery.ketchup.all.min.js,ketchup-bootstrap.js,jquery.fancybox.pack.js,jquery.placeholder.min.js,underscore-min.js,knockout.js,jquery.jeditable.mini.js,jquery.iecors.js,moment.min.js,img.srcset.polyfill.js,spin.min.js,jquery.reject.js", array('block' => 'primaryScripts'));
 // echo $this->Html->script('/cjs/bootstrap.min.js,bootstrap-datetimepicker.min.js,bootstrap-typeahead.js,ladda.min.js,cakebootstrap.js', array('block' => 'primaryScripts'));
 $mainFile = '/js/main.js';
+$cacheKey = '';
 if (Configure::read('Clubsite.isProduction')) {
-  $mainFile = '/js/main-built.js?build-cached=' . Configure::read('Build.hash');
+  $cacheKey = '?build-cached=' . Configure::read('Build.hash');
+  $mainFile = '/js/main-built.js' . $cacheKey;
 }
 
-echo $this->Html->script('require', array('data-main' => $mainFile));
+echo $this->Html->script('/js/require.js' . $cacheKey, array('data-main' => $mainFile));
 echo $this->fetch('open_graph');
 ?>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
