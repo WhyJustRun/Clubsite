@@ -58,7 +58,7 @@ requirejs.config({
       deps: ['jquery.ketchup', 'bootstrap']
     },
     'redactor': {
-      deps: ['jquery']
+      deps: ['jquery', 'css!/js/redactor/redactor.css']
     },
     'ckeditor': {
       deps: ['jquery', 'ckeditor-core'],

@@ -1,6 +1,7 @@
 /*jslint browser: true indent: 2*/
 /*global define, requirejs */
 // Set browser support (we require browsers to completely support CORS)
+
 define(['jquery', 'jquery.reject', 'css!/css/jquery.reject.css'], function ($) {
   'use strict';
   var support = {};
