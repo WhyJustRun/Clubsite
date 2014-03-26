@@ -22,7 +22,7 @@ if(!empty($clubResources['style'])) {
 // echo $this->Html->script('/cjs/bootstrap.min.js,bootstrap-datetimepicker.min.js,bootstrap-typeahead.js,ladda.min.js,cakebootstrap.js', array('block' => 'primaryScripts'));
 $mainFile = '/js/main.js';
 if (Configure::read('Clubsite.isProduction')) {
-  $mainFile = '/js/main-built.js';
+  $mainFile = '/js/main-built.js?<?= Configure::read('Build.hash') ?>';
 }
 
 echo $this->Html->script('require', array('data-main' => $mainFile));
