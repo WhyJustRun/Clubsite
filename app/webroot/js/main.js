@@ -54,7 +54,7 @@ requirejs.config({
     'jquery.reject': {
       deps: ['jquery']
     },
-    'ketchup-boostrap': {
+    'ketchup-bootstrap': {
       deps: ['jquery.ketchup', 'bootstrap']
     },
     'redactor': {

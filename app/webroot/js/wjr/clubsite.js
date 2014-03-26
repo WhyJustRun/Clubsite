@@ -1,7 +1,7 @@
 /*jslint browser: true, indent: 2, nomen: true*/
 /*global define, requirejs */
 
-define(['jquery', 'underscore', 'cakebootstrap', 'moment', './forms', './editable', './browser-support', 'jquery.placeholder', 'bootstrap', 'img.srcset.polyfill'], function ($, _, bootstrapifyCakePHPForms, moment, forms, editable, browserSupport) {
+define(['jquery', 'underscore', 'cakebootstrap', 'moment', './forms', './editable', './browser-support', 'jquery.placeholder', 'bootstrap', 'img.srcset.polyfill', 'ketchup-bootstrap'], function ($, _, bootstrapifyCakePHPForms, moment, forms, editable, browserSupport) {
   'use strict';
   var Clubsite = {};
 
@@ -21,7 +21,10 @@ define(['jquery', 'underscore', 'cakebootstrap', 'moment', './forms', './editabl
           selector: '.date-picker',
           requires: ['bootstrap-datetimepicker'],
           load: function (datePickers) {
-            datePickers.datetimepicker({ pickTime: false });
+            datePickers.datetimepicker({
+              pickTime: false,
+              format: "YYYY-MM-DD"
+            });
           }
         }, {
           selector: '.event-list',

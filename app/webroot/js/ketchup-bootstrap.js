@@ -1,7 +1,7 @@
 !function( $ ) {
 
     "use strict"
-    
+
         $.ketchup
         .validation('url_or_empty', 'Must be a valid URL (include http://)',
             function (form, el, value) {
