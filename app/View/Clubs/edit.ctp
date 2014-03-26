@@ -86,21 +86,25 @@
         </span>
     </div>
 </div>
-<?php
-echo $this->Form->hidden('lat', array('default' => Configure::read('Club.lat')));
-echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng'))); 
-$this->Form->unlockField('Club.lat');
-$this->Form->unlockField('Club.lng');
-?>
 <fieldset class="form-group">
     <label class="col-sm-2 control-label">Location</label>
     <div class="col-sm-10">
-        <?= $this->Leaflet->draggableMarker('ClubLat', 'ClubLng', 10, array('div' => array('height' => '400px'))); ?>
+      <?php
+      echo $this->Form->hidden('lat', array('default' => Configure::read('Club.lat')));
+      echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng')));
+
+      $this->Form->unlockField('Club.lat');
+      $this->Form->unlockField('Club.lng');
+      ?>
+      <div class="draggable-marker-map"
+           data-lat-element="#ClubLat"
+           data-lng-element="#ClubLng"
+           data-zoom="10"
+           style="height: 400px; width: 100%">
+      </div>
         <p class="help-block">Drag the marker to the approximate location of the club</p>
     </div>
 </fieldset>
 <div class="form-group">
     <?= $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'col-sm-offset-2 col-sm-10'))) ?>
 </div>
-
-

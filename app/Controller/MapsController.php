@@ -11,7 +11,7 @@ class MapsController extends AppController {
                 )
             );
 
-    var $helpers = array("Time", "Geocode", "Form", "Leaflet", 'Media', 'Link');
+    var $helpers = array("Time", "Geocode", "Form", 'Media', 'Link');
 
     function beforeFilter() {
         parent::beforeFilter();
@@ -49,7 +49,7 @@ class MapsController extends AppController {
         }
 
         $map = $this->Map->findById($id);
-        
+
         if(!empty($map['Map']['repository_path'])) {
             $this->viewClass = 'Media';
 

@@ -19,25 +19,19 @@
         <?= $this->Form->hidden('user_id') ?>
         <?php $this->Form->unlockField('Privilege.user_id'); ?>
         <div class="form-group">
-            <input placeholder="Name" type="text" id="UserName" class='form-control' />
+            <input placeholder="Name"
+                   type="text" id="UserName"
+                   class='form-control simple-person-picker'
+                   data-user-id-target="#PrivilegeUserId"
+                   data-maintain-input="true"
+                   data-allow-fake="false" />
         </div>
-        <?php $this->append('secondaryScripts'); ?>
-        <script type="text/javascript">
-        $(function() {
-            orienteerAppPersonPicker('#UserName', { maintainInput: true, allowFake: false }, function(person) {
-                if(person != null) {
-                    $("#PrivilegeUserId").val(person.id);
-                }
-            });
-        });
-        </script>
-        <?php $this->end(); ?>
         <?= $this->Form->input('group_id', array('class' => 'form-control', 'label' => false, 'div' => 'form-group')) ?>
         <button type="submit" class="btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
         <?= $this->Form->end(null) ?>
-        
+
         <h3>Current privileges</h3>
         <table class="table table-striped table-bordered table-condensed">
             <thead>
@@ -76,4 +70,3 @@
         </table>
     </div>
 </div>
-

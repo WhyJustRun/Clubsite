@@ -55,7 +55,7 @@
 }
 
 /** Placeholder polyfill **/
-input, textarea { 
+input, textarea {
     color: #000;
 }
 .placeholder {
@@ -148,17 +148,17 @@ form.thin-form {
     font-size: 100%;
 }
 
-.editable:hover {
+.wjr-editable:hover {
     background-color: #FFFFF0;
     cursor: pointer;
     border-radius: 10px;
 }
 
-.editable:hover > form {
+.wjr-editable:hover > form {
     cursor: initial;
 }
 
-.editable .btn {
+.wjr-editable .btn {
     margin-right: 7px;
 }
 
@@ -424,7 +424,7 @@ footer.main-footer div {
     border-left: 2px solid #325174;
 }
 
-#flickr-photos .thumbnail div {
+.flickr-photos .thumbnail div {
     background-position: center;
     background-size: cover;
     width: 100%;
@@ -432,11 +432,11 @@ footer.main-footer div {
 }
 
 @media (max-width: 767px) {
-    #flickr-photos {
+    .flickr-photos {
         width: 100%;
 }
 
-#flickr-photos > li {
+.flickr-photos > li {
     width: 46%;
 }
 
@@ -451,7 +451,7 @@ footer.main-footer div {
 }
 
 @media (max-width: 600px) {
-    #flickr-photos > li {
+    .flickr-photos > li {
         width: 100%;
 }
 }

@@ -11,8 +11,7 @@ class AppController extends Controller {
                             'Session',
                             'Security' => array(
                 'csrfExpires' => '+12 hours',
-                'csrfUseOnce' => false,
-                'unlockedFields' => array('leaflet-base-layers'), // Leaflet includes a radio input in IE in POST requests if it is within the form.
+                'csrfUseOnce' => false
                 ));
     var $helpers = array('Session', 'User', 'Html', 'Menu', 'ContentBlock');
 
@@ -27,7 +26,7 @@ class AppController extends Controller {
             $crossAppSessionID = $this->Session->read('CrossAppSession.id');
             $this->loadModel('CrossAppSession');
             $count = $this->CrossAppSession->find('count', array('conditions' => array('CrossAppSession.cross_app_session_id' => $crossAppSessionID)));
-            
+
             if ($count != 1) {
                 $this->Session->setFlash('You were signed out of your WhyJustRun account.');
                 $this->Session->delete('CrossAppSession.id');
@@ -35,7 +34,7 @@ class AppController extends Controller {
                 $this->redirect('/', 302, false);
             }
         }
-        
+
         // CakePHP bug: the Session Auth variables won't be set if $this->Auth->user() isn't called.
         $this->Auth->user();
         $this->Auth->loginRedirect  = array('controller' => 'pages', 'action' => 'display', 'home');
@@ -92,4 +91,3 @@ class AppController extends Controller {
         }
     }
 }
-

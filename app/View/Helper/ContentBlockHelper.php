@@ -2,8 +2,13 @@
 class ContentBlockHelper extends AppHelper {
     private $cachePrefix = "content_block_";
     private $cacheStore = 'default';
+    public $helpers = array('User');
 
     public function render($key, $start = null, $end = null) {
+        $editableClass = '';
+        if ($this->User->canEditContentBlock()) {
+            $editableClass = ' wjr-editable';
+        }
         $cacheKey = $this->getCacheKey($key, $start, $end);
         $content = Cache::read($key, $this->cacheStore);
         if(!$content) {
@@ -11,14 +16,14 @@ class ContentBlockHelper extends AppHelper {
             $content = null;
             foreach($blocks as $block) {
                 $content .= $start;
-                $content .= "<div id=\"" . $this->getId($block) . "\" class=\"content-block\">";
+                $content .= "<div id=\"" . $this->getId($block) . "\" class=\"content-block" . $editableClass . "\">";
                 $content .= $block['ContentBlock']['content'];
                 $content .= "</div>";
                 $content .= $end;
             }
-                        Cache::delete($cacheKey, $this->cacheStore);
-                        Cache::write($cacheKey, $content, $this->cacheStore);
-                }
+            Cache::delete($cacheKey, $this->cacheStore);
+            Cache::write($cacheKey, $content, $this->cacheStore);
+        }
 
         return $content;
     }
@@ -34,6 +39,10 @@ class ContentBlockHelper extends AppHelper {
     }
 
     private function getCacheKey($key, $start, $end) {
-        return $this->cachePrefix . $key . '-' . md5($start.$end);
+        $key = $this->cachePrefix . $key . '-' . md5($start.$end);
+        if ($this->User->canEditContentBlock()) {
+            $key .= "-editable";
         }
+        return $key;
+    }
 }

@@ -8,7 +8,6 @@
 </p>
 
 <div class="results-list">
-    <?php $this->Html->script('result_viewer', array('block' => 'secondaryScripts')); ?>
     <div class="result-list" data-result-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/events/<?= $event['Event']['id'] ?>/live_result_list.xml" data-result-list-mode="live">
         <?= $this->element('Events/knockout_result_list', array('mode' => 'live')) ?>
     </div>

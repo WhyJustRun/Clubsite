@@ -5,15 +5,9 @@ html, body {
 }
 </style>
 
-<?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '100%'); ?>
-<?php
-$this->append('secondaryScripts');
-?>
-<script type="text/javascript">
-$(window).resize(function () {
-    map.setView(new L.LatLng(<?= $event["Event"]["lat"]?>, <?= $event["Event"]["lng"] ?>), 14);
-});
-</script>
-<?php
-$this->end();
-?>
+<div class="simple-marker-map"
+     data-lat="<?= $event["Event"]["lat"] ?>"
+     data-lng="<?= $event["Event"]["lng"] ?>"
+     data-zoom="14"
+     style="width: 100%; height: 100%">
+</div>

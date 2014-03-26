@@ -25,6 +25,10 @@ class UserHelper extends AppHelper {
         }
     }
 
+    public function canEditContentBlock() {
+        return $this->hasPrivilege('Privilege.ContentBlock.edit');
+    }
+
     public function canEditClub() {
         return $this->hasPrivilege('Privilege.Club.edit');
     }

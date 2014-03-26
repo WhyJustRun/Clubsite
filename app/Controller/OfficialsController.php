@@ -11,7 +11,7 @@ class OfficialsController extends AppController {
                 'thumbnailSizes' => array('')
                 )
             );
-    var $helpers = array("Time", "Geocode", "Form", "TimePlus", 'Leaflet', 'Session', 'Media');
+    var $helpers = array("Time", "Geocode", "Form", "TimePlus", 'Session', 'Media');
 
     function beforeFilter() {
         parent::beforeFilter();

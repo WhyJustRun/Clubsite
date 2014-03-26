@@ -1,7 +1,7 @@
 <header class="page-header">
     <h1><?= $type ?> Event</h1>
 </header>
-<?php 
+<?php
 if(!empty($this->data['Event']['date'])) {
     $parts = explode(' ', $this->data['Event']['date']);
     $date = $parts[0];
@@ -22,10 +22,6 @@ if(!empty($this->data['Event']['finish_date'])) {
 echo $this->Form->create('Event', array('class' => 'form-horizontal', 'data-validate' => 'ketchup', 'action' => 'edit'));
 // Hidden JSON encoded organizer data from the edit organizers UI
 echo $this->Form->input('id', array('type' => 'hidden'));
-echo $this->Form->hidden('organizers', array('value' => $this->data["Event"]["organizers"], 'data-bind' => 'value: ko.toJSON(organizers)'));
-$this->Form->unlockField('Event.organizers');
-echo $this->Form->hidden('courses', array('value' => $this->data["Event"]["courses"], 'data-bind' => 'value: ko.toJSON(courses)'));
-$this->Form->unlockField('Event.courses');
 echo $this->Form->input('name', array('data-validate' => 'validate(required)', 'required' => 'required')); ?>
 <div class="form-group">
     <label class="control-label col-sm-2">Start Time</label>
@@ -119,20 +115,22 @@ foreach ($urlFields as $urlField) {
 <fieldset class="form-group">
     <label for="EventDescription" class="control-label col-sm-2">Description</label>
     <div class="col-sm-10">
-        <?= $this->Form->input('description', array('label' => false, 'class' => 'form-control oa-wysiwyg', 'rows' => 12, 'div' => false)); ?>
+        <?= $this->Form->input('description', array('label' => false, 'class' => 'form-control wjr-wysiwyg', 'rows' => 12, 'div' => false)); ?>
     </div>
 </fieldset>
 <?php
 echo $this->Form->input('series_id', array('empty' => 'Choose the event series'));
 echo $this->Form->input('map_id', array('empty' => 'Choose the event map'));
-
-echo $this->Form->hidden('lat', array('default' => Configure::read('Club.lat')));
-$this->Form->unlockField('Event.lat');
-echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng')));
-$this->Form->unlockField('Event.lng');
 ?>
 
-<?= $this->element('Events/edit_courses_organizers') ?>
+<?php
+$this->Form->unlockField('Event.organizers');
+$this->Form->unlockField('Event.courses');
+$coursesInput = $this->Form->hidden('courses', array('value' => $this->data["Event"]["courses"], 'data-bind' => 'value: ko.toJSON(courses)'));
+$organizersInput = $this->Form->hidden('organizers', array('value' => $this->data["Event"]["organizers"], 'data-bind' => 'value: ko.toJSON(organizers)'));
+$params = array('coursesInput' => $coursesInput, 'organizersInput' => $organizersInput);
+echo $this->element('Events/edit_courses_organizers', $params);
+?>
 
 <div class="form-group">
     <label class="control-label col-sm-2">Number of Participants</label>
@@ -159,7 +157,19 @@ $this->Form->unlockField('Event.lng');
 <fieldset class="form-group">
     <label class="control-label col-sm-2">Meeting location</label>
     <div class="col-sm-10">
-        <?= $this->Leaflet->draggableMarker('EventLat', 'EventLng', 10, array('div' => array('width' => '100%', 'height' => '400px'))); ?>
+        <?php
+        echo $this->Form->hidden('lat', array('default' => Configure::read('Club.lat')));
+        echo $this->Form->hidden('lng', array('default' => Configure::read('Club.lng')));
+
+        $this->Form->unlockField('Event.lat');
+        $this->Form->unlockField('Event.lng');
+        ?>
+        <div class="draggable-marker-map"
+             data-lat-element="#EventLat"
+             data-lng-element="#EventLng"
+             data-zoom="10"
+             style="height: 400px; width: 100%">
+        </div>
         <p class="help-block">Drag the marker to the meeting location</p>
     </div>
 </fieldset>
@@ -167,13 +177,3 @@ $this->Form->unlockField('Event.lng');
 <div class="form-group">
     <?= $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'col-sm-offset-2 col-sm-10'))) ?>
 </div>
-<?php
-$this->append('secondaryScripts');
-?>
-<script type="text/javascript">
-// Fix for CakePHP form security - exclude the knockout inputs
-$("#EventEditForm").submit(function() {
-    $(this).find('[name ^= "ko_unique"]').attr("name", null);
-});
-</script>
-<?php $this->end(); ?>

@@ -3,7 +3,7 @@
 </header>
     <div class="col-sm-4">
         <div class="column-box">
-            <?php 
+            <?php
             $date = new DateTime();
             $year = $date->format('Y');
             $currDate = $date->format('Y-m-d H:i:s');
@@ -16,29 +16,20 @@
             //echo $this->Form->end(array('label' => 'Add membership', 'div' => 'right submit padded'));?>
         </div>
     </div>
-    <?php $this->append('secondaryScripts'); ?>        
-    <script type="text/javascript">
-    $(function() {
-        $('#MembershipCreated').datetimepicker({
-            dateFormat: 'yy-mm-dd',
-            timeFormat: 'hh:mm:ss',
-        });
-    });
-    </script>
-    <?php $this->end(); ?>
+
     <div class="col-sm-8">
         <div class="results-list">
-            <?php 
+            <?php
             // Ideally I would have an array of memberships for each year, but
-            // I couldn't figure out the correct way to use the 'find' command in 
-            // the controller. Therefore, I'm using an insane hack to show 
-            // memberships by year. This method assumes the memberships are sorted 
+            // I couldn't figure out the correct way to use the 'find' command in
+            // the controller. Therefore, I'm using an insane hack to show
+            // memberships by year. This method assumes the memberships are sorted
             // descendingly by year.
             $startYear = 999999;
             $prevYear = $startYear;
             foreach($memberships as $membership) {
                 $currYear = $membership["Membership"]["year"];
-                if($currYear != $prevYear) { 
+                if($currYear != $prevYear) {
                     if($prevYear != $startYear) {
                         // Close the previous membership table, if this is not the first year?>
                         </table>
@@ -49,7 +40,7 @@
                 <thead>
                     <tr><th>Name</th><th></th><th></th></tr>
                 </thead>
-                <?} 
+                <?}
                 $prevYear = $currYear;?>
                     <tr>
                         <td><?=$membership["User"]["name"]?></td>
@@ -68,4 +59,3 @@
             </table>
         </div>
     </div>
-

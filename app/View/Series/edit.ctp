@@ -3,7 +3,7 @@
 </header>
 
 <?=$this->Form->create('Series', array('action' => 'edit', 'class' => 'form-horizontal'))?>
-<?php 
+<?php
 echo $this->Form->create('Series', array('action' => 'edit'));
 echo $this->Form->input('acronym');
 echo $this->Form->input('name');
@@ -18,15 +18,10 @@ $color = empty($this->data['Series']['color']) ? 'rgba(255,0,0,1)' : $this->data
         </div>
     </div>
 </div>
-<?php
-echo $this->Html->css('bootstrap-colorpicker.min');
-$this->Html->script('bootstrap-colorpicker.min', array('block' => 'secondaryScripts'));
-$this->Html->scriptBlock("$('.color-picker').colorpicker();", array('block' => 'secondaryScripts'));
-?>
 <div class="form-group">
     <label class="control-label col-sm-2" for="optionsCheckbox">Information</label>
     <div class="col-sm-10">
-        <?= $this->Form->input('information', array('div' => false, 'class' => 'oa-wysiwyg', 'label' => false)) ?>
+        <?= $this->Form->input('information', array('div' => false, 'class' => 'wjr-wysiwyg', 'label' => false)) ?>
         <div class="help-block">
             <p>Information specific to the series is shown on event pages.</p>
         </div>

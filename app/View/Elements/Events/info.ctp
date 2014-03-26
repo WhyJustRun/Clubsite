@@ -24,14 +24,14 @@ if (!empty($event['Event']['attackpoint_url'])) {
 <p><?= count($event["Organizer"]) > 1 ? '<b>Organizers</b>' : '<b>Organizer</b>' ?>: <?= $this->element('Organizers/list', array('organizers' => $event["Organizer"])); ?></p>
 <?php }
 
-if(!empty($event["Map"])) { 
+if(!empty($event["Map"])) {
     $map_id = $event["Map"]["id"];
     if($map_id != NULL) { ?>
         <p><b>Map</b>: <?= $this->Html->link($event["Map"]["name"],"/maps/view/$map_id")?></p>
     <?}?>
 <?php }
 
-if(!empty($event["Event"]["description"])) { 
+if(!empty($event["Event"]["description"])) {
     echo $event["Event"]["description"];
 } else {
     echo "Check back soon for more information.";
@@ -43,7 +43,7 @@ if(!empty($event["Event"]["description"])) {
     <?= $event["Series"]["information"] ?>
     <hr class="divider" />
 <?php } ?>
-    
+
 <?php if(!empty($event["Event"]["lat"])) { ?>
     <?php
     $query = $event["Event"]["lat"].','.$event["Event"]["lng"];
@@ -61,29 +61,14 @@ if(!empty($event["Event"]["description"])) {
             <?= $linkHTML ?>
         </div>
     </div>
-    <?= $this->Leaflet->simpleMarker($event["Event"]["lat"], $event["Event"]["lng"], 14, '500px', array('pan-interaction' => false)); ?>
-    <?php $this->append('secondaryScripts') ?>
-    <script type="text/javascript">
-        var clickHandler = function(e) {
-            // Leaflet doesn't seem to provide a way to test for clicks on controls, so we have this hack here to ignore interactions with the zoom buttons
-            var x = e.containerPoint.x;
-            var y = e.containerPoint.y;
-            if (x >= 15 && y >= 15 && x <= 34 && y <= 58) {
-                return; // clicking the zoom buttons, we don't want to interfere..
-            }
-            var url =  '/events/map/<?= $event['Event']['id'] ?>';
-            if ($(window).width() <= 768) {
-                window.location = url;
-            } else {
-                $.fancybox.open({
-                      width: '100%',
-                      type: 'iframe',
-                      href: url,
-                });
-            }
-        };
-        map.on('mousedown', clickHandler);
-    </script>
-    <?php $this->end(); ?> 
+    <div class="simple-marker-map"
+         data-lat="<?= $event["Event"]["lat"] ?>"
+         data-lng="<?= $event["Event"]["lng"] ?>"
+         data-zoom="14"
+         data-mobile-url="/events/map/<?= $event['Event']['id'] ?>"
+         style="height: 400px; width: 100%">
+    </div>
+    <div class="visible-xs">
+      Tap map to open interactive map.
+    </div>
 <?php } ?>
-

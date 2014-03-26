@@ -17,7 +17,7 @@
                     <th>Participant</th>
                     <th data-bind="visible: isScore">Score Points</th>
                     <th>Time</th>
-                    <th data-bind="visible: isTimed">Points</th>
+                    <th data-bind="visible: hasWhyJustRunPoints">Points</th>
                     <th data-bind="visible: hasComments" style="width: 35px"></th>
                 </tr>
             </thead>
@@ -37,7 +37,7 @@
                     <td>
                         <span data-bind="text: time != null ? hours + ':' + minutes + ':' + seconds + ($parent.millisecondTiming ? '.' + milliseconds : '' ) : ''"></span>
                     </td>
-                    <td data-bind="visible: $parent.isTimed, text: scores['WhyJustRun']"></td>
+                    <td data-bind="visible: $parent.hasWhyJustRunPoints, text: scores['WhyJustRun']"></td>
                     <td data-bind="visible: $parent.hasComments">
                         <div class="btn-group" data-bind="visible: officialComment">
                             <button class="btn btn-xs btn-default" data-bind="tooltip: { title: officialComment, trigger: 'hover' }">

@@ -21,7 +21,7 @@ if($this->User->canEditPages()) {
     <fieldset class="form-group">
         <label for="PageContent" class="control-label col-sm-2">Content</label>
         <div class="col-sm-10">
-            <?= $this->Form->input('content', array('label' => false, 'class' => 'oa-wysiwyg', 'rows' => 20, 'data-validate' => 'validate(required)', 'div' => false)); ?>
+            <?= $this->Form->input('content', array('label' => false, 'class' => 'wjr-wysiwyg', 'rows' => 20, 'data-validate' => 'validate(required)', 'div' => false)); ?>
         </div>
     </fieldset>
     <?= $this->Form->end(array('label' => 'Add', 'class' => 'btn btn-primary')) ?>

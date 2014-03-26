@@ -5,7 +5,7 @@
         <header>
           <h2>Events</h2>
         </header>
-        <?php 
+        <?php
         $events = array();
         $events["Ongoing"] = $this->element('Events/box-list', array('filter' => 'ongoing', 'limit' => '-1'));
         $events["Upcoming"] = $this->element('Events/box-list', array('filter' => 'upcoming', 'limit' => '4'));
@@ -19,9 +19,6 @@
         }
         ?>
 
-        <?php
-        $this->Html->script('event_viewer', array('block' => 'secondaryScripts'));
-        ?>
         <div class="event-list" data-event-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/clubs/<?= Configure::read('Club.id') ?>/event_list.xml?start=<?= time() ?>&club_events=significant&external_significant_events=all">
             <h3 data-bind="visible: events().length > 0">Highlights</h3>
             <?php
@@ -30,17 +27,17 @@
             <div data-bind="template: { name: '<?= $templateName ?>', foreach: events }"></div>
         </div>
         <?= $this->element('Events/knockout_box', compact('templateName')) ?>
-        
+
         <div style="text-align: center">
             <?= $this->element('Events/add_link'); ?>
         </div>
     </article>
-    
+
     <article class="col-sm-4 col-sm-push-4">
         <header>
         <h2>News</h2>
         </header>
-        
+
         <?php
         $wjrPageId = Configure::read('Facebook.appPageId');
         $fbPageId = Configure::read('Club.facebook_page_id');
@@ -51,7 +48,7 @@
             }
             $fbPageId = Configure::read('Facebook.defaultPageID');
         }
-        
+
         echo $this->FacebookGraph->feed($fbPageId, array('limit' => 5));
         $facebookDomain = "http://www.facebook.com/";
         if ($fbPageId) {
@@ -67,4 +64,3 @@
         <?= $this->ContentBlock->render('general_information'); ?>
     </article>
 </div>
-

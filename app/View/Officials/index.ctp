@@ -3,7 +3,7 @@
         <div class="page-header">
             <h1>List of officials</h1>
         </div>
-        Clubs are strongly encouraged to track Officials' certification levels. This information is useful in many ways, including tracking numbers of qualified officials, recording pre-requisites for official certification, and identifying qualified officials for major events. 
+        Clubs are strongly encouraged to track Officials' certification levels. This information is useful in many ways, including tracking numbers of qualified officials, recording pre-requisites for official certification, and identifying qualified officials for major events.
     </div>
     <div class="col-sm-8">
         <h3>Add official</h3>
@@ -11,19 +11,12 @@
         <?= $this->Form->hidden('user_id') ?>
         <?php $this->Form->unlockField('Official.user_id'); ?>
         <div class="form-group">
-            <input class="form-control" placeholder="Name" type="text" id="UserName" />
+            <input class="form-control simple-person-picker"
+                   placeholder="Name" type="text" id="UserName"
+                   data-user-id-target="#OfficialUserId"
+                   data-maintain-input="true"
+                   data-allow-fake="false" />
         </div>
-        <?php $this->append('secondaryScripts'); ?>
-        <script type="text/javascript">
-        $(function() {
-            orienteerAppPersonPicker('#UserName', { maintainInput: true, allowFake: false }, function(person) {
-                if(person != null) {
-                    $("#OfficialUserId").val(person.id);
-                }
-            });
-        });
-        </script>
-        <?php $this->end(); ?>
         <div class="form-group">
             <?= $this->Form->input('official_classification_id', array('class' => 'form-control', 'label'=>false, 'div' => false));?>
         </div>
@@ -80,4 +73,3 @@
 </table>
 </div>
 </div>
-

@@ -6,10 +6,9 @@
         </div>
     </div>
     <?php } ?>
-    <h1 id="page-resource-title-<?= $page['Page']['id'] ?>" class="page-resource-title"><?= $page['Page']['name']; ?></h1>
+    <h1 id="page-resource-title-<?= $page['Page']['id'] ?>" class="page-resource-title <?php if ($this->User->canEditPages()) echo 'wjr-editable'; ?>"><?= $page['Page']['name']; ?></h1>
 </header>
 
-<div id="page-resource-<?= $page['Page']['id'] ?>" class="page-resource">
-<?= $page["Page"]["content"] ?>
+<div id="page-resource-<?= $page['Page']['id'] ?>" class="page-resource <?php if ($this->User->canEditPages()) echo 'wjr-editable'; ?>">
+    <?= $page["Page"]["content"] ?>
 </div>
-

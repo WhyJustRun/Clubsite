@@ -1,5 +1,9 @@
 <?php if(!empty($map["Map"]["lat"])) { ?>
-    <h3>Location</h3>    
-    <?= $this->Leaflet->simpleMarker($map["Map"]["lat"], $map["Map"]["lng"], 14, '500px'); ?>
+    <h3>Location</h3>
+    <div class="simple-marker-map"
+         data-lat="<?= $map["Map"]["lat"] ?>"
+         data-lng="<?= $map["Map"]["lng"] ?>"
+         data-zoom="14"
+         style="height: 500px; width: 100%">
+    </div>
 <?php } ?>
-
