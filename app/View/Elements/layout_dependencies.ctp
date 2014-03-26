@@ -2,6 +2,7 @@
 echo $this->Html->meta('icon');
 echo $this->Html->meta(array('name' => 'wjr.core.domain', 'content' => Configure::read('Rails.domain')));
 echo $this->Html->meta(array('name' => 'wjr.clubsite.club.id', 'content' => Configure::read('Club.id')));
+
 echo $this->Html->css('/ccss/bootstrap.min.css,whyjustrun.css');
 
 echo $this->element('Series/css', array(), array('cache' => array('key' => 'series_css_club_'.Configure::read('Club.id'), 'config' => 'view_short')));

@@ -7,7 +7,7 @@ class ResultsController extends AppController {
     {
         parent::beforeFilter();
         $this->Auth->allow('index');
-        $this->Security->unlockedActions = array('editComment');
+        $this->Security->unlockedActions = array('editRegistrantComment');
     }
 
     function index()
