@@ -38,10 +38,8 @@ define(['jquery', 'underscore', 'knockout', './forms'], function ($, _, ko, form
     };
 
     roleById = function (id) {
-      _.each(availableRoles, function (role) {
-        if (role.id === id) {
-          return role;
-        }
+      return _.find(availableRoles, function (role) {
+        return (role.id === id);
       });
     };
 

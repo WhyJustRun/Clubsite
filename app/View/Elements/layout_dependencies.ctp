@@ -26,5 +26,5 @@ if(!empty($clubResources['style'])) {
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 <![endif]-->
 <?= $this->fetch('open_graph') ?>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

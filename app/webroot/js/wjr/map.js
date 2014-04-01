@@ -92,7 +92,7 @@ define(['jquery', 'underscore', 'async!http://maps.google.com/maps/api/js?sensor
       googleMap = new google.maps.Map(element, options);
       markers = [];
 
-      clearMarkers = function () {
+      clearMarkers = function (markers) {
         _.each(markers, function (marker) {
           marker.setMap(null);
         });
@@ -114,7 +114,9 @@ define(['jquery', 'underscore', 'async!http://maps.google.com/maps/api/js?sensor
           $.ajax({
             url: url,
             success: function (data) {
-              clearMarkers();
+              // clear the old markers after we've added the new markers to reduce flickering
+              var oldMarkers = markers;
+              markers = [];
               _.each(data[fetchEntity], function (entity) {
                 var marker, window;
                 window = new google.maps.InfoWindow({
@@ -128,7 +130,9 @@ define(['jquery', 'underscore', 'async!http://maps.google.com/maps/api/js?sensor
                   window.open(googleMap, marker);
                 });
                 marker.setMap(googleMap);
+                markers.push(marker);
               });
+              clearMarkers(oldMarkers);
             },
             complete: function () {
               fetchInProgress = false;
