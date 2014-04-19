@@ -8,9 +8,9 @@ define(['wjr/wjr', 'jquery', 'redactor'], function (wjr, $) {
   wysiwyg.createRichTextArea = function (element) {
     $(element).redactor({
       toolbarFixed: true,
-      toolbarFixedBox: true
-      // imageUpload: wjr.core.domain + 'api/redactor/uploadImage',
-      // fileUpload: wjr.core.domain + 'api/redactor/uploadFile'
+      toolbarFixedBox: true,
+      imageUpload: wjr.core.domain + '/api/redactor/upload_image',
+      fileUpload: wjr.core.domain + '/api/redactor/upload_file'
     });
   };
 
