@@ -4,10 +4,20 @@
 define(['jquery', 'underscore', 'knockout', 'moment', './utils', './binding'], function ($, _, ko, moment, utils) {
   'use strict';
   var IOF = {};
-  IOF.Event = function (id, name, startTime) {
+  IOF.ResultList = function (event, creationTime) {
+    this.event = ko.observable(event);
+    this.creationTime = ko.observable(creationTime);
+    this.formattedCreationTime = ko.computed(function () {
+      var time = this.creationTime();
+      return time ? time.format("dddd, MMMM Do YYYY [at] h:mm:ss a") : null;
+    }, this);
+  };
+
+  IOF.Event = function (id, name, startTime, courses) {
     this.id = id;
     this.name = name;
     this.startTime = startTime;
+    this.courses = courses;
   };
 
   IOF.Course = function (id, name, results, scoringType, millisecondTiming) {
@@ -76,7 +86,7 @@ define(['jquery', 'underscore', 'knockout', 'moment', './utils', './binding'], f
   };
 
   IOF.loadResultsList = function (xml) {
-    var resultList, date, event, courses;
+    var resultList, date, event, courses, iofEvent;
 
     resultList = $(xml.documentElement);
     date = moment(resultList.attr('createTime'));
@@ -124,7 +134,8 @@ define(['jquery', 'underscore', 'knockout', 'moment', './utils', './binding'], f
       courses.push(new IOF.Course(courseId, courseName, results, scoringType, millisecondTiming));
     });
 
-    return [new IOF.Event(event.children("Id").text(), event.children("Name").text(), null), courses, date];
+    iofEvent = new IOF.Event(event.children("Id").text(), event.children("Name").text(), null, courses);
+    return new IOF.ResultList(iofEvent, date);
   };
 
   return IOF;

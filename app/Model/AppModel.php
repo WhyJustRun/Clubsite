@@ -1,44 +1,44 @@
 <?php
 /**
- * Application model for Cake.
- *
- * This file is application-wide model file. You can put all
- * application-wide model-related methods here.
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       Cake.Model
- * @subpackage    cake.cake.libs.model
- * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
+* Application model for Cake.
+*
+* This file is application-wide model file. You can put all
+* application-wide model-related methods here.
+*
+* PHP 5
+*
+* CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+* Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+*
+* Licensed under The MIT License
+* Redistributions of files must retain the above copyright notice.
+*
+* @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+* @link          http://cakephp.org CakePHP(tm) Project
+* @package       Cake.Model
+* @subpackage    cake.cake.libs.model
+* @since         CakePHP(tm) v 0.2.9
+* @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+*/
 
 App::uses('Model', 'Model');
 
 /**
- * Application model for Cake.
- *
- * This is a placeholder class.
- * Create the same file in app/app_model.php
- * Add your application-wide methods to the class, your models will inherit them.
- *
- * @package       Cake.Model
- * @subpackage    cake.cake.libs.model
- */
+* Application model for Cake.
+*
+* This is a placeholder class.
+* Create the same file in app/app_model.php
+* Add your application-wide methods to the class, your models will inherit them.
+*
+* @package       Cake.Model
+* @subpackage    cake.cake.libs.model
+*/
 class AppModel extends Model {
     protected $clubSpecific = true;
 
     /**
-     * Select data only for this club
-     */
+    * Select data only for this club
+    */
     function beforeFind($queryData) {
         if($this->clubSpecific) {
             $key = $this->name.".club_id";
@@ -57,27 +57,49 @@ class AppModel extends Model {
     }
 
     /**
-     * Convert date fields to/from UTC seamlessly!
-     * Extended from: http://stackoverflow.com/questions/3775038/converting-dates-between-timezones-in-appmodel-afterfind-cakephp
-     */
+    * Convert date fields to/from UTC seamlessly!
+    * Extended from: http://stackoverflow.com/questions/3775038/converting-dates-between-timezones-in-appmodel-afterfind-cakephp
+    */
     function afterFind($results, $primary){
         // Only bother converting if the local timezone is set.
         $from = new DateTimeZone("UTC");
         $to = Configure::read("Club.timezone");
-        if($primary && $to)
+        if ($primary && $to) {
             $this->replaceDateRecursive($results, $from, $to);
+        }
         return $results;
     }
 
     function beforeSave() {
         $from = Configure::read("Club.timezone");
         $to = new DateTimeZone("UTC");
-        if($from)
+        if ($from) {
             $this->replaceDateRecursive($this->data, $from, $to);
-        if($this->clubSpecific && empty($this->data[$this->name]['club_id'])) {
+        }
+        if ($this->clubSpecific && empty($this->data[$this->name]['club_id'])) {
             $this->data[$this->name]['club_id'] = Configure::read("Club.id");
         }
         return true;
+    }
+
+    function save($data = null, $validate = true, $fieldList = array()) {
+        // Wonderful CakePHP.
+        if (isset($this->modificationFields) && $this->modificationFields) {
+            $now = date('Y-m-d H:i:s');
+            // set created_at field before creation
+            if (isset($data[$this->alias])) {
+                if (!$data[$this->alias]['id']) {
+                    $data[$this->alias]['created_at'] = $now;
+                }
+                $data[$this->alias]['updated_at'] = $now;
+            } else {
+                if (!$data['id']) {
+                    $data['created_at'] = $now;
+                }
+                $data['updated_at'] = $now;
+            }
+        }
+        return parent::save($data, $validate, $fieldList);
     }
 
     function replaceDateRecursive(&$results, $from, $to){

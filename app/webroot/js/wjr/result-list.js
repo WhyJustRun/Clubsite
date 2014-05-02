@@ -7,9 +7,7 @@ define(['jquery', './iof', 'knockout', 'bootstrap'], function ($, IOF, ko) {
     var viewModel, fetchResults, url;
 
     viewModel = {
-      event: ko.observable(),
-      courses: ko.observableArray(),
-      creationDate: ko.observable()
+      resultList: ko.observable()
     };
 
     fetchResults = function () {
@@ -19,10 +17,8 @@ define(['jquery', './iof', 'knockout', 'bootstrap'], function ($, IOF, ko) {
         dataType: "xml",
         ifModified: true,
         success: function (xml) {
-          var result = IOF.loadResultsList(xml);
-          viewModel.event(result[0]);
-          viewModel.courses(result[1]);
-          viewModel.creationDate(result[2].format("dddd, MMMM Do YYYY [at] h:mm:ss a"));
+          var resultList = IOF.loadResultsList(xml);
+          viewModel.resultList(resultList);
         }
       });
     };

@@ -5,6 +5,7 @@ class Resource extends AppModel {
     public $displayField = 'caption';
     public $clubSpecific = false; // in general, not club specific, though *some* resources belong to a club directly (header image, logo, etc)
     public $thumbnailableFiles = array('jpg', 'jpeg', 'gif', 'png', 'pdf');
+    public $modificationFields = true;
 
     public $belongsTo = array('Club');
 
@@ -126,7 +127,7 @@ class Resource extends AppModel {
     }
 
     private function urlForResource($resource, $thumbnail = null) {
-        return Configure::read('Club.dataUrl') . $this->relativePathForResource($resource, $thumbnail);
+        return Configure::read('Club.dataUrl') . $this->relativePathForResource($resource, $thumbnail) . '?' . hash('md5', $resource['updated_at']);
     }
 
     private function relativePathForResource($resource, $thumbnail = null) {
