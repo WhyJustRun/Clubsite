@@ -5,7 +5,7 @@
     <?php if ($mode == 'live') { ?>
     <p>Results produced on <span data-bind="text: resultList().creationDate"></span></p>
     <?php } ?>
-    <div data-bind="foreach: resultList().courses">
+    <div data-bind="foreach: resultList().event().courses">
         <h3 data-bind="text: name"></h3>
         <div data-bind="if: results().length == 0">
             <p><b>No results</b></p>
