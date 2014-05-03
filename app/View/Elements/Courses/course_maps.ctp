@@ -6,16 +6,16 @@ if(!empty($courses)) { ?>
     <?php
     $mapsPosted = false;
     foreach ($courses as $course) {
-        if($this->Media->exists("Course", $course["id"])) { 
+        if($this->Media->exists("Course", $course["id"])) {
             $mapsPosted = true;
             ?>
             <h3>
                 <?= $course["name"] ?>
                 <span class="pull-right">
                     <?php
-                    $mediaUrl = Router::url($this->Media->url('Course', $course['id'], 'image'), true);
+                    $mediaUrl = Router::url($this->Media->mediaUrl('Course', $course['id'], 'image'), true);
                     // Current URL
-                    $url = Router::url(null, true); 
+                    $url = Router::url(null, true);
                     $description = $this->TimePlus->formattedEventDate($event) . ' - ' . $event['Event']['name'] . ' - ' . $course['name'] . ' course';
                     ?>
                     <span data-toggle="tooltip" data-container="body" class="wjr-help-tooltip" title="Use Pinterest to collect all the orienteering maps you've run on!">
@@ -28,7 +28,7 @@ if(!empty($courses)) { ?>
                     </span>
                 </span>
             </h3>
-            <?= $this->Media->linkedImage("Course", $course["id"], '600x600', array(), array('style' => 'max-width: 100%', 'data-pin-hover' => true)) ?> 
+            <?= $this->Media->linkedImage("Course", $course["id"], '600x600', array(), array('style' => 'max-width: 100%', 'data-pin-hover' => true)) ?>
         <?php
         }
     }
@@ -48,4 +48,3 @@ if(!empty($courses)) { ?>
     f.parentNode.insertBefore(p, f);
 }(document));
 </script>
-

@@ -8,15 +8,15 @@ class MediaHelper extends Helper {
     );
 
     public function image($type, $id, $thumbnail = false, $options = array()) {
-        $options['srcset'] = $this->url($type, $id, $thumbnail) . ' 1x, ' . $this->url($type, $id, $thumbnail, true) . " 2x";
-        return $this->Html->image($this->url($type, $id, $thumbnail), $options);
+        $options['srcset'] = $this->mediaUrl($type, $id, $thumbnail) . ' 1x, ' . $this->mediaUrl($type, $id, $thumbnail, true) . " 2x";
+        return $this->Html->image($this->mediaUrl($type, $id, $thumbnail), $options);
     }
 
     public function linkedImage($type, $id, $thumbnail = false, $options = array(), $imageOptions = array()) {
         $options['escape'] = false;
         return $this->Html->link(
             $this->image($type, $id, $thumbnail, $imageOptions),
-            $this->url($type, $id),
+            $this->mediaUrl($type, $id),
             $options
         );
     }
@@ -25,24 +25,25 @@ class MediaHelper extends Helper {
         $options['escape'] = false;
         return $this->Html->link(
             "Results",
-            $this->url($type, $id),
+            $this->mediaUrl($type, $id),
             $options
         );
     }
 
-    public function url($type, $id, $thumbnail = false, $hiDPI = false) {
+    public function mediaUrl($type, $id, $thumbnail = false, $hiDPI = false) {
         if (empty($id)) {
             throw new Exception("No media resource ID provided to build URL.");
         }
+        
         if ($hiDPI && $thumbnail) {
             $glue = "x";
             $components = explode($glue, $thumbnail);
             $newComponents = array();
             foreach($components as $component) {
                 $newComponents[] = intval($component) * 2;
-                    }
+            }
 
-                    $thumbnail = implode($glue, $newComponents);
+            $thumbnail = implode($glue, $newComponents);
         }
 
         $endpoint = $this->endpoint($type);
