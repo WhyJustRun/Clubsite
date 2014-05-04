@@ -67,7 +67,7 @@ define(['jquery', 'underscore', 'knockout', './utils', './forms'], function ($, 
       });
     };
 
-    Result = function (id, user, course_id, time_seconds, status, points, registrant_comment, official_comment, score_points) {
+    Result = function (id, user, course_id, time_seconds, status, registrant_comment, official_comment, score_points) {
       var hoursCount = Math.floor(time_seconds / 3600),
         minutesCount = Math.floor((time_seconds - hoursCount * 3600) / 60),
         secondsCount = time_seconds - hoursCount * 3600 - minutesCount * 60,
@@ -82,7 +82,6 @@ define(['jquery', 'underscore', 'knockout', './utils', './forms'], function ($, 
       this.milliseconds = ko.observable(time_seconds ? utils.zeroFill(millisecondsCount, 3) : '000');
       this.statuses = sortedStatuses;
       this.status = ko.observable(status || 'ok');
-      this.points = points;
       this.registrant_comment = ko.observable(registrant_comment);
       this.official_comment = ko.observable(official_comment);
       this.score_points = ko.observable(score_points);
@@ -154,7 +153,7 @@ define(['jquery', 'underscore', 'knockout', './utils', './forms'], function ($, 
 
           _.each(results, function (result) {
             var user = new User(result.User.id, result.User.name);
-            importedResults.push(new Result(result.id, user, result.course_id, result.time_seconds, result.status, result.points, result.registrant_comment, result.official_comment, result.score_points));
+            importedResults.push(new Result(result.id, user, result.course_id, result.time_seconds, result.status, result.registrant_comment, result.official_comment, result.score_points));
           });
 
           viewModel.courses.push(new Course(course.id, course.name, course.distance, course.climb, course.event_id, course.description, importedResults, course.is_score_o));
