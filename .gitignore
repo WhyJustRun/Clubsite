@@ -11,3 +11,5 @@ nohup.out
 *.pyc
 *.swp
 *~
+
+.remote-sync.json
