@@ -20,6 +20,7 @@ class Event extends AppModel {
         'is_ranked' => array(
             'boolean' => array(
                 'rule' => array('boolean'),
+                'allowEmpty' => true
             ),
         ),
         'custom_url' => array(
@@ -65,7 +66,7 @@ class Event extends AppModel {
     function findOngoing($limit) {
         return $this->findEventsNearNow('ongoing', $limit);
     }
-    
+
     function findUpcoming($limit) {
         return $this->findEventsNearNow('after', $limit);
     }

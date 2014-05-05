@@ -285,9 +285,6 @@ class EventsController extends AppController {
                     $courseFromDatabase = $this->Event->Course->findById($course->id);
                     $courseFromDatabase['Course']['is_score_o'] = $course->is_score_o;
                     $this->Event->Course->save($courseFromDatabase);
-                    if ($courseFromDatabase['Event']['is_ranked']) {
-                        $this->Event->Course->Result->calculatePoints($course->id);
-                    }
                     $this->Event->saveField('results_posted', $this->request->data["Event"]["results_posted"]);
                 }
             }

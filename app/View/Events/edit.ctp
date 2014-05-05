@@ -144,16 +144,6 @@ echo $this->element('Events/edit_courses_organizers', $params);
     </div>
 </div>
 
-<div class="form-group">
-    <label class="control-label col-sm-2">Ranked</label>
-    <div class="col-sm-10">
-        <div class="checkbox">
-            <?=$this->Form->input('is_ranked', array('type'=>'checkbox', 'div' => false, 'label' => false, 'default'=> "1")); ?>
-            (should results be included in rankings?)
-        </div>
-    </div>
-</div>
-
 <fieldset class="form-group">
     <label class="control-label col-sm-2">Meeting location</label>
     <div class="col-sm-10">
