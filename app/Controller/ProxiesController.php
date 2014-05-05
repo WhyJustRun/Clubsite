@@ -1,0 +1,48 @@
+<?php
+// There are some rare cases where we can't use CORS. This controller handles special proxy cases
+class ProxiesController extends AppController {
+
+    var $name = 'Proxies';
+
+    public $components = array(
+        'Security' => array(
+            'validatePost' => false
+        )
+    );
+
+    function beforeFilter() {
+        parent::beforeFilter();
+        $this->Security->unlockedActions = array('redactor');
+    }
+
+    // Redactor.js uses iframe file uploads which aren't CORS compatible.
+    // type is either 'uploadFile' or 'uploadImage'
+    function redactor($type) {
+        $this->layout = null;
+        if ($this->request->is('post')) {
+            $crossAppSessionID = $this->Session->read('CrossAppSession.id');
+            $url = Configure::read('Rails.domain') . '/api/redactor/' . $type;
+            $url .= '?cross_app_session_id=' . $crossAppSessionID;
+
+            // Create a curl handle to upload to the file server
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, true);
+
+            // Open a stream so that we stream the image download
+            $localFile = $_FILES['file']['tmp_name'];
+            $postFields = array(
+              'file' =>
+                  '@'            . $_FILES['file']['tmp_name']
+                  . ';filename=' . $_FILES['file']['name']
+                  . ';type='     . $_FILES['file']['type']
+            );
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+
+            echo curl_exec($ch);
+            curl_close($ch);
+        }
+    }
+
+}

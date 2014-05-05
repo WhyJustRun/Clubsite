@@ -1,7 +1,7 @@
 /*jslint browser: true indent: 2*/
 /*global define*/
 
-define(['wjr/wjr', 'jquery', 'redactor'], function (wjr, $) {
+define(['jquery', 'redactor'], function ($) {
   'use strict';
   var wysiwyg = {};
   wysiwyg.updateTextareas = function () { return; };
@@ -9,8 +9,8 @@ define(['wjr/wjr', 'jquery', 'redactor'], function (wjr, $) {
     $(element).redactor({
       toolbarFixed: true,
       toolbarFixedBox: true,
-      imageUpload: wjr.core.domain + '/api/redactor/upload_image',
-      fileUpload: wjr.core.domain + '/api/redactor/upload_file'
+      imageUpload: '/proxies/redactor/uploadImage',
+      fileUpload: '/proxies/redactor/uploadFile'
     });
   };
 
