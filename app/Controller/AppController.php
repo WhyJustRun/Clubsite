@@ -60,7 +60,7 @@ class AppController extends Controller {
     function blackholed($type) {
         CakeLog::error("Request was blackholed of type: $type");
         $this->Session->setFlash('An error occurred, email: support@whyjustrun.ca.');
-        $this->redirect('/');
+        $this->redirect('/?blackhole');
     }
 
     function setClubResources() {
