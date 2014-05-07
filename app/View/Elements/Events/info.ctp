@@ -18,7 +18,15 @@ if (!empty($event['Event']['attackpoint_url'])) {
 </a>
 <?php
 }
+
+if (!empty($event['Event']['attackpoint_url']) || !empty($event['Event']['facebook_url'])) {
 ?>
+<br/>
+<?php
+}
+?>
+
+
 
 <?php if(!empty($event["Organizer"])) { ?>
 <p><?= count($event["Organizer"]) > 1 ? '<b>Organizers</b>' : '<b>Organizer</b>' ?>: <?= $this->element('Organizers/list', array('organizers' => $event["Organizer"])); ?></p>
