@@ -16,7 +16,7 @@ define(['jquery', 'underscore', 'knockout'], function ($, _, ko) {
       tags = element.getAttribute('data-flickr-tags');
 
     function loadMorePhotos(page) {
-      var url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&nojsoncallback=1&api_key=" + apiKey + "&tags=" + tags + "&format=json&extras=date_taken,description,owner_name&per_page=30&page=" + page;
+      var url = "https://api.flickr.com/services/rest/?method=flickr.photos.search&nojsoncallback=1&api_key=" + apiKey + "&tags=" + tags + "&format=json&extras=date_taken,description,owner_name&per_page=30&page=" + page;
       $.get(url, function (results) {
         if (results.stat === "ok") {
           _.each(results.photos.photo, function (photo) {
