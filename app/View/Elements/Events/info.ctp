@@ -69,14 +69,5 @@ if(!empty($event["Event"]["description"])) {
             <?= $linkHTML ?>
         </div>
     </div>
-    <div class="simple-marker-map"
-         data-lat="<?= $event["Event"]["lat"] ?>"
-         data-lng="<?= $event["Event"]["lng"] ?>"
-         data-zoom="14"
-         data-mobile-url="/events/map/<?= $event['Event']['id'] ?>"
-         style="height: 400px; width: 100%">
-    </div>
-    <div class="visible-xs">
-      Tap map to open interactive map.
-    </div>
+    <iframe width="100%" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=<?= $event["Event"]["lat"] ?>%2C<?= $event["Event"]["lng"] ?>&key=<?= Configure::read("GoogleMaps.apiKey") ?>"></iframe>
 <?php } ?>
