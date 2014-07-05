@@ -53,21 +53,6 @@ if(!empty($event["Event"]["description"])) {
 <?php } ?>
 
 <?php if(!empty($event["Event"]["lat"])) { ?>
-    <?php
-    $query = $event["Event"]["lat"].','.$event["Event"]["lng"];
-    $linkHTML = '<a class="btn btn-default" href="http://maps.google.com/?q='.$query.'">Google Maps</a>
-    <a class="btn btn-default" href="http://maps.apple.com/?q='.$query.'">Apple Maps</a>';
-    ?>
-    <div>
-        <div class="btn-group pull-right hidden-xs" style="margin-top: 5px;">
-            <?= $linkHTML ?>
-        </div>
-        <h2>Location</h2>
-    </div>
-    <div class="visible-xs" style="margin-bottom: 12px;">
-        <div class="btn-group">
-            <?= $linkHTML ?>
-        </div>
-    </div>
+    <h2>Location</h2>
     <iframe width="100%" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=<?= $event["Event"]["lat"] ?>%2C<?= $event["Event"]["lng"] ?>&key=<?= Configure::read("GoogleMaps.apiKey") ?>"></iframe>
 <?php } ?>
