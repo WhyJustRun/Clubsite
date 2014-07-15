@@ -9,12 +9,12 @@
     <?php
     if ($event['Event']['results_posted']) {
         echo $this->element('Events/results_list', array('eventId' => $event['Event']['id']));
-    } else if (!empty($event['LiveResult']['id'])) {
+    } else if (!empty($event['ResultList']['id']) && $event['ResultList']['status'] === 'live') {
         if ($canEdit) {
             echo $this->element('LiveResults/visibility_button', array('event' => $event));
         }
 
-        if ($event['LiveResult']['visible']) {
+        if ($event['ResultList']['visible']) {
             echo $this->element('LiveResults/result_list', array('event' => $event));
         }
     }

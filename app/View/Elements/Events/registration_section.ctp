@@ -2,7 +2,7 @@
 // Params: $event, $canEdit
 $registrationURL = $event['Event']['registration_url'];
 
-if (!empty($event['LiveResult']['id']) && $canEdit) {
+if (!empty($event['ResultList']['id']) && $event['ResultList']['status'] === 'live' && $canEdit) {
     echo "<h2>Live Results</h2>";
     echo $this->element('LiveResults/visibility_button', array('event' => $event));
 }
