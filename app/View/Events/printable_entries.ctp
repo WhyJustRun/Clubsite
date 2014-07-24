@@ -40,6 +40,7 @@ if(count($courses) > 0) {
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
+            <td>&nbsp;</td>
         </tr>
         <?} ?>
     </table>
