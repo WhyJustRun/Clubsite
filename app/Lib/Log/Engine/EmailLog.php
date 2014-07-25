@@ -7,6 +7,12 @@ class EmailLog implements CakeLogInterface {
 
     }
 
+    // Reduce the email volume
+    function shouldEmail($type, $error) {
+        return (strpos($error, '[MissingControllerException]') === false) &&
+               (strpos($error, 'SMTP Error: 421 4.7.0 Temporary System Problem') === false);
+    }
+
     function write($type, $error) {
         $emails = Configure::read('Log.Emails');
         if (count($emails) > 0) {
