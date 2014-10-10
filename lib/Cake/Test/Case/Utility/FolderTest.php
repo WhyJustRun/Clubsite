@@ -344,11 +344,24 @@ class FolderTest extends CakeTestCase {
  * @return void
  */
 	public function testAddPathElement() {
+		$expected = DS . 'some' . DS . 'dir' . DS . 'another_path';
+
 		$result = Folder::addPathElement(DS . 'some' . DS . 'dir', 'another_path');
-		$this->assertEquals(DS . 'some' . DS . 'dir' . DS . 'another_path', $result);
+		$this->assertEquals($expected, $result);
 
 		$result = Folder::addPathElement(DS . 'some' . DS . 'dir' . DS, 'another_path');
-		$this->assertEquals(DS . 'some' . DS . 'dir' . DS . 'another_path', $result);
+		$this->assertEquals($expected, $result);
+
+		$result = Folder::addPathElement(DS . 'some' . DS . 'dir', array('another_path'));
+		$this->assertEquals($expected, $result);
+
+		$result = Folder::addPathElement(DS . 'some' . DS . 'dir' . DS, array('another_path'));
+		$this->assertEquals($expected, $result);
+
+		$expected = DS . 'some' . DS . 'dir' . DS . 'another_path' . DS . 'and' . DS . 'another';
+
+		$result = Folder::addPathElement(DS . 'some' . DS . 'dir', array('another_path', 'and', 'another'));
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -958,6 +971,28 @@ class FolderTest extends CakeTestCase {
 
 		$Folder = new Folder($path);
 		$Folder->delete();
+	}
+
+/**
+ * Test that SKIP mode skips files too.
+ *
+ * @return void
+ */
+	public function testCopyWithSkipFileSkipped() {
+		$path = TMP . 'folder_test';
+		$folderOne = $path . DS . 'folder1';
+		$folderTwo = $path . DS . 'folder2';
+
+		new Folder($path, true);
+		new Folder($folderOne, true);
+		new Folder($folderTwo, true);
+		file_put_contents($folderOne . DS . 'fileA.txt', 'Folder One File');
+		file_put_contents($folderTwo . DS . 'fileA.txt', 'Folder Two File');
+
+		$Folder = new Folder($folderOne);
+		$result = $Folder->copy(array('to' => $folderTwo, 'scheme' => Folder::SKIP));
+		$this->assertTrue($result);
+		$this->assertEquals('Folder Two File', file_get_contents($folderTwo . DS . 'fileA.txt'));
 	}
 
 /**

@@ -179,7 +179,7 @@ class PaginatorComponent extends Component {
 			$extra['type'] = $type;
 		}
 
-		if (intval($page) < 1) {
+		if ((int)$page < 1) {
 			$page = 1;
 		}
 		$page = $options['page'] = (int)$page;
@@ -202,6 +202,8 @@ class PaginatorComponent extends Component {
 			$count = 0;
 		} elseif ($object->hasMethod('paginateCount')) {
 			$count = $object->paginateCount($conditions, $recursive, $extra);
+		} elseif ($page === 1 && count($results) < $limit) {
+			$count = count($results);
 		} else {
 			$parameters = compact('conditions');
 			if ($recursive != $object->recursive) {
@@ -209,7 +211,7 @@ class PaginatorComponent extends Component {
 			}
 			$count = $object->find('count', array_merge($parameters, $extra));
 		}
-		$pageCount = intval(ceil($count / $limit));
+		$pageCount = (int)ceil($count / $limit);
 		$requestedPage = $page;
 		$page = max(min($page, $pageCount), 1);
 
@@ -392,7 +394,7 @@ class PaginatorComponent extends Component {
 				if (strpos($key, '.') !== false) {
 					list($alias, $field) = explode('.', $key);
 				}
-				$correctAlias = ($object->alias == $alias);
+				$correctAlias = ($object->alias === $alias);
 
 				if ($correctAlias && $object->hasField($field)) {
 					$order[$object->alias . '.' . $field] = $value;
