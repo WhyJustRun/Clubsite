@@ -1,4 +1,6 @@
 <?php
+App::uses('Component', 'Controller');
+
 class MediaComponent extends Component {
     private $defaultType;
     private $allowedExts;
@@ -12,7 +14,7 @@ class MediaComponent extends Component {
         $this->addHiDPISizes();
     }
 
-    function initialize($controller) {
+    function initialize(Controller $controller) {
         $this->controller = $controller;
     }
 

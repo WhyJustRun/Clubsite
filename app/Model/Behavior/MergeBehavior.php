@@ -32,7 +32,7 @@ class MergeBehavior extends ModelBehavior  {
      * @param Object $Model
      * @param array $config
      */
-    function setup(&$Model, $config = array()) {	
+    function setup(Model $Model, $config = array()) {	
         if (!is_array($config)) {
             $config = array();
         }	

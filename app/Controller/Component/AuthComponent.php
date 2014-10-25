@@ -238,7 +238,7 @@ class AuthComponent extends Component {
      * @param Controller $controller A reference to the instantiating controller object
      * @return void
      */
-    public function initialize($controller) {
+    public function initialize(Controller $controller) {
         $this->request = $controller->request;
         $this->response = $controller->response;
         $this->_methods = $controller->methods;

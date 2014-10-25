@@ -45,7 +45,7 @@ class Resource extends AppModel {
         );
     }
 
-    public function delete($id) {
+    public function delete($id, $cascade = true) {
         $resource = $this->findById($id);
         if (empty($resource)) return;
         $resource = $resource['Resource'];

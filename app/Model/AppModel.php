@@ -60,7 +60,7 @@ class AppModel extends Model {
     * Convert date fields to/from UTC seamlessly!
     * Extended from: http://stackoverflow.com/questions/3775038/converting-dates-between-timezones-in-appmodel-afterfind-cakephp
     */
-    function afterFind($results, $primary){
+    function afterFind($results, $primary = false){
         // Only bother converting if the local timezone is set.
         $from = new DateTimeZone("UTC");
         $to = Configure::read("Club.timezone");
@@ -70,7 +70,7 @@ class AppModel extends Model {
         return $results;
     }
 
-    function beforeSave() {
+    function beforeSave($options = array()) {
         $from = Configure::read("Club.timezone");
         $to = new DateTimeZone("UTC");
         if ($from) {
