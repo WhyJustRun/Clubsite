@@ -42,7 +42,13 @@ class MapsController extends AppController {
         $this->Map->save();
     }
 
-    function download($id) {
+    function download($id = null) {
+        if($id === null) {
+            $this->Session->setFlash("The requested map couldn't be found.");
+            $this->redirect('/');
+            return;
+        }
+
         if(!$this->isAuthorized(Configure::read('Privilege.Map.view_ocad'))) {
             $this->Session->setFlash('You are not authorized to download this map.');
             $this->redirect('/maps/view/'.$id);
