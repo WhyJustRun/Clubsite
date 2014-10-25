@@ -118,7 +118,6 @@ class RequestHandlerComponent extends Component {
             $this->_setExtension();
         }
         $this->params = $controller->params;
-        $this->_set($settings);
     }
 
     /**
