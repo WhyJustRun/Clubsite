@@ -46,17 +46,19 @@ class Resource extends AppModel {
     }
 
     public function delete($id = null, $cascade = true) {
-        if ($id !== null) {
-            $resource = $this->findById($id);
-            if (empty($resource)) return;
-            $resource = $resource['Resource'];
-            unlink($this->absolutePathForResource($resource));
+        if ($id === null) {
+            $id = $this->id;
+        }
 
-            if ($this->needsThumbnails($resource)) {
-                $sizes = $this->sizes();
-                foreach ($sizes as $size) {
-                    unlink($this->absolutePathForResource($resource, $size));
-                }
+        $resource = $this->findById($id);
+        if (empty($resource)) return;
+        $resource = $resource['Resource'];
+        unlink($this->absolutePathForResource($resource));
+
+        if ($this->needsThumbnails($resource)) {
+            $sizes = $this->sizes();
+            foreach ($sizes as $size) {
+                unlink($this->absolutePathForResource($resource, $size));
             }
         }
 
