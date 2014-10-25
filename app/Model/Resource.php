@@ -45,20 +45,22 @@ class Resource extends AppModel {
         );
     }
 
-    public function delete($id, $cascade = true) {
-        $resource = $this->findById($id);
-        if (empty($resource)) return;
-        $resource = $resource['Resource'];
-        unlink($this->absolutePathForResource($resource));
+    public function delete($id = null, $cascade = true) {
+        if ($id !== null) {
+            $resource = $this->findById($id);
+            if (empty($resource)) return;
+            $resource = $resource['Resource'];
+            unlink($this->absolutePathForResource($resource));
 
-        if ($this->needsThumbnails($resource)) {
-            $sizes = $this->sizes();
-            foreach ($sizes as $size) {
-                unlink($this->absolutePathForResource($resource, $size));
+            if ($this->needsThumbnails($resource)) {
+                $sizes = $this->sizes();
+                foreach ($sizes as $size) {
+                    unlink($this->absolutePathForResource($resource, $size));
+                }
             }
         }
 
-        parent::delete($id);
+        parent::delete($id, $cascade);
     }
 
     /**
