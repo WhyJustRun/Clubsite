@@ -138,8 +138,12 @@ class MapsController extends AppController {
                 $this->Session->setFlash('The map has been updated.', "flash_success");
 
                 if($this->request->data["Map"]["image"]["tmp_name"] != "") {
-                    $this->Media->create($this->request->data['Map']['image'], $this->Map->id);
-                    $this->generateBanner($this->Map->id);
+                    $error = $this->Media->create($this->request->data['Map']['image'], $this->Map->id);
+                    if ($error) {
+                        $this->Session->setFlash($error);
+                    } else {
+                        $this->generateBanner($this->Map->id);
+                    }
                 }
 
                 $this->redirect('/maps/view/'.$this->Map->id);

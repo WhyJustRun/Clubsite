@@ -103,19 +103,23 @@ class CoursesController extends AppController {
 
         if ($this->request->is('post')) {
             $image = $this->request->data['Course']['image'];
+            $error = null;
             if ($image['error'] != UPLOAD_ERR_OK) {
-                $this->Session->setFlash('Error uploading map: please email support@whyjustrun.ca');
-                $this->redirect('/events/uploadMaps/'.$course['Event']['id']);
+                $error = 'Error uploading map: please email support@whyjustrun.ca';
             } else if (empty($image['name'])) {
-                $this->Session->setFlash('No file selected!');
-                $this->redirect('/events/uploadMaps/'.$course['Event']['id']);
+                $error = 'No file selected!';
             } else {
-                $this->Media->create($this->request->data['Course']['image'], $id);
+                $error = $this->Media->create($this->request->data['Course']['image'], $id);
             }
-        }
+            
+            if ($error) {
+                $this->Session->setFlash($error);
+            } else {
+                $this->Session->setFlash('Course map uploaded!', 'flash_success');
+            }
 
-        $this->Session->setFlash('Course map uploaded!', 'flash_success');
-        $this->redirect('/events/uploadMaps/'.$course['Event']['id']);
+            $this->redirect('/events/uploadMaps/'.$course['Event']['id']);
+        }
     }
 
     function map($id, $thumbnail = false) {

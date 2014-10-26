@@ -32,8 +32,14 @@ class ResourcesController extends AppController {
     // Add a club resource
     public function add() {
         $this->checkAuthorization(Configure::read('Privilege.Resource.edit'));
-        if(!$this->Resource->saveForClub(Configure::read('Club.id'), $this->request->data['Resource']['key'], $this->request->data['Resource']['file'], $this->request->data['Resource']['caption'])) {
-            $this->Session->setFlash('Failed uploading resource.');
+
+        $error = 'Failed uploading resource.';
+        $clubId = Configure::read('Club.id');
+        $key = $this->request->data['Resource']['key'];
+        $file = $this->request->data['Resource']['file'];
+        $caption = $this->request->data['Resource']['caption'];
+        if(!$this->Resource->saveForClub($clubId, $key, $file, $caption, $error)) {
+            $this->Session->setFlash($error);
         }
         $this->redirect('/resources/index');
     }

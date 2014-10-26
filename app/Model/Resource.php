@@ -68,9 +68,10 @@ class Resource extends AppModel {
     /**
      * Creates a resource associated with a club, overwriting if necessary
      */
-    public function saveForClub($clubId, $key, $fileUpload, $caption = null) {
+    public function saveForClub($clubId, $key, $fileUpload, $caption = null, &$error = null) {
         if (!is_array($fileUpload)) {
-            throw new BadRequestException("No file was uploaded.");
+            $error = "No file was uploaded.";
+            return false;
         }
 
         // Check for a duplicate resource and remove if necessary
@@ -86,7 +87,11 @@ class Resource extends AppModel {
         $resource['key'] = $key;
         $resource['caption'] = $caption;
         $resource['extension'] = $this->extensionOf($fileUpload['name']);
-        $this->checkExtension($resource['extension'], $resourceConfig['allowedExtensions']);
+        $extensionError = $this->checkExtension($resource['extension'], $resourceConfig['allowedExtensions']);
+        if ($extensionError) {
+            $error = $extensionError;
+            return false;
+        }
         move_uploaded_file($fileUpload['tmp_name'], $this->absolutePathForResource($resource));
 
         $this->doThumbnailingIfNecessary($resource);
@@ -142,14 +147,14 @@ class Resource extends AppModel {
         }
     }
 
-    // Throws an exception if the file isn't allowed
+    // Returns an error message if the file isn't allowed
     private function checkExtension($extension, $allowedExtensions) {
-        if ($allowedExtensions == null) return;
+        if ($allowedExtensions == null) return null;
 
         if (in_array(strtolower($extension), $allowedExtensions)) {
-            return;
+            return null;
         }
 
-        throw new BadRequestException("The given file extension: $extension, is not allowed. Provide a file with one of: ".implode(', ', $allowedExtensions));
+        return "The given file extension: $extension, is not allowed. Provide a file with one of: ".implode(', ', $allowedExtensions);
     }
 }

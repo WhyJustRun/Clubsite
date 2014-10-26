@@ -23,7 +23,7 @@ class MediaComponent extends Component {
      */
     public function create($file, $id, $type = null) {
         if(empty($file['name']) || empty($file['tmp_name'])) {
-            throw new BadRequestException('No file to create was provided.');
+            return 'No file to create was provided.';
         }
 
         $this->loadType($type);
@@ -36,10 +36,11 @@ class MediaComponent extends Component {
             move_uploaded_file($file['tmp_name'], $filename);
         } else {
             $exts = implode(',', $this->allowedExts);
-            throw new BadRequestException('The uploaded file format is not allowed. Please use one of ' . $exts);
+            return 'The uploaded file format is not allowed. Please use one of ' . $exts;
         }
 
         $this->buildImagesForFile($filename, $folder, $id);
+        return null;
     }
 
     public function delete($id, $type = null) {
@@ -123,48 +124,6 @@ class MediaComponent extends Component {
 
         if(!$file) return;
         $this->buildImagesForFile($file, $folder, $id);
-    }
-
-    private function buildImagesForFile($file, $folder, $id) {
-        assert(!empty($file));
-        $imagePath = $folder . $id . '_image.' . $this->thumbnailExtensionFor('image');
-        $this->createImage($file, $imagePath, null);
-        foreach($this->thumbnailSizes as $thumbnailSize) {
-            $thumbnailPath = $folder . $id . '_' . $thumbnailSize . '.' . $this->thumbnailExtensionFor($thumbnailSize);
-            $this->createImage($imagePath, $thumbnailPath, $thumbnailSize);
-        }
-    }
-
-    // If size is null, will not do any resizing
-    private function createImage($source, $destination, $size) {
-        if (file_exists($destination)) {
-            unlink($destination);
-        }
-
-        $command = "convert -strip -interlace Plane -gaussian-blur 0.05";
-        // For PDFs, create a composite image with all the pages
-        if ($this->extensionOf($source) == 'pdf') {
-            // Use a higher DPI for converting PDFs
-            $command .= " -density 288 -colorspace RGB";
-            $command .= " -quality 85% '$source'";
-            $command .= " '$destination.%04d.tmp.jpg'";
-            shell_exec($command);
-            $command = "convert -quality 85% '$destination.*.tmp.jpg' -append '$destination'";
-            shell_exec($command);
-            $command = "rm -f $destination.*.tmp.jpg";
-            shell_exec($command);
-        } else {
-            $command .= " -quality 85% '$source'";
-            if ($size) {
-                $command .= " -resize $size\>";
-            }
-            $command .= " '$destination'";
-            shell_exec($command);
-
-            if ($this->extensionOf($destination) == 'png') {
-              shell_exec("optipng -o4 '$destination'");
-            }
-        }
     }
 
     public function createCroppedThumbnail($id, $type, $size, $position = "random") {
