@@ -227,6 +227,48 @@ class MediaComponent extends Component {
         return true;
     }
 
+    private function buildImagesForFile($file, $folder, $id) {
+        assert(!empty($file));
+        $imagePath = $folder . $id . '_image.' . $this->thumbnailExtensionFor('image');
+        $this->createImage($file, $imagePath, null);
+        foreach($this->thumbnailSizes as $thumbnailSize) {
+            $thumbnailPath = $folder . $id . '_' . $thumbnailSize . '.' . $this->thumbnailExtensionFor($thumbnailSize);
+            $this->createImage($imagePath, $thumbnailPath, $thumbnailSize);
+        }
+    }
+
+    // If size is null, will not do any resizing
+    private function createImage($source, $destination, $size) {
+        if (file_exists($destination)) {
+            unlink($destination);
+        }
+
+        $command = "convert -strip -interlace Plane -gaussian-blur 0.05";
+        // For PDFs, create a composite image with all the pages
+        if ($this->extensionOf($source) == 'pdf') {
+            // Use a higher DPI for converting PDFs
+            $command .= " -density 288 -colorspace RGB";
+            $command .= " -quality 85% '$source'";
+            $command .= " '$destination.%04d.tmp.jpg'";
+            shell_exec($command);
+            $command = "convert -quality 85% '$destination.*.tmp.jpg' -append '$destination'";
+            shell_exec($command);
+            $command = "rm -f $destination.*.tmp.jpg";
+            shell_exec($command);
+        } else {
+            $command .= " -quality 85% '$source'";
+            if ($size) {
+                $command .= " -resize $size\>";
+            }
+            $command .= " '$destination'";
+            shell_exec($command);
+
+            if ($this->extensionOf($destination) == 'png') {
+              shell_exec("optipng -o4 '$destination'");
+            }
+        }
+    }
+
     private function folder($type) {
         $folder = Configure::read("$type.dir");
         if(!$folder) {
