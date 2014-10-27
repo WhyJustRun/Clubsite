@@ -93,7 +93,7 @@ class AppModel extends Model {
                 }
                 $data[$this->alias]['updated_at'] = $now;
             } else {
-                if (!$data['id']) {
+                if (!isset($data['id'])) {
                     $data['created_at'] = $now;
                 }
                 $data['updated_at'] = $now;
