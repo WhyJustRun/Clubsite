@@ -6,11 +6,9 @@
     <div class="col-sm-4">
         <h2>Users</h2>
         <a href="/privileges/" class="btn btn-default">Grant privileges</a><br/><br/>
-        <?if($allowShowDuplicates) {?>
+        <?php if ($allowShowDuplicates) { ?>
             <a href="/users/showDuplicates/" class="btn btn-default">Show duplicates</a><br/></br>
-        <?}?>
-        <a href="#" class="btn btn-default disabled">Show Users</a><br><br/>
-        <a href="#" class="btn btn-default disabled">E-mail list</a>
+        <?php } ?>
     </div>
     <div class="col-sm-4">
         <h2>Events</h2>
