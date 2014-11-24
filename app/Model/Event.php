@@ -53,8 +53,8 @@ class Event extends AppModel {
     );
     var $hasOne = array('ResultList' => array('dependent' => true));
 
-    function beforeSave(){
-        parent::beforeSave();
+    function beforeSave($options = array()){
+        parent::beforeSave($options);
         if(array_key_exists('custom_url', $this->data['Event'])) {
             if($this->data['Event']['custom_url'] === '') {
                 $this->data['Event']['custom_url'] = NULL;
