@@ -293,17 +293,17 @@ class EventsController extends AppController {
         $this->set('eventId', $id);
     }
 
-    function upcoming($limit)
+    function upcoming($limit = 0)
     {
         return $this->Event->findUpcoming($limit);
     }
 
-    function past($limit)
+    function past($limit = 0)
     {
         return $this->Event->findPast($limit);
     }
 
-    function ongoing($limit)
+    function ongoing($limit = 0)
     {
         return $this->Event->findOngoing($limit);
     }

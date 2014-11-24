@@ -11,7 +11,6 @@ class EmailLog implements CakeLogInterface {
     function shouldEmail($type, $error) {
         return
             (strpos($error, '[MissingControllerException]') === false) &&
-            (strpos($error, '?acontext=%7B%22') === false) &&
             (strpos($error, '[MissingViewException]') === false) &&
             (strpos($error, '[MissingActionException]') === false) &&
             (strpos($error, 'SMTP Error: 421 4.7.0 Temporary System Problem') === false);
