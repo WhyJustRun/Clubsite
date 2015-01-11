@@ -64,6 +64,9 @@ class Result extends AppModel {
 
     function isAuthorized($id, $userID) {
         $result = $this->find('first', array('conditions' => array('Result.id' => $id), 'contain' => array('Course.Event.id')));
+        if ($result === null) {
+            return false;
+        }
         return $this->Course->Event->Organizer->isAuthorized($result["Course"]["Event"]["id"], $userID);
     }
 
