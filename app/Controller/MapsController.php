@@ -56,27 +56,7 @@ class MapsController extends AppController {
 
         $map = $this->Map->findById($id);
 
-        if(!empty($map['Map']['repository_path'])) {
-            $this->viewClass = 'Media';
-
-            // Get file from repository and store it in /tmp
-            $file = tempnam(CACHE, "map_download_");
-            $repoURL = Configure::read('Maps.repository.url');
-            $command = "svn list " . escapeshellarg($repoURL . $map["Map"]["repository_path"]) . " --depth empty";
-            $hasFile = system($command);
-            if($hasFile) {
-                $command = "svn cat " . escapeshellarg($repoURL . $map["Map"]["repository_path"]) . " > $file";
-                system($command);
-
-                $name = basename($map['Map']['repository_path']);
-                $this->response->type('application/octet-stream');
-                $this->response->file($file, array(
-                    'download' => true,
-                    'name' => $name
-                ));
-                return $this->response;
-            }
-        } else if (!empty($map['Map']['file_url'])) {
+        if (!empty($map['Map']['file_url'])) {
             $this->redirect($map['Map']['file_url']);
         }
 
