@@ -1,8 +1,7 @@
 <?php $this->set('title_for_layout', $map["Map"]["name"]); ?>
 <header class="page-header">
 <?php
-$showFileDownload = (!empty($map["Map"]["repository_path"]) ||
-                     !empty($map['Map']['file_url']));
+$showFileDownload = !empty($map['Map']['file_url']);
 if($edit || $showFileDownload) { ?>
     <div class="pull-right btn-toolbar">
         <?php if($showFileDownload) { ?>

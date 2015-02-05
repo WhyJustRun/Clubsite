@@ -64,7 +64,7 @@ class MapsController extends AppController {
         $this->redirect('/maps/view/'. $id);
     }
 
-    // Displays a rendering of the OCAD file (manually uploaded)
+    // Displays a rendering of the map file (manually uploaded)
     function rendering($id, $thumbnail = false) {
         $this->Media->display($id, $thumbnail);
     }

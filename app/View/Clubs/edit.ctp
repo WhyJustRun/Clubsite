@@ -77,15 +77,6 @@
         </div>
     </div>
 </div>
-<div class="form-group">
-    <label class="col-sm-2 control-label">URLs for map files</label>
-    <div class="col-sm-10">
-        <span class="checkbox">
-            <?= $this->Form->input('use_map_urls', array('type' => 'checkbox', 'div' => false, 'label' => false)) ?>
-            (only disable if you use the SVN repository for storing club maps)
-        </span>
-    </div>
-</div>
 <fieldset class="form-group">
     <label class="col-sm-2 control-label">Location</label>
     <div class="col-sm-10">
