@@ -29,8 +29,6 @@ if($edit || $showFileDownload) { ?>
             <tr><th>Scale</th><td>1:<?= number_format($map["Map"]["scale"]) ?></td></tr>
             <?php } ?>
             <tr><th>Map standard</th><td><?= $map["MapStandard"]["name"]?></td></tr>
-            <tr><th>Created</th><td><?= strftime("%b %Y",strtotime($map["Map"]["created"]))?></td></tr>
-            <tr><th>Last modified</th><td><?= strftime("%b %Y",strtotime($map["Map"]["modified"]))?></td></tr>
             <tr><th>Events on map</th><td><?= count($events)?></td></tr>
         </table>
         <hr/>
