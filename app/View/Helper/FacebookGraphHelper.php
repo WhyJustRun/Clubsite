@@ -58,14 +58,19 @@ fjs.parentNode.insertBefore(js, fjs);
                 if(empty($news['picture'])) {
                     $news['picture'] = 'https://graph.facebook.com/'.$news['from']['id'].'/picture';
                     $news['picture-link'] = 'https://www.facebook.com/'.$news['from']['id'];
-                } else {
+                } else if (!empty($news['link'])) {
                     $news['picture-link'] = $news['link'];
                 }
 
                 $html .= '<div class="news-item">
-                    <div class="pull-left news-image">
-                    <a target="_blank" href="'.$news['picture-link'].'"><img width="100%" src="'.$news['picture'].'" /></a>
-                    </div>
+                    <div class="pull-left news-image">';
+                if (!empty($news['picture-link'])) {
+                    $html .= '<a target="_blank" href="'.$news['picture-link'].'"><img width="100%" src="'.$news['picture'].'" /></a>';
+                } else {
+                    $html .= '<img width="100%" src="'.$news['picture'].'" />';
+                }
+                
+                $html .= '</div>
                     <div class="news-content">';
                 $html .= $news['message'].'<br/>';
                 $html .= "<div class='pull-right news-time'>
