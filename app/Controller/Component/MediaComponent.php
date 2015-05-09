@@ -274,6 +274,10 @@ class MediaComponent extends Component {
         if(!$folder) {
             throw new InternalErrorException("Couldn't find the media folder for type: $type");
         }
+
+        if (!is_dir($folder)) {
+            mkdir($folder);
+        }
         return $folder;
     }
 

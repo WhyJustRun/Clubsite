@@ -1,4 +1,8 @@
 <?php
+$clubDir = Configure::read('Club.dir');
+if (!is_dir($clubDir)) {
+    mkdir($clubDir, 0777, true);
+}
 
 // Application wide constants and configuration (Club.dir will be defined before this is included)
 
