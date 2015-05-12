@@ -56,8 +56,19 @@ class MapsController extends AppController {
 
         $map = $this->Map->findById($id);
 
-        if (!empty($map['Map']['file_url'])) {
-            $this->redirect($map['Map']['file_url']);
+        $url = $map['Map']['file_url'];
+        if (!empty($url)) {
+            // Make direct downloads work for dropbox (it's broken in some browsers without this)
+            $url_data = parse_url($url);
+            if ($url_data !== false) {
+                if ($url_data['host'] === 'dl.dropboxusercontent.com' && empty($url_data['query'])) {
+                    $url_data['query'] = 'dl=1';
+                }
+
+                App::import('Vendor', 'http_build_url');
+                $url = http_build_url($url_data);
+                $this->redirect($url);
+            }
         }
 
         $this->Session->setFlash('File does not exist. Please contact webmaster.');
