@@ -10,6 +10,7 @@ class EmailLog implements CakeLogInterface {
     // Reduce the email volume
     function shouldEmail($type, $error) {
         return
+            (strpos($error, 'wp-admin') === false) &&
             (strpos($error, '[MissingControllerException]') === false) &&
             (strpos($error, '[MissingViewException]') === false) &&
             (strpos($error, '[MissingActionException]') === false) &&
