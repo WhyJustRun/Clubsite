@@ -76,7 +76,11 @@ class MapsController extends AppController {
     }
 
     // Displays a rendering of the map file (manually uploaded)
-    function rendering($id, $thumbnail = false) {
+    function rendering($id = null, $thumbnail = false) {
+        if ($id === null) {
+            throw new BadRequestException();
+        }
+
         $this->Media->display($id, $thumbnail);
     }
 
