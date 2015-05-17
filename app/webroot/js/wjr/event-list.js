@@ -1,10 +1,10 @@
 /*jslint nomen: true, browser: true, indent: 2*/
 /*global define, requirejs*/
 
-define(['jquery', 'moment', 'knockout'], function ($, moment, ko) {
+define(['jquery', 'moment', 'knockout', './club'], function ($, moment, ko, club) {
   'use strict';
   var EventList, SingleFetcher, TimeFetcher, IOF;
-  SingleFetcher = function (url) {
+  SingleFetcher = function (url, coloringStyle) {
     this.fetch = function (options) {
       $.ajax({
         type: "GET",
@@ -12,14 +12,14 @@ define(['jquery', 'moment', 'knockout'], function ($, moment, ko) {
         dataType: "xml",
         cache: false,
         success: function (xml) {
-          options.onSuccess(IOF.loadEventsList(xml));
+          options.onSuccess(IOF.loadEventsList(xml, coloringStyle));
         }
       });
     };
   };
 
   // A fetcher that fetches a time interval of events
-  TimeFetcher = function (url) {
+  TimeFetcher = function (url, coloringStyle) {
     var startTime = null, endTime = null;
 
     /**
@@ -65,7 +65,7 @@ define(['jquery', 'moment', 'knockout'], function ($, moment, ko) {
         dataType: 'xml',
         cache: false,
         success: function (xml) {
-          var events = IOF.loadEventsList(xml);
+          var events = IOF.loadEventsList(xml, coloringStyle);
           options.onSuccess(events, startTime, endTime, fetchingNewer);
         },
         complete: function () {
@@ -101,16 +101,21 @@ define(['jquery', 'moment', 'knockout'], function ($, moment, ko) {
         url,
         olderButton,
         newerButton,
-        successHandler;
+        successHandler,
+        coloringStyle = "default";
       if (element.getAttribute("data-event-list-type") === 'time-window') {
         hasTimeWindow = true;
+      }
+
+      if (element.hasAttribute("data-event-list-coloring")) {
+        coloringStyle = element.getAttribute("data-event-list-coloring");
       }
 
       url = element.getAttribute("data-event-list-url");
       ko.applyBindings(viewModel, element);
 
       if (hasTimeWindow) {
-        fetcher = new TimeFetcher(url, olderButton, newerButton);
+        fetcher = new TimeFetcher(url, coloringStyle);
         successHandler = function (newEvents, newStartTime, newEndTime, newer) {
           var index = newer ? viewModel.events().length : 0;
           // This adds the new events to the view model.
@@ -149,7 +154,7 @@ define(['jquery', 'moment', 'knockout'], function ($, moment, ko) {
           });
         });
       } else {
-        fetcher = new SingleFetcher(url);
+        fetcher = new SingleFetcher(url, coloringStyle);
         fetcher.fetch({
           onSuccess: function (events) {
             viewModel.events(events);
@@ -187,7 +192,7 @@ define(['jquery', 'moment', 'knockout'], function ($, moment, ko) {
     }
   };
 
-  IOF.loadEventsList = function (xml) {
+  IOF.loadEventsList = function (xml, coloringStyle) {
     var events = [];
     /*jslint unparam: true*/
     $(xml.documentElement).children("Event").each(function (index, element) {
@@ -195,7 +200,7 @@ define(['jquery', 'moment', 'knockout'], function ($, moment, ko) {
         eventName = $(element).children("Name").text(),
         extensions = $(element).children("Extensions"),
         series = extensions.children('Series'),
-        seriesColor = series.children('Color').text(),
+        color,
         startTimeDate = $(element).children("StartTime"),
         startDate = startTimeDate.children("ISODate").text(),
         endTimeDate = $(element).children("EndTime"),
@@ -203,8 +208,21 @@ define(['jquery', 'moment', 'knockout'], function ($, moment, ko) {
         url = $(element).children('URL').text(),
         organizerElement = $(element).children('Organiser'),
         clubAcronym = organizerElement.children('ShortName').text(),
+        clubId = organizerElement.children('Id').text(),
         classification = $(element).children('Classification').text(),
+        event;
         // Need to get dates to be of format: 2011-10-10T14:48:00.000z
+    
+        if (coloringStyle === "club-only") {
+          if (clubId == club.id) {
+            color = '#238216';
+          } else {
+            color = '#000000';
+          }
+        } else {
+          color = series.children('Color').text();
+        }
+
         event = new IOF.Event(
           eventID,
           eventName,
@@ -212,7 +230,7 @@ define(['jquery', 'moment', 'knockout'], function ($, moment, ko) {
           moment(startDate),
           moment(endDate),
           classification,
-          { color: seriesColor },
+          { color: color },
           { acronym: clubAcronym }
         );
       events.push(event);
