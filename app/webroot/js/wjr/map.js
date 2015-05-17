@@ -76,7 +76,7 @@ define(['jquery', 'underscore', 'async!http://maps.google.com/maps/api/js?sensor
   map.MultiMarkerMap = function () {
     this.initialize = function (element) {
       var lat, fetchUrl, fetchEntity, fetchMarkers, fetchBounds,
-        lng, zoom, googleMap, options, center, clearMarkers, markers, fetchInProgress;
+        lng, zoom, googleMap, options, center, markers, fetchInProgress;
       lat = +(element.getAttribute('data-lat'));
       lng = +(element.getAttribute('data-lng'));
       zoom = +(element.getAttribute('data-zoom'));
@@ -90,13 +90,7 @@ define(['jquery', 'underscore', 'async!http://maps.google.com/maps/api/js?sensor
       };
 
       googleMap = new google.maps.Map(element, options);
-      markers = [];
-
-      clearMarkers = function (markers) {
-        _.each(markers, function (marker) {
-          marker.setMap(null);
-        });
-      };
+      markers = {};
 
       fetchInProgress = false;
       fetchBounds = null;
@@ -114,12 +108,12 @@ define(['jquery', 'underscore', 'async!http://maps.google.com/maps/api/js?sensor
           $.ajax({
             url: url,
             success: function (data) {
-              // clear the old markers after we've added the new markers to reduce flickering
-              var oldMarkers = markers;
-              markers = [];
               _.each(data[fetchEntity], function (entity) {
-                var marker, window;
-                window = new google.maps.InfoWindow({
+                if (_.has(markers, entity.id)) {
+                  return;
+                }
+                var marker, infoWindow;
+                infoWindow = new google.maps.InfoWindow({
                   content: '<a href="' + entity.url +
                            '"><h3>' + entity.name + '</h3></a>'
                 });
@@ -127,12 +121,11 @@ define(['jquery', 'underscore', 'async!http://maps.google.com/maps/api/js?sensor
                   position: new google.maps.LatLng(entity.lat, entity.lng)
                 });
                 google.maps.event.addListener(marker, 'click', function () {
-                  window.open(googleMap, marker);
+                  infoWindow.open(googleMap, marker);
                 });
                 marker.setMap(googleMap);
-                markers.push(marker);
+                markers[entity.id] = marker;
               });
-              clearMarkers(oldMarkers);
             },
             complete: function () {
               fetchInProgress = false;
