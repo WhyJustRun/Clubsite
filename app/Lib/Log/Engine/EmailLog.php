@@ -8,9 +8,9 @@ class EmailLog implements CakeLogInterface {
     }
 
     // Reduce the email volume
-    function shouldEmail($type, $error) {
+    function shouldEmail($type, $error, $url) {
         return
-            (strpos($error, 'wp-admin') === false) &&
+            (strpos($url, 'wp-admin') === false) &&
             (strpos($error, '[MissingControllerException]') === false) &&
             (strpos($error, '[MissingViewException]') === false) &&
             (strpos($error, '[MissingActionException]') === false) &&
@@ -19,7 +19,8 @@ class EmailLog implements CakeLogInterface {
     }
 
     function write($type, $error) {
-        if ($this->shouldEmail($type, $error)) {
+        $url = $_SERVER['REQUEST_URI'];
+        if ($this->shouldEmail($type, $error, $url)) {
             $emails = Configure::read('Log.Emails');
             if (count($emails) > 0) {
                 $email = new CakeEmail('default');
@@ -29,7 +30,7 @@ class EmailLog implements CakeLogInterface {
                 $email->subject('WhyJustRun '.$type);
 
                 $message = "
-    URL: ".$_SERVER['REQUEST_URI']."
+    URL: ".$url."
     Method: ".$_SERVER['REQUEST_METHOD']."
 
     ";
