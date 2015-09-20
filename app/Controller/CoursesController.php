@@ -122,7 +122,11 @@ class CoursesController extends AppController {
         }
     }
 
-    function map($id, $thumbnail = false) {
-        $this->Media->display($id, $thumbnail);
+    function map($id = null, $thumbnail = false) {
+        if ($id !== null) {
+            $this->Media->display($id, $thumbnail);
+        } else {
+            throw new NotFoundException('No course id specified');
+        }
     }
 }
