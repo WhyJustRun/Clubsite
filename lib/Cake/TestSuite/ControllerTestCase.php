@@ -183,7 +183,7 @@ abstract class ControllerTestCase extends CakeTestCase {
  *
  * @param string $name The name of the function
  * @param array $arguments Array of arguments
- * @return the return of _testAction
+ * @return mixed The return of _testAction.
  * @throws BadMethodCallException when you call methods that don't exist.
  */
 	public function __call($name, $arguments) {
@@ -210,11 +210,12 @@ abstract class ControllerTestCase extends CakeTestCase {
  *     - `result` Get the return value of the controller action. Useful
  *       for testing requestAction methods.
  *
- * @param string $url The url to test
+ * @param string|array $url The URL to test.
  * @param array $options See options
- * @return mixed
+ * @return mixed The specified return type.
+ * @triggers ControllerTestCase $Dispatch, array('request' => $request)
  */
-	protected function _testAction($url = '', $options = array()) {
+	protected function _testAction($url, $options = array()) {
 		$this->vars = $this->result = $this->view = $this->contents = $this->headers = null;
 
 		$options += array(
@@ -222,6 +223,10 @@ abstract class ControllerTestCase extends CakeTestCase {
 			'method' => 'POST',
 			'return' => 'result'
 		);
+
+		if (is_array($url)) {
+			$url = Router::url($url);
+		}
 
 		$restore = array('get' => $_GET, 'post' => $_POST);
 
@@ -270,7 +275,7 @@ abstract class ControllerTestCase extends CakeTestCase {
 			$params['requested'] = 1;
 		}
 		$Dispatch->testController = $this->controller;
-		$Dispatch->response = $this->getMock('CakeResponse', array('send'));
+		$Dispatch->response = $this->getMock('CakeResponse', array('send', '_clearBuffer'));
 		$this->result = $Dispatch->dispatch($request, $Dispatch->response, $params);
 		$this->controller = $Dispatch->testController;
 		$this->vars = $this->controller->viewVars;

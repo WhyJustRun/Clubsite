@@ -124,37 +124,37 @@ class ValidationTest extends CakeTestCase {
 	}
 
 /**
- * testNotEmpty method
+ * Test notBlank method
  *
  * @return void
  */
-	public function testNotEmpty() {
-		$this->assertTrue(Validation::notEmpty('abcdefg'));
-		$this->assertTrue(Validation::notEmpty('fasdf '));
-		$this->assertTrue(Validation::notEmpty('fooo' . chr(243) . 'blabla'));
-		$this->assertTrue(Validation::notEmpty('abçďĕʑʘπй'));
-		$this->assertTrue(Validation::notEmpty('José'));
-		$this->assertTrue(Validation::notEmpty('é'));
-		$this->assertTrue(Validation::notEmpty('π'));
-		$this->assertFalse(Validation::notEmpty("\t "));
-		$this->assertFalse(Validation::notEmpty(""));
+	public function testNotBlank() {
+		$this->assertTrue(Validation::notBlank('abcdefg'));
+		$this->assertTrue(Validation::notBlank('fasdf '));
+		$this->assertTrue(Validation::notBlank('fooo' . chr(243) . 'blabla'));
+		$this->assertTrue(Validation::notBlank('abçďĕʑʘπй'));
+		$this->assertTrue(Validation::notBlank('José'));
+		$this->assertTrue(Validation::notBlank('é'));
+		$this->assertTrue(Validation::notBlank('π'));
+		$this->assertFalse(Validation::notBlank("\t "));
+		$this->assertFalse(Validation::notBlank(""));
 	}
 
 /**
- * testNotEmptyISO88591Encoding method
+ * Test notBlank method with ISO88591 encoding
  *
  * @return void
  */
-	public function testNotEmptyISO88591AppEncoding() {
+	public function testNotBlankISO88591AppEncoding() {
 		Configure::write('App.encoding', 'ISO-8859-1');
-		$this->assertTrue(Validation::notEmpty('abcdefg'));
-		$this->assertTrue(Validation::notEmpty('fasdf '));
-		$this->assertTrue(Validation::notEmpty('fooo' . chr(243) . 'blabla'));
-		$this->assertTrue(Validation::notEmpty('abçďĕʑʘπй'));
-		$this->assertTrue(Validation::notEmpty('José'));
-		$this->assertTrue(Validation::notEmpty(utf8_decode('José')));
-		$this->assertFalse(Validation::notEmpty("\t "));
-		$this->assertFalse(Validation::notEmpty(""));
+		$this->assertTrue(Validation::notBlank('abcdefg'));
+		$this->assertTrue(Validation::notBlank('fasdf '));
+		$this->assertTrue(Validation::notBlank('fooo' . chr(243) . 'blabla'));
+		$this->assertTrue(Validation::notBlank('abçďĕʑʘπй'));
+		$this->assertTrue(Validation::notBlank('José'));
+		$this->assertTrue(Validation::notBlank(utf8_decode('José')));
+		$this->assertFalse(Validation::notBlank("\t "));
+		$this->assertFalse(Validation::notBlank(""));
 	}
 
 /**
@@ -203,17 +203,17 @@ class ValidationTest extends CakeTestCase {
 	}
 
 /**
- * testBetween method
+ * testLengthBetween method
  *
  * @return void
  */
-	public function testBetween() {
-		$this->assertTrue(Validation::between('abcdefg', 1, 7));
-		$this->assertTrue(Validation::between('', 0, 7));
-		$this->assertTrue(Validation::between('אกあアꀀ豈', 1, 7));
+	public function testLengthBetween() {
+		$this->assertTrue(Validation::lengthBetween('abcdefg', 1, 7));
+		$this->assertTrue(Validation::lengthBetween('', 0, 7));
+		$this->assertTrue(Validation::lengthBetween('אกあアꀀ豈', 1, 7));
 
-		$this->assertFalse(Validation::between('abcdefg', 1, 6));
-		$this->assertFalse(Validation::between('ÆΔΩЖÇ', 1, 3));
+		$this->assertFalse(Validation::lengthBetween('abcdefg', 1, 6));
+		$this->assertFalse(Validation::lengthBetween('ÆΔΩЖÇ', 1, 3));
 	}
 
 /**
@@ -930,6 +930,25 @@ class ValidationTest extends CakeTestCase {
 		$this->assertFalse(Validation::comparison(7, '==', 6));
 		$this->assertFalse(Validation::comparison(7, 'not equal', 7));
 		$this->assertFalse(Validation::comparison(7, '!=', 7));
+
+		$this->assertTrue(Validation::comparison('6.5', '!=', 6));
+		$this->assertTrue(Validation::comparison('6.5', '<', 7));
+	}
+
+/**
+ * Test comparison casting values before comparisons.
+ *
+ * @return void
+ */
+	public function testComparisonTypeChecks() {
+		$this->assertFalse(Validation::comparison('\x028', '>=', 1), 'hexish encoding fails');
+		$this->assertFalse(Validation::comparison('0b010', '>=', 1), 'binary string data fails');
+		$this->assertFalse(Validation::comparison('0x01', '>=', 1), 'hex string data fails');
+		$this->assertFalse(Validation::comparison('0x1', '>=', 1), 'hex string data fails');
+
+		$this->assertFalse(Validation::comparison('\x028', '>=', 1.5), 'hexish encoding fails');
+		$this->assertFalse(Validation::comparison('0b010', '>=', 1.5), 'binary string data fails');
+		$this->assertFalse(Validation::comparison('0x02', '>=', 1.5), 'hex string data fails');
 	}
 
 /**
@@ -2005,6 +2024,22 @@ class ValidationTest extends CakeTestCase {
 	}
 
 /**
+ * Test range type checks
+ *
+ * @return void
+ */
+	public function testRangeTypeChecks() {
+		$this->assertFalse(Validation::range('\x028', 1, 5), 'hexish encoding fails');
+		$this->assertFalse(Validation::range('0b010', 1, 5), 'binary string data fails');
+		$this->assertFalse(Validation::range('0x01', 1, 5), 'hex string data fails');
+		$this->assertFalse(Validation::range('0x1', 1, 5), 'hex string data fails');
+
+		$this->assertFalse(Validation::range('\x028', 1, 5), 'hexish encoding fails');
+		$this->assertFalse(Validation::range('0b010', 1, 5), 'binary string data fails');
+		$this->assertFalse(Validation::range('0x02', 1, 5), 'hex string data fails');
+	}
+
+/**
  * testExtension method
  *
  * @return void
@@ -2085,8 +2120,9 @@ class ValidationTest extends CakeTestCase {
 		$this->assertFalse(Validation::multiple(''));
 		$this->assertFalse(Validation::multiple(null));
 		$this->assertFalse(Validation::multiple(array()));
-		$this->assertFalse(Validation::multiple(array(0)));
-		$this->assertFalse(Validation::multiple(array('0')));
+		$this->assertTrue(Validation::multiple(array(0)));
+		$this->assertTrue(Validation::multiple(array('0')));
+		$this->assertFalse(Validation::multiple(array('')));
 
 		$this->assertTrue(Validation::multiple(array(0, 3, 4, 5), array('in' => range(0, 10))));
 		$this->assertFalse(Validation::multiple(array(0, 15, 20, 5), array('in' => range(0, 10))));
@@ -2094,8 +2130,9 @@ class ValidationTest extends CakeTestCase {
 		$this->assertFalse(Validation::multiple(array('boo', 'foo', 'bar'), array('in' => array('foo', 'bar', 'baz'))));
 		$this->assertFalse(Validation::multiple(array('foo', '1bar'), array('in' => range(0, 10))));
 
-		$this->assertTrue(Validation::multiple(array(0, 5, 10, 11), array('max' => 3)));
-		$this->assertFalse(Validation::multiple(array(0, 5, 10, 11, 55), array('max' => 3)));
+		$this->assertFalse(Validation::multiple(array(1, 5, 10, 11), array('max' => 3)));
+		$this->assertTrue(Validation::multiple(array(0, 5, 10, 11), array('max' => 4)));
+		$this->assertFalse(Validation::multiple(array(0, 5, 10, 11, 55), array('max' => 4)));
 		$this->assertTrue(Validation::multiple(array('foo', 'bar', 'baz'), array('max' => 3)));
 		$this->assertFalse(Validation::multiple(array('foo', 'bar', 'baz', 'squirrel'), array('max' => 3)));
 
@@ -2110,8 +2147,8 @@ class ValidationTest extends CakeTestCase {
 		$this->assertFalse(Validation::multiple(array(0, 5, 9, 8, 6, 2, 1), array('in' => range(0, 10), 'max' => 5)));
 		$this->assertFalse(Validation::multiple(array(0, 5, 9, 8, 11), array('in' => range(0, 10), 'max' => 5)));
 
-		$this->assertFalse(Validation::multiple(array(0, 5, 9), array('in' => range(0, 10), 'max' => 5, 'min' => 3)));
-		$this->assertFalse(Validation::multiple(array(0, 5, 9, 8, 6, 2, 1), array('in' => range(0, 10), 'max' => 5, 'min' => 2)));
+		$this->assertFalse(Validation::multiple(array(-1, 5, 9), array('in' => range(0, 10), 'max' => 5, 'min' => 3)));
+		$this->assertFalse(Validation::multiple(array(-1, 5, 9, 8, 6, 2, 1), array('in' => range(0, 10), 'max' => 5, 'min' => 2)));
 		$this->assertFalse(Validation::multiple(array(0, 5, 9, 8, 11), array('in' => range(0, 10), 'max' => 5, 'min' => 2)));
 
 		$this->assertFalse(Validation::multiple(array('2x', '3x'), array('in' => array(1, 2, 3, 4, 5))));

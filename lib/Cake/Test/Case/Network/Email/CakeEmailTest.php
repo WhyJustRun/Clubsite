@@ -17,6 +17,7 @@
  */
 
 App::uses('CakeEmail', 'Network/Email');
+App::uses('File', 'Utility');
 
 /**
  * Help to test CakeEmail
@@ -93,6 +94,15 @@ class TestCakeEmail extends CakeEmail {
 class TestEmailConfig {
 
 /**
+ * default config
+ *
+ * @var array
+ */
+	public $default = array(
+		'subject' => 'Default Subject',
+	);
+
+/**
  * test config
  *
  * @var array
@@ -145,6 +155,14 @@ class CakeEmailTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+
+		$this->_configFileExists = true;
+		$emailConfig = new File(APP . 'Config' . DS . 'email.php');
+		if (!$emailConfig->exists()) {
+			$this->_configFileExists = false;
+			$emailConfig->create();
+		}
+
 		$this->CakeEmail = new TestCakeEmail();
 
 		App::build(array(
@@ -160,6 +178,19 @@ class CakeEmailTest extends CakeTestCase {
 	public function tearDown() {
 		parent::tearDown();
 		App::build();
+
+		if (!$this->_configFileExists) {
+			unlink(APP . 'Config' . DS . 'email.php');
+		}
+	}
+
+/**
+ * Test if the EmailConfig::$default configuration is read when present
+ *
+ * @return void
+ */
+	public function testDefaultConfig() {
+		$this->assertEquals('Default Subject', $this->CakeEmail->subject());
 	}
 
 /**
@@ -384,6 +415,25 @@ class CakeEmailTest extends CakeTestCase {
 			'.extend.@example.com' => '.extend.@example.com',
 			'.docomo@example.com' => '.docomo@example.com',
 		), $this->CakeEmail->to());
+	}
+
+/**
+ * Tests that it is possible to unset the email pattern and make use of filter_var() instead.
+ *
+ * @return void
+ *
+ * @expectedException SocketException
+ * @expectedExceptionMessage Invalid email: "fail.@example.com"
+ */
+	public function testUnsetEmailPattern() {
+		$email = new CakeEmail();
+		$this->assertSame(CakeEmail::EMAIL_PATTERN, $email->emailPattern());
+
+		$email->emailPattern(null);
+		$this->assertNull($email->emailPattern());
+
+		$email->to('pass@example.com');
+		$email->to('fail.@example.com');
 	}
 
 /**
@@ -841,16 +891,17 @@ class CakeEmailTest extends CakeTestCase {
 		$config = array('test' => 'ok', 'test2' => true);
 		$this->CakeEmail->config($config);
 		$this->assertSame($config, $transportClass->config());
-		$this->assertSame($config, $this->CakeEmail->config());
+		$expected = $config + array('subject' => 'Default Subject');
+		$this->assertSame($expected, $this->CakeEmail->config());
 
 		$this->CakeEmail->config(array());
 		$this->assertSame($config, $transportClass->config());
 
-		$config = array('test' => 'test@example.com');
+		$config = array('test' => 'test@example.com', 'subject' => 'my test subject');
 		$this->CakeEmail->config($config);
-		$expected = array('test' => 'test@example.com', 'test2' => true);
+		$expected = array('test' => 'test@example.com', 'subject' => 'my test subject', 'test2' => true);
 		$this->assertSame($expected, $this->CakeEmail->config());
-		$this->assertSame($expected, $transportClass->config());
+		$this->assertSame(array('test' => 'test@example.com', 'test2' => true), $transportClass->config());
 	}
 
 /**
@@ -1551,7 +1602,7 @@ class CakeEmailTest extends CakeTestCase {
 			$server .= ':' . env('SERVER_PORT');
 		}
 
-		$expected = '<img src="http://' . $server . '/img/image.gif" alt="cool image" width="100" height="100" />';
+		$expected = '<img src="http://' . $server . '/img/image.gif" alt="cool image" width="100" height="100"/>';
 		$result = $this->CakeEmail->send();
 		$this->assertContains($expected, $result['message']);
 	}
@@ -2395,6 +2446,44 @@ HTML;
 		$result = $this->CakeEmail->send($message);
 		$expected = "{$message}\r\n\r\n";
 		$this->assertEquals($expected, $result['message']);
+	}
+
+/**
+ * testZeroOnlyLinesNotBeingEmptied()
+ *
+ * @return void
+ */
+	public function testZeroOnlyLinesNotBeingEmptied() {
+		$message = "Lorem\r\n0\r\n0\r\nipsum";
+
+		$this->CakeEmail->reset();
+		$this->CakeEmail->transport('Debug');
+		$this->CakeEmail->from('cake@cakephp.org');
+		$this->CakeEmail->to('cake@cakephp.org');
+		$this->CakeEmail->subject('Wordwrap Test');
+		$this->CakeEmail->config(array('empty'));
+		$result = $this->CakeEmail->send($message);
+		$expected = "{$message}\r\n\r\n";
+		$this->assertEquals($expected, $result['message']);
+	}
+
+/**
+ * Test that really long lines don't cause errors.
+ *
+ * @return void
+ */
+	public function testReallyLongLine() {
+		$this->CakeEmail->reset();
+		$this->CakeEmail->config(array('empty'));
+		$this->CakeEmail->transport('Debug');
+		$this->CakeEmail->from('cake@cakephp.org');
+		$this->CakeEmail->to('cake@cakephp.org');
+		$this->CakeEmail->subject('Wordwrap Test');
+		$this->CakeEmail->emailFormat('html');
+		$this->CakeEmail->template('long_line', null);
+		$result = $this->CakeEmail->send();
+		$this->assertContains('<a>', $result['message'], 'First bits are included');
+		$this->assertContains('x', $result['message'], 'Last byte are included');
 	}
 
 /**
