@@ -12,6 +12,7 @@ class EmailLog implements CakeLogInterface {
         return
             (strpos($url, 'wp-admin') === false) &&
             (strpos($error, '[MissingControllerException]') === false) &&
+            (strpos($error, '[NotFoundException]') === false) &&
             (strpos($error, '[MissingViewException]') === false) &&
             (strpos($error, '[MissingActionException]') === false) &&
             (strpos($error, 'SMTP Error: 421 4.7.0 Temporary System Problem') === false) &&

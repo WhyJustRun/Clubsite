@@ -25,13 +25,13 @@ class Privilege extends AppModel {
     var $validate = array(
             'user_id' => array(
                 'required' => array(
-                    'rule' => array('notEmpty'),
+                    'rule' => array('notBlank'),
                     'required' => true,
                     ),
                 ),
             'group_id' => array(
                 'required' => array(
-                    'rule' => array('notEmpty'),
+                    'rule' => array('notBlank'),
                     'required' => true,
                     ),
                 ),

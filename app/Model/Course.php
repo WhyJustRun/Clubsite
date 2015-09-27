@@ -33,7 +33,7 @@ class Course extends AppModel {
 
     var $validate = array(
             'name' => array(
-                'rule' => 'notEmpty',
+                'rule' => 'notBlank',
                 ),
             );
 

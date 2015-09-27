@@ -23,7 +23,7 @@ class User extends AppModel {
     var $validate = array(
             'name' => array(
                 'required' => array(
-                    'rule' => array('notEmpty'),
+                    'rule' => array('notBlank'),
                     'required' => true,
                 ),
             ),
