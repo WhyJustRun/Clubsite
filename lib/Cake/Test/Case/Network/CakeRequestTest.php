@@ -147,6 +147,21 @@ class CakeRequestTest extends CakeTestCase {
 	}
 
 /**
+ * Test the content type method.
+ * 
+ * @return void
+ */
+	public function testContentType() {
+		$_SERVER['HTTP_CONTENT_TYPE'] = 'application/json';
+		$request = new CakeRequest('/', false);
+		$this->assertEquals('application/json', $request->contentType());
+
+		$_SERVER['CONTENT_TYPE'] = 'application/xml';
+		$request = new CakeRequest('/', false);
+		$this->assertEquals('application/xml', $request->contentType(), 'prefer non http header.');
+	}
+
+/**
  * Test construction
  *
  * @return void
@@ -318,12 +333,6 @@ class CakeRequestTest extends CakeTestCase {
 		$request->reConstruct();
 		$this->assertEquals($data, $request->data);
 
-		$data = array(
-			'data' => array(
-				'Article' => array('title' => 'Testing'),
-			),
-			'action' => 'update'
-		);
 		$request = $this->getMock('TestCakeRequest', array('_readInput'));
 		$request->expects($this->at(0))->method('_readInput')
 			->will($this->returnValue('data[Article][title]=Testing&action=update'));
@@ -702,18 +711,18 @@ class CakeRequestTest extends CakeTestCase {
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '192.168.1.5, 10.0.1.1, proxy.com';
 		$_SERVER['HTTP_CLIENT_IP'] = '192.168.1.2';
 		$_SERVER['REMOTE_ADDR'] = '192.168.1.3';
+
 		$request = new CakeRequest('some/path');
-		$this->assertEquals('192.168.1.5', $request->clientIp(false));
-		$this->assertEquals('192.168.1.2', $request->clientIp());
+		$this->assertEquals('192.168.1.3', $request->clientIp(), 'Use remote_addr in safe mode');
+		$this->assertEquals('192.168.1.5', $request->clientIp(false), 'Use x-forwarded');
 
 		unset($_SERVER['HTTP_X_FORWARDED_FOR']);
-		$this->assertEquals('192.168.1.2', $request->clientIp());
+		$this->assertEquals('192.168.1.3', $request->clientIp(), 'safe uses remote_addr');
+		$this->assertEquals('192.168.1.2', $request->clientIp(false), 'unsafe reads from client_ip');
 
 		unset($_SERVER['HTTP_CLIENT_IP']);
-		$this->assertEquals('192.168.1.3', $request->clientIp());
-
-		$_SERVER['HTTP_CLIENTADDRESS'] = '10.0.1.2, 10.0.1.1';
-		$this->assertEquals('10.0.1.2', $request->clientIp());
+		$this->assertEquals('192.168.1.3', $request->clientIp(), 'use remote_addr');
+		$this->assertEquals('192.168.1.3', $request->clientIp(false), 'use remote_addr');
 	}
 
 /**
@@ -731,6 +740,10 @@ class CakeRequestTest extends CakeTestCase {
 
 		$_SERVER['HTTP_REFERER'] = '';
 		$result = $request->referer();
+		$this->assertSame($result, '/');
+
+		$_SERVER['HTTP_REFERER'] = Configure::read('App.fullBaseUrl') . '/';
+		$result = $request->referer(true);
 		$this->assertSame($result, '/');
 
 		$_SERVER['HTTP_REFERER'] = Configure::read('App.fullBaseUrl') . '/some/path';
@@ -1368,7 +1381,6 @@ class CakeRequestTest extends CakeTestCase {
  * - index.php/apples/
  * - index.php/bananas/eat/tasty_banana
  *
- * @link https://cakephp.lighthouseapp.com/projects/42648-cakephp/tickets/3318
  * @return void
  */
 	public function testBaseUrlWithModRewriteAndIndexPhp() {
@@ -2261,7 +2273,7 @@ class CakeRequestTest extends CakeTestCase {
 
 		// Checking if requested
 		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'es_mx,en_ca';
-		$result = CakeRequest::acceptLanguage();
+		CakeRequest::acceptLanguage();
 
 		$result = CakeRequest::acceptLanguage('en-ca');
 		$this->assertTrue($result);
@@ -2448,6 +2460,24 @@ XML;
 
 		$this->setExpectedException('MethodNotAllowedException');
 		$request->allowMethod('POST');
+	}
+
+/**
+ * Tests that overriding the method to GET will clean all request
+ * data, to better simulate a GET request.
+ *
+ * @return void
+ */
+	public function testMethodOverrideEmptyData() {
+		$_POST = array('_method' => 'GET', 'foo' => 'bar');
+		$_SERVER['REQUEST_METHOD'] = 'PUT';
+		$request = new CakeRequest('/posts/edit/1');
+		$this->assertEmpty($request->data);
+
+		$_POST = array('foo' => 'bar');
+		$_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] = 'GET';
+		$request = new CakeRequest('/posts/edit/1');
+		$this->assertEmpty($request->data);
 	}
 
 /**

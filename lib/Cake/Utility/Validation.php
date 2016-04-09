@@ -73,10 +73,9 @@ class Validation {
  * @return bool Success
  */
 	public static function notBlank($check) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
+		if (!is_scalar($check)) {
+			return false;
 		}
-
 		if (empty($check) && (string)$check !== '0') {
 			return false;
 		}
@@ -95,10 +94,6 @@ class Validation {
  * @return bool Success
  */
 	public static function alphaNumeric($check) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
-
 		if (empty($check) && $check != '0') {
 			return false;
 		}
@@ -145,9 +140,6 @@ class Validation {
  * @return bool Success
  */
 	public static function blank($check) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
 		return !static::_check($check, '/[^\\s]/');
 	}
 
@@ -166,8 +158,8 @@ class Validation {
  * @see Validation::luhn()
  */
 	public static function cc($check, $type = 'fast', $deep = false, $regex = null) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
+		if (!is_scalar($check)) {
+			return false;
 		}
 
 		$check = str_replace(array('-', ' '), '', $check);
@@ -239,10 +231,6 @@ class Validation {
  * @return bool Success
  */
 	public static function comparison($check1, $operator = null, $check2 = null) {
-		if (is_array($check1)) {
-			extract($check1, EXTR_OVERWRITE);
-		}
-
 		if ((float)$check1 != $check1) {
 			return false;
 		}
@@ -300,8 +288,8 @@ class Validation {
  * @return bool Success
  */
 	public static function custom($check, $regex = null) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
+		if (!is_scalar($check)) {
+			return false;
 		}
 		if ($regex === null) {
 			static::$errors[] = __d('cake_dev', 'You must define a regular expression for %s', 'Validation::custom()');
@@ -480,10 +468,6 @@ class Validation {
  * @return bool Success
  */
 	public static function email($check, $deep = false, $regex = null) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
-
 		if ($regex === null) {
 			$regex = '/^[\p{L}0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[\p{L}0-9!#$%&\'*+\/=?^_`{|}~-]+)*@' . static::$_pattern['hostname'] . '$/ui';
 		}
@@ -670,10 +654,6 @@ class Validation {
  * @return bool Success
  */
 	public static function phone($check, $regex = null, $country = 'all') {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
-
 		if ($regex === null) {
 			switch ($country) {
 				case 'us':
@@ -715,10 +695,6 @@ class Validation {
  * @return bool Success
  */
 	public static function postal($check, $regex = null, $country = 'us') {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
-
 		if ($regex === null) {
 			switch ($country) {
 				case 'uk':
@@ -780,10 +756,6 @@ class Validation {
  * @deprecated Deprecated 2.6. Will be removed in 3.0.
  */
 	public static function ssn($check, $regex = null, $country = null) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
-
 		if ($regex === null) {
 			switch ($country) {
 				case 'dk':
@@ -905,33 +877,10 @@ class Validation {
  * @return bool Success of match
  */
 	protected static function _check($check, $regex) {
-		if (is_string($regex) && preg_match($regex, $check)) {
+		if (is_string($regex) && is_scalar($check) && preg_match($regex, $check)) {
 			return true;
 		}
 		return false;
-	}
-
-/**
- * Get the values to use when value sent to validation method is
- * an array.
- *
- * @param array $params Parameters sent to validation method
- * @return void
- */
-	protected static function _defaults($params) {
-		static::_reset();
-		$defaults = array(
-			'check' => null,
-			'regex' => null,
-			'country' => null,
-			'deep' => false,
-			'type' => null
-		);
-		$params += $defaults;
-		if ($params['country'] !== null) {
-			$params['country'] = mb_strtolower($params['country']);
-		}
-		return $params;
 	}
 
 /**
@@ -943,8 +892,8 @@ class Validation {
  * @see http://en.wikipedia.org/wiki/Luhn_algorithm
  */
 	public static function luhn($check, $deep = false) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
+		if (!is_scalar($check)) {
+			return false;
 		}
 		if ($deep !== true) {
 			return true;
@@ -1022,15 +971,82 @@ class Validation {
  * Checking for upload errors
  *
  * @param string|array $check Value to check.
+ * @param bool $allowNoFile Set to true to allow UPLOAD_ERR_NO_FILE as a pass.
  * @return bool
  * @see http://www.php.net/manual/en/features.file-upload.errors.php
  */
-	public static function uploadError($check) {
+	public static function uploadError($check, $allowNoFile = false) {
 		if (is_array($check) && isset($check['error'])) {
 			$check = $check['error'];
 		}
+		if ($allowNoFile) {
+			return in_array((int)$check, array(UPLOAD_ERR_OK, UPLOAD_ERR_NO_FILE), true);
+		}
 
 		return (int)$check === UPLOAD_ERR_OK;
+	}
+
+/**
+ * Validate an uploaded file.
+ *
+ * Helps join `uploadError`, `fileSize` and `mimeType` into
+ * one higher level validation method.
+ *
+ * ### Options
+ *
+ * - `types` - A list of valid mime types. If empty all types
+ *   will be accepted. The `type` will not be looked at, instead
+ *   the file type will be checked with ext/finfo.
+ * - `minSize` - The minimum file size. Defaults to not checking.
+ * - `maxSize` - The maximum file size. Defaults to not checking.
+ * - `optional` - Whether or not this file is optional. Defaults to false.
+ *   If true a missing file will pass the validator regardless of other constraints.
+ *
+ * @param array $file The uploaded file data from PHP.
+ * @param array $options An array of options for the validation.
+ * @return bool
+ */
+	public static function uploadedFile($file, $options = array()) {
+		$options += array(
+			'minSize' => null,
+			'maxSize' => null,
+			'types' => null,
+			'optional' => false,
+		);
+		if (!is_array($file)) {
+			return false;
+		}
+		$keys = array('error', 'name', 'size', 'tmp_name', 'type');
+		ksort($file);
+		if (array_keys($file) != $keys) {
+			return false;
+		}
+		if (!static::uploadError($file, $options['optional'])) {
+			return false;
+		}
+		if ($options['optional'] && (int)$file['error'] === UPLOAD_ERR_NO_FILE) {
+			return true;
+		}
+		if (isset($options['minSize']) && !static::fileSize($file, '>=', $options['minSize'])) {
+			return false;
+		}
+		if (isset($options['maxSize']) && !static::fileSize($file, '<=', $options['maxSize'])) {
+			return false;
+		}
+		if (isset($options['types']) && !static::mimeType($file, $options['types'])) {
+			return false;
+		}
+		return static::_isUploadedFile($file['tmp_name']);
+	}
+
+/**
+ * Helper method that can be stubbed in testing.
+ *
+ * @param string $path The path to check.
+ * @return bool Whether or not the file is an uploaded file.
+ */
+	protected static function _isUploadedFile($path) {
+		return is_uploaded_file($path);
 	}
 
 /**

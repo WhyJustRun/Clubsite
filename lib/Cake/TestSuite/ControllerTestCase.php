@@ -109,6 +109,7 @@ class InterceptContentHelper extends Helper {
  * ControllerTestCase class
  *
  * @package       Cake.TestSuite
+ * @method        mixed testAction() testAction($url, $options = array())  Lets you do functional tests of a controller action.
  */
 abstract class ControllerTestCase extends CakeTestCase {
 
@@ -258,7 +259,7 @@ abstract class ControllerTestCase extends CakeTestCase {
 		$Dispatch->parseParams(new CakeEvent('ControllerTestCase', $Dispatch, array('request' => $request)));
 		if (!isset($request->params['controller']) && Router::currentRoute()) {
 			$this->headers = Router::currentRoute()->response->header();
-			return;
+			return null;
 		}
 		if ($this->_dirtyController) {
 			$this->controller = null;
@@ -277,6 +278,12 @@ abstract class ControllerTestCase extends CakeTestCase {
 		$Dispatch->testController = $this->controller;
 		$Dispatch->response = $this->getMock('CakeResponse', array('send', '_clearBuffer'));
 		$this->result = $Dispatch->dispatch($request, $Dispatch->response, $params);
+
+		// Clear out any stored requests.
+		while (Router::getRequest()) {
+			Router::popRequest();
+		}
+
 		$this->controller = $Dispatch->testController;
 		$this->vars = $this->controller->viewVars;
 		$this->contents = $this->controller->response->body();

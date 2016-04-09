@@ -176,7 +176,6 @@ class AuthTestController extends Controller {
 
 /**
  * construct method
- *
  */
 	public function __construct($request, $response) {
 		$request->addParams(Router::parse('/auth_test'));
@@ -1319,7 +1318,7 @@ class AuthComponentTest extends CakeTestCase {
 			->with('HTTP/1.1 403 Forbidden', null);
 		$this->Auth->initialize($this->Controller);
 
-		$result = $this->Auth->startup($this->Controller);
+		$this->Auth->startup($this->Controller);
 
 		$this->assertArrayNotHasKey('Location', $this->Controller->response->header());
 		$this->assertNull($this->Controller->testUrl, 'redirect() not called');
@@ -1621,8 +1620,6 @@ class AuthComponentTest extends CakeTestCase {
 
 /**
  * test that the returned URL doesn't contain the base URL.
- *
- * @see https://cakephp.lighthouseapp.com/projects/42648/tickets/3922-authcomponentredirecturl-prepends-appbaseurl
  *
  * @return void This test method doesn't return anything.
  */

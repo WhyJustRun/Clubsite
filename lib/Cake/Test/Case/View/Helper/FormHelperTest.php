@@ -353,6 +353,7 @@ class ValidateUser extends CakeTestModel {
 		'email' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
 		'balance' => array('type' => 'float', 'null' => false, 'length' => '5,2'),
 		'cost_decimal' => array('type' => 'decimal', 'null' => false, 'length' => '6,3'),
+		'null_decimal' => array('type' => 'decimal', 'null' => false, 'length' => null),
 		'ratio' => array('type' => 'decimal', 'null' => false, 'length' => '10,6'),
 		'population' => array('type' => 'decimal', 'null' => false, 'length' => '15,0'),
 		'created' => array('type' => 'date', 'null' => '1', 'default' => '', 'length' => ''),
@@ -1779,11 +1780,13 @@ class FormHelperTest extends CakeTestCase {
 		$this->assertFalse(empty($result));
 		$this->assertFalse($this->UserForm->OpenidUrl->validates());
 
-		$result = $this->Form->create('UserForm', array('type' => 'post', 'action' => 'login'));
+		$result = $this->Form->create('UserForm', array('type' => 'post', 'url' => array('action' => 'login')));
 		$encoding = strtolower(Configure::read('App.encoding'));
 		$expected = array(
 			'form' => array(
-				'method' => 'post', 'action' => '/user_forms/login', 'id' => 'UserFormLoginForm',
+				'action' => '/user_forms/login',
+				'id' => 'UserFormLoginForm',
+				'method' => 'post',
 				'accept-charset' => $encoding
 			),
 			'div' => array('style' => 'display:none;'),
@@ -1821,7 +1824,7 @@ class FormHelperTest extends CakeTestCase {
 		$this->assertFalse($this->ValidateUser->validates());
 		$this->assertFalse($this->ValidateUser->ValidateProfile->validates());
 
-		$result = $this->Form->create('ValidateUser', array('type' => 'post', 'action' => 'add'));
+		$result = $this->Form->create('ValidateUser', array('type' => 'post', 'url' => array('action' => 'add')));
 		$encoding = strtolower(Configure::read('App.encoding'));
 		$expected = array(
 			'form' => array('method' => 'post', 'action' => '/validate_users/add', 'id', 'accept-charset' => $encoding),
@@ -1874,7 +1877,7 @@ class FormHelperTest extends CakeTestCase {
 		$this->assertFalse($this->ValidateUser->ValidateProfile->validates());
 		$this->assertFalse($this->ValidateUser->ValidateProfile->ValidateItem->validates());
 
-		$result = $this->Form->create('ValidateUser', array('type' => 'post', 'action' => 'add'));
+		$result = $this->Form->create('ValidateUser', array('type' => 'post', 'url' => array('action' => 'add')));
 		$encoding = strtolower(Configure::read('App.encoding'));
 		$expected = array(
 			'form' => array('method' => 'post', 'action' => '/validate_users/add', 'id', 'accept-charset' => $encoding),
@@ -2041,6 +2044,17 @@ class FormHelperTest extends CakeTestCase {
 			'Cost Decimal',
 			'/label',
 			'input' => array('name', 'type' => 'number', 'step' => '0.001', 'id'),
+			'/div',
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->Form->input('ValidateUser.null_decimal');
+		$expected = array(
+			'div' => array('class'),
+			'label' => array('for'),
+			'Null Decimal',
+			'/label',
+			'input' => array('name', 'type' => 'number', 'step' => 'any', 'id'),
 			'/div',
 		);
 		$this->assertTags($result, $expected);
@@ -4825,6 +4839,50 @@ class FormHelperTest extends CakeTestCase {
 			),
 			array('option' => array('value' => '')), '/option',
 			array('option' => array('value' => '0')), 'option A', '/option',
+			'/select'
+		);
+		$this->assertTags($result, $expected);
+	}
+
+/**
+ * testSelect boolean method
+ *
+ * @return void
+ */
+	public function testSelectBoolean() {
+		$result = $this->Form->select(
+			'Model.field',
+			array(0 => 'No', 1 => 'Yes'),
+			array('value' => false, 'empty' => false)
+		);
+		$expected = array(
+			'select' => array('name' => 'data[Model][field]', 'id' => 'ModelField'),
+			array('option' => array('value' => '0', 'selected' => 'selected')),
+			'No',
+			'/option',
+			array('option' => array('value' => '1')),
+			'Yes',
+			'/option',
+			'/select'
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->Form->select(
+			'Model.field',
+			array(0 => 'No', 1 => 'Yes', 2 => 'Yes again'),
+			array('value' => array(false, 2), 'empty' => false)
+		);
+		$expected = array(
+			'select' => array('name' => 'data[Model][field]', 'id' => 'ModelField'),
+			array('option' => array('value' => '0', 'selected' => 'selected')),
+			'No',
+			'/option',
+			array('option' => array('value' => '1')),
+			'Yes',
+			'/option',
+			array('option' => array('value' => '2', 'selected' => 'selected')),
+			'Yes again',
+			'/option',
 			'/select'
 		);
 		$this->assertTags($result, $expected);
@@ -8527,7 +8585,9 @@ class FormHelperTest extends CakeTestCase {
 		$result = $this->Form->create('User', array('url' => array('action' => 'login')));
 		$expected = array(
 			'form' => array(
-				'id' => 'UserAddForm', 'method' => 'post', 'action' => '/users/login',
+				'action' => '/users/login',
+				'id' => 'UserLoginForm',
+				'method' => 'post',
 				'accept-charset' => $encoding
 			),
 			'div' => array('style' => 'display:none;'),
@@ -8536,7 +8596,7 @@ class FormHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
-		$result = $this->Form->create('User', array('action' => 'login'));
+		$result = $this->Form->create('User', array('url' => array('action' => 'login')));
 		$expected = array(
 			'form' => array(
 				'id' => 'UserLoginForm', 'method' => 'post', 'action' => '/users/login',
@@ -8550,7 +8610,12 @@ class FormHelperTest extends CakeTestCase {
 
 		$result = $this->Form->create('User', array('url' => '/users/login'));
 		$expected = array(
-			'form' => array('method' => 'post', 'action' => '/users/login', 'accept-charset' => $encoding, 'id' => 'UserAddForm'),
+			'form' => array(
+				'action' => '/users/login',
+				'id' => 'UserAddForm',
+				'method' => 'post',
+				'accept-charset' => $encoding
+			),
 			'div' => array('style' => 'display:none;'),
 			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'POST'),
 			'/div'
@@ -8558,7 +8623,7 @@ class FormHelperTest extends CakeTestCase {
 		$this->assertTags($result, $expected);
 
 		$this->Form->request['controller'] = 'pages';
-		$result = $this->Form->create('User', array('action' => 'signup'));
+		$result = $this->Form->create('User', array('url' => array('action' => 'signup')));
 		$expected = array(
 			'form' => array(
 				'id' => 'UserSignupForm', 'method' => 'post', 'action' => '/users/signup',
@@ -8576,8 +8641,28 @@ class FormHelperTest extends CakeTestCase {
 		$result = $this->Form->create(array('url' => array('action' => 'index', 'param')));
 		$expected = array(
 			'form' => array(
-				'id' => 'ContactAddForm', 'method' => 'post', 'action' => '/contacts/index/param',
+				'id' => 'ContactIndexForm', 'method' => 'post', 'action' => '/contacts/index/param',
 				'accept-charset' => 'utf-8'
+			),
+			'div' => array('style' => 'display:none;'),
+			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'POST'),
+			'/div'
+		);
+		$this->assertTags($result, $expected);
+	}
+
+/**
+ * Test create() with no URL (no "action" attribute for <form> tag)
+ *
+ * @return void
+ */
+	public function testCreateNoUrl() {
+		$result = $this->Form->create(false, array('url' => false));
+		$expected = array(
+			'form' => array(
+				'id' => 'addForm',
+				'method' => 'post',
+				'accept-charset' => strtolower(Configure::read('App.encoding'))
 			),
 			'div' => array('style' => 'display:none;'),
 			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'POST'),
@@ -8598,7 +8683,7 @@ class FormHelperTest extends CakeTestCase {
 		$result = $this->Form->create(array('url' => array('action' => 'index', 'param'), 'default' => false));
 		$expected = array(
 			'form' => array(
-				'id' => 'ContactAddForm', 'method' => 'post', 'onsubmit' => 'event.returnValue = false; return false;', 'action' => '/contacts/index/param',
+				'id' => 'ContactIndexForm', 'method' => 'post', 'onsubmit' => 'event.returnValue = false; return false;', 'action' => '/contacts/index/param',
 				'accept-charset' => 'utf-8'
 			),
 			'div' => array('style' => 'display:none;'),
@@ -8618,7 +8703,7 @@ class FormHelperTest extends CakeTestCase {
 
 		$expected = array(
 			'form' => array(
-				'id' => 'ContactAddForm', 'method' => 'post',
+				'id' => 'ContactIndexForm', 'method' => 'post',
 				'onsubmit' => 'someFunction();event.returnValue = false; return false;',
 				'action' => '/contacts/index/param',
 				'accept-charset' => 'utf-8'
@@ -8676,7 +8761,7 @@ class FormHelperTest extends CakeTestCase {
 		Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
 		$encoding = strtolower(Configure::read('App.encoding'));
 
-		$result = $this->Form->create('User', array('action' => 'login'));
+		$result = $this->Form->create('User', array('url' => array('action' => 'login')));
 		$expected = array(
 			'form' => array(
 				'id' => 'UserLoginForm', 'method' => 'post', 'action' => '/login',
@@ -8748,7 +8833,7 @@ class FormHelperTest extends CakeTestCase {
  */
 	public function testCreateWithAcceptCharset() {
 		$result = $this->Form->create('UserForm', array(
-				'type' => 'post', 'action' => 'login', 'encoding' => 'iso-8859-1'
+				'type' => 'post', 'url' => array('action' => 'login'), 'encoding' => 'iso-8859-1'
 			)
 		);
 		$expected = array(
@@ -8781,7 +8866,7 @@ class FormHelperTest extends CakeTestCase {
 		));
 		$expected = array(
 			'form' => array(
-				'id' => 'ContactAddForm',
+				'id' => 'ContactActionForm',
 				'method' => 'post',
 				'action' => '/controller/action?param1=value1&amp;param2=value2',
 				'accept-charset' => $encoding
@@ -8802,7 +8887,7 @@ class FormHelperTest extends CakeTestCase {
 		));
 		$expected = array(
 			'form' => array(
-				'id' => 'ContactAddForm',
+				'id' => 'ContactActionForm',
 				'method' => 'post',
 				'action' => '/controller/action?param1=value1&amp;param2=value2',
 				'accept-charset' => $encoding
@@ -8858,7 +8943,7 @@ class FormHelperTest extends CakeTestCase {
 		));
 		$expected = array(
 			'form' => array(
-				'id' => 'ContactAddForm',
+				'id' => 'ContactEditForm',
 				'method' => 'post',
 				'action' => '/contacts/edit/0/myparam',
 				'accept-charset' => $encoding

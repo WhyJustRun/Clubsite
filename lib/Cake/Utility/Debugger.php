@@ -91,7 +91,6 @@ class Debugger {
 
 /**
  * Constructor.
- *
  */
 	public function __construct() {
 		$docRef = ini_get('docref_root');
@@ -200,7 +199,7 @@ class Debugger {
  * @param string $file File on which error occurred
  * @param int $line Line that triggered the error
  * @param array $context Context
- * @return bool true if error was handled
+ * @return bool|null True if error was handled, otherwise null.
  * @deprecated 3.0.0 Will be removed in 3.0. This function is superseded by Debugger::outputError().
  */
 	public static function showError($code, $description, $file = null, $line = null, $context = null) {
@@ -217,7 +216,7 @@ class Debugger {
 		if (!in_array($info, $self->errors)) {
 			$self->errors[] = $info;
 		} else {
-			return;
+			return null;
 		}
 
 		switch ($code) {
@@ -247,7 +246,7 @@ class Debugger {
 				$level = LOG_NOTICE;
 				break;
 			default:
-				return;
+				return null;
 		}
 
 		$data = compact(
@@ -456,8 +455,6 @@ class Debugger {
  *  - host
  *  - database
  *  - port
- *  - prefix
- *  - schema
  *
  * This is done to protect database credentials, which could be accidentally
  * shown in an error message if CakePHP is deployed in development mode.
@@ -515,8 +512,6 @@ class Debugger {
  * - host
  * - database
  * - port
- * - prefix
- * - schema
  *
  * @param array $var The array to export.
  * @param int $depth The current depth, used for recursion tracking.
@@ -529,9 +524,7 @@ class Debugger {
 			'login' => '*****',
 			'host' => '*****',
 			'database' => '*****',
-			'port' => '*****',
-			'prefix' => '*****',
-			'schema' => '*****'
+			'port' => '*****'
 		);
 		$replace = array_intersect_key($secrets, $var);
 		$var = $replace + $var;

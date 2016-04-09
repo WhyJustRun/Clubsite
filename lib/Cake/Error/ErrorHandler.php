@@ -109,11 +109,11 @@ class ErrorHandler {
  * This will either use custom exception renderer class if configured,
  * or use the default ExceptionRenderer.
  *
- * @param Exception $exception The exception to render.
+ * @param Exception|ParseError $exception The exception to render.
  * @return void
  * @see http://php.net/manual/en/function.set-exception-handler.php
  */
-	public static function handleException(Exception $exception) {
+	public static function handleException($exception) {
 		$config = Configure::read('Exception');
 		static::_log($exception, $config);
 
@@ -169,11 +169,11 @@ class ErrorHandler {
 /**
  * Handles exception logging
  *
- * @param Exception $exception The exception to render.
+ * @param Exception|ParseError $exception The exception to render.
  * @param array $config An array of configuration for logging.
  * @return bool
  */
-	protected static function _log(Exception $exception, $config) {
+	protected static function _log($exception, $config) {
 		if (empty($config['log'])) {
 			return false;
 		}
@@ -230,6 +230,16 @@ class ErrorHandler {
 		}
 		$message = $error . ' (' . $code . '): ' . $description . ' in [' . $file . ', line ' . $line . ']';
 		if (!empty($errorConfig['trace'])) {
+			// https://bugs.php.net/bug.php?id=65322
+			if (version_compare(PHP_VERSION, '5.4.21', '<')) {
+				if (!class_exists('Debugger')) {
+					App::load('Debugger');
+				}
+				if (!class_exists('CakeText')) {
+					App::uses('CakeText', 'Utility');
+					App::load('CakeText');
+				}
+			}
 			$trace = Debugger::trace(array('start' => 1, 'format' => 'log'));
 			$message .= "\nTrace:\n" . $trace . "\n";
 		}
