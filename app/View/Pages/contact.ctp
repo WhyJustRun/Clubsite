@@ -2,4 +2,4 @@
     <h1>Contact Us</h1>
 </header>
 
-<?= $this->ContentBlock->render('contact'); ?>
+<?php echo $this->ContentBlock->render('contact'); ?>

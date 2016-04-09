@@ -1,7 +1,7 @@
 <?php
 // Params: $templateName
 ?>
-<script type="text/html" id="<?= $templateName ?>">
+<script type="text/html" id="<?php echo $templateName ?>">
     <div class="event-box">
         <a data-bind="attr: { href: url }">
             <div class="event-box-inner">

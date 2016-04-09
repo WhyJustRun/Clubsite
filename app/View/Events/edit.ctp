@@ -1,5 +1,5 @@
 <header class="page-header">
-    <h1><?= $type ?> Event</h1>
+    <h1><?php echo $type ?> Event</h1>
 </header>
 <?php
 if(!empty($this->data['Event']['date'])) {
@@ -28,10 +28,10 @@ echo $this->Form->input('name', array('data-validate' => 'validate(required)', '
     <div class="col-sm-10">
         <div class="form-inline">
             <div class="form-group inline-validated">
-                <?= $this->Form->text('date', array('value' => $date, 'size' => '10', 'maxLength' => 10, 'data-validate' => 'validate(date, required)', 'placeholder' => 'yyyy-mm-dd', 'class' => 'form-control date-picker', 'data-format' => 'YYYY-MM-DD', 'div' => false, 'label' => false)) ?>
+                <?php echo $this->Form->text('date', array('value' => $date, 'size' => '10', 'maxLength' => 10, 'data-validate' => 'validate(date, required)', 'placeholder' => 'yyyy-mm-dd', 'class' => 'form-control date-picker', 'data-format' => 'YYYY-MM-DD', 'div' => false, 'label' => false)) ?>
             </div>
             <div class="form-group inline-validated">
-                <?= $this->Form->text('time', array('placeholder' => 'hh:mm', 'size' => '5', 'data-validate' => 'validate(required, time)', 'maxLength' => 5, 'data-format' => 'HH:mm', 'value' => $time, 'div' => false, 'class' => 'form-control time-picker', 'label' => false)) ?>
+                <?php echo $this->Form->text('time', array('placeholder' => 'hh:mm', 'size' => '5', 'data-validate' => 'validate(required, time)', 'maxLength' => 5, 'data-format' => 'HH:mm', 'value' => $time, 'div' => false, 'class' => 'form-control time-picker', 'label' => false)) ?>
             </div>
             <span class="inline-validated-help"> (24 hour format)</span>
         </div>
@@ -42,10 +42,10 @@ echo $this->Form->input('name', array('data-validate' => 'validate(required)', '
     <div class="col-sm-10">
         <div class="form-inline">
             <div class="form-group inline-validated">
-                <?= $this->Form->text('finish_date', array('size' => '10', 'value' => $finishDate, 'maxLength' => 10, 'placeholder' => 'yyyy-mm-dd', 'data-validate' => 'validate(date, date_after(EventDate, EventTime, EventFinishDate, EventFinishTime))', 'class' => 'form-control date-picker', 'data-format' => 'YYYY-MM-DD', 'div' => false, 'label' => false)) ?>
+                <?php echo $this->Form->text('finish_date', array('size' => '10', 'value' => $finishDate, 'maxLength' => 10, 'placeholder' => 'yyyy-mm-dd', 'data-validate' => 'validate(date, date_after(EventDate, EventTime, EventFinishDate, EventFinishTime))', 'class' => 'form-control date-picker', 'data-format' => 'YYYY-MM-DD', 'div' => false, 'label' => false)) ?>
             </div>
             <div class="form-group inline-validated">
-                <?= $this->Form->text('finish_time', array('size' => '5', 'placeholder' => 'hh:mm', 'maxLength' => 5, 'value' => $finishTime, 'data-validate' => 'validate(time, requires(EventFinishDate, finish date))', 'data-format' => 'HH:mm', 'div' => false, 'class' => 'form-control time-picker', 'label' => false)) ?>
+                <?php echo $this->Form->text('finish_time', array('size' => '5', 'placeholder' => 'hh:mm', 'maxLength' => 5, 'value' => $finishTime, 'data-validate' => 'validate(time, requires(EventFinishDate, finish date))', 'data-format' => 'HH:mm', 'div' => false, 'class' => 'form-control time-picker', 'label' => false)) ?>
             </div>
             <span class="inline-validated-help"> (optional)</span>
         </div>
@@ -99,13 +99,13 @@ $urlFields = array(
 foreach ($urlFields as $urlField) {
 ?>
 <div class="form-group">
-<label class="control-label col-sm-2"><?= $urlField['name'] ?>
-    <span data-toggle="tooltip" data-container="body" class="wjr-help-tooltip" title="<?= $urlField['help'] ?>">
+<label class="control-label col-sm-2"><?php echo $urlField['name'] ?>
+    <span data-toggle="tooltip" data-container="body" class="wjr-help-tooltip" title="<?php echo $urlField['help'] ?>">
                 <span class="glyphicon glyphicon-question-sign"></span>
             </span>
     </label>
     <div class="col-sm-10">
-        <?= $this->Form->input($urlField['field'], array_merge($urlFieldOptions, $urlField['options'])) ?>
+        <?php echo $this->Form->input($urlField['field'], array_merge($urlFieldOptions, $urlField['options'])) ?>
     </div>
 </div>
 <?php
@@ -115,7 +115,7 @@ foreach ($urlFields as $urlField) {
 <fieldset class="form-group">
     <label for="EventDescription" class="control-label col-sm-2">Description</label>
     <div class="col-sm-10">
-        <?= $this->Form->input('description', array('label' => false, 'class' => 'form-control wjr-wysiwyg', 'rows' => 12, 'div' => false)); ?>
+        <?php echo $this->Form->input('description', array('label' => false, 'class' => 'form-control wjr-wysiwyg', 'rows' => 12, 'div' => false)); ?>
     </div>
 </fieldset>
 <?php
@@ -137,7 +137,7 @@ echo $this->element('Events/edit_courses_organizers', $params);
     <div class="col-sm-10">
         <div class="form-inline">
             <div class="form-group">
-                <?= $this->Form->input('number_of_participants', array('type' => 'number', 'min' => '0', 'max' => '4294967295', 'class' => 'form-control', 'div' => false, 'label' => false)) ?>
+                <?php echo $this->Form->input('number_of_participants', array('type' => 'number', 'min' => '0', 'max' => '4294967295', 'class' => 'form-control', 'div' => false, 'label' => false)) ?>
             </div>
             (Optional: used for insurance purposes, overrides participant count from event results)
         </div>
@@ -165,5 +165,5 @@ echo $this->element('Events/edit_courses_organizers', $params);
 </fieldset>
 
 <div class="form-group">
-    <?= $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'col-sm-offset-2 col-sm-10'))) ?>
+    <?php echo $this->Form->end(array('label' => 'Save', 'class' => 'btn btn-primary', 'div' => array('class' => 'col-sm-offset-2 col-sm-10'))) ?>
 </div>

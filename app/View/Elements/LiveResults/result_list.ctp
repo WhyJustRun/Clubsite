@@ -8,7 +8,7 @@
 </p>
 
 <div class="results-list">
-    <div class="result-list" data-result-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/events/<?= $event['Event']['id'] ?>/live_result_list.xml" data-result-list-mode="live">
-        <?= $this->element('Events/knockout_result_list', array('mode' => 'live')) ?>
+    <div class="result-list" data-result-list-url="<?php echo Configure::read('Rails.domain') ?>/iof/3.0/events/<?php echo $event['Event']['id'] ?>/live_result_list.xml" data-result-list-mode="live">
+        <?php echo $this->element('Events/knockout_result_list', array('mode' => 'live')) ?>
     </div>
 </div>

@@ -33,21 +33,21 @@
                     if($prevYear != $startYear) {
                         // Close the previous membership table, if this is not the first year?>
                         </table>
-                    <?}
+                    <?php }
                     // We have moved on to a new year, therefore show a new header?>
-                    <h3>Membership year: <?=$currYear?></h3>
+                    <h3>Membership year: <?php echo $currYear?></h3>
             <table>
                 <thead>
                     <tr><th>Name</th><th></th><th></th></tr>
                 </thead>
-                <?}
+                <?php }
                 $prevYear = $currYear;?>
                     <tr>
-                        <td><?=$membership["User"]["name"]?></td>
-                        <?//<td><?= $this->Html->link('Edit', '/memberships/edit/'.$membership["Membership"]["id"], array('class' => 'button'));</td>?>
-                        <td><?= $this->Html->link('Edit', '/memberships/edit/'.$membership["Membership"]["id"], array('class' => 'button'));?></td>
+                        <td><?php echo $membership["User"]["name"]?></td>
+                        <?php //<td><?= $this->Html->link('Edit', '/memberships/edit/'.$membership["Membership"]["id"], array('class' => 'button'));</td>?>
+                        <td><?php echo $this->Html->link('Edit', '/memberships/edit/'.$membership["Membership"]["id"], array('class' => 'button'));?></td>
                         <td>
-                        <?
+                        <?php
                             echo $this->Form->create('Membership', array('action' => 'delete'));
                             echo $this->Form->hidden('id', array('value'=> $membership["Membership"]["id"]));
                             echo $this->Form->submit('Remove', array('div'=>array('class'=>'unsubmit')));
@@ -55,7 +55,7 @@
                         ?>
                         </td>
                     </tr>
-                <?}?>
+                <?php }?>
             </table>
         </div>
     </div>

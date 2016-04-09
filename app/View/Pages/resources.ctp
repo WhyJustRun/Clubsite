@@ -6,7 +6,7 @@
 <h3>Sorry, no resources are posted yet.</h3>
 <?php } ?>
 <?php foreach($pages as $page) { ?>
-<h3><?= $this->Html->link($page["Page"]["name"], '/pages/'.$page["Page"]["id"]) ?></h3>
+<h3><?php echo $this->Html->link($page["Page"]["name"], '/pages/'.$page["Page"]["id"]) ?></h3>
 <?php
 }
 ?>
@@ -21,9 +21,9 @@ if($this->User->canEditPages()) {
     <fieldset class="form-group">
         <label for="PageContent" class="control-label col-sm-2">Content</label>
         <div class="col-sm-10">
-            <?= $this->Form->input('content', array('label' => false, 'class' => 'wjr-wysiwyg', 'rows' => 20, 'data-validate' => 'validate(required)', 'div' => false)); ?>
+            <?php echo $this->Form->input('content', array('label' => false, 'class' => 'wjr-wysiwyg', 'rows' => 20, 'data-validate' => 'validate(required)', 'div' => false)); ?>
         </div>
     </fieldset>
-    <?= $this->Form->end(array('label' => 'Add', 'class' => 'btn btn-primary')) ?>
+    <?php echo $this->Form->end(array('label' => 'Add', 'class' => 'btn btn-primary')) ?>
 <?php } ?>
 

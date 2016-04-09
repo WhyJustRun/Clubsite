@@ -40,7 +40,7 @@
     </div>
     <div class="col-sm-4">
         <h3>Upcoming events</h3>
-        <?= $this->element('Events/box-list', array('filter' => 'upcoming', 'limit' => '7')); ?>
+        <?php echo $this->element('Events/box-list', array('filter' => 'upcoming', 'limit' => '7')); ?>
    </div>
 </div>
 

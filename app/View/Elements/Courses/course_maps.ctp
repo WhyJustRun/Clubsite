@@ -10,7 +10,7 @@ if(!empty($courses)) { ?>
             $mapsPosted = true;
             ?>
             <h3>
-                <?= $course["name"] ?>
+                <?php echo $course["name"] ?>
                 <span class="pull-right">
                     <?php
                     $mediaUrl = Router::url($this->Media->mediaUrl('Course', $course['id'], 'image'), true);
@@ -19,7 +19,7 @@ if(!empty($courses)) { ?>
                     $description = $this->TimePlus->formattedEventDate($event) . ' - ' . $event['Event']['name'] . ' - ' . $course['name'] . ' course';
                     ?>
                     <span data-toggle="tooltip" data-container="body" class="wjr-help-tooltip" title="Use Pinterest to collect all the orienteering maps you've run on!">
-                        <a href="<?= $this->Link->pinterestPinUrl($url, $mediaUrl, $description) ?>"
+                        <a href="<?php echo $this->Link->pinterestPinUrl($url, $mediaUrl, $description) ?>"
                         data-pin-do="buttonPin"
                         data-pin-config="none"
                         data-pin-height="28">
@@ -28,7 +28,7 @@ if(!empty($courses)) { ?>
                     </span>
                 </span>
             </h3>
-            <?= $this->Media->linkedImage("Course", $course["id"], '600x600', array(), array('style' => 'max-width: 100%', 'data-pin-hover' => true)) ?>
+            <?php echo $this->Media->linkedImage("Course", $course["id"], '600x600', array(), array('style' => 'max-width: 100%', 'data-pin-hover' => true)) ?>
         <?php
         }
     }

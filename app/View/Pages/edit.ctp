@@ -1,2 +1,2 @@
-<? $this->layout = null; ?>
-<?= $content ?>
+<?php $this->layout = null; ?>
+<?php echo $content ?>

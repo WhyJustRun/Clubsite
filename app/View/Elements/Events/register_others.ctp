@@ -11,7 +11,7 @@
 <div class="form-group">
     <select class="form-control" id="RegisterOthersCourse">
         <?php foreach($courses as $course) { ?>
-        <option value="<?= $course['id'] ?>"><?= $course['name'] ?></option>
+        <option value="<?php echo $course['id'] ?>"><?php echo $course['name'] ?></option>
         <?php } ?>
     </select>
 </div>

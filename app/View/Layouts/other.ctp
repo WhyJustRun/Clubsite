@@ -5,9 +5,9 @@
         <title>
             <?php echo $title_for_layout; ?>
         </title>
-        <?= $this->element('layout_dependencies') ?>
-        <?= $this->Html->css('other.css');?>
-        <?= $scripts_for_layout ?>
+        <?php echo $this->element('layout_dependencies') ?>
+        <?php echo $this->Html->css('other.css');?>
+        <?php echo $scripts_for_layout ?>
     </head>
     <body>
         <?php
@@ -21,7 +21,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button> 
-                    <a class='navbar-brand' href='/'><?= Configure::read('Club.name') ?></a>
+                    <a class='navbar-brand' href='/'><?php echo Configure::read('Club.name') ?></a>
                 </div>
                 <div class="collapse navbar-collapse" id="main-navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -59,12 +59,12 @@ if ($this->User->isSignedIn()) {
         </div>
         <footer class="other-footer">
             <div class="container">
-                &copy; <?= date('Y').' Orienteering Canada'?>
+                &copy; <?php echo date('Y').' Orienteering Canada'?>
                 <span class="pull-right">By Thomas Nipen, <a href="http://www.russellporter.com">Russell Porter</a>
                 and Adrian Zissos</span>
             </div>
         </footer>
-        <?= $this->element('layout_bottom_dependencies'); ?>
+        <?php echo $this->element('layout_bottom_dependencies'); ?>
     </body>
 </html>
 

@@ -1,2 +1,2 @@
-<?= $contentBlock['ContentBlock']['content']; ?>
+<?php echo $contentBlock['ContentBlock']['content']; ?>
 

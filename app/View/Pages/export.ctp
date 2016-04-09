@@ -14,14 +14,14 @@
         The events calendar can be embeded by adding this code to your site:
         <br>
         <code>
-            &lt;iframe src="<?=strtoLower(Configure::read('Club.acronym'))?>.whyjustrun.ca/events.embed"&gt;&lt;/iframe&gt;
+            &lt;iframe src="<?php echo strtoLower(Configure::read('Club.acronym'))?>.whyjustrun.ca/events.embed"&gt;&lt;/iframe&gt;
         </code>
 
         <h5>Maps</h5>
         Maps can be embeded by adding this code to your site:
         <br>
         <code>
-            &lt;iframe src="<?=strtoLower(Configure::read('Club.acronym'))?>.whyjustrun.ca/maps.embed"&gt;&lt;/iframe&gt;
+            &lt;iframe src="<?php echo strtoLower(Configure::read('Club.acronym'))?>.whyjustrun.ca/maps.embed"&gt;&lt;/iframe&gt;
         </code>
     </div>
     <div class="col-sm-4">

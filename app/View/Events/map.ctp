@@ -6,8 +6,8 @@ html, body {
 </style>
 
 <div class="simple-marker-map"
-     data-lat="<?= $event["Event"]["lat"] ?>"
-     data-lng="<?= $event["Event"]["lng"] ?>"
+     data-lat="<?php echo $event["Event"]["lat"] ?>"
+     data-lng="<?php echo $event["Event"]["lng"] ?>"
      data-zoom="14"
      style="width: 100%; height: 100%">
 </div>

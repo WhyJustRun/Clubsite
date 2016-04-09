@@ -16,15 +16,15 @@
     <?php 
     foreach($series as $serie) {?>
         <tr>
-            <td><?= $serie["Series"]["acronym"] ?></td>
-            <td><?= $serie["Series"]["name"] ?></td>
+            <td><?php echo $serie["Series"]["acronym"] ?></td>
+            <td><?php echo $serie["Series"]["name"] ?></td>
             <td>
-                <a class="btn btn-xs btn-primary" href="/series/edit/<?= $serie["Series"]["id"] ?>">
+                <a class="btn btn-xs btn-primary" href="/series/edit/<?php echo $serie["Series"]["id"] ?>">
                     <span class="glyphicon glyphicon-cog"></span>
                 </a>
             </td>
         </tr>
-    <? } ?>
+    <?php } ?>
     </tbody>
 </table>
 

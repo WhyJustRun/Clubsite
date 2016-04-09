@@ -12,11 +12,11 @@ if(!empty($results)) { ?>
 <?php
     $entryCount = count($results);
 $entries = $entryCount == 1 ? "Entries" : "Entries ($entryCount)"; ?>
-            <th width='100%'><?= $entries ?></th>
+            <th width='100%'><?php echo $entries ?></th>
         </tr>
     </thead>
     <tbody>
-    <?
+    <?php
     $userId = $this->User->id();
     foreach($results as $result) {
         $modalId = null;

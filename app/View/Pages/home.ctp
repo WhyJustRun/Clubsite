@@ -19,17 +19,17 @@
         }
         ?>
 
-        <div class="event-list" data-event-list-url="<?= Configure::read('Rails.domain') ?>/iof/3.0/clubs/<?= Configure::read('Club.id') ?>/event_list.xml?start=<?= time() ?>&club_events=significant&external_significant_events=all">
+        <div class="event-list" data-event-list-url="<?php echo Configure::read('Rails.domain') ?>/iof/3.0/clubs/<?php echo Configure::read('Club.id') ?>/event_list.xml?start=<?php echo time() ?>&club_events=significant&external_significant_events=all">
             <h3 data-bind="visible: events().length > 0">Highlights</h3>
             <?php
             $templateName = 'event-box-template';
             ?>
-            <div data-bind="template: { name: '<?= $templateName ?>', foreach: events }"></div>
+            <div data-bind="template: { name: '<?php echo $templateName ?>', foreach: events }"></div>
         </div>
-        <?= $this->element('Events/knockout_box', compact('templateName')) ?>
+        <?php echo $this->element('Events/knockout_box', compact('templateName')) ?>
 
         <div style="text-align: center">
-            <?= $this->element('Events/add_link'); ?>
+            <?php echo $this->element('Events/add_link'); ?>
         </div>
     </article>
 
@@ -61,6 +61,6 @@
         ?>
     </article>
     <article class="col-sm-4 col-sm-pull-8">
-        <?= $this->ContentBlock->render('general_information'); ?>
+        <?php echo $this->ContentBlock->render('general_information'); ?>
     </article>
 </div>

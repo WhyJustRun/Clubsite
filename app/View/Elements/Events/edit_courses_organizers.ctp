@@ -1,5 +1,5 @@
 <div class='edit-event-organizers' data-organizer-json-element="#EventOrganizers" data-organizer-input="#organizers">
-    <?= $organizersInput ?>
+    <?php echo $organizersInput ?>
     <script type="text/html" id="organizerTemplate">
         <tr>
             <td data-bind="text: name || 'Anonymous'"></td>
@@ -27,7 +27,7 @@
 </div>
 
 <div class='edit-event-courses' data-course-json-element="#EventCourses">
-    <?= $coursesInput ?>
+    <?php echo $coursesInput ?>
     <script type="text/html" id="courseTemplate">
         <tr>
             <td class="col-sm-2"><input type="text" class="form-control input-sm" data-validate = "validate(required)" data-bind="value: name, uniqueName: true" required /></td>

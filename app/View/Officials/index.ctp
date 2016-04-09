@@ -7,8 +7,8 @@
     </div>
     <div class="col-sm-8">
         <h3>Add official</h3>
-        <?= $this->Form->create('Official', array('class' => 'form-inline', 'action' => 'add')) ?>
-        <?= $this->Form->hidden('user_id') ?>
+        <?php echo $this->Form->create('Official', array('class' => 'form-inline', 'action' => 'add')) ?>
+        <?php echo $this->Form->hidden('user_id') ?>
         <?php $this->Form->unlockField('Official.user_id'); ?>
         <div class="form-group">
             <input class="form-control simple-person-picker"
@@ -18,15 +18,15 @@
                    data-allow-fake="false" />
         </div>
         <div class="form-group">
-            <?= $this->Form->input('official_classification_id', array('class' => 'form-control', 'label'=>false, 'div' => false));?>
+            <?php echo $this->Form->input('official_classification_id', array('class' => 'form-control', 'label'=>false, 'div' => false));?>
         </div>
         <div class="form-group">
-            <?= $this->Form->input('date', array('class' => 'form-control', 'type' => 'text', 'dateFormat'=>'DMY', 'timeFormat'=>'NONE', 'label'=>false, 'div' => false, 'placeholder' => 'Date (YYYY-MM-DD)'));?>
+            <?php echo $this->Form->input('date', array('class' => 'form-control', 'type' => 'text', 'dateFormat'=>'DMY', 'timeFormat'=>'NONE', 'label'=>false, 'div' => false, 'placeholder' => 'Date (YYYY-MM-DD)'));?>
         </div>
         <button type="submit" class="btn btn-success">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
-        <?= $this->Form->end(null) ?>
+        <?php echo $this->Form->end(null) ?>
 
         <h3>Current officials</h3>
 <table class="table table-striped table-bordered table-condensed">
@@ -35,7 +35,7 @@
         <th>Classification/Date certified</th>
         <th></th>
     </thead>
-    <?
+    <?php
     foreach($officials as $official) {
         $name   = $official["User"]["name"];
         $classification = $official["OfficialClassification"]["name"];
@@ -46,9 +46,9 @@
         $date = substr($official["Official"]["date"],0,10);
     ?>
     <tr>
-        <td><?=$name?></td>
+        <td><?php echo $name?></td>
         <td>
-            <?= $this->Form->create('Official', array('class' => 'form-inline', 'action' => 'edit'));?>
+            <?php echo $this->Form->create('Official', array('class' => 'form-inline', 'action' => 'edit'));?>
             <?php
             echo $this->Form->hidden('user_id', array('value'=> $official["User"]["id"]));
             echo $this->Form->hidden('id', array('value'=> $official["Official"]["id"]));
@@ -56,7 +56,7 @@
             echo $this->Form->input('date', array('class' => 'form-control input-sm', 'type' => 'text', 'value'=>substr($official["Official"]["date"],0,10), 'dateFormat'=>'DMY', 'timeFormat'=>'NONE', 'label'=>false, 'div' => 'form-group', 'placeholder' => 'Date (YYYY-MM-DD)'));
             ?>
             <input type="submit" value="Update" class="btn btn-default btn-sm">
-            <?= $this->Form->end() ?>
+            <?php echo $this->Form->end() ?>
         <td>
             <?php
             echo $this->Form->create('Official', array('action' => 'delete'));
@@ -69,7 +69,7 @@
             ?>
         </td>
     </tr>
-    <?}?>
+    <?php }?>
 </table>
 </div>
 </div>

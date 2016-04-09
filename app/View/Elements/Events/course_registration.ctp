@@ -16,14 +16,14 @@ assert(count($courses) > 0);
             <div class="pull-right">
                 <?php if($course["registered"] === false) { ?>
                 <div class="btn-group">
-                    <a class="btn btn-success" href="/courses/register/<?= $course['id'] ?>/<?= $userId ?>"><span class="glyphicon glyphicon-plus"></span> Register</a>
+                    <a class="btn btn-success" href="/courses/register/<?php echo $course['id'] ?>/<?php echo $userId ?>"><span class="glyphicon glyphicon-plus"></span> Register</a>
                 </div>
                 <?php } ?>
             </div>
 
-            <h3><?= $course["name"] ?></h3>
+            <h3><?php echo $course["name"] ?></h3>
             <span>
-                <?= $course["description"] ?>
+                <?php echo $course["description"] ?>
                 <p>
                 <?php
                 if(!empty($course["distance"])) {
@@ -43,4 +43,4 @@ assert(count($courses) > 0);
     <?php } ?>
 </div>
 
-<?= $this->element('Events/register_others', array('courses' => $courses, 'userId' => $userId)) ?>
+<?php echo $this->element('Events/register_others', array('courses' => $courses, 'userId' => $userId)) ?>

@@ -1,1 +1,1 @@
-<?= json_encode($userId); ?>
+<?php echo json_encode($userId); ?>

@@ -17,10 +17,10 @@
         <?php 
         foreach($roles as $role) {?>
         <tr>
-            <td><?=$role["Role"]["name"]?></td>
-            <td><?=$role["Role"]["description"]?></td>
+            <td><?php echo $role["Role"]["name"]?></td>
+            <td><?php echo $role["Role"]["description"]?></td>
             <td>
-                <a class="btn btn-xs btn-primary" href="/roles/edit/<?= $role["Role"]["id"] ?>">
+                <a class="btn btn-xs btn-primary" href="/roles/edit/<?php echo $role["Role"]["id"] ?>">
                     <span class="glyphicon glyphicon-cog"></span>
                 </a>
             </td>
@@ -36,6 +36,6 @@
                 ?>
             </td>
         </tr>
-        <? } ?>
+        <?php } ?>
     </tbody>
 </table>

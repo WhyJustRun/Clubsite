@@ -51,15 +51,15 @@
                     $real2 = $dupUser["duplicate"]['has_password'] ? '&#x2713;' : '&nbsp';
                     ?>
                 <tr>
-                    <td><?= $dupUser["primary"]["User"]["name"]?></td>
-                    <td><?= $primaryId?></td>
-                    <td><?= $real1?></td>
-                    <td><?= $primaryDate?></td>
-                    <td><?= $dupUser["duplicate"]["User"]["name"]?></td>
-                    <td><?= $duplicateId?></td>
-                    <td><?= $real2?></td>
-                    <td><?= $duplicateDate?></td>
-                    <td><?=$this->Html->link('Merge', "/users/merge/$primaryId/$duplicateId", array('class' => 'btn btn-default'))?></td>
+                    <td><?php echo $dupUser["primary"]["User"]["name"]?></td>
+                    <td><?php echo $primaryId?></td>
+                    <td><?php echo $real1?></td>
+                    <td><?php echo $primaryDate?></td>
+                    <td><?php echo $dupUser["duplicate"]["User"]["name"]?></td>
+                    <td><?php echo $duplicateId?></td>
+                    <td><?php echo $real2?></td>
+                    <td><?php echo $duplicateDate?></td>
+                    <td><?php echo $this->Html->link('Merge', "/users/merge/$primaryId/$duplicateId", array('class' => 'btn btn-default'))?></td>
                 </tr>
                 <?php
                 }

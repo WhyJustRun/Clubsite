@@ -19,10 +19,10 @@
                 <?php 
                 foreach($mapStandards as $mapStandard) {?>
                 <tr>
-                    <td><?= $mapStandard["MapStandard"]["name"] ?></td>
-                    <td><?= $mapStandard["MapStandard"]["description"] ?></td>
+                    <td><?php echo $mapStandard["MapStandard"]["name"] ?></td>
+                    <td><?php echo $mapStandard["MapStandard"]["description"] ?></td>
                     <td>
-                        <a class="btn btn-xs btn-primary" href="/mapStandards/edit/<?= $mapStandard["MapStandard"]["id"] ?>">
+                        <a class="btn btn-xs btn-primary" href="/mapStandards/edit/<?php echo $mapStandard["MapStandard"]["id"] ?>">
                             <span class="glyphicon glyphicon-cog"></span>
                         </a>
                     </td>
@@ -38,7 +38,7 @@
                         ?>
                     </td>
                 </tr>
-                <? } ?>
+                <?php } ?>
             </tbody>
         </table>
     </div>

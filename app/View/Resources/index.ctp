@@ -5,12 +5,12 @@
 <div class="row">
     <div class="col-sm-4">
         <h2>Upload Resource</h2>
-        <?= $this->Form->create('Resource', array('action' => 'add', 'enctype' => 'multipart/form-data')) ?>
-        <?= $this->Form->input('key', array('label' => false)) ?>
-        <?= $this->Form->file('file') ?>
+        <?php echo $this->Form->create('Resource', array('action' => 'add', 'enctype' => 'multipart/form-data')) ?>
+        <?php echo $this->Form->input('key', array('label' => false)) ?>
+        <?php echo $this->Form->file('file') ?>
         <br />
-        <?= $this->Form->input('caption') ?>
-        <?= $this->Form->end('Add') ?>
+        <?php echo $this->Form->input('caption') ?>
+        <?php echo $this->Form->end('Add') ?>
     </div>
     <div class="col-sm-8">
         <h2>Resources</h2>
@@ -25,10 +25,10 @@
                 <tbody>
                     <?php foreach ($resources as $resource) { ?>
                     <tr>
-                        <td><?= Configure::read('Resource.Club.'.$resource['Resource']['key'].'.name') ?></td>
-                        <td><a href="/resources/delete/<?= $resource['Resource']['id'] ?>" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a></td>
+                        <td><?php echo Configure::read('Resource.Club.'.$resource['Resource']['key'].'.name') ?></td>
+                        <td><a href="/resources/delete/<?php echo $resource['Resource']['id'] ?>" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</a></td>
                     </tr>
-                    <? } ?>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>

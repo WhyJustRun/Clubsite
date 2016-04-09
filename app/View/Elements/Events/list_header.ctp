@@ -3,7 +3,7 @@
 ?>
 <div class="page-header">
     <div class="pull-right">
-        <?= $this->element('Events/add_link') ?>
+        <?php echo $this->element('Events/add_link') ?>
         <?php
         if ($this->User->hasEventPlannerAccess()) {
         ?>

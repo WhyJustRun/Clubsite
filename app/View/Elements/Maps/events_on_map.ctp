@@ -11,10 +11,10 @@
             $date = date("M j, Y", strtotime($date));
             ?>
             <tr>
-                <td><?= empty($event["Series"]["acronym"]) ? $event["Event"]["name"] : $event["Event"]["name"]." (".$event["Series"]["acronym"].")"?></td>
-                <td><?= $this->Html->link($date, $this->Link->eventURL($event['Event'], $event['Club']))?></td>
+                <td><?php echo empty($event["Series"]["acronym"]) ? $event["Event"]["name"] : $event["Event"]["name"]." (".$event["Series"]["acronym"].")"?></td>
+                <td><?php echo $this->Html->link($date, $this->Link->eventURL($event['Event'], $event['Club']))?></td>
             </tr>
-        <? } ?>
+        <?php } ?>
     </table>
 <?php } ?>
 

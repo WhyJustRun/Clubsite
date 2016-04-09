@@ -14,8 +14,8 @@ if($event["Event"]["completed"] === true) {
     <h2>Registration</h2>
     </header>
     <div class="btn-group">
-        <a href="<?= $registrationURL ?>" class="btn btn-large btn-success">
-            Register at <?= parse_url($registrationURL, PHP_URL_HOST) ?>
+        <a href="<?php echo $registrationURL ?>" class="btn btn-large btn-success">
+            Register at <?php echo parse_url($registrationURL, PHP_URL_HOST) ?>
         </a>
     </div>
 <?php

@@ -1,4 +1,4 @@
 <div id="flashMessage" class="success">
-   <?= $message; ?>
+   <?php echo $message; ?>
 </div>
 

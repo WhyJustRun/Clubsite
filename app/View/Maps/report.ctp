@@ -15,7 +15,7 @@
             <th>Longitide</th>
             <th>Thumbnail</th>
         </thead>
-        <?
+        <?php
         $counter = 1;
         foreach($maps as $map) {
             $mapId   = $map["Map"]["id"];
@@ -38,17 +38,17 @@
                 $mapImage =  "";
         ?>
         <tr>
-            <td><?=$counter?></td>
-            <td><?=$this->Html->link($mapName, "/maps/view/$mapId")?></td>
-            <td><?=$mapStandard?> </td>
-            <td><?=$mapCreated?></td>
-            <td><?=$mapModified?></td>
-            <td><?=$mapScale?></td>
-            <td><?=$mapLat?></td>
-            <td><?=$mapLng?></td>
-            <td><?=$mapImage?></td>
+            <td><?php echo $counter?></td>
+            <td><?php echo $this->Html->link($mapName, "/maps/view/$mapId")?></td>
+            <td><?php echo $mapStandard?> </td>
+            <td><?php echo $mapCreated?></td>
+            <td><?php echo $mapModified?></td>
+            <td><?php echo $mapScale?></td>
+            <td><?php echo $mapLat?></td>
+            <td><?php echo $mapLng?></td>
+            <td><?php echo $mapImage?></td>
         </tr>
-        <?
+        <?php
             $counter++;
         }?>
     </table>

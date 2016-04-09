@@ -6,8 +6,8 @@
           <?php echo $title_for_layout; ?>
       </title>
   
-    <?= $this->element('layout_dependencies') ?>
-    <?= $scripts_for_layout ?>
+    <?php echo $this->element('layout_dependencies') ?>
+    <?php echo $scripts_for_layout ?>
 </head>
 <body>
     <?php

@@ -1,9 +1,9 @@
 <?php
 // Pass in an $eventId
 ?>
-<div class="flickr-photos-container" data-flickr-tags="<?= urlencode("whyjustrun".$eventId) ?>,<?= urlencode("orienteerapp".$eventId) ?>" data-flickr-api-key="<?= Configure::read('Flickr.apiKey') ?>" class="photos-grid">
+<div class="flickr-photos-container" data-flickr-tags="<?php echo urlencode("whyjustrun".$eventId) ?>,<?php echo urlencode("orienteerapp".$eventId) ?>" data-flickr-api-key="<?php echo Configure::read('Flickr.apiKey') ?>" class="photos-grid">
     <h2>Photos</h2>
-    <p>Photos are from Flickr. To add your photos to this section, tag your Flickr photos with: <span class="label label-success" style="vertical-align: baseline">whyjustrun<?= $eventId ?></span> (all one word)</p>
+    <p>Photos are from Flickr. To add your photos to this section, tag your Flickr photos with: <span class="label label-success" style="vertical-align: baseline">whyjustrun<?php echo $eventId ?></span> (all one word)</p>
     <ul class="flickr-photos list-unstyled" data-bind="foreach: photos">
         <li class="col-sm-3">
         <a data-bind="attr: { href: '#flickrPhoto' + id }, click: clicked" class="thumbnail">

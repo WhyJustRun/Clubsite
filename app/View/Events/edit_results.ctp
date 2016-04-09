@@ -56,7 +56,7 @@
     </div>
 </script>
 
-<div class="result-editor" data-event-id="<?= $eventId ?>">
+<div class="result-editor" data-event-id="<?php echo $eventId ?>">
     <header class="page-header">
         <h1>Edit Results <small data-bind="text: event() ? event().name : ''"></small></h1>
     </header>
@@ -72,7 +72,7 @@
             <fieldset class="form-group">
                <div class="checkbox">
                    <label for="EventResultsPosted">
-                       <?= $this->Form->checkbox('results_posted', array('checked' => 'checked')) ?>
+                       <?php echo $this->Form->checkbox('results_posted', array('checked' => 'checked')) ?>
                        Show Results?
                    </label>
                </div>

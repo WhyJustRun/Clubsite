@@ -14,6 +14,6 @@ echo $this->element('Events/header', array('event' => $event, 'canEdit' => $canE
 </div>
 <br/>
 <p>
-    <a href="<?= $event['Event']['custom_url'] ?>" class="btn btn-success btn-lg">Continue to Event</a>
-    <a href="/events/edit/<?= $event['Event']['id'] ?>" class="btn btn-primary btn-lg">Edit Event</a>
+    <a href="<?php echo $event['Event']['custom_url'] ?>" class="btn btn-success btn-lg">Continue to Event</a>
+    <a href="/events/edit/<?php echo $event['Event']['id'] ?>" class="btn btn-primary btn-lg">Edit Event</a>
 </p>

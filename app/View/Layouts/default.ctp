@@ -2,21 +2,21 @@
 <html lang=en>
     <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# event: http://ogp.me/ns/event#">
         <?php echo $this->Html->charset(); ?>
-        <title><?= $title_for_layout ?></title>
+        <title><?php echo $title_for_layout ?></title>
 
-        <?= $this->element('layout_dependencies') ?>
-        <?= $scripts_for_layout ?>
+        <?php echo $this->element('layout_dependencies') ?>
+        <?php echo $scripts_for_layout ?>
     </head>
     <body>
         <header class="navbar-constrained-width">
             <div class="hidden-xs">
                 <?php if(!empty($clubResources['headerImage'])) { ?>
                 <a href="/">
-                    <img width="100%" src="<?= $clubResources['headerImage_1300']; ?>" srcset="<?= $clubResources['headerImage_1300']; ?> 1x, <?= $clubResources['headerImage_2600']; ?> 2x" />
+                    <img width="100%" src="<?php echo $clubResources['headerImage_1300']; ?>" srcset="<?php echo $clubResources['headerImage_1300']; ?> 1x, <?php echo $clubResources['headerImage_2600']; ?> 2x" />
                 </a>
-                <? } else { ?>
-                <h1><?= Configure::read('Club.name') ?></h1>
-                <? } ?>
+                <?php } else { ?>
+                <h1><?php echo Configure::read('Club.name') ?></h1>
+                <?php } ?>
             </div>
             <?php
             // When the page doesn't exist, CakePHP can't find the controller and doesn't load the Menu helper.
@@ -29,7 +29,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand visible-xs"><?= Configure::read('Club.acronym'); ?></a>
+                    <a class="navbar-brand visible-xs"><?php echo Configure::read('Club.acronym'); ?></a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="main-navbar-collapse">
@@ -71,21 +71,21 @@
         </div>
         <footer class="main-footer">
             <div class="container">
-                <a href="<?= Configure::read("Rails.domain") ?>">whyjustrun.ca</a>
+                <a href="<?php echo Configure::read("Rails.domain") ?>">whyjustrun.ca</a>
                 <span class="pull-right">
-                    <?= $this->Html->link('API', 'https://github.com/WhyJustRun/Core/wiki/API') ?> |
-                    <?= $this->Html->link('Get this website for your club', 'https://github.com/WhyJustRun/Core/wiki/Get-WhyJustRun-for-your-club!') ?>
+                    <?php echo $this->Html->link('API', 'https://github.com/WhyJustRun/Core/wiki/API') ?> |
+                    <?php echo $this->Html->link('Get this website for your club', 'https://github.com/WhyJustRun/Core/wiki/Get-WhyJustRun-for-your-club!') ?>
                 </span>
             </div>
             <div class="container">
                 <span id="copyright">
-                    &copy; <?= date('Y').' '.Configure::read('Club.name') ?>
+                    &copy; <?php echo date('Y').' '.Configure::read('Club.name') ?>
                 </span>
                 <span id="credits" class="pull-right">
                     By <a href="">Thomas Nipen</a> and <a href="http://www.russellporter.com">Russell Porter</a> | <a href="mailto:support@whyjustrun.ca">support@whyjustrun.ca</a>
                 </span>
             </div>
         </footer>
-        <?= $this->element('layout_bottom_dependencies'); ?>
+        <?php echo $this->element('layout_bottom_dependencies'); ?>
     </body>
 </html>
