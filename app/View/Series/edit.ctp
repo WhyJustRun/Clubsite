@@ -2,9 +2,9 @@
     <h1>Edit Series</h1>
 </header>
 
-<?php echo $this->Form->create('Series', array('action' => 'edit', 'class' => 'form-horizontal'))?>
+<?php echo $this->Form->create('Series', array('url' => 'edit', 'class' => 'form-horizontal'))?>
 <?php
-echo $this->Form->create('Series', array('action' => 'edit'));
+echo $this->Form->create('Series', array('url' => 'edit'));
 echo $this->Form->input('acronym');
 echo $this->Form->input('name');
 $color = empty($this->data['Series']['color']) ? 'rgba(255,0,0,1)' : $this->data['Series']['color'];

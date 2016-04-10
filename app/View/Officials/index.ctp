@@ -7,7 +7,7 @@
     </div>
     <div class="col-sm-8">
         <h3>Add official</h3>
-        <?php echo $this->Form->create('Official', array('class' => 'form-inline', 'action' => 'add')) ?>
+        <?php echo $this->Form->create('Official', array('class' => 'form-inline', 'url' => 'add')) ?>
         <?php echo $this->Form->hidden('user_id') ?>
         <?php $this->Form->unlockField('Official.user_id'); ?>
         <div class="form-group">
@@ -48,7 +48,7 @@
     <tr>
         <td><?php echo $name?></td>
         <td>
-            <?php echo $this->Form->create('Official', array('class' => 'form-inline', 'action' => 'edit'));?>
+            <?php echo $this->Form->create('Official', array('class' => 'form-inline', 'url' => 'edit'));?>
             <?php
             echo $this->Form->hidden('user_id', array('value'=> $official["User"]["id"]));
             echo $this->Form->hidden('id', array('value'=> $official["Official"]["id"]));
@@ -59,7 +59,7 @@
             <?php echo $this->Form->end() ?>
         <td>
             <?php
-            echo $this->Form->create('Official', array('action' => 'delete'));
+            echo $this->Form->create('Official', array('url' => 'delete'));
             echo $this->Form->hidden('id', array('value'=> $official["Official"]["id"])); ?>
             <button type="submit" class="btn btn-sm btn-danger">
                 <span class="glyphicon glyphicon-trash"></span>

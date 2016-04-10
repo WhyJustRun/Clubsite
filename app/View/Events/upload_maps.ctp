@@ -13,10 +13,10 @@ as thumbnails also have to be generated. Uploading will overwrite any existing m
     <tr>
         <td><?php echo $course["Course"]["name"]?></td>
         <td>
-            <?php echo $this->Form->create('Course', array('action' => 'uploadMap/'.$course["Course"]["id"], 'enctype' => 'multipart/form-data'))?>
+            <?php echo $this->Form->create('Course', array('url' => 'uploadMap/'.$course["Course"]["id"], 'enctype' => 'multipart/form-data'))?>
             <?php echo $this->Form->file('image', array('style' => 'width: 240px'))?>
             <?php echo $this->Form->end(array('label' => 'Upload'))?> </td>
-        <td> 
+        <td>
             <?php echo $this->Media->image('Course', $course['Course']['id'], '100x150'); ?>
         </td>
     </tr>
@@ -25,4 +25,3 @@ as thumbnails also have to be generated. Uploading will overwrite any existing m
 <?php } else { ?>
 <p>No courses defined.</p>
 <?php } ?>
-

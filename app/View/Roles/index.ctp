@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php 
+        <?php
         foreach($roles as $role) {?>
         <tr>
             <td><?php echo $role["Role"]["name"]?></td>
@@ -26,7 +26,7 @@
             </td>
             <td>
                 <?php
-                echo $this->Form->create('Role', array('action' => 'delete'));
+                echo $this->Form->create('Role', array('url' => 'delete'));
                 echo $this->Form->hidden('id', array('value'=> $role["Role"]["id"])); ?>
                 <button type="submit" class="btn btn-xs btn-danger">
                     <span class="glyphicon glyphicon-trash"></span>

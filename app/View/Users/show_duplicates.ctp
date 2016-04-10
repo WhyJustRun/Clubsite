@@ -13,7 +13,7 @@
     <div class="col-sm-8">
         <h2>Detected duplicates</h2>
         These accounts were determined to be duplicates. Duplicates exist for accounts
-        that have similar names. The algorithm for determining which of the two 
+        that have similar names. The algorithm for determining which of the two
         accounts is the primary account is as follows:
         <ul>
             <li>Check if only one account has a password (i.e. it is a 'real' account)</li>
@@ -70,11 +70,10 @@
     <div class="col-sm-4">
         <h2>Manual merge</h2>
         <?php
-        echo $this->Form->create('User', array('action' => 'showDuplicates'));
+        echo $this->Form->create('User', array('url' => 'showDuplicates'));
         echo $this->Form->input('User.0.user_id', array('label' => 'Primary account'));
         echo $this->Form->input('User.1.user_id', array('label' => 'Duplicate account'));
         echo $this->Form->end('Merge');
         ?>
     </div>
 </div>
-

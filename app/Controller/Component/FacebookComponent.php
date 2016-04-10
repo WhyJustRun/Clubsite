@@ -14,8 +14,8 @@ class FacebookComponent extends Component {
         ));
         parent::__construct($view);
     }
-    
-    function initialize($controller) {
+
+    function initialize(Controller $controller) {
         $this->controller = $controller;
     }
 
@@ -31,10 +31,10 @@ class FacebookComponent extends Component {
                 return NULL;
             }
         }
-        
+
         return NULL;
     }
-    
+
     public function transformPageIDToURL($id)
     {
         if (empty($id)) return NULL;

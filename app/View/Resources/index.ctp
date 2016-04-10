@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-sm-4">
         <h2>Upload Resource</h2>
-        <?php echo $this->Form->create('Resource', array('action' => 'add', 'enctype' => 'multipart/form-data')) ?>
+        <?php echo $this->Form->create('Resource', array('url' => 'add', 'enctype' => 'multipart/form-data')) ?>
         <?php echo $this->Form->input('key', array('label' => false)) ?>
         <?php echo $this->Form->file('file') ?>
         <br />
