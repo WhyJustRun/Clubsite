@@ -22,9 +22,9 @@ define(['jquery', 'underscore', 'knockout'], function ($, _, ko) {
           _.each(results.photos.photo, function (photo) {
             photoViewModel.photos.push({
               id: photo.id,
-              page: "http://www.flickr.com/photos/" + photo.owner + "/" + photo.id,
-              thumbnailUrl: "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg",
-              largeUrl: "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + "_b.jpg",
+              page: "https://www.flickr.com/photos/" + photo.owner + "/" + photo.id,
+              thumbnailUrl: "https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg",
+              largeUrl: "https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + "_b.jpg",
               ownerName: photo.ownername,
               description: photo.description,
               dateTaken: photo.datetaken,
