@@ -16,7 +16,7 @@ if($this->User->canEditPages()) {
     <hr>
     <h2>Add page</h2>
     <?php
-    echo $this->Form->create('Page', array('action' => 'add', 'class' => 'form-horizontal'));
+    echo $this->Form->create('Page', array('url' => 'add', 'class' => 'form-horizontal'));
     echo $this->Form->input('name', array('data-validate' => 'validate(required)')); ?>
     <fieldset class="form-group">
         <label for="PageContent" class="control-label col-sm-2">Content</label>
@@ -26,4 +26,3 @@ if($this->User->canEditPages()) {
     </fieldset>
     <?php echo $this->Form->end(array('label' => 'Add', 'class' => 'btn btn-primary')) ?>
 <?php } ?>
-
