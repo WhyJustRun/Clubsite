@@ -15,7 +15,7 @@ class FacebookComponent extends Component {
         parent::__construct($view);
     }
     
-    function initialize($controller) {
+    function initialize(Controller $controller) {
         $this->controller = $controller;
     }
 
