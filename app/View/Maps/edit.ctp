@@ -2,7 +2,7 @@
     <h1><?php echo isset($map) ? "Edit" : "Add" ?> Map</h1>
 </div>
 <?php
-echo $this->Form->create('Map', array('class' => 'form-horizontal', 'url' => 'edit', 'enctype' => 'multipart/form-data'));
+echo $this->Form->create('Map', array('class' => 'form-horizontal', 'action' => 'edit', 'enctype' => 'multipart/form-data'));
 echo $this->Form->input('name');
 echo $this->Form->input('map_standard_id', array('empty' => 'Choose the standard'));
 echo $this->Form->input('scale', array('label' => 'Scale', 'placeholder' => '10000'));

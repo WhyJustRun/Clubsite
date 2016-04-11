@@ -19,7 +19,7 @@ if(!empty($this->data['Event']['finish_date'])) {
     $finishTime = $finishDate = "";
 }
 
-echo $this->Form->create('Event', array('class' => 'form-horizontal', 'data-validate' => 'ketchup', 'url' => 'edit'));
+echo $this->Form->create('Event', array('class' => 'form-horizontal', 'data-validate' => 'ketchup', 'action' => 'edit'));
 // Hidden JSON encoded organizer data from the edit organizers UI
 echo $this->Form->input('id', array('type' => 'hidden'));
 echo $this->Form->input('name', array('data-validate' => 'validate(required)', 'required' => 'required')); ?>

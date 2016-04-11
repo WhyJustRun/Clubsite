@@ -15,7 +15,7 @@
     </div>
     <div class="col-sm-7">
         <h3>Add privilege</h3>
-        <?php echo $this->Form->create('Privilege', array('class' => 'form-inline', 'url' => 'add')) ?>
+        <?php echo $this->Form->create('Privilege', array('class' => 'form-inline', 'action' => 'add')) ?>
         <?php echo $this->Form->hidden('user_id') ?>
         <?php $this->Form->unlockField('Privilege.user_id'); ?>
         <div class="form-group">
@@ -46,7 +46,7 @@
                 <tr>
                     <td style="vertical-align: middle"><?php echo $privilege["User"]["name"] ?></td>
                     <td>
-                        <?php echo $this->Form->create('Privilege', array('class' => 'form-inline', 'url' => 'edit'));?>
+                        <?php echo $this->Form->create('Privilege', array('class' => 'form-inline', 'action' => 'edit'));?>
                         <?php
                         echo $this->Form->hidden('user_id', array('value'=> $privilege["User"]["id"]));
                         echo $this->Form->hidden('id', array('value'=> $privilege["Privilege"]["id"]));
@@ -57,7 +57,7 @@
                     </td>
                     <td>
                         <?php
-                        echo $this->Form->create('Privilege', array('class' => 'thin-form', 'url' => 'delete'));
+                        echo $this->Form->create('Privilege', array('class' => 'thin-form', 'action' => 'delete'));
                         echo $this->Form->hidden('id', array('value'=> $privilege["Privilege"]["id"])); ?>
                         <button type="submit" class="btn btn-sm btn-danger">
                             <span class="glyphicon glyphicon-trash"></span>
