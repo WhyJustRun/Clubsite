@@ -113,7 +113,7 @@ class PagesController extends AppController {
 
     public function add() {
         $this->checkAuthorization(Configure::read('Privilege.Page.edit'));
-        if($this->request->isPost()) {
+        if($this->request->is('post')) {
             // Section is hardcoded for now
             $this->request->data['Page']['section'] = 'Resources';
             if($this->Page->save($this->data)) {

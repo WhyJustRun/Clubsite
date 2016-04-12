@@ -23,7 +23,7 @@ class ClubsController extends AppController {
     function edit() {
         $this->checkAuthorization(Configure::read('Privilege.Club.edit'));
         $this->set('title_for_layout', 'Edit Club Information');
-        if ($this->request->is('post')) {
+        if ($this->request->is('post') || $this->request->is('put')) {
             $data = $this->request->data;
             $data['Club']['facebook_page_id'] = $this->Facebook->transformPageURLToID($data['Club']['facebook_page_id']);
             $this->Club->id = Configure::read('Club.id');

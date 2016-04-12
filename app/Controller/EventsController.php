@@ -72,7 +72,7 @@ class EventsController extends AppController {
         }
 
 
-        if ($this->request->is('post')) {
+        if ($this->request->is('post') || $this->request->is('put')) {
             // Organizer data from JSON
             $this->_parseJson();
 
