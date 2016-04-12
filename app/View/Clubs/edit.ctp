@@ -1,7 +1,7 @@
 <header class="page-header">
     <h1>Edit Club Information</h1>
 </header>
-<?php echo $this->Form->create('Club', array('class' => 'form-horizontal', 'data-validate' => 'ketchup', 'action' => 'edit')); ?>
+<?php echo $this->Form->create('Club', array('class' => 'form-horizontal', 'data-validate' => 'ketchup', 'url' => array('action' => 'edit'))); ?>
 <div class="form-group">
     <label class="col-sm-2 control-label">Name</label>
     <div class="col-sm-10">

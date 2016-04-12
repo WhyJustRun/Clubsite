@@ -11,7 +11,6 @@ class EmailLog implements CakeLogInterface {
     function shouldEmail($type, $error, $url) {
         return
             (strpos($url, 'wp-admin') === false) &&
-            (strpos($error, '`action` is deprecated') === false) &&
             (strpos($error, '[MissingControllerException]') === false) &&
             (strpos($error, '[NotFoundException]') === false) &&
             (strpos($error, '[MissingViewException]') === false) &&

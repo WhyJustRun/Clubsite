@@ -7,7 +7,7 @@
             $date = new DateTime();
             $year = $date->format('Y');
             $currDate = $date->format('Y-m-d H:i:s');
-            echo $this->Form->create('Membership', array('action' => 'edit'));
+            echo $this->Form->create('Membership', array('url' => array('action' => 'edit')));
             echo $this->Form->input('user_id');
             echo $this->Form->input('year', array('type'=>'text', 'label'=>'Membership year', 'value'=>$year));
             echo $this->Form->input('created', array('type' => 'text', 'value'=>$currDate));
@@ -48,7 +48,7 @@
                         <td><?php echo $this->Html->link('Edit', '/memberships/edit/'.$membership["Membership"]["id"], array('class' => 'button'));?></td>
                         <td>
                         <?php
-                            echo $this->Form->create('Membership', array('action' => 'delete'));
+                            echo $this->Form->create('Membership', array('url' => array('action' => 'delete')));
                             echo $this->Form->hidden('id', array('value'=> $membership["Membership"]["id"]));
                             echo $this->Form->submit('Remove', array('div'=>array('class'=>'unsubmit')));
                             echo $this->Form->end();
