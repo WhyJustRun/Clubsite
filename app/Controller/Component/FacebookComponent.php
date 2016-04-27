@@ -25,7 +25,8 @@ class FacebookComponent extends Component {
         if (!empty($components['path'])) {
             try {
                 // There is no reliable way to convert a Facebook page URL to a graph id.. The best hack is to take the last component in the url path.
-                $page = $this->facebook->api(substr(strrchr($components['path'],'/'),1));
+                $path = rtrim($components['path'], '/');
+                $page = $this->facebook->api(substr(strrchr($path, '/'), 1));
                 return $page['id'];
             } catch(Exception $e) {
                 return NULL;
