@@ -10,7 +10,7 @@
         NULL in <b>Primary account</b>, then use these. The password of
         <b>Primary account</b> will be used.
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-12">
         <h2>Detected duplicates</h2>
         These accounts were determined to be duplicates. Duplicates exist for accounts
         that have similar names. The algorithm for determining which of the two
@@ -31,35 +31,66 @@
                     </tr>
                     <tr>
                         <th>Name</th>
-                        <th>Id</th>
-                        <th>Real?</th>
-                        <th>Most recent event</th>
+                        <th>Club</th>
+                        <th>ID</th>
+                        <th>Most recent event (club)</th>
                         <th>Name</th>
-                        <th>Id</th>
-                        <th>Real?</th>
-                        <th>Most recent event</th>
+                        <th>Club</th>
+                        <th>ID</th>
+                        <th>Most recent event (club)</th>
                         <th></th>
                     </tr>
                 </thead>
                 <?php
+                function getEventInfo($user) {
+                  $eventData = $user['most_recent_event'];
+                  $date = substr($eventData['date'], 0, 10);
+                  $hasAcronym = !empty($eventData['club_acronym']);
+                  return $date.($hasAcronym ? ' ('.$eventData['club_acronym'].')' : '');
+                }
+
+                function getUserName($user) {
+                  $fakeLabel = ' <span class="label label-default" data-toggle="tooltip" title="This is not an account, just a name associated with event results.">Fake</span>';
+                  $realLabel = ' <span class="label label-primary" data-toggle="tooltip" title="This is a user\'s account.">Real</span>';
+                  return $user['User']['name'].($user['has_password'] ? $realLabel : $fakeLabel);
+                }
+
+                function printCellsForUser($user) {
+                ?>
+                  <td style="vertical-align:middle"><?php echo getUserName($user); ?></td>
+                  <td style="vertical-align:middle"><?php echo $user['Club']['acronym']?></td>
+                  <td style="vertical-align:middle"><?php echo $user["User"]["id"]?></td>
+                  <td style="vertical-align:middle"><?php echo getEventInfo($user) ?></td>
+                <?php
+                }
+
+                function userRelatedToClub($user) {
+                  $club_id = Configure::read('Club.id');
+                  return
+                    $user['Club']['id'] == $club_id ||
+                    $user['most_recent_event']['club_id'] == $club_id;
+                }
+
+                function shouldDisplayMatch($match, $canMergeAnyUser) {
+                  return
+                    $canMergeAnyUser ||
+                    userRelatedToClub($match['primary']) ||
+                    userRelatedToClub($match['duplicate']);
+                }
+
                 foreach ($dupUsers as $dupUser) {
+                    if (!shouldDisplayMatch($dupUser, $canMergeAnyUser)) {
+                      continue;
+                    }
                     $primaryId = $dupUser["primary"]["User"]["id"];
                     $duplicateId = $dupUser["duplicate"]["User"]["id"];
-                    $primaryDate = substr($dupUser["primary"]["most_recent"],0,10);
-                    $duplicateDate = substr($dupUser["duplicate"]["most_recent"],0,10);
-                    $real1 = $dupUser["primary"]['has_password'] ? '&#x2713;' : '&nbsp';
-                    $real2 = $dupUser["duplicate"]['has_password'] ? '&#x2713;' : '&nbsp';
                     ?>
                 <tr>
-                    <td><?php echo $dupUser["primary"]["User"]["name"]?></td>
-                    <td><?php echo $primaryId?></td>
-                    <td><?php echo $real1?></td>
-                    <td><?php echo $primaryDate?></td>
-                    <td><?php echo $dupUser["duplicate"]["User"]["name"]?></td>
-                    <td><?php echo $duplicateId?></td>
-                    <td><?php echo $real2?></td>
-                    <td><?php echo $duplicateDate?></td>
-                    <td><?php echo $this->Html->link('Merge', "/users/merge/$primaryId/$duplicateId", array('class' => 'btn btn-default'))?></td>
+                    <?php
+                    printCellsForUser($dupUser['primary']);
+                    printCellsForUser($dupUser['duplicate']);
+                    ?>
+                    <td style="vertical-align:middle"><?php echo $this->Html->link('Merge', "/users/merge/$primaryId/$duplicateId", array('class' => 'btn btn-default'))?></td>
                 </tr>
                 <?php
                 }
@@ -67,7 +98,8 @@
             </table>
         </div>
     </div>
-    <div class="col-sm-4">
+    <?php if ($canMergeAnyUser) { ?>
+    <div class="col-sm-3">
         <h2>Manual merge</h2>
         <?php
         echo $this->Form->create('User', array('url' => array('action' => 'showDuplicates')));
@@ -76,4 +108,5 @@
         echo $this->Form->end('Merge');
         ?>
     </div>
+    <?php } ?>
 </div>

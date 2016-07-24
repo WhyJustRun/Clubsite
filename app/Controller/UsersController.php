@@ -112,7 +112,14 @@ class UsersController extends AppController
     }
 
     function showDuplicates() {
-        $this->checkAuthorization(Configure::read('Privilege.User.edit'));
+
+
+        $edit_authorized = $this->isAuthorized(Configure::read('Privilege.User.edit'));
+        // Merge is a lower privilege level than edit. Merge users are a allowed
+        // to merge people associated with their club, whereas others can merge
+        // anyone.
+        $this->checkAuthorization(Configure::read('Privilege.User.merge'));
+
         if($this->request->is('post')) {
             $targetId = $this->data["User"][0]["user_id"];
             $sourceId = $this->data["User"][1]["user_id"];
@@ -126,10 +133,11 @@ class UsersController extends AppController
             $this->redirect('/users/showDuplicates');
             return;
         }
-        $users = $this->User->find('list', array('order' => 'name asc'));
+        $users = $this->User->find('list', array('order' => 'name asc', 'contain' => false));
         $this->set('users', $users);
         $dupUsers = $this->User->getDuplicates();
         $this->set('dupUsers', $dupUsers);
+        $this->set('canMergeAnyUser', $edit_authorized);
     }
 
     /**

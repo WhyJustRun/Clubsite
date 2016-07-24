@@ -134,14 +134,16 @@ class User extends AppModel {
     }
 
     function getMostRecentEvent($user_id) {
-        $data = $this->query("SELECT MAX(events.date) AS date FROM events,courses,results WHERE events.id = courses.event_id AND courses.id = results.course_id AND results.user_id = $user_id LIMIT 1");
-        if(!empty($data) && !empty($data[0]) && !empty($data[0][0])) {
-            $date = $data[0][0]["date"];
+        $data = $this->query("SELECT events.date AS date, clubs.acronym AS acronym, clubs.id AS id FROM clubs,events,courses,results WHERE clubs.id = events.club_id AND events.id = courses.event_id AND courses.id = results.course_id AND results.user_id = $user_id ORDER BY events.date DESC LIMIT 1");
+        if (!empty($data) && !empty($data[0]) && !empty($data[0]['events'])) {
+            return array(
+              'date' => $data[0]['events']['date'],
+              'club_id' => $data[0]['clubs']['id'],
+              'club_acronym' => $data[0]['clubs']['acronym'],
+            );
+        } else {
+            return null;
         }
-        else {
-            $date = NULL;
-        }
-        return $date;
     }
 
     function getCombined() {
@@ -159,14 +161,13 @@ class User extends AppModel {
         $data = $this->query('SELECT U1.id, U2.id, U1.name, U2.name FROM users as U1, users as U2 WHERE U1.name LIKE U2.name AND U1.id < U2.id ORDER BY U1.name');
         $cases = array();
         foreach ($data as &$case) {
-            $user1 = $this->findById($case["U1"]["id"]);
-            $user2 = $this->findById($case["U2"]["id"]);
-            $date1 = $this->getMostRecentEvent($user1["User"]["id"]);
-            $date2 = $this->getMostRecentEvent($user2["User"]["id"]);
-            $user1["most_recent"] = $date1;
-            $user2["most_recent"] = $date2;
+            $user1 = $this->find('first', array('conditions' => array('User.id' => $case['U1']['id']), 'contain' => 'Club'));
+            $user2 = $this->find('first', array('conditions' => array('User.id' => $case['U2']['id']), 'contain' => 'Club'));
+            $user1['most_recent_event'] = $this->getMostRecentEvent($user1["User"]["id"]);
+            $user2['most_recent_event'] = $this->getMostRecentEvent($user2["User"]["id"]);
+            $date1 = $user1['most_recent_event']['date'];
+            $date2 = $user2['most_recent_event']['date'];
             // Determine which is primary and which is duplicate
-
             /* Check for password */
             if($this->hasPassword($user1) && !$this->hasPassword($user2)) {
                 // User2 is a fake account
