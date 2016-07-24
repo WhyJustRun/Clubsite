@@ -100,7 +100,7 @@ class UsersController extends AppController
     }
 
     function merge($targetId, $sourceId) {
-        $this->checkAuthorization(Configure::read('Privilege.User.edit'));
+        $this->checkAuthorization(Configure::read('Privilege.User.merge'));
         $field_options = array('year_of_birth'=>'target_source',
             'club_id'=>'target_source',
             'si_number'=>'target_source',
