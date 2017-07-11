@@ -45,11 +45,10 @@ fjs.parentNode.insertBefore(js, fjs);
         }
         try {
             $page = $this->facebook->api("/${pageID}");
-            $feed = $this->facebook->api("/${pageID}/feed");
+            $feed = $this->facebook->api("/${pageID}/feed?fields=from,message,link,created_time,picture");
         } catch(Exception $e) {
             return "<p>News is currently unavailable due to a connectivity issue with Facebook. It will be back soon.</p>";
         }
-
         $html = '';
         $i=0;
         $maxItems = empty($options['limit']) ? 5 : $options['limit'];
@@ -69,7 +68,7 @@ fjs.parentNode.insertBefore(js, fjs);
                 } else {
                     $html .= '<img width="100%" src="'.$news['picture'].'" />';
                 }
-                
+
                 $html .= '</div>
                     <div class="news-content">';
                 $html .= $news['message'].'<br/>';
@@ -91,4 +90,3 @@ fjs.parentNode.insertBefore(js, fjs);
 }
 
 ?>
-
