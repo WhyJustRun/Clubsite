@@ -29,16 +29,13 @@ class ProxiesController extends AppController {
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_POST, true);
-
-            // Open a stream so that we stream the image download
-            $localFile = $_FILES['file']['tmp_name'];
-            $postFields = array(
-              'file' =>
-                  '@'            . $_FILES['file']['tmp_name']
-                  . ';filename=' . $_FILES['file']['name']
-                  . ';type='     . $_FILES['file']['type']
+            $file = new \CurlFile(
+              $_FILES['file']['tmp_name'],
+              $_FILES['file']['type'],
+              $_FILES['file']['name']
             );
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+
+            curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' => $file));
 
             echo curl_exec($ch);
             curl_close($ch);
