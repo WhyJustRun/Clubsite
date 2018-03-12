@@ -45,7 +45,7 @@ fjs.parentNode.insertBefore(js, fjs);
         }
         try {
             $page = $this->facebook->api("/${pageID}");
-            $feed = $this->facebook->api("/${pageID}/feed?fields=from,message,link,created_time,picture");
+            $feed = $this->facebook->api("/${pageID}/posts?fields=from,message,link,created_time,picture");
         } catch(Exception $e) {
             return "<p>News is currently unavailable due to a connectivity issue with Facebook. It will be back soon.</p>";
         }
