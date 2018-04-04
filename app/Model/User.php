@@ -75,13 +75,12 @@ class User extends AppModel {
                 'className' => 'Result',
                 'foreignKey' => 'user_id',
                 ),
+            'Privilege' => array('foreignKey' => 'user_id'),
             'Registrant' => array(
                 'className' => 'Result',
                 'foreignKey' => 'registrant_id',
                 )
             );
-
-    var $hasOne = array('Privilege');
 
     var $belongsTo = array(
             'Club' => array(
