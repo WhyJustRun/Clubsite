@@ -101,14 +101,15 @@ class UsersController extends AppController
 
     function merge($targetId, $sourceId) {
         $this->checkAuthorization(Configure::read('Privilege.User.merge'));
-        $field_options = array('year_of_birth'=>'target_source',
-            'club_id'=>'target_source',
-            'si_number'=>'target_source',
-            'email'=>'target_source',
-            'referred_from'=>'target_source');
-        $this->User->merge($targetId, $sourceId, $field_options);
+        if ($this->User->exists($targetId) && $this->User->exists($sourceId)) {
+            $fieldOptions = array('year_of_birth'=>'target_source',
+                'club_id'=>'target_source',
+                'si_number'=>'target_source',
+                'email'=>'target_source',
+                'referred_from'=>'target_source');
+            $this->User->merge($targetId, $sourceId, $fieldOptions);
+        }
         $this->redirect('/users/showDuplicates');
-        return;
     }
 
     function showDuplicates() {
