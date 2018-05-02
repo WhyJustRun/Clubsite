@@ -5,6 +5,12 @@ class Event extends AppModel {
     var $actsAs = array('Containable');
 
     var $validate = array(
+        'name' => array(
+            'rule' => 'notBlank',
+        ),
+        'event_classification_id' => array(
+            'rule' => 'notBlank',
+        ),
         'lat' => array(
             'numeric' => array(
                 'rule' => array('numeric'),
