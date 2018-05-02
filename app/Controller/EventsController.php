@@ -73,6 +73,10 @@ class EventsController extends AppController {
 
 
         if ($this->request->is('post') || $this->request->is('put')) {
+            if (!array_key_exists('Event', $this->request->data)) {
+                return $this->Session->setFlash('The event could not be updated.');
+            }
+
             // Organizer data from JSON
             $this->_parseJson();
 
@@ -96,8 +100,7 @@ class EventsController extends AppController {
             if ($this->Event->saveAll($this->request->data)) {
                 $this->Session->setFlash('The event has been updated.', 'flash_success');
                 $this->redirect('/events/view/'.$this->Event->id);
-            }
-            else {
+            } else {
                 $this->Session->setFlash('The event could not be updated.');
             }
         }
