@@ -70,7 +70,10 @@ class UsersController extends AppController
         $url = Configure::read('Rails.loginURL');
         $url .= "?redirect_club_id=".Configure::read('Club.id');
         if ($this->Session->check('Message.auth')) {
-            $flash = $this->Session->read('Message.auth');
+            // NOTE: Only the first flash message will be passed through to Rails.
+            // CakePHP support for multiple flash messages was added after this
+            // was implemented.
+            $flash = $this->Session->read('Message.auth')[0];
             $url .= '&flash_message='.urlencode($flash['message']);
             $this->Session->delete('Message.auth');
         }
