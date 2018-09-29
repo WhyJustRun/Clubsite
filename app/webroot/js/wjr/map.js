@@ -1,7 +1,7 @@
 /*jslint browser: true, indent: 2, nomen: true*/
 /*global define, google, requirejs*/
 
-define(['jquery', 'underscore', 'async!https://maps.google.com/maps/api/js?sensor=false'], function ($, _) {
+define(['jquery', 'underscore', 'async!https://maps.googleapis.com/maps/api/js?key=AIzaSyD93hybZ0IfdVF-NcnTkuG772Nzu9Rkjpc'], function ($, _) {
   'use strict';
   var map = {};
   map.SimpleMarkerMap = function () {
