@@ -6,16 +6,10 @@
           <h2>Events</h2>
         </header>
         <?php
-        $events = array();
-        $events["Ongoing"] = $this->element('Events/box-list', array('filter' => 'ongoing', 'limit' => '-1'));
-        $events["Upcoming"] = $this->element('Events/box-list', array('filter' => 'upcoming', 'limit' => '4'));
-        $events["Past"] = $this->element('Events/box-list', array('filter' => 'past', 'limit' => '2'));
-
-        foreach($events as $title => $content) {
-            if(!empty($content)) {
-                echo "<h3>${title}</h3>";
-                echo $content;
-            }
+        if (Configure::read('Club.layout') === 'series' ) {
+            echo $this->element('Events/summary_list_by_series');
+        } else {
+            echo $this->element('Events/summary_list');
         }
         ?>
 

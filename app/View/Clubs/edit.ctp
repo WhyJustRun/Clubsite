@@ -42,7 +42,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Page Layout</label>
     <div class="col-sm-10">
-        <?php echo $this->Form->input('layout', array('type' => 'select', 'options' => array('default' => 'Active Club Layout', 'other' => 'Inactive Club Layout'), 'div' => false, 'label' => false, 'class' => 'form-control')) ?>
+        <?php echo $this->Form->input('layout', array('type' => 'select', 'options' => array('default' => 'Active Club Layout', 'series' => 'Active Club Layout - Past/Upcoming Events By Series', 'other' => 'Inactive Club Layout'), 'div' => false, 'label' => false, 'class' => 'form-control')) ?>
     </div>
 </div>
 <div class="form-group">

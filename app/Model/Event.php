@@ -69,19 +69,19 @@ class Event extends AppModel {
         return true;
     }
 
-    function findOngoing($limit) {
-        return $this->findEventsNearNow('ongoing', $limit);
+    function findOngoing($limit, $series_id) {
+        return $this->findEventsNearNow('ongoing', $limit, $series_id);
     }
 
-    function findUpcoming($limit) {
-        return $this->findEventsNearNow('after', $limit);
+    function findUpcoming($limit, $series_id) {
+        return $this->findEventsNearNow('after', $limit, $series_id);
     }
 
-    function findPast($limit) {
-        return $this->findEventsNearNow('before', $limit);
+    function findPast($limit, $series_id) {
+        return $this->findEventsNearNow('before', $limit, $series_id);
     }
 
-    private function findEventsNearNow($beforeOrAfterNow, $limit) {
+    private function findEventsNearNow($beforeOrAfterNow, $limit, $series_id) {
         $time = new DateTime();
         $time = $time->format('Y-m-d H:i:s');
         if ($beforeOrAfterNow === 'before') {
@@ -112,6 +112,19 @@ class Event extends AppModel {
         } else {
             die("Event.findEventsNearNow: invalid parameter: $beforeOrAfterNow");
         }
+
+        if ($series_id != NULL) {
+            if ($series_id > 0) {
+                $conditions['AND'][] = array(
+                    'Event.series_id =' => $series_id,
+                );
+            } else {
+                // Non-series events
+                $conditions['AND'][] = array(
+                    'Event.series_id =' => NULL,
+                );
+            }
+	}
 
         $options = array(
             'limit' => $limit,
