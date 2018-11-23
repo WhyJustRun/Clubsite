@@ -112,13 +112,24 @@ define(['jquery', 'underscore', 'async!https://maps.googleapis.com/maps/api/js?k
                 if (_.has(markers, entity.id)) {
                   return;
                 }
-                var marker, infoWindow;
+                var marker, color, infoWindow;
                 infoWindow = new google.maps.InfoWindow({
                   content: '<a href="' + entity.url +
                            '"><h3>' + entity.name + '</h3></a>'
                 });
+                color = entity.map_standard.color ? entity.map_standard.color : 'rgba(0,0,0,1)';
                 marker = new google.maps.Marker({
-                  position: new google.maps.LatLng(entity.lat, entity.lng)
+                  position: new google.maps.LatLng(entity.lat, entity.lng),
+                  icon: {
+                      path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
+                      fillColor: color,
+                      fillOpacity: 1.0,
+                      anchor: new google.maps.Point(0,0),
+                      strokeOpacity: 0.5,
+                      strokeWeight: 2.0,
+                      strokeColor: '#000000',
+                      scale: 2.0
+                 },
                 });
                 google.maps.event.addListener(marker, 'click', function () {
                   infoWindow.open(googleMap, marker);
