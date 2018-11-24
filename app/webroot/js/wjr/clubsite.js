@@ -89,7 +89,7 @@ define(['jquery', 'underscore', 'cakebootstrap', 'moment', './forms', './editabl
         }
       }, {
         selector: '.multi-marker-map',
-        requires: ['wjr/map'],
+        requires: ['wjr/map', 'markerclusterer'],
         loadEach: function (element, map) {
           var markerMap = new map.MultiMarkerMap();
           markerMap.initialize(element);

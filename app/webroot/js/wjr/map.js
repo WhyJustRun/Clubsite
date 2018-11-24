@@ -75,13 +75,14 @@ define(['jquery', 'underscore', 'async!https://maps.googleapis.com/maps/api/js?k
 
   map.MultiMarkerMap = function () {
     this.initialize = function (element) {
-      var lat, fetchUrl, fetchEntity, fetchMarkers, fetchBounds,
-        lng, zoom, googleMap, options, center, markers, fetchInProgress;
+      var lat, fetchUrl, fetchEntity, fetchMarkers, fetchMarkerImages, fetchBounds,
+        lng, zoom, googleMap, markerClusterer, options, center, markers, fetchInProgress;
       lat = +(element.getAttribute('data-lat'));
       lng = +(element.getAttribute('data-lng'));
       zoom = +(element.getAttribute('data-zoom'));
       fetchUrl = element.getAttribute('data-fetch-url');
       fetchEntity = element.getAttribute('data-fetch-entity');
+      fetchMarkerImages = element.getAttribute('data-fetch-markerimages');
       center = new google.maps.LatLng(lat, lng);
       options = {
         center: center,
@@ -91,6 +92,8 @@ define(['jquery', 'underscore', 'async!https://maps.googleapis.com/maps/api/js?k
 
       googleMap = new google.maps.Map(element, options);
       markers = {};
+      markerClusterer = new MarkerClusterer(googleMap, markers,
+          {imagePath: fetchMarkerImages});
 
       fetchInProgress = false;
       fetchBounds = null;
@@ -134,7 +137,7 @@ define(['jquery', 'underscore', 'async!https://maps.googleapis.com/maps/api/js?k
                 google.maps.event.addListener(marker, 'click', function () {
                   infoWindow.open(googleMap, marker);
                 });
-                marker.setMap(googleMap);
+                markerClusterer.addMarker(marker);
                 markers[entity.id] = marker;
               });
             },
