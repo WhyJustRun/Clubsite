@@ -23,6 +23,7 @@
              data-zoom="10"
              data-fetch-url="<?php echo Configure::read('Rails.domain') ?>/api/maps.json"
              data-fetch-entity="maps"
+             data-fetch-markerimages="//<?php echo $this->request->host() ?>/img/maps-markercluster/m"
              style="height: 400px; width: 100%">
         </div>
     </div>
