@@ -307,6 +307,10 @@ footer.main-footer div {
     text-align: center;
 }
 
+.three-column .events-by-series h4 {
+    font-weight: bold;
+}
+
 .news-item {
     margin-bottom: 10px;
     margin-top: 10px;

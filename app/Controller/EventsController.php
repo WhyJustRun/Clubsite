@@ -296,19 +296,19 @@ class EventsController extends AppController {
         $this->set('eventId', $id);
     }
 
-    function upcoming($limit = 0)
+    function upcoming($limit = 0, $series_id = NULL)
     {
-        return $this->Event->findUpcoming($limit);
+        return $this->Event->findUpcoming($limit, $series_id);
     }
 
-    function past($limit = 0)
+    function past($limit = 0, $series_id = NULL)
     {
-        return $this->Event->findPast($limit);
+        return $this->Event->findPast($limit, $series_id);
     }
 
-    function ongoing($limit = 0)
+    function ongoing($limit = 0, $series_id = NULL)
     {
-        return $this->Event->findOngoing($limit);
+        return $this->Event->findOngoing($limit, $series_id);
     }
 
     function _isBeforeNow($dateTime) {

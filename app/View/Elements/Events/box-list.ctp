@@ -1,6 +1,11 @@
 <?php 
 // Filter can either be 'upcoming' or 'past'
-$events = $this->requestAction('events/'.$filter.'/'.$limit);
+if (isset($series_id)) {
+    $events = $this->requestAction('events/'.$filter.'/'.$limit.'/'.$series_id);
+} else {
+    $events = $this->requestAction('events/'.$filter.'/'.$limit);
+}
+
 foreach($events as $event) {
     $startDate = new DateTime($event["Event"]["date"]);    
     $finishDate = new DateTime($event["Event"]["finish_date"]);    
