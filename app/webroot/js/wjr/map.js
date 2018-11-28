@@ -93,7 +93,7 @@ define(['jquery', 'underscore', 'async!https://maps.googleapis.com/maps/api/js?k
       googleMap = new google.maps.Map(element, options);
       markers = {};
       markerClusterer = new MarkerClusterer(googleMap, markers,
-          {imagePath: fetchMarkerImages});
+          {imagePath: fetchMarkerImages, maxZoom: 11});
 
       fetchInProgress = false;
       fetchBounds = null;
