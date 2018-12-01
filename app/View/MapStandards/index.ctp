@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php 
+                <?php
                 foreach($mapStandards as $mapStandard) {?>
                 <tr>
                     <td><?php echo $mapStandard["MapStandard"]["name"] ?></td>
@@ -28,7 +28,7 @@
                     </td>
                     <td>
                         <?php
-                        echo $this->Form->create('MapStandard', array('action' => 'delete', 'class' => 'thin-form'));
+                        echo $this->Form->create('MapStandard', array('url' => array('action' => 'delete'), 'class' => 'thin-form'));
                         echo $this->Form->hidden('id', array('value'=> $mapStandard["MapStandard"]["id"])); ?>
                         <button type="submit" class="btn btn-xs btn-danger">
                             <span class="glyphicon glyphicon-trash"></span>
@@ -43,4 +43,3 @@
         </table>
     </div>
 </div>
-
