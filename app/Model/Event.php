@@ -85,9 +85,12 @@ class Event extends AppModel {
         $time = new DateTime();
         $time = $time->format('Y-m-d H:i:s');
         if ($beforeOrAfterNow === 'before') {
+            $earliest = (new DateTime())->modify('-3 months');
+            $earliest = $earliest->format('Y-m-d H:i:s');
             $conditions = array(
                 'AND' => array(
                     'Event.date <=' => $time,
+                    'Event.date >' => $earliest,
                     'NOT' => array(
                         'AND' => array(
                             'NOT' => array('Event.finish_date' => null),
@@ -107,7 +110,14 @@ class Event extends AppModel {
             );
             $order = array('Event.date DESC');
         } else if ($beforeOrAfterNow === 'after') {
-            $conditions = array('Event.date >=' => $time);
+            $latest = (new DateTime())->modify('+3 months');
+            $latest = $latest->format('Y-m-d H:i:s');
+            $conditions = array(
+                'AND' => array(
+                    'Event.date >=' => $time,
+                    'Event.date <' => $latest,
+                )
+            );
             $order = array('Event.date ASC');
         } else {
             die("Event.findEventsNearNow: invalid parameter: $beforeOrAfterNow");

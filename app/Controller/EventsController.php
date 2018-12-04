@@ -60,14 +60,14 @@ class EventsController extends AppController {
             // Add event
             $this->checkAuthorization(Configure::read('Privilege.Event.edit'));
             $this->set('title_for_layout', 'Add Event');
-            $this->_setLists();
+            $this->_setLists($id);
             $this->set('type', 'Add');
         } else {
             // Edit event
             $this->set('title_for_layout', 'Edit Event');
             $this->set('type', 'Edit');
             $this->_checkEditAuthorization($id);
-            $this->_setLists();
+            $this->_setLists($id);
             $this->Event->id = $id;
         }
 
@@ -152,9 +152,22 @@ class EventsController extends AppController {
         $this->set('id', $id);
     }
 
-    function _setLists() {
+    function _setLists($id = null) {
         $this->set('maps', $this->Event->Map->find('list', array('order'=>'Map.name')));
-        $this->set('series', $this->Event->Series->find('list'));
+        $event = $this->Event->find('first', array('conditions' => array('Event.id' => $id)));
+        if (!empty($event) && $event["Series"]["is_current"] === false) {
+            $this->set('series', $this->Event->Series->find('list',
+                array(
+                    'order' => array('Series.is_current DESC'),
+                )
+            ));
+        } else {
+            $this->set('series', $this->Event->Series->find('list',
+                array(
+                    'conditions' => array('Series.is_current' => 1),
+                )
+            ));
+        }
         $this->set('eventClassifications', $this->Event->EventClassification->getDescriptionList());
     }
 
