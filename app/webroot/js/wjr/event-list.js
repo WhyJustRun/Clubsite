@@ -215,9 +215,9 @@ define(['jquery', 'moment', 'knockout', './club'], function ($, moment, ko, club
     
         if (coloringStyle === "club-only") {
           if (clubId == club.id) {
-            color = '#238216';
+            color = series.children('Color').text() ? series.children('Color').text() : '#000000';
           } else {
-            color = '#000000';
+            color = '#6d6d6d';
           }
         } else {
           color = series.children('Color').text();
