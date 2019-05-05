@@ -2,7 +2,7 @@
 $ongoing = $this->element('Events/box-list', array('filter' => 'ongoing', 'limit' => '-1'));
 
 if(!empty($ongoing)) {
-    echo "<h3>${title}</h3>";
+    echo "<h3>Ongoing</h3>";
     echo $ongoing;
 }
 
