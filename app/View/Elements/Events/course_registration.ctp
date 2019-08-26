@@ -3,9 +3,6 @@
 // count($courses) should be > 0
 assert(count($courses) > 0);
 ?>
-<header>
-    <h2>Course Registration</h2>
-</header>
 <div class="courses">
     <?php 
     $userId = $this->User->id();
@@ -14,7 +11,7 @@ assert(count($courses) > 0);
     <div class="course">
         <div class="course-info">
             <div class="pull-right">
-                <?php if($course["registered"] === false) { ?>
+                <?php if($course["registered"] === false && $reg_open) { ?>
                 <div class="btn-group">
                     <a class="btn btn-success" href="/courses/register/<?php echo $course['id'] ?>/<?php echo $userId ?>"><span class="glyphicon glyphicon-plus"></span> Register</a>
                 </div>
@@ -43,4 +40,8 @@ assert(count($courses) > 0);
     <?php } ?>
 </div>
 
-<?php echo $this->element('Events/register_others', array('courses' => $courses, 'userId' => $userId)) ?>
+<?php
+if ($reg_open) {
+    echo $this->element('Events/register_others', array('courses' => $courses, 'userId' => $userId));
+}
+?>

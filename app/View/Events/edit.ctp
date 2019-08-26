@@ -19,6 +19,14 @@ if(!empty($this->data['Event']['finish_date'])) {
     $finishTime = $finishDate = "";
 }
 
+if(!empty($this->data['Event']['registration_deadline'])) {
+    $parts = explode(' ', $this->data['Event']['registration_deadline']);
+    $deadlineDate = $parts[0];
+    $deadlineTime = substr($parts[1], 0, -3);
+} else {
+    $deadlineTime = $deadlineDate = "";
+}
+
 echo $this->Form->create('Event', array('class' => 'form-horizontal', 'data-validate' => 'ketchup', 'url' => array('action' => 'edit')));
 // Hidden JSON encoded organizer data from the edit organizers UI
 echo $this->Form->input('id', array('type' => 'hidden'));
@@ -46,6 +54,20 @@ echo $this->Form->input('name', array('data-validate' => 'validate(required)', '
             </div>
             <div class="form-group inline-validated">
                 <?php echo $this->Form->text('finish_time', array('size' => '5', 'placeholder' => 'hh:mm', 'maxLength' => 5, 'value' => $finishTime, 'data-validate' => 'validate(time, requires(EventFinishDate, finish date))', 'data-format' => 'HH:mm', 'div' => false, 'class' => 'form-control time-picker', 'label' => false)) ?>
+            </div>
+            <span class="inline-validated-help"> (optional)</span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label col-sm-2">Registration Deadline</label>
+    <div class="col-sm-10">
+        <div class="form-inline">
+            <div class="form-group inline-validated">
+                <?php echo $this->Form->text('deadline_date', array('size' => '10', 'value' => $deadlineDate, 'maxLength' => 10, 'placeholder' => 'yyyy-mm-dd', 'data-validate' => 'validate(date, date_before(EventDate, EventTime, EventDeadlineDate, EventDeadlineTime))', 'class' => 'form-control date-picker', 'data-format' => 'YYYY-MM-DD', 'div' => false, 'label' => false)) ?>
+            </div>
+            <div class="form-group inline-validated">
+                <?php echo $this->Form->text('deadline_time', array('size' => '5', 'placeholder' => 'hh:mm', 'maxLength' => 5, 'value' => $deadlineTime, 'data-validate' => 'validate(time, requires(EventDeadlineDate, deadline date))', 'data-format' => 'HH:mm', 'div' => false, 'class' => 'form-control time-picker', 'label' => false)) ?>
             </div>
             <span class="inline-validated-help"> (optional)</span>
         </div>
