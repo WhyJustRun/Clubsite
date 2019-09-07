@@ -89,9 +89,14 @@ class EventsController extends AppController {
             }
 
             if(!empty($this->request->data['Event']['deadline_date'])) {
+                if (empty($this->request->data['Event']['deadline_time'])) {
+                    $this->request->data['Event']['deadline_time'] = "23:59";
+                }
                 $this->request->data['Event']['registration_deadline'] = TimeLib::mysqlDateTimeFormat($this->request->data['Event']['deadline_date'], $this->request->data['Event']['deadline_time']);
                 unset($this->request->data['Event']['deadline_date']);
                 unset($this->request->data['Event']['deadline_time']);
+            } else {
+                $this->request->data['Event']['registration_deadline'] = null;
             }
 
             // Don't save the default location
