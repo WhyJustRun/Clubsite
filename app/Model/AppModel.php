@@ -114,6 +114,9 @@ class AppModel extends Model {
             } else if($key === 'finish_date' && !empty($value)){
                 $results['utc_finish_date'] = $value;
                 $value = $this->convertDate($value, $from, $to);
+            } else if ($key === 'registration_deadline' && !empty($value)){
+                $results['utc_registration_deadline'] = $value;
+                $value = $this->convertDate($value, $from, $to);
             }
         }
     }

@@ -16,6 +16,12 @@
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+/* Registration deadline additional classes */
+.reg-deadline-header {
+    color: #d2322d;
+    padding: 5px;
+}
+
 /* Use to ensure the image fits within the responsive column*/
 .fitting-image {
     max-width: 100%;

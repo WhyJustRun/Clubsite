@@ -20,5 +20,23 @@ if($event["Event"]["completed"] === true) {
     </div>
 <?php
 } else if(count($event["Course"]) > 0) {
-    echo $this->element('Events/course_registration', array('courses' => $event['Course']));
+?>
+<header>
+    <h2>Course Registration</h2>
+<?php
+if (!empty($event['Event']['registration_deadline'])) {
+    if ($event['Event']['registration_open']) {
+        $deadlineDate = new DateTime($event['Event']['registration_deadline']);
+        $deadlineDateFormatted = "Deadline " . $deadlineDate->format('M jS g:ia');
+    } else {
+        $deadlineDateFormatted = "Registration is Closed";
+    }
+?>
+    <h4 class="reg-deadline-header"><?php echo $deadlineDateFormatted ?></h4>
+<?php
+}
+?>
+</header>
+<?php
+    echo $this->element('Events/course_registration', array('courses' => $event['Course'], 'reg_open' => $event['Event']['registration_open']));
 } ?>

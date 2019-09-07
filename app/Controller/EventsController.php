@@ -88,6 +88,12 @@ class EventsController extends AppController {
                 unset($this->request->data['Event']['finish_time']);
             }
 
+            if(!empty($this->request->data['Event']['deadline_date'])) {
+                $this->request->data['Event']['registration_deadline'] = TimeLib::mysqlDateTimeFormat($this->request->data['Event']['deadline_date'], $this->request->data['Event']['deadline_time']);
+                unset($this->request->data['Event']['deadline_date']);
+                unset($this->request->data['Event']['deadline_time']);
+            }
+
             // Don't save the default location
             if(floatval($this->request->data['Event']['lat']) == Configure::read('Club.lat') && floatval($this->request->data['Event']['lng']) == Configure::read('Club.lng')) {
                 $this->request->data['Event']['lat'] = null;
@@ -209,6 +215,12 @@ class EventsController extends AppController {
 
         $startTime = new DateTime($event["Event"]["utc_date"]);
         $event["Event"]["completed"] = ($this->_isBeforeNow($startTime));
+        if (!empty($event["Event"]["utc_registration_deadline"])) {
+            $registrationDeadline = new DateTime($event["Event"]["utc_registration_deadline"]);
+            $event["Event"]["registration_open"] = !($this->_isBeforeNow($registrationDeadline));
+        } else {
+            $event["Event"]["registration_open"] = !$event["Event"]["completed"];
+        }
 
         foreach($event["Course"] as &$course) {
             $course["Result"] = @Set::sort($course["Result"], "{n}.User.name", 'asc');
