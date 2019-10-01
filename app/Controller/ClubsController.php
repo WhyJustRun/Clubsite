@@ -3,7 +3,7 @@ class ClubsController extends AppController {
 
     var $name = 'Clubs';
     var $helpers = array("Form");
-    var $components = array('Facebook', 'Auth', 'Session');
+    var $components = array('Facebook', 'Auth', 'Session', 'JuicerFeed');
 
     function beforeFilter() {
         parent::beforeFilter();
@@ -26,6 +26,7 @@ class ClubsController extends AppController {
         if ($this->request->is('post') || $this->request->is('put')) {
             $data = $this->request->data;
             $data['Club']['facebook_page_id'] = $this->Facebook->transformPageURLToID($data['Club']['facebook_page_id']);
+            $data['Club']['juicer_feed_id'] = $this->JuicerFeed->transformPageURLToID($data['Club']['juicer_feed_id']);
             $this->Club->id = Configure::read('Club.id');
             if ($this->Club->save($data)) {
                 $this->Session->setFlash('Updated club');
@@ -35,6 +36,7 @@ class ClubsController extends AppController {
 
         $club = $this->Club->find('first', array('recursive' => -1, 'conditions' => array('Club.id' => Configure::read('Club.id'))));
         $club['Club']['facebook_page_id'] = $this->Facebook->transformPageIDToURL($club['Club']['facebook_page_id']);
+        $club['Club']['juicer_feed_id'] = $this->Facebook->transformPageIDToURL($club['Club']['juicer_feed_id']);
         $this->data = $club;
         $this->set('clubs', $this->Club->find('list', array('order' => 'Club.name')));
         $this->set('clubCategories', $this->Club->ClubCategory->find('list'));
