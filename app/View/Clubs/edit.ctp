@@ -36,7 +36,14 @@
     <label class="col-sm-2 control-label">Facebook Page URL</label>
     <div class="col-sm-10">
         <?php echo $this->Form->input('facebook_page_id', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'form-control')) ?>
-        <span class="help-block">Used on the home page for the news section</span>
+        <span class="help-block">Used on the home page for the Facebook Like Button</span>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label">Juicer Feed URL</label>
+    <div class="col-sm-10">
+        <?php echo $this->Form->input('juicer_feed_id', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => 'https://www.juicer.io/feeds/orienteeringcanada')) ?>
+        <span class="help-block">Used on the home page for the News feed. You can set up/customize your feed by <a href="https://www.juicer.io/">creating an account at juicer.io</a>.</span>
     </div>
 </div>
 <div class="form-group">
