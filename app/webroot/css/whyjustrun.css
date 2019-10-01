@@ -317,28 +317,6 @@ footer.main-footer div {
     font-weight: bold;
 }
 
-.news-item {
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-.news-image {
-    padding-top: 3px;
-    width: 50px;
-}
-
-.news-content {
-    margin-left: 65px;
-}
-
-.news-link {
-    font-size: 13px;
-}
-
-.news-time {
-    color: gray;
-}
-
 .event-box {
     margin-bottom: 10px;
     margin-top: 10px;
@@ -368,7 +346,7 @@ footer.main-footer div {
     position: relative;
 }
 
-.event-box-inner, .news-item {
+.event-box-inner {
     background-color: #f8f8f8;
     border-radius: 10px;
     padding: 6px;
@@ -516,4 +494,10 @@ span.thin-control {
     font-size: 20px;
     color: #888888;
     padding-left: 4px;
+}
+
+/* Hide the built in referral as we show it below the first feed items.
+   Also increase CSS specificity so this is actually used. */
+.juicer-feed .referral.referral {
+    display: none;
 }

@@ -33,25 +33,20 @@
         </header>
 
         <?php
-        $wjrPageId = Configure::read('Facebook.appPageId');
+        $juicerFeedId = Configure::read('Club.juicer_feed_id');
+        if ($juicerFeedId) {
+            echo $this->JuicerFeed->feed($juicerFeedId);
+        } else if ($this->User->canEditClub()) { ?>
+            <a class="btn" href="/clubs/edit">Add news source</a>
+        <?php
+        }
+
         $fbPageId = Configure::read('Club.facebook_page_id');
         if (!$fbPageId) {
-            if ($this->User->canEditClub()) { ?>
-            <a class="btn" href="/clubs/edit">Customize Facebook Page source</a>
-            <?php
-            }
             $fbPageId = Configure::read('Facebook.defaultPageID');
         }
 
-        echo $this->FacebookGraph->feed($fbPageId, array('limit' => 5));
-        $facebookDomain = "http://www.facebook.com/";
-        if ($fbPageId) {
-            echo $this->FacebookGraph->like($facebookDomain.$fbPageId);
-        }
-
-        if ($wjrPageId != $fbPageId) {
-            echo $this->FacebookGraph->like($facebookDomain.$wjrPageId);
-        }
+        echo $this->FacebookGraph->like("http://www.facebook.com/".$fbPageId);
         ?>
     </article>
     <article class="col-sm-4 col-sm-pull-8">
