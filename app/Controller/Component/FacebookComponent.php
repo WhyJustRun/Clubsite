@@ -1,20 +1,5 @@
 <?php
-try {
-    App::import("Vendor", "facebook");
-} catch(Exception $e) {
-    throw new InternalErrorException($e);
-}
-
 class FacebookComponent extends Component {
-    function __construct($view) {
-        $config = Configure::read('Facebook');
-        $this->facebook = new Facebook(array(
-          'appId'  => $config['app']['id'],
-          'secret' => $config['app']['secret']
-        ));
-        parent::__construct($view);
-    }
-    
     function initialize(Controller $controller) {
         $this->controller = $controller;
     }
@@ -23,14 +8,8 @@ class FacebookComponent extends Component {
     {
         $components = parse_url($url);
         if (!empty($components['path'])) {
-            try {
-                // There is no reliable way to convert a Facebook page URL to a graph id.. The best hack is to take the last component in the url path.
-                $path = rtrim($components['path'], '/');
-                $page = $this->facebook->api(substr(strrchr($path, '/'), 1));
-                return $page['id'];
-            } catch(Exception $e) {
-                return NULL;
-            }
+            $path = rtrim($components['path'], '/');
+            return substr(strrchr($path, '/'), 1);
         }
         
         return NULL;
@@ -39,6 +18,6 @@ class FacebookComponent extends Component {
     public function transformPageIDToURL($id)
     {
         if (empty($id)) return NULL;
-        return 'http://www.facebook.com/'.$id;
+        return 'https://www.facebook.com/'.$id;
     }
 }
