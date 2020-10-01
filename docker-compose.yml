@@ -1,0 +1,27 @@
+version: '3'
+services:
+  web:
+    build: ./php-fpm
+    ports:
+      - 9000
+    expose:
+      - 9000
+    volumes:
+        - ./src:/application/
+    links:
+        - db
+    environment:
+        MYSQL_HOST: db
+        MYSQL_USERNAME: root
+        MYSQL_PASSWORD: root
+        MYSQL_DATABASE: skimap
+        SKIMAP_MODE: development
+  webserver:
+    image: nginx
+    volumes:
+        - ./src:/application/ # used for serving static files
+        - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+        - 8080:80
+    links:
+        - web
