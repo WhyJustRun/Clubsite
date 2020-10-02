@@ -2,8 +2,8 @@
 class UsersController extends AppController
 {
     var $name = 'Users';
-    var $helpers = array("Form", 'Recaptcha.Recaptcha', 'Link');
-    var $components = array('Email', 'RequestHandler', 'Recaptcha.Recaptcha');
+    var $helpers = array("Form", 'Link');
+    var $components = array('Email', 'RequestHandler');
 
     function beforeFilter()
     {

@@ -119,8 +119,6 @@ define(['jquery', 'underscore', 'cakebootstrap', 'moment', './forms', './editabl
       }
     });
 
-    // Add required to the recaptcha field. This has to be done after page load as the element is created dynamically, and before ketchup parses the data-validate tags
-    $('#recaptcha_response_field').attr('data-validate', 'validate(required)');
     $('time.timeago').each(function () {
       var time = moment($(this).attr('datetime'));
       $(this).html(time.fromNow());

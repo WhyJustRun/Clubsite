@@ -49,9 +49,6 @@
  *
  */
 
-// Unused - remove it
-CakePlugin::load('Recaptcha');
-
 CakeLog::config('emailLog', array(
     'engine' => 'Email',
     'model' => 'LogEntry', 
