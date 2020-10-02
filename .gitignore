@@ -1,15 +1,6 @@
-/app/Config/database.php
-/app/Config/core.php
-/app/Config/email.php
-/app/Config/bootstrap.php
-/app/Config/environment.php
-/bin/settings.py
-
 nohup.out
-.svn
 .DS_Store
 *.pyc
 *.swp
 *~
-
-.remote-sync.json
+.env.web

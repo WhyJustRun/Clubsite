@@ -32,8 +32,9 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-    
-	Configure::write('debug', 1);
+$isProduction = $_ENV["WJR_CLUBSITE_ENV"] === 'production';
+Configure::write('Clubsite.isProduction', $isProduction);
+Configure::write('debug', $isProduction ? 0 : 1);
 
 /**
  * Configure the Error handler used to handle errors for your application.  By default
@@ -49,11 +50,11 @@
  *
  * @see ErrorHandler for more information on error handling and configuration.
  */
-	Configure::write('Error', array(
-		'handler' => 'ErrorHandler::handleError',
-		'level' => E_ALL & ~E_DEPRECATED,
-		'trace' => true
-	));
+Configure::write('Error', array(
+    'handler' => 'ErrorHandler::handleError',
+    'level' => E_ALL & ~E_DEPRECATED,
+    'trace' => true
+));
 
 /**
  * Configure the Exception handler used for uncaught exceptions.  By default,
@@ -71,16 +72,16 @@
  *
  * @see ErrorHandler for more information on exception handling and configuration.
  */
-	Configure::write('Exception', array(
-		'handler' => 'ErrorHandler::handleException',
-		'renderer' => 'ExceptionRenderer',
-		'log' => true
-	));
+Configure::write('Exception', array(
+    'handler' => 'ErrorHandler::handleException',
+    'renderer' => 'ExceptionRenderer',
+    'log' => true
+));
 
 /**
  * Application wide charset encoding
  */
-	Configure::write('App.encoding', 'UTF-8');
+Configure::write('App.encoding', 'UTF-8');
 
 /**
  * To configure CakePHP *not* to use mod_rewrite and to
@@ -93,7 +94,7 @@
  *
  * And uncomment the App.baseUrl below:
  */
-	//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
+//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
 
 /**
  * Uncomment the define below to use CakePHP prefix routes.
@@ -111,13 +112,13 @@
  *	`manager_index()` and `/manager/controller/index`
  *
  */
-	Configure::write('Routing.prefixes', array('admin'));
+Configure::write('Routing.prefixes', array('admin'));
 
 /**
  * Turn off all caching application-wide.
  *
  */
-	//Configure::write('Cache.disable', true);
+//Configure::write('Cache.disable', true);
 
 /**
  * Enable cache checking.
@@ -128,13 +129,13 @@
  * or in each action using $this->cacheAction = true.
  *
  */
-	//Configure::write('Cache.check', true);
+//Configure::write('Cache.check', true);
 
 /**
  * Defines the default error type when using the log() function. Used for
  * differentiating error logging and debugging. Currently PHP supports LOG_DEBUG.
  */
-	define('LOG_ERROR', 2);
+define('LOG_ERROR', 2);
 
 /**
  * Session configuration.
@@ -173,41 +174,34 @@
  * the cake shell command: cake schema create Sessions
  *
  */
- 
-    // Share cookies if the club is on the WhyJustRun domain
-    $customDomain = strpos($_SERVER['SERVER_NAME'], '.whyjustrun.ca');
-    if($customDomain !== false) {
-        $cookieDomain = '.whyjustrun.ca';
-    } else $cookieDomain = '';
-    
-	Configure::write('Session', array(
-		'defaults' => 'php',
-		'cookie' => 'whyjustrun',
-		'cookieTimeout' => 480,
-		'checkAgent' => true,
-		'ini' => array(
-			'session.referer_check' => '',
-			'session.cookie_lifetime' => 0,
-			'session.cookie_path' => '/',
-			'session.cookie_domain' => $cookieDomain,
-			'session.use_trans_sid' => 0
-		)
-	));
+Configure::write('Session', array(
+    'defaults' => 'cake',
+    'cookie' => 'whyjustrun_clubsite',
+    'timeout' => 1440,
+    'checkAgent' => true,
+    'ini' => array(
+        'session.referer_check' => '',
+        'session.cookie_lifetime' => 0,
+        'session.cookie_path' => '/',
+        'session.cookie_domain' => $cookieDomain,
+        'session.use_trans_sid' => 0
+    )
+));
 
 /**
  * The level of CakePHP security.
  */
-	Configure::write('Security.level', 'medium');
+Configure::write('Security.level', 'medium');
 
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'DskdfnaewT2iSTfkcSWEdlc2G0FgaC9mi');
+Configure::write('Security.salt', $_ENV["WJR_CLUBSITE_SALT"]);
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '83428239416187694532843822819');
+Configure::write('Security.cipherSeed', $_ENV["WJR_CLUBSITE_CIPHER_SEED"]);
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).
@@ -217,7 +211,7 @@
  * Set to `true` to apply timestamps when debug > 0. Set to 'force' to always enable
  * timestamping regardless of debug value.
  */
-	Configure::write('Asset.timestamp', true);
+Configure::write('Asset.timestamp', true);
 /**
  * Compress CSS output by removing comments, whitespace, repeating tags, etc.
  * This requires a/var/cache directory to be writable by the web server for caching.
@@ -225,7 +219,7 @@
  *
  * To use, prefix the CSS link URL with '/ccss/' instead of '/css/' or use HtmlHelper::css().
  */
-	//Configure::write('Asset.filter.css', 'css.php');
+//Configure::write('Asset.filter.css', 'css.php');
 
 /**
  * Plug in your own custom JavaScript compressor by dropping a script in your webroot to handle the
@@ -233,20 +227,20 @@
  *
  * To use, prefix your JavaScript link URLs with '/cjs/' instead of '/js/' or use JavaScriptHelper::link().
  */
-	//Configure::write('Asset.filter.js', 'custom_javascript_output_filter.php');
+//Configure::write('Asset.filter.js', 'custom_javascript_output_filter.php');
 
 /**
  * The classname and database used in CakePHP's
  * access control lists.
  */
-	Configure::write('Acl.classname', 'DbAcl');
-	Configure::write('Acl.database', 'default');
+Configure::write('Acl.classname', 'DbAcl');
+Configure::write('Acl.database', 'default');
 
 /**
  * If you are on PHP 5.3 uncomment this line and correct your server timezone
  * to fix the date & time related errors.
  */
-	date_default_timezone_set('UTC');
+date_default_timezone_set('UTC');
 
 /**
  *
@@ -316,13 +310,13 @@
  */
 $engine = 'File';
 if (extension_loaded('apc') && (php_sapi_name() !== 'cli' || ini_get('apc.enable_cli'))) {
-	$engine = 'Apc';
+    $engine = 'Apc';
 }
 
 // In development mode, caches should expire quickly.
 $duration = '+999 days';
-if (Configure::read('debug') >= 1) {
-	$duration = '+10 seconds';
+if (!$isProduction) {
+    $duration = '+10 seconds';
 }
 
 /**
@@ -330,12 +324,14 @@ if (Configure::read('debug') >= 1) {
  * object listings, and translation cache files are stored with this configuration.
  */
 
+App::uses('Inflector', 'Utility');
+$cachePrefix = Inflector::slug(APP_DIR)."_";
 Cache::config('_cake_core_', array(
-	'engine' => $engine,
-	'prefix' => 'cake_core_',
-	'path' => CACHE . 'persistent' . DS,
-	'serialize' => ($engine === 'File'),
-	'duration' => $duration
+    'engine' => $engine,
+    'prefix' => $cachePrefix.'cake_core_',
+    'path' => CACHE . 'persistent' . DS,
+    'serialize' => ($engine === 'File'),
+    'duration' => $duration
 ));
 
 /**
@@ -343,38 +339,44 @@ Cache::config('_cake_core_', array(
  * is used to store schema descriptions, and table listings in connections.
  */
 Cache::config('_cake_model_', array(
-	'engine' => $engine,
-	'prefix' => 'cake_model_',
-	'path' => CACHE . 'models' . DS,
-	'serialize' => ($engine === 'File'),
-	'duration' => $duration
+    'engine' => $engine,
+    'prefix' => $cachePrefix.'cake_model_',
+    'path' => CACHE . 'models' . DS,
+    'serialize' => ($engine === 'File'),
+    'duration' => $duration
 ));
 
-Cache::config('default', array('engine' => $engine));
+Cache::config('default', array(
+    'engine' => $engine,
+    'prefix' => $cachePrefix,
+));
 
 /** Geocoded information cache **/
 Cache::config('geocoded', array(
     'engine' => $engine,
-    'prefix' => 'geocoded_',
+    'prefix' => $cachePrefix.'geocoded_',
     'duration' => '+365 days'
 ));
 /** Facebook news cache **/
 Cache::config('view_short', array(
     'engine' => $engine,
-    'prefix' => 'view_short_',
+    'prefix' => $cachePrefix.'view_short_',
     'duration' => '+1 hour'
 ));
 
-Configure::write('Rails.domain', 'http://www.whyjustrun.ca');
-Configure::write("Cloudmade.apiKey", "86f61295c36e4bd0b933dd78eaa0915c");
-Configure::write("Facebook", array('app' => array('id' => 'YOUR_FB_APP_ID', 'secret' => 'YOUR_FB_APP_SECRET'), 'defaultPageID' => 'orienteeringcanada'));
-Configure::write('Log.Emails', array('EMAIL ADDRESS TO SEND ERRORS TO'));
+Configure::write('Rails.domain', $_ENV["WJR_RAILS_URL"]);
+Configure::write('Flickr.apiKey', $_ENV["WJR_FLICKR_API_KEY"]);
+Configure::write("GoogleMaps.apiKey", $_ENV["WJR_GOOGLE_MAPS_API_KEY"]);
+
+$logEmails = $_ENV['WJR_CLUBSITE_LOG_EMAILS'];
+Configure::write('Log.Emails', !empty($logEmails) ? explode(',', $logEmails) : array());
 
 // Load the club into CakePHP Config
 require "loader.php";
 
-Configure::write("Club.dir", "/var/www/data/" . strtolower(Configure::read('Club.acronym')) . "/");
-Configure::write('Club.dataUrl', 'http://data.whyjustrun.ca/'.strtolower(Configure::read('Club.acronym')).'/');
+$clubDataKey = strtolower(Configure::read('Club.id'));
+Configure::write("Club.dir", $_ENV['WJR_DATA_FOLDER'] . $clubDataKey . "/");
+Configure::write('Club.dataUrl', $_ENV['WJR_DATA_URL'] . $clubDataKey . '/');
 
 // Include application config and constants
 require "app.php";

@@ -45,7 +45,3 @@ if (!empty($_SERVER['HTTP_HOST'])) {
     // Allow command line scripts to still work
     clubFromHost("iof.whyjustrun.ca");
 }
-
-if (extension_loaded('newrelic')) {
-    newrelic_set_appname("Clubsite - " . Configure::read('Club.name'));
-}

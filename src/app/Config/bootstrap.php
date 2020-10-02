@@ -48,9 +48,11 @@
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  *
  */
-// recaptcha configuration for the whyjustrun.ca domain
-Configure::write('Recaptcha.publicKey', 'RECAPTCHA KEY HERE');
-Configure::write('Recaptcha.privateKey', 'RECAPTCHA KEY HERE');
 
-// load any plugins
+// Unused - remove it
 CakePlugin::load('Recaptcha');
+
+CakeLog::config('emailLog', array(
+    'engine' => 'Email',
+    'model' => 'LogEntry', 
+));
