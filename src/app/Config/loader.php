@@ -12,12 +12,7 @@ function clubFromHost($host) {
     $db = ConnectionManager::getDataSource('default');
     $results = $db->fetchAll($query, array($host));
     if (validClubResults($results)) {
-        foreach ($results[0]['clubs'] as $key => $value) {
-            if ($key === 'timezone') {
-                $value = timezone_open($value);
-            }
-            Configure::write('Club.'.$key, $value);
-        }
+        writeClubConfig($results[0]);
     } else {
         // See if it is a redirect domain
         $redirectQuery = "SELECT * FROM clubs WHERE redirect_domain = ?";
@@ -29,6 +24,26 @@ function clubFromHost($host) {
             die("ERROR: Loading club failed. Please contact support@whyjustrun.ca and include the URL you were requesting.");
         }
     } 
+}
+
+function anyClub() {
+    $query = "SELECT * FROM clubs LIMIT 1";
+    $db = ConnectionManager::getDataSource('default');
+    $results = $db->fetchAll($query, array($host));
+    if (validClubResults($results)) {
+        writeClubConfig($results[0]);
+    } else {
+        die("ERROR: Loading club failed. Please contact support@whyjustrun.ca and include the URL you were requesting.");
+    }
+}
+
+function writeClubConfig($result) {
+    foreach ($result['clubs'] as $key => $value) {
+        if ($key === 'timezone') {
+            $value = timezone_open($value);
+        }
+        Configure::write('Club.'.$key, $value);
+    }
 }
 
 function redirectHostPermanentlyTo($targetHost) {
@@ -43,5 +58,5 @@ if (!empty($_SERVER['HTTP_HOST'])) {
     clubFromHost($_SERVER['HTTP_HOST']);
 } else {
     // Allow command line scripts to still work
-    clubFromHost("iof.whyjustrun.ca");
+    anyClub();
 }
