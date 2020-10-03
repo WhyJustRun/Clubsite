@@ -61,7 +61,7 @@ class UsersController extends AppController
     function login()
     {
         // Set the redirect if it is available and it is a redirect from the current domain, otherwise use the default
-        if(!empty($_SERVER['HTTP_REFERER']) && strstr($_SERVER['HTTP_REFERER'], $_SERVER['SERVER_NAME']) && !strstr(strtolower($_SERVER['HTTP_REFERER']), 'users/login')) {
+        if(!empty($_SERVER['HTTP_REFERER']) && strstr($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) && !strstr(strtolower($_SERVER['HTTP_REFERER']), 'users/login')) {
             $this->Session->write('User.lastPage', $_SERVER['HTTP_REFERER']);
         } else {
             $this->Session->write('User.lastPage', $this->Auth->loginRedirect);
