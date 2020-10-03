@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 services:
   web:
     build: ./php-fpm
@@ -8,20 +8,21 @@ services:
       - 9000
     volumes:
         - ./src:/application/
-    links:
-        - db
-    environment:
-        MYSQL_HOST: db
-        MYSQL_USERNAME: root
-        MYSQL_PASSWORD: root
-        MYSQL_DATABASE: skimap
-        SKIMAP_MODE: development
+    env_file: .env.web
+    networks:
+      - whyjustrun
   webserver:
     image: nginx
     volumes:
         - ./src:/application/ # used for serving static files
         - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
     ports:
-        - 8080:80
+        - 3001:80
     links:
         - web
+    networks:
+      - whyjustrun
+networks:
+  whyjustrun:
+    name: whyjustrun
+    driver: bridge

@@ -183,7 +183,6 @@ Configure::write('Session', array(
         'session.referer_check' => '',
         'session.cookie_lifetime' => 0,
         'session.cookie_path' => '/',
-        'session.cookie_domain' => $cookieDomain,
         'session.use_trans_sid' => 0
     )
 ));
