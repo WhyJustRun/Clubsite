@@ -188,11 +188,6 @@ Configure::write('Session', array(
 ));
 
 /**
- * The level of CakePHP security.
- */
-Configure::write('Security.level', 'medium');
-
-/**
  * A random string used in security hashing methods.
  */
 Configure::write('Security.salt', $_ENV["WJR_CLUBSITE_SALT"]);
