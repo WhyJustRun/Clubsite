@@ -4,8 +4,7 @@ echo $this->Html->meta(array('name' => 'wjr.core.domain', 'content' => Configure
 echo $this->Html->meta(array('name' => 'wjr.clubsite.club.id', 'content' => Configure::read('Club.id')));
 
 if (Configure::read('Clubsite.isProduction')) {
-  $cacheKey = '?build-cached=' . Configure::read('Build.hash');
-  echo $this->Html->css('main-build.css' . $cacheKey);
+  echo $this->Html->css('main-minified.css');
 } else {
   echo $this->Html->css('bootstrap.min');
   echo $this->Html->css('whyjustrun');

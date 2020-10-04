@@ -1,8 +1,9 @@
+// Configuration for r.js optimizer
 ({
     baseUrl: '.',
     mainConfigFile: 'main.js',
     name: "main",
-    out: "main-built.js",
+    out: "main-minified.js",
     include: ['css',
               'async',
               'knockout',

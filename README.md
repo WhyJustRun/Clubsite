@@ -12,3 +12,9 @@ After Core is running, to start the Clubsite:
 2) Start the containers: `docker-compose up --build`
 
 You should be up and running. Head to [localhost:3001](http://localhost:3001).
+
+### Production
+
+For production use, set `WJR_CLUBSITE_ENV=production`
+
+In production mode, the app uses minified assets. In order to build them, run `docker-compose exec web /application/app/Console/minify.sh`
