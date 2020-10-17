@@ -67,7 +67,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">Parent Organization</label>
     <div class="col-sm-10">
-        <?php echo $this->Form->input('parent_id', array('empty' => 'Choose the parent organisation of the club', 'type' => 'select', 'options' => $clubs, 'div' => false, 'label' => false, 'class' => 'form-control')) ?>
+        <?php echo $this->Form->input('parent_id', array('empty' => 'Choose the parent organisation of the club', 'type' => 'select', 'options' => $clubs, 'div' => false, 'label' => false, 'class' => 'form-control', 'required' => false)) ?>
     </div>
 </div>
 <div class="form-group">
