@@ -13,6 +13,10 @@ After Core is running, to start the Clubsite:
 
 You should be up and running. Head to [localhost:3001](http://localhost:3001).
 
+### Console
+
+To start the CakePHP console, run `docker-compose exec web /application/app/Console/cake -app /application/app`
+
 ### Production
 
 For production use, set `WJR_CLUBSITE_ENV=production`
