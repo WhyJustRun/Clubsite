@@ -244,6 +244,9 @@ class MediaComponent extends Component {
         }
 
         $command = "convert -strip -interlace Plane -gaussian-blur 0.05";
+        // Handle PDFs/images with transparency (https://github.com/WhyJustRun/Clubsite/issues/176)
+        $command .= " -background white -alpha remove";
+
         // For PDFs, create a composite image with all the pages
         if ($this->extensionOf($source) == 'pdf') {
             // Use a higher DPI for converting PDFs
