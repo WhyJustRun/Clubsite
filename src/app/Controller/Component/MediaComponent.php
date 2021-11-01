@@ -265,10 +265,6 @@ class MediaComponent extends Component {
             }
             $command .= " '$destination'";
             shell_exec($command);
-
-            if ($this->extensionOf($destination) == 'png') {
-              shell_exec("optipng -o4 '$destination'");
-            }
         }
     }
 
