@@ -84,6 +84,7 @@ abstract class CakeTestCase extends PHPUnit_Framework_TestCase {
 		$result = parent::run($result);
 		if (!empty($this->fixtureManager)) {
 			$this->fixtureManager->unload($this);
+			unset($this->fixtureManager, $this->db);
 		}
 
 		for ($i = ob_get_level(); $i < $level; ++$i) {
@@ -164,6 +165,7 @@ abstract class CakeTestCase extends PHPUnit_Framework_TestCase {
 		if (isset($_GET['debug']) && $_GET['debug']) {
 			ob_flush();
 		}
+		unset($this->_configure, $this->_pathRestore);
 	}
 
 /**
@@ -399,7 +401,7 @@ abstract class CakeTestCase extends PHPUnit_Framework_TestCase {
 				$tags = (string)$tags;
 			}
 			$i++;
-			if (is_string($tags) && $tags{0} === '<') {
+			if (is_string($tags) && $tags[0] === '<') {
 				$tags = array(substr($tags, 1) => array());
 			} elseif (is_string($tags)) {
 				$tagsTrimmed = preg_replace('/\s+/m', '', $tags);
