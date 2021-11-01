@@ -21,6 +21,9 @@ class RebuildDerivedImagesShell extends ClubShell {
 			$model = $controller->$modelName;
 			$mediaComponent = $controller->Media;
 			$mediaComponent->initialize($controller);
+
+			// Workaround for CakePHP not recreating the db connection if it times out on a long script run.
+			$model->getDatasource()->reconnect();
 			
 			$objects = $model->find('all', array('contain' => false));
 			$count = count($objects);
