@@ -7,7 +7,18 @@ function validClubResults($results) {
     return (count($results) === 1) && (!empty($results[0]["clubs"]));
 }
 
-function clubFromHost($host) {
+function useClubWithId($id) {
+    $query = "SELECT * FROM clubs WHERE id = ?";
+    $db = ConnectionManager::getDataSource('default');
+    $results = $db->fetchAll($query, array($id));
+    if (validClubResults($results)) {
+        writeClubConfig($results[0]);
+    } else {
+       die("ERROR: Loading club for $id failed");
+    } 
+}
+
+function useClubFromHost($host) {
     $query = "SELECT * FROM clubs WHERE domain = ?";
     $db = ConnectionManager::getDataSource('default');
     $results = $db->fetchAll($query, array($host));
@@ -26,10 +37,10 @@ function clubFromHost($host) {
     } 
 }
 
-function anyClub() {
+function useAnyClub() {
     $query = "SELECT * FROM clubs LIMIT 1";
     $db = ConnectionManager::getDataSource('default');
-    $results = $db->fetchAll($query, array($host));
+    $results = $db->fetchAll($query);
     if (validClubResults($results)) {
         writeClubConfig($results[0]);
     } else {
@@ -51,12 +62,4 @@ function redirectHostPermanentlyTo($targetHost) {
     $requestURL = $_SERVER["REQUEST_URI"];
     header("Location: http://" . $targetHost . $requestURL);
     exit();
-}
-
-// Load in club configuration based on the request domain name
-if (!empty($_SERVER['HTTP_HOST'])) {
-    clubFromHost($_SERVER['HTTP_HOST']);
-} else {
-    // Allow command line scripts to still work
-    anyClub();
 }

@@ -368,6 +368,13 @@ Configure::write('Log.Emails', !empty($logEmails) ? explode(',', $logEmails) : a
 // Load the club into CakePHP Config
 require "loader.php";
 
+if (!empty($_SERVER['HTTP_HOST'])) {
+    useClubFromHost($_SERVER['HTTP_HOST']);
+} else {
+    // Allow command line scripts to still work
+    useAnyClub();
+}
+
 $clubDataKey = strtolower(Configure::read('Club.id'));
 Configure::write("Club.dir", $_ENV['WJR_DATA_FOLDER'] . $clubDataKey . "/");
 Configure::write('Club.dataUrl', $_ENV['WJR_DATA_URL'] . $clubDataKey . '/');

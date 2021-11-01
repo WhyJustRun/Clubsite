@@ -1,21 +1,18 @@
 <?php
-// NOTE: Unless you figure out a way to run this for each club environment, it can't really be used anymore )=
-class RebuildDerivedImagesShell extends Shell {
+App::uses('ClubShell', 'Console/Command');
+
+class RebuildDerivedImagesShell extends ClubShell {
 	var $uses = array("Map", "Course", "Result", 'Resource');
 
-    function main() {
+	protected function runForClub() {
 		$this->mediaImages();
-		
-		// Special cases
-		
-		//$this->croppedMapImages();
-		
-		//$this->resourceDerivedImages();
 	}
 	
 	private function mediaImages() {
 		$entities = array("Map" => "MapsController", "Course" => "CoursesController");
 		
+		App::uses('AppController', 'Controller');
+
 		// Standard Media component images
 		foreach($entities as $modelName => $controllerName) {
 			App::uses($controllerName, 'Controller');
@@ -23,7 +20,7 @@ class RebuildDerivedImagesShell extends Shell {
 			$controller->constructClasses();
 			$model = $controller->$modelName;
 			$mediaComponent = $controller->Media;
-			$mediaComponent->initialize(&$controller);
+			$mediaComponent->initialize($controller);
 			
 			$objects = $model->find('all', array('contain' => false));
 			$count = count($objects);
@@ -42,7 +39,7 @@ class RebuildDerivedImagesShell extends Shell {
 		$mapsController = new MapsController();
 		$mapsController->constructClasses();
 		$mediaComponent = $mapsController->Media;
-		$mediaComponent->initialize(&$mapsController);
+		$mediaComponent->initialize($mapsController);
 		$maps = $mapsController->Map->find('all', array('contain' => false));
 		$count = count($maps);
 		$i = 0;
