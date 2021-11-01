@@ -3,8 +3,8 @@
 class RebuildDerivedImagesShell extends Shell {
 	var $uses = array("Map", "Course", "Result", 'Resource');
 
-        function main() {
-		//$this->mediaImages();
+    function main() {
+		$this->mediaImages();
 		
 		// Special cases
 		
