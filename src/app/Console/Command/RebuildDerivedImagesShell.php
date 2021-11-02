@@ -5,35 +5,36 @@ class RebuildDerivedImagesShell extends ClubShell {
 	var $uses = array("Map", "Course", "Result", 'Resource');
 
 	protected function runForClub() {
-		$this->mediaImages();
+		$this->regenerateMediaImages("Map", "MapsController", array('Map.club_id' => Configure::read('Club.id')), false);
+		$this->regenerateMediaImages("Course", "CoursesController", array('Event.club_id' => Configure::read('Club.id')), array('Event.club_id'));
+		$this->resourceDerivedImages();
+
+		// Regenerating the cropped images will change the images each time because they are randomly cropped to a position that looks good for the viewer.
+		// $this->croppedMapImages();
 	}
 	
-	private function mediaImages() {
-		$entities = array("Map" => "MapsController", "Course" => "CoursesController");
-		
+	private function regenerateMediaImages($modelName, $controllerName, $conditions, $contain) {		
 		App::uses('AppController', 'Controller');
 
 		// Standard Media component images
-		foreach($entities as $modelName => $controllerName) {
-			App::uses($controllerName, 'Controller');
-			$controller = new $controllerName();
-			$controller->constructClasses();
-			$model = $controller->$modelName;
-			$mediaComponent = $controller->Media;
-			$mediaComponent->initialize($controller);
+		App::uses($controllerName, 'Controller');
+		$controller = new $controllerName();
+		$controller->constructClasses();
+		$model = $controller->$modelName;
+		$mediaComponent = $controller->Media;
+		$mediaComponent->initialize($controller);
 
-			// Workaround for CakePHP not recreating the db connection if it times out on a long script run.
-			$model->getDatasource()->reconnect();
-			
-			$objects = $model->find('all', array('contain' => false));
-			$count = count($objects);
-			$i = 0;
-			foreach($objects as $object) {
-				$mediaComponent->buildImages($object[$modelName]['id']);
-				$i++;
-				$percentage = round($i/$count * 100);
-				echo "Regenerating $modelName derived images completed $percentage%\n";
-			}
+		// Workaround for CakePHP not recreating the db connection if it times out on a long script run.
+		$model->getDatasource()->reconnect();
+		
+		$objects = $model->find('all', array('contain' => $contain, 'conditions' => $conditions));
+		$count = count($objects);
+		$i = 0;
+		foreach($objects as $object) {
+			$mediaComponent->buildImages($object[$modelName]['id']);
+			$i++;
+			$percentage = round($i/$count * 100);
+			echo "Regenerating $modelName derived images completed $percentage%\n";
 		}
 	}
 	
@@ -43,7 +44,10 @@ class RebuildDerivedImagesShell extends ClubShell {
 		$mapsController->constructClasses();
 		$mediaComponent = $mapsController->Media;
 		$mediaComponent->initialize($mapsController);
-		$maps = $mapsController->Map->find('all', array('contain' => false));
+
+		// Workaround for CakePHP not recreating the db connection if it times out on a long script run.
+		$mapsController->Map->getDatasource()->reconnect();
+		$maps = $mapsController->Map->find('all', array('contain' => false, 'conditions' => array('Map.club_id' => Configure::read('Club.id'))));
 		$count = count($maps);
 		$i = 0;
 		foreach($maps as $map) {
@@ -59,6 +63,8 @@ class RebuildDerivedImagesShell extends ClubShell {
 	}
 	
 	private function resourceDerivedImages() {
+		// Workaround for CakePHP not recreating the db connection if it times out on a long script run.
+		$this->Resource->getDatasource()->reconnect();
 		$resources = $this->Resource->findByClubId(Configure::read('Club.id'));
 		foreach($resources as $resource) {
 			$resourceOnly = $resource['Resource'];

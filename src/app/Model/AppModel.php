@@ -40,8 +40,10 @@ class AppModel extends Model {
     * Select data only for this club
     */
     function beforeFind($queryData) {
-        if($this->clubSpecific) {
+        $isQueryClubSpecific = !isset($queryData['clubSpecific']) || $queryData['clubSpecific'] === true;
+        if ($this->clubSpecific && $isQueryClubSpecific) {
             $key = $this->name.".club_id";
+
             if (!empty($queryData['conditions'])) {
                 foreach($queryData['conditions'] as $condition => $value) {
                     // matching conditions
