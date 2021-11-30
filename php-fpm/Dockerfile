@@ -15,6 +15,6 @@ RUN pecl install imagick-3.4.4 apcu-4.0.11 && docker-php-ext-enable imagick && d
 RUN npm config set unsafe-perm true
 
 # used for minification in production use
-RUN npm install -g clean-css-cli requirejs
+RUN npm install -g clean-css-cli@4.3.0 requirejs@2.3.6
 
 COPY ./php.ini /usr/local/etc/php/conf.d/whyjustrun.ini
