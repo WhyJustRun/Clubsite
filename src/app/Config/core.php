@@ -359,6 +359,7 @@ Cache::config('view_short', array(
 ));
 
 Configure::write('Rails.domain', $_ENV["WJR_RAILS_URL"]);
+Configure::write('Rails.containerDomain', $_ENV["WJR_RAILS_CONTAINER_URL"]);
 Configure::write('Flickr.apiKey', $_ENV["WJR_FLICKR_API_KEY"]);
 Configure::write("GoogleMaps.apiKey", $_ENV["WJR_GOOGLE_MAPS_API_KEY"]);
 

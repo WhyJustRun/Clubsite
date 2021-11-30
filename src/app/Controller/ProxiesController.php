@@ -21,7 +21,7 @@ class ProxiesController extends AppController {
         $this->layout = null;
         if ($this->request->is('post')) {
             $crossAppSessionID = $this->Session->read('CrossAppSession.id');
-            $url = Configure::read('Rails.domain') . '/api/redactor/' . $type;
+            $url = Configure::read('Rails.containerDomain') . '/api/redactor/' . $type . ".json";
             $url .= '?cross_app_session_id=' . $crossAppSessionID;
 
             // Create a curl handle to upload to the file server
