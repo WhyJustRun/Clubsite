@@ -15,7 +15,7 @@ requirejs.config({
     'jquery.jeditable': 'jquery.jeditable.mini',
     'jquery.ketchup': 'jquery.ketchup.all.min',
     'jquery.placeholder': 'jquery.placeholder.min',
-    'redactor': 'redactor/redactor',
+    'redactor': 'redactor/redactor.min',
     'ckeditor': 'ckeditor/ckeditor',
     // Replace redactor with ckeditor to switch editors
     'wjr/wysiwyg': 'wjr/wysiwyg.redactor',

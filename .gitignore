@@ -4,3 +4,4 @@ nohup.out
 *.swp
 *~
 .env.web
+src/app/webroot/js/redactor

@@ -22,3 +22,7 @@ To start the CakePHP console, run `docker-compose exec web /application/app/Cons
 For production use, set `WJR_CLUBSITE_ENV=production`
 
 In production mode, the app uses minified assets. In order to build them, run `docker-compose exec web /application/app/Console/minify.sh`
+
+## Closed Source Components
+
+We use [Redactor](https://imperavi.com/redactor/) as a rich text editor. However the source code can't be bundled with the project due to licensing restrictions. To test rich text editing related functionality, place `redactor.min.js` and `redactor.css` inside `src/app/webroot/js/redactor`.
