@@ -3,5 +3,5 @@ nohup.out
 *.pyc
 *.swp
 *~
-.env.web
+.env.clubsite
 src/app/webroot/js/redactor
