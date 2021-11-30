@@ -37,8 +37,14 @@ class ProxiesController extends AppController {
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' => $file));
 
-            echo curl_exec($ch);
+            $result = curl_exec($ch);
+            if ($result === false) {
+                die("Failed uploading file.");
+            }
+            echo $result;
             curl_close($ch);
+        } else {
+            die("Only POST requests are supported");
         }
     }
 
