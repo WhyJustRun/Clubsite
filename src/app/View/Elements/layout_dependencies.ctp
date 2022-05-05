@@ -8,7 +8,6 @@ if (Configure::read('Clubsite.isProduction')) {
 } else {
   echo $this->Html->css('bootstrap.min');
   echo $this->Html->css('whyjustrun');
-  echo $this->Html->css('jquery.reject');
 }
 
 echo $this->element('Series/css', array(), array('cache' => array('key' => 'series_css_club_'.Configure::read('Club.id'), 'config' => 'view_short')));

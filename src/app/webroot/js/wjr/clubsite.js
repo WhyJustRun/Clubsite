@@ -1,13 +1,11 @@
 /*jslint browser: true, indent: 2, nomen: true*/
 /*global define, requirejs */
 
-define(['jquery', 'underscore', 'cakebootstrap', 'moment', './forms', './editable', './browser-support', 'jquery.placeholder', 'bootstrap', 'img.srcset.polyfill', 'ketchup-bootstrap'], function ($, _, bootstrapifyCakePHPForms, moment, forms, editable, browserSupport) {
+define(['jquery', 'underscore', 'cakebootstrap', 'moment', './forms', './editable', 'jquery.placeholder', 'bootstrap', 'img.srcset.polyfill', 'ketchup-bootstrap'], function ($, _, bootstrapifyCakePHPForms, moment, forms, editable) {
   'use strict';
   var Clubsite = {};
 
   Clubsite.initialize = function () {
-    browserSupport.rejectUnsupportedBrowsers();
-
     // Components that we load conditionally if needed for the current page
     var components = [
       {

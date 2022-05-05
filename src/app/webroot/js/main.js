@@ -51,9 +51,6 @@ requirejs.config({
     'jquery.placeholder': {
       deps: ['jquery']
     },
-    'jquery.reject': {
-      deps: ['jquery']
-    },
     'ketchup-bootstrap': {
       deps: ['jquery.ketchup', 'bootstrap']
     },
