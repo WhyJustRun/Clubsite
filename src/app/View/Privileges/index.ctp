@@ -22,6 +22,7 @@
             <input placeholder="Name"
                    type="text" id="UserName"
                    class='form-control simple-person-picker'
+                   autocomplete="off"
                    data-user-id-target="#PrivilegeUserId"
                    data-maintain-input="true"
                    data-allow-fake="false" />

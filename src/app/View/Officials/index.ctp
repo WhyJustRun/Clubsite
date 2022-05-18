@@ -13,6 +13,7 @@
         <div class="form-group">
             <input class="form-control simple-person-picker"
                    placeholder="Name" type="text" id="UserName"
+                   autocomplete="off"
                    data-user-id-target="#OfficialUserId"
                    data-maintain-input="true"
                    data-allow-fake="false" />
