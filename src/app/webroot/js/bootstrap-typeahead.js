@@ -209,7 +209,7 @@
         .on('keyup',    $.proxy(this.keyup, this))
 
       if (this.eventSupported('keydown')) {
-        this.$element.on('keydown', $.proxy(this.keydown, this))
+        this.$element.on('keydown', $.proxy(this.keypress, this))
       }
 
       this.$menu
