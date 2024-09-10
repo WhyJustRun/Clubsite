@@ -39,6 +39,7 @@ class ProxiesController extends AppController {
 
             $result = curl_exec($ch);
             if ($result === false) {
+                echo curl_error($ch);
                 die("Failed uploading file.");
             }
             echo $result;
