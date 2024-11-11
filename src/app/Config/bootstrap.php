@@ -49,6 +49,8 @@
  *
  */
 
+ ini_set("log_errors", 1);
+
 CakeLog::config('emailLog', array(
     'engine' => 'Email',
     'model' => 'LogEntry', 
