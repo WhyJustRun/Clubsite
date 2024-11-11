@@ -35,7 +35,7 @@ class EmailLog implements CakeLogInterface {
     Method: ".$_SERVER['REQUEST_METHOD']."
 
     ";
-                $message .= print_r(getallheaders(), true);
+                $message .= print_r($this->getAllHeaders(), true);
                 $message .= "
 
                 ";
@@ -48,4 +48,19 @@ class EmailLog implements CakeLogInterface {
             }
         }
     }
+
+    private function getAllHeaders() {
+        if (function_exists('getallheaders')) {
+            return getallheaders();
+        }
+        
+        $headers = array();
+        foreach ($_SERVER as $name => $value) {
+            if (substr($name, 0, 5) == 'HTTP_') {
+                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+            }
+        }
+        return $headers;
+    }
+    
 }
