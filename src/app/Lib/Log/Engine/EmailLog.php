@@ -16,7 +16,9 @@ class EmailLog implements CakeLogInterface {
             (strpos($error, '[MissingViewException]') === false) &&
             (strpos($error, '[MissingActionException]') === false) &&
             (strpos($error, 'SMTP Error: 421 4.7.0 Temporary System Problem') === false) &&
-            (strpos($error, 'session_start(): The session id is too long or contains') === false);
+            (strpos($error, 'session_start(): The session id is too long or contains') === false) &&
+            // This may indicate a legitimate issue in some cases, however it is noisy.
+            (strpos($error, 'Request was blackholed of type: auth'));
     }
 
     function write($type, $error) {
