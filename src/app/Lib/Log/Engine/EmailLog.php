@@ -9,16 +9,24 @@ class EmailLog implements CakeLogInterface {
 
     // Reduce the email volume
     function shouldEmail($type, $error, $url) {
-        return
-            (strpos($url, 'wp-admin') === false) &&
-            (strpos($error, '[MissingControllerException]') === false) &&
-            (strpos($error, '[NotFoundException]') === false) &&
-            (strpos($error, '[MissingViewException]') === false) &&
-            (strpos($error, '[MissingActionException]') === false) &&
-            (strpos($error, 'SMTP Error: 421 4.7.0 Temporary System Problem') === false) &&
-            (strpos($error, 'session_start(): The session id is too long or contains') === false) &&
+        $excludedErrors = [
+            '[MissingControllerException]',
+            '[NotFoundException]',
+            '[MissingViewException]',
+            '[MissingActionException]',
+            'SMTP Error: 421 4.7.0 Temporary System Problem',
+            'session_start(): The session id is too long or contains',
             // This may indicate a legitimate issue in some cases, however it is noisy.
-            (strpos($error, 'Request was blackholed of type: auth'));
+            'Request was blackholed of type: auth'
+        ];
+
+        foreach ($excludedErrors as $excludedError) {
+            if (strpos($error, $excludedError) !== false) {
+                return false;
+            }
+        }
+
+        return strpos($url, 'wp-admin') === false;
     }
 
     function write($type, $error) {
