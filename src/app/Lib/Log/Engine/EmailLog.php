@@ -36,7 +36,7 @@ class EmailLog implements CakeLogInterface {
             if (count($emails) > 0) {
                 $email = new CakeEmail('default');
                 $email->emailFormat('text');
-                $email->from(array('noreply@whyjustrun.ca' => 'WhyJustRun'));
+                $email->from(array('noreply@transactional.whyjustrun.ca' => 'WhyJustRun'));
                 $email->to($emails);
                 $email->subject('WhyJustRun '.$type);
 

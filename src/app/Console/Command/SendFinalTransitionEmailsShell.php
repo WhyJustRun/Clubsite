@@ -14,7 +14,7 @@ class SendFinalTransitionEmailsShell extends Shell {
         $email->domain('gvoc.whyjustrun.ca');
         $email->emailFormat('html');
         $email->subject($subject);
-        $email->from("noreply@whyjustrun.ca", 'WhyJustRun');
+        $email->from("noreply@transactional.whyjustrun.ca", 'WhyJustRun');
         $email->to($emailAddress);
         $email->send($message);
     }
