@@ -120,7 +120,7 @@ define(['jquery', 'underscore', 'async!https://maps.googleapis.com/maps/api/js?k
                   content: '<a href="' + entity.url +
                            '"><h3>' + entity.name + '</h3></a>'
                 });
-                color = entity.map_standard.color ? entity.map_standard.color : 'rgba(0,0,0,1)';
+                color = (entity.map_standard && entity.map_standard.color) ? entity.map_standard.color : 'rgba(0,0,0,1)';
                 marker = new google.maps.Marker({
                   position: new google.maps.LatLng(entity.lat, entity.lng),
                   icon: {
